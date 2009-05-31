@@ -45,6 +45,10 @@
     <li class="none">
               <a href="../changes.html">Change history</a>
         </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -236,14 +240,14 @@
     &lt;set-property property=&quot;pathnames&quot; value=&quot;/org/apache/struts/validator/validator-rules-compressed.xml,
                                               /WEB-INF/validator/validation.xml&quot; /&gt;
       &lt;set-property property=&quot;stopOnFirstError&quot; value=&quot;true&quot; /&gt;
-  &lt;/plug-in&gt;</pre>
+  &lt;/plug-in&gt;</pre>
 </div>
 <p>The config param would look like this: </p>
-<div class="source"><pre>  jawr.validator.config=/org/apache/struts/validator/validator-rules-compressed.xml,/WEB-INF/validator/validation.xml</pre>
+<div class="source"><pre>  jawr.validator.config=/org/apache/struts/validator/validator-rules-compressed.xml,/WEB-INF/validator/validation.xml</pre>
 </div>
 <p>This variable defines a Validator config instance. If you have several modules with a different validator each, you would add a similar entry for each one. This is not needed if you will only use the static javascript generation and all your modules have the same javascript validators. </p>
 <p>The next thing you do is to add the mappings. The syntax for a mapping is the following: </p>
-<div class="source"><pre>  acv:mapping1|mapping2([config param]|[messages namespace]|[stop on errors])</pre>
+<div class="source"><pre>  acv:mapping1|mapping2([config param]|[messages namespace]|[stop on errors])</pre>
 </div>
 <p>The mapping starts with <b>acv:</b>
  followed by the mappings separated by a pipe character. The mappings are form names as defined in the Validator config files, or <b>_static</b>
@@ -251,11 +255,11 @@
 <p>After the mappings, within parentheses you write the config param name (the one you defined previously). The 'messages namespace' and 'stop on errors' params are optional and are discussed below. Here is a simple mapping sample: </p>
 <div class="source"><pre>jawr.validator.config=/org/apache/struts/validator/validator-rules-compressed.xml,/WEB-INF/validator/validation.xml
 jawr.js.bundle.global.id=/bundles/global.js
-jawr.js.bundle.global.mappings=acv:_static|loginForm(jawr.validator.config)</pre>
+jawr.js.bundle.global.mappings=acv:_static|loginForm(jawr.validator.config)</pre>
 </div>
 <p>This creates a bundle that contains the static Validator scripts and the validator for the form named 'loginForm'. Note that this bundle may contain other mappings, so you can combine the Validator scripts with any other javascript in your project. For instance, you could combine Prototype.js, scriptaculous and the static validations: </p>
 <div class="source"><pre>jawr.js.bundle.global.id=/bundles/global.js
-jawr.js.bundle.global.mappings=/js/protaculous/**, acv:_static(jawr.validator.config)</pre>
+jawr.js.bundle.global.mappings=/js/protaculous/**, acv:_static(jawr.validator.config)</pre>
 </div>
 </div>
 <div class="section"><h3>i18n</h3>
@@ -263,26 +267,26 @@ jawr.js.bundle.global.mappings=/js/protaculous/**, acv:_static(jawr.validator.co
 <div class="source"><pre>errors.required={0} is required.
 errors.minlength={0} can not be less than {1} characters.
 errors.maxlength={0} can not be greater than {1} characters.
-errors.invalid={0} is invalid.</pre>
+errors.invalid={0} is invalid.</pre>
 </div>
 <p>As opposed to this, Jawr generates all the bundles when the application starts up (thus saving some overhead compared to the former approach). As a consecuence, the way locale specific messages are resolved needs to be different. Fortunately, Jawr has a means to transfer i18n messages to javascript, which the validator uses. Therefore, you need some familiarity with the <a href="../docs/messages_gen.html">i18n messages generator</a>
  to use the Validator feature. Take a look and return here if you don't know about it. </p>
 <p>So additional to the Validator scripts, you need also an i18n script with the messages required by the validator. To do that, you creat a mapping to the ResourceBundle that contains said messages: </p>
-<div class="source"><pre>jawr.js.bundle.global.mappings=messages:org.apache.struts.webapp.validator.MessageResources</pre>
+<div class="source"><pre>jawr.js.bundle.global.mappings=messages:org.apache.struts.webapp.validator.MessageResources</pre>
 </div>
 <p>You can of course organize the way to import the scripts as you wish. You can combine the messages from the validator with your own, or you can create a bundle with both the messages and the validators: </p>
-<div class="source"><pre>jawr.js.bundle.global.mappings=messages:org.apache.struts.webapp.validator.MessageResources,acv:_static|loginForm(jawr.validator)</pre>
+<div class="source"><pre>jawr.js.bundle.global.mappings=messages:org.apache.struts.webapp.validator.MessageResources,acv:_static|loginForm(jawr.validator)</pre>
 </div>
 <p>As stated in the <a href="../docs/messages_gen.html">i18n messages generator documentation</a>
 , the namespace for the messages can be configured, with 'messages' being the default. If for whatever reason you change this namespace, you will need to specify it in the validator mapping too, like this: </p>
 <div class="source"><pre>jawr.js.bundle.msg.mappings=messages:org.apache.struts.webapp.validator.MessageResources(mynamespace)
-jawr.js.bundle.global.mappings=acv:_static|loginForm(jawr.validator|mynamespace)</pre>
+jawr.js.bundle.global.mappings=acv:_static|loginForm(jawr.validator|mynamespace)</pre>
 </div>
 </div>
 <div class="section"><h3>Stop on errors</h3>
 <p>There are to ways to show messages to the user with the Validator. If 'stop on errors' is set to true, then Validator will display one alert message with the first category of errors encountered. For instance, if you have a mandatory field and a date validation, only the mandatory message is displayed. If stop on errors is set to false, the user gets two alert messages, one for the mandatory field and other for the date field. </p>
 <p>When used with Jawr, this value defaults to true (only one alert message). If you wish to change this behavior, you add a third parameter to the mapping: </p>
-<div class="source"><pre>jawr.js.bundle.global.mappings=acv:_static|loginForm(jawr.validator|messages|false)</pre>
+<div class="source"><pre>jawr.js.bundle.global.mappings=acv:_static|loginForm(jawr.validator|messages|false)</pre>
 </div>
 <p>Note that when using this parameter you must sefine the namespace. If you didn't change it the i18n bundle, just set it to the default value 'messages' as in the example. </p>
 </div>
@@ -302,8 +306,8 @@ jawr.js.bundle.global.mappings=acv:_static|loginForm(jawr.validator|mynamespace)
 
   
   
-  &nbsp;| Last Published: 02/13/2009
-  &nbsp;| Version: 2.7
+  &nbsp;| Last Published: 05/31/2009
+  &nbsp;| Version: 2.8
 </div>
       <div class="clear">
         <hr/>

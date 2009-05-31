@@ -100,89 +100,92 @@
 <a name="91" href="#91">91</a>  <em>	 */</em>
 <a name="92" href="#92">92</a>  	<strong>private</strong> StringBuffer loadScriptTemplate() {
 <a name="93" href="#93">93</a>  		StringWriter sw = <strong>new</strong> StringWriter();
-<a name="94" href="#94">94</a>  		<strong>try</strong> {
-<a name="95" href="#95">95</a>  			InputStream is = ClassLoaderResourceUtils.getResourceAsStream(SCRIPT_TEMPLATE,<strong>this</strong>);
-<a name="96" href="#96">96</a>              IOUtils.copy(is, sw);
-<a name="97" href="#97">97</a>  		} <strong>catch</strong> (IOException e) {
-<a name="98" href="#98">98</a>  			log.fatal(<span class="string">"a serious error occurred when initializing MessageBundleScriptCreator"</span>);
-<a name="99" href="#99">99</a>  			<strong>throw</strong> <strong>new</strong> RuntimeException(<span class="string">"Classloading issues prevent loading the message template to be loaded. "</span>,e);
-<a name="100" href="#100">100</a> 		}
-<a name="101" href="#101">101</a> 		
-<a name="102" href="#102">102</a> 		<strong>return</strong> sw.getBuffer();
-<a name="103" href="#103">103</a> 	}
-<a name="104" href="#104">104</a> 
-<a name="105" href="#105">105</a> 
-<a name="106" href="#106">106</a> 	<em>/**<em>*</em></em>
-<a name="107" href="#107">107</a> <em>	 * Loads the message resource bundles specified and uses a BundleStringJasonifier to generate the properties. </em>
-<a name="108" href="#108">108</a> <em>	 * @return</em>
-<a name="109" href="#109">109</a> <em>	 */</em>
-<a name="110" href="#110">110</a> 	<strong>public</strong> Reader createScript(Charset charset){
-<a name="111" href="#111">111</a> 		
-<a name="112" href="#112">112</a> 		String[] names = configParam.split(<span class="string">"&#47;&#47;|"</span>);
-<a name="113" href="#113">113</a> 		Properties props = <strong>new</strong> Properties();
-<a name="114" href="#114">114</a> 		<strong>for</strong>(<strong>int</strong> x = 0;x &lt; names.length; x++) {
-<a name="115" href="#115">115</a> 			ResourceBundle bundle;
-<a name="116" href="#116">116</a> 			
-<a name="117" href="#117">117</a> 			<strong>if</strong>(<strong>null</strong> != locale){
-<a name="118" href="#118">118</a> 				<strong>try</strong> {
-<a name="119" href="#119">119</a> 					bundle = ResourceBundle.getBundle(names[x],locale);
-<a name="120" href="#120">120</a> 				} <strong>catch</strong>(MissingResourceException ex) {
-<a name="121" href="#121">121</a> 					<em class="comment">// Fixes problems with some servers, e.g. WLS 10</em>
-<a name="122" href="#122">122</a> 					bundle = ResourceBundle.getBundle(names[x],locale,getClass().getClassLoader());
-<a name="123" href="#123">123</a> 				}
-<a name="124" href="#124">124</a> 			}
-<a name="125" href="#125">125</a> 			<strong>else</strong> {
-<a name="126" href="#126">126</a> 				<strong>try</strong> {
-<a name="127" href="#127">127</a> 					bundle = ResourceBundle.getBundle(names[x]);
-<a name="128" href="#128">128</a> 				} <strong>catch</strong>(MissingResourceException ex) {
-<a name="129" href="#129">129</a> 					<em class="comment">// Fixes problems with some servers, e.g. WLS 10</em>
-<a name="130" href="#130">130</a> 					bundle = ResourceBundle.getBundle(names[x],Locale.getDefault(),getClass().getClassLoader());
-<a name="131" href="#131">131</a> 				}
-<a name="132" href="#132">132</a> 			}
-<a name="133" href="#133">133</a> 			
-<a name="134" href="#134">134</a> 			Enumeration keys = bundle.getKeys();
-<a name="135" href="#135">135</a> 			
-<a name="136" href="#136">136</a> 			<strong>while</strong>(keys.hasMoreElements()) {
-<a name="137" href="#137">137</a> 				String key = (String) keys.nextElement();
-<a name="138" href="#138">138</a> 				
-<a name="139" href="#139">139</a> 				<strong>if</strong>(matchesFilter(key)) {
-<a name="140" href="#140">140</a> 						String value = bundle.getString(key);
-<a name="141" href="#141">141</a> 						props.put(key, value);
-<a name="142" href="#142">142</a> 				}
-<a name="143" href="#143">143</a> 			}
-<a name="144" href="#144">144</a> 		}
-<a name="145" href="#145">145</a> 		<strong>return</strong> doCreateScript(props);
-<a name="146" href="#146">146</a> 	}
-<a name="147" href="#147">147</a> 
-<a name="148" href="#148">148</a> 	<em>/**<em>*</em></em>
-<a name="149" href="#149">149</a> <em>	 * @return</em>
-<a name="150" href="#150">150</a> <em>	 */</em>
-<a name="151" href="#151">151</a> 	<strong>protected</strong> Reader doCreateScript(Properties props) {
-<a name="152" href="#152">152</a> 		BundleStringJasonifier bsj = <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/locale/message/BundleStringJasonifier.html">BundleStringJasonifier</a>(props);
-<a name="153" href="#153">153</a> 		String script = template.toString();
-<a name="154" href="#154">154</a> 		String messages = bsj.serializeBundles().toString();
-<a name="155" href="#155">155</a> 		script = script.replaceFirst(<span class="string">"@namespace"</span>, RegexUtil.adaptReplacementToMatcher(namespace));
-<a name="156" href="#156">156</a> 		script = script.replaceFirst(<span class="string">"@messages"</span>, RegexUtil.adaptReplacementToMatcher(messages));
-<a name="157" href="#157">157</a> 		
-<a name="158" href="#158">158</a> 		<strong>return</strong> <strong>new</strong> StringReader(script);
-<a name="159" href="#159">159</a> 	}
-<a name="160" href="#160">160</a> 	
-<a name="161" href="#161">161</a> 	<em>/**<em>*</em></em>
-<a name="162" href="#162">162</a> <em>	 * Determines wether a key matches any of the set filters. </em>
-<a name="163" href="#163">163</a> <em>	 * @param key</em>
-<a name="164" href="#164">164</a> <em>	 * @return</em>
-<a name="165" href="#165">165</a> <em>	 */</em>
-<a name="166" href="#166">166</a> 	<strong>protected</strong> <strong>boolean</strong> matchesFilter(String key) {
-<a name="167" href="#167">167</a> 		<strong>boolean</strong> rets = (<strong>null</strong> == filterList);
-<a name="168" href="#168">168</a> 		<strong>if</strong>(!rets) {
-<a name="169" href="#169">169</a> 			<strong>for</strong>(Iterator it = filterList.iterator();it.hasNext() &amp;&amp; !rets; )
-<a name="170" href="#170">170</a> 				rets = key.startsWith((String)it.next());
-<a name="171" href="#171">171</a> 		}
-<a name="172" href="#172">172</a> 		<strong>return</strong> rets;
-<a name="173" href="#173">173</a> 			
-<a name="174" href="#174">174</a> 	}
-<a name="175" href="#175">175</a> 	
-<a name="176" href="#176">176</a> }
+<a name="94" href="#94">94</a>  		InputStream is = <strong>null</strong>;
+<a name="95" href="#95">95</a>  		<strong>try</strong> {
+<a name="96" href="#96">96</a>  			is = ClassLoaderResourceUtils.getResourceAsStream(SCRIPT_TEMPLATE,<strong>this</strong>);
+<a name="97" href="#97">97</a>              IOUtils.copy(is, sw);
+<a name="98" href="#98">98</a>          } <strong>catch</strong> (IOException e) {
+<a name="99" href="#99">99</a>  			log.fatal(<span class="string">"a serious error occurred when initializing MessageBundleScriptCreator"</span>);
+<a name="100" href="#100">100</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(<span class="string">"Classloading issues prevent loading the message template to be loaded. "</span>,e);
+<a name="101" href="#101">101</a> 		}<strong>finally</strong>{
+<a name="102" href="#102">102</a> 			IOUtils.close(is);
+<a name="103" href="#103">103</a> 		}
+<a name="104" href="#104">104</a> 		
+<a name="105" href="#105">105</a> 		<strong>return</strong> sw.getBuffer();
+<a name="106" href="#106">106</a> 	}
+<a name="107" href="#107">107</a> 
+<a name="108" href="#108">108</a> 
+<a name="109" href="#109">109</a> 	<em>/**<em>*</em></em>
+<a name="110" href="#110">110</a> <em>	 * Loads the message resource bundles specified and uses a BundleStringJasonifier to generate the properties. </em>
+<a name="111" href="#111">111</a> <em>	 * @return</em>
+<a name="112" href="#112">112</a> <em>	 */</em>
+<a name="113" href="#113">113</a> 	<strong>public</strong> Reader createScript(Charset charset){
+<a name="114" href="#114">114</a> 		
+<a name="115" href="#115">115</a> 		String[] names = configParam.split(<span class="string">"&#47;&#47;|"</span>);
+<a name="116" href="#116">116</a> 		Properties props = <strong>new</strong> Properties();
+<a name="117" href="#117">117</a> 		<strong>for</strong>(<strong>int</strong> x = 0;x &lt; names.length; x++) {
+<a name="118" href="#118">118</a> 			ResourceBundle bundle;
+<a name="119" href="#119">119</a> 			
+<a name="120" href="#120">120</a> 			<strong>if</strong>(<strong>null</strong> != locale){
+<a name="121" href="#121">121</a> 				<strong>try</strong> {
+<a name="122" href="#122">122</a> 					bundle = ResourceBundle.getBundle(names[x],locale);
+<a name="123" href="#123">123</a> 				} <strong>catch</strong>(MissingResourceException ex) {
+<a name="124" href="#124">124</a> 					<em class="comment">// Fixes problems with some servers, e.g. WLS 10</em>
+<a name="125" href="#125">125</a> 					bundle = ResourceBundle.getBundle(names[x],locale,getClass().getClassLoader());
+<a name="126" href="#126">126</a> 				}
+<a name="127" href="#127">127</a> 			}
+<a name="128" href="#128">128</a> 			<strong>else</strong> {
+<a name="129" href="#129">129</a> 				<strong>try</strong> {
+<a name="130" href="#130">130</a> 					bundle = ResourceBundle.getBundle(names[x]);
+<a name="131" href="#131">131</a> 				} <strong>catch</strong>(MissingResourceException ex) {
+<a name="132" href="#132">132</a> 					<em class="comment">// Fixes problems with some servers, e.g. WLS 10</em>
+<a name="133" href="#133">133</a> 					bundle = ResourceBundle.getBundle(names[x],Locale.getDefault(),getClass().getClassLoader());
+<a name="134" href="#134">134</a> 				}
+<a name="135" href="#135">135</a> 			}
+<a name="136" href="#136">136</a> 			
+<a name="137" href="#137">137</a> 			Enumeration keys = bundle.getKeys();
+<a name="138" href="#138">138</a> 			
+<a name="139" href="#139">139</a> 			<strong>while</strong>(keys.hasMoreElements()) {
+<a name="140" href="#140">140</a> 				String key = (String) keys.nextElement();
+<a name="141" href="#141">141</a> 				
+<a name="142" href="#142">142</a> 				<strong>if</strong>(matchesFilter(key)) {
+<a name="143" href="#143">143</a> 						String value = bundle.getString(key);
+<a name="144" href="#144">144</a> 						props.put(key, value);
+<a name="145" href="#145">145</a> 				}
+<a name="146" href="#146">146</a> 			}
+<a name="147" href="#147">147</a> 		}
+<a name="148" href="#148">148</a> 		<strong>return</strong> doCreateScript(props);
+<a name="149" href="#149">149</a> 	}
+<a name="150" href="#150">150</a> 
+<a name="151" href="#151">151</a> 	<em>/**<em>*</em></em>
+<a name="152" href="#152">152</a> <em>	 * @return</em>
+<a name="153" href="#153">153</a> <em>	 */</em>
+<a name="154" href="#154">154</a> 	<strong>protected</strong> Reader doCreateScript(Properties props) {
+<a name="155" href="#155">155</a> 		BundleStringJasonifier bsj = <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/locale/message/BundleStringJasonifier.html">BundleStringJasonifier</a>(props);
+<a name="156" href="#156">156</a> 		String script = template.toString();
+<a name="157" href="#157">157</a> 		String messages = bsj.serializeBundles().toString();
+<a name="158" href="#158">158</a> 		script = script.replaceFirst(<span class="string">"@namespace"</span>, RegexUtil.adaptReplacementToMatcher(namespace));
+<a name="159" href="#159">159</a> 		script = script.replaceFirst(<span class="string">"@messages"</span>, RegexUtil.adaptReplacementToMatcher(messages));
+<a name="160" href="#160">160</a> 		
+<a name="161" href="#161">161</a> 		<strong>return</strong> <strong>new</strong> StringReader(script);
+<a name="162" href="#162">162</a> 	}
+<a name="163" href="#163">163</a> 	
+<a name="164" href="#164">164</a> 	<em>/**<em>*</em></em>
+<a name="165" href="#165">165</a> <em>	 * Determines wether a key matches any of the set filters. </em>
+<a name="166" href="#166">166</a> <em>	 * @param key</em>
+<a name="167" href="#167">167</a> <em>	 * @return</em>
+<a name="168" href="#168">168</a> <em>	 */</em>
+<a name="169" href="#169">169</a> 	<strong>protected</strong> <strong>boolean</strong> matchesFilter(String key) {
+<a name="170" href="#170">170</a> 		<strong>boolean</strong> rets = (<strong>null</strong> == filterList);
+<a name="171" href="#171">171</a> 		<strong>if</strong>(!rets) {
+<a name="172" href="#172">172</a> 			<strong>for</strong>(Iterator it = filterList.iterator();it.hasNext() &amp;&amp; !rets; )
+<a name="173" href="#173">173</a> 				rets = key.startsWith((String)it.next());
+<a name="174" href="#174">174</a> 		}
+<a name="175" href="#175">175</a> 		<strong>return</strong> rets;
+<a name="176" href="#176">176</a> 			
+<a name="177" href="#177">177</a> 	}
+<a name="178" href="#178">178</a> 	
+<a name="179" href="#179">179</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
