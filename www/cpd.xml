@@ -1,10 +1,12 @@
-<?xml version="1.0"  encoding="UTF-8"?><pmd-cpd>
-<duplication lines="19" tokens="108">
-<file line="60" path="C:\Proyectos\Jawr\trunk jawr\core\src\main\java\net\jawr\web\servlet\JawrGrailsServlet.java"/>
-<file line="45" path="C:\Proyectos\Jawr\trunk jawr\core\src\main\java\net\jawr\web\servlet\JawrServlet.java"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="20" tokens="109">
+<file line="67" path="/home/jordieva/Proyectos/Jawr/branches/development/src/main/java/net/jawr/web/servlet/JawrGrailsServlet.java"/>
+<file line="56" path="/home/jordieva/Proyectos/Jawr/branches/development/src/main/java/net/jawr/web/servlet/JawrServlet.java"/>
 <codefragment>
 <![CDATA[
-			requestHandler = new JawrRequestHandler(getServletContext(),getServletConfig());
+				requestHandler = new JawrRequestHandler(getServletContext(),getServletConfig());
+			}
 		}catch (ServletException e) {
 			log.fatal("Jawr servlet with name" +  getServletConfig().getServletName() +" failed to initialize properly. ");
 			log.fatal("Cause:");

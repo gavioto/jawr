@@ -45,6 +45,10 @@
     <li class="none">
               <a href="../changes.html">Change history</a>
         </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -233,7 +237,7 @@
       &lt;groupId&gt;net.jawr.dwr&lt;/groupId&gt;
       &lt;artifactId&gt;dwr3plugin&lt;/artifactId&gt;
       &lt;version&gt;1.0&lt;/version&gt;
-    &lt;/dependency&gt;</pre>
+    &lt;/dependency&gt;</pre>
 </div>
 <p>Currently this plugin is only available for a Java 5 or higher JVM. </p>
 <p>There is a sample application that you can download to chek out how integration with DWR works, which you can download from <a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=9330" class="externalLink">this page</a>
@@ -255,7 +259,7 @@
                 &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
            ...
            &lt;load-on-startup&gt;2&lt;/load-on-startup&gt; &lt;-- Loads after DWR
-        &lt;/servlet&gt;</pre>
+        &lt;/servlet&gt;</pre>
 </div>
 <p>Jawr needs to know the sevlet mapping that points to DWR. Therefore, in the properties config you must set up the <b>jawr.dwr.mapping</b>
  parameter to the same value (without the wildcard) that you use for the DWR servlet: </p>
@@ -266,7 +270,7 @@
   &lt;/servlet-mapping&gt;
   
   Jawr.properties:
-  jawr.dwr.mapping=/dwr/</pre>
+  jawr.dwr.mapping=/dwr/</pre>
 </div>
 <div class="section"><h4>Additional DWR servlet instances</h4>
 <p>If you declare more than one DWR servlet, Jawr will need to access the additional mappings for these. In this case, for every additional servlet you must add a special init-param, named <b>jawr_mapping</b>
@@ -288,7 +292,7 @@
     &lt;servlet-name&gt;additional-dwr-invoker&lt;/servlet-name&gt;
     &lt;url-pattern&gt;/other/dwr/*&lt;/url-pattern&gt; &lt;-- Use in jawr_mapping
   &lt;/servlet-mapping&gt;
-   </pre>
+   </pre>
 </div>
 <p>You need to do this for additional DWR servlets, but you can skip it for the one to which mapping you point in the <b>jawr.dwr.mapping</b>
  param. You can't skip using this param though, since it acts as a flag to Jawr indicating that DWR integration is on. </p>
@@ -320,7 +324,7 @@
 <p>So in a typical use case, you would be adding these to a global bundle: </p>
 <div class="source"><pre>        jawr.js.bundle.global.id=/bundles/global.js
         jawr.js.bundle.global.mappings=/js/protaculous/**, dwr:_engine, dwr:_util
-        jawr.js.bundle.global.global=true</pre>
+        jawr.js.bundle.global.global=true</pre>
 </div>
 <p>To add DWR beans (the javascript stubs to access java objects in the server), you use the <b>dwr:</b>
  prefix followed by the name you specified in the dwr.xml config file (or in the alternate configuration method of your choice). </p>
@@ -335,19 +339,19 @@
     
     jawr.config:
     jawr.js.bundle.mybundle.mappings=dwr:People, dwr:LiveHelp
-        </pre>
+        </pre>
 </div>
 <p>Note that Jawr does not support having several DWR servlets that map to beans with the same names. You can't declare two DWR servlets with a bean named 'Person', for instance. </p>
 <p>One last thing you can do is to bundle <b>all</b>
  dwr beans into one bundle. To do this, tou use the special keyword <b>dwr:_**</b>
 : </p>
 <div class="source"><pre>   This adds all beans defined in dwr.xml: 
-   jawr.js.bundle.alldwrbeans.mappings=_**
-        </pre>
+   jawr.js.bundle.alldwrbeans.mappings=dwr:_**
+        </pre>
 </div>
 <p>Be aware that this mapping does not include the static DWR scripts, only the bean stubs. Here is an example of an all-in-one DWR bundle: </p>
 <div class="source"><pre>        jawr.js.bundle.dwrall.id=/bundles/dwrall.js
-        jawr.js.bundle.dwrall.mappings=dwr:_engine, dwr:_util,dwr:_auth, dwr:_**        </pre>
+        jawr.js.bundle.dwrall.mappings=dwr:_engine, dwr:_util,dwr:_auth, dwr:_**        </pre>
 </div>
 </div>
 </div>
@@ -366,8 +370,8 @@
 
   
   
-  &nbsp;| Last Published: 02/13/2009
-  &nbsp;| Version: 2.7
+  &nbsp;| Last Published: 05/31/2009
+  &nbsp;| Version: 2.8
 </div>
       <div class="clear">
         <hr/>

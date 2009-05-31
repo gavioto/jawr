@@ -45,6 +45,10 @@
     <li class="none">
               <a href="../changes.html">Change history</a>
         </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -228,7 +232,7 @@
 <hr />
 <p>To create a bundle the bare minimum you will need is a name and a group of resources. For instance, the following lines in your descriptor file would create a bundle named /bundles/fooBundle.js: </p>
 <div class="source"><pre>        jawr.js.bundle.foo.id=/bundles/fooBundle.js
-        jawr.js.bundle.foo.mappings=/js/foo.js, /js/bar.js</pre>
+        jawr.js.bundle.foo.mappings=/js/foo.js, /js/bar.js</pre>
 </div>
 <p>Note that the property <i>jawr.js.bundle.foo.id</i>
  is declaring two different identifiers: the identifier <i>foo</i>
@@ -243,10 +247,10 @@
         &lt;jwr:script src=&quot;/js/foo.js&quot;/&gt; 
         
         Path to bar.js
-        &lt;jwr:script src=&quot;/js/bar.js&quot;/&gt; </pre>
+        &lt;jwr:script src=&quot;/js/bar.js&quot;/&gt; </pre>
 </div>
 <p>As you can see, a bundle can be invoked by using either its id or the path to any of its members. The page link rendered will be the same in all the three sample cases:</p>
-<div class="source"><pre>&lt;script type=&quot;text/javascript&quot; src=&quot;/myWarContext/prefix/bundles/fooBundle.js&quot; &gt;&lt;/script&gt;</pre>
+<div class="source"><pre>&lt;script type=&quot;text/javascript&quot; src=&quot;/myWarContext/prefix/bundles/fooBundle.js&quot; &gt;&lt;/script&gt;</pre>
 </div>
 <p>Normally, it would be a best practice to use the resource names directly, since: </p>
 <ul><li>By using a resource name, you will later be able to change your bundles according to real life usage of your site, without the need to change your pages. </li>
@@ -266,7 +270,7 @@
         jawr.js.bundle.foo.mappings=/js/foo.js, /js/bar.js
         
         jawr.js.bundle.baz.id=/bundles/bazBundle.js
-        jawr.js.bundle.baz.mappings=/js/baz/**, /js/someScript.js, /js/someSubdir/              </pre>
+        jawr.js.bundle.baz.mappings=/js/baz/**, /js/someScript.js, /js/someSubdir/              </pre>
 </div>
 <p>For details on how the resources are ordered within the bundle, refer to the <a href="./source_ordering.html">source ordering manual page</a>
 . </p>
@@ -275,10 +279,10 @@
 <div class="source"><pre>        jawr.js.bundle.foo.id=/bundles/fooBundle.js
         # Map to a script in the com.mycompany.myapp package and to another from the WAR 
         jawr.js.bundle.foo.mappings=jar:/com/mycompany/myapp/foo.js, /js/bar.js
-        </pre>
+        </pre>
 </div>
-<p>The full documentation for the available generators and instructions on how to create your own are <a href="./generators.html">here</a>
-.</p>
+<p>The full documentation for the available generators and instructions on how to create your own are <a href="./generators.html">here.</a>
+</p>
 </div>
 </div>
 <div class="section"><h3>Global bundles</h3>
@@ -287,7 +291,7 @@
 <div class="source"><pre>        jawr.js.bundle.lib.id=/lib.js
         jawr.js.bundle.lib.mappings=/js/lib/**
         jawr.js.bundle.lib.global=true
-        jawr.js.bundle.lib.order=1</pre>
+        jawr.js.bundle.lib.order=1</pre>
 </div>
 <p>We set the global parameter to true and then we specified an order number. The order value is only needed if you define more than one global bundle and you need a specific order of inclusion. </p>
 </div>
@@ -305,7 +309,7 @@
 <div class="source"><pre>
         jawr.js.bundle.foo.bundlepostprocessors=license
         jawr.js.bundle.foo.fileprocessors=none
-        </pre>
+        </pre>
 </div>
 <p>In this example, the bundle postprocessor for the <i>foo</i>
  bundle is set to <i>license</i>
@@ -324,7 +328,7 @@ jawr.js.bundle.comp.composite=true
 
 jawr.js.bundle.comp.child.names=foo, bar
 ...
-</pre>
+</pre>
 </div>
 <p>For this composite, we declared two children: <i>foo</i>
  and <i>bar</i>
@@ -337,7 +341,7 @@ jawr.js.bundle.comp.child.names=foo, bar
         
         jawr.js.bundle.bar.mappings=/js/baz/**, /js/someScript.js, /js/someSubdir/              
         jawr.js.bundle.bar.bundlepostprocessors=none
-        </pre>
+        </pre>
 </div>
 <p>With such mapping, we specify that, when in development mode, the composite will not contain the files mapped by the <i>foo</i>
  bundle, and that the <i>baz</i>
@@ -354,8 +358,11 @@ jawr.js.bundle.comp.child.names=foo, bar
  or the <a href="./plain_html.html">javascript link generator for non-JSP pages</a>
 . Something that usually fools unaware Jawr users is the fact that using regular &lt;script&gt; or &lt;link&gt; tags with orphans will work in debug mode. However, when going into production mode, things start breaking badly because the URLs remain the same in both modes and they should actually contain extra path information for production. </p>
 <hr />
-<p>You can configure Jawr to do one of two things with orphans: </p>
-<ul><li><b>Create one-file bundles with each orphan resource</b>
+<p>You can configure Jawr to do one of three things with orphans: </p>
+<ul><li><b>Ignore them altogether</b>
+: since scanning may be time and resource consuming during start up and in some cases it is undesirable to treat orphans, you can set a parameter in config to disable all orphans related activity. Simply set <b>factory.use.orphans.mapper</b>
+ to false (it would be true by default) and it's done. </li>
+<li><b>Create one-file bundles with each orphan resource</b>
 : This is what Jawr will do by default. Even for files you don't need to serve within a bundle, you can let Jawr handle them as a compressor. Simply reference your scripts/CSS using the Jawr tags, with the same path you would normally use in a standard HTML script/link tag. The generated bundles will benefit from the same postprocessing scheme (minification, gzipping, etc) as any regular bundle. &#160;<p>If the path of an orphan file accidentally matches the name of any of your bundles an exception will be thrown since bundles can not share the same path. Therefore it is recommended to reserve some namespace prefix for bundles, such as /bundles/. </p>
 </li>
 <li><b>Join all orphan files into a single bundle</b>
@@ -366,12 +373,21 @@ jawr.js.bundle.comp.child.names=foo, bar
         
         # Use any name you want
         jawr.js.factory.singlebundle.bundlename=/bundles/allInOne.js
-        </pre>
+        </pre>
 </div>
 <p>Note that you may actually define some bundles and then use this feature if that suits you. Also, the usual ordering scheme will apply to the orphans bundle. Check the <a href="./source_ordering.html">source ordering manual</a>
  for more info. &#160;</p>
 </li>
 </ul>
+</div>
+<div class="section"><h3>Using an absolute URL in production</h3>
+<p>In some special cases you might want to have bundles served from a static URL when in production. To achieve this you would specify the production URL using the <b>productionURL</b>
+: </p>
+<div class="source"><pre>
+        jawr.js.bundle.foo.productionURL=http://someserver.com/myscript.js
+        </pre>
+</div>
+<p>This would be useful when you use libraries which are publicly served by the author's CDN, such as the YUI library. You could work on your app offline using your local files, with debug mode on, and then in production your users will download from the CDN elsewhere, thus reducing your required bandwith. Needles to say, you must take good care to be sure that your local files contain the same code as the publicly served ones. </p>
 </div>
 </div>
 
@@ -389,8 +405,8 @@ jawr.js.bundle.comp.child.names=foo, bar
 
   
   
-  &nbsp;| Last Published: 02/13/2009
-  &nbsp;| Version: 2.7
+  &nbsp;| Last Published: 05/31/2009
+  &nbsp;| Version: 2.8
 </div>
       <div class="clear">
         <hr/>

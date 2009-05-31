@@ -45,6 +45,10 @@
     <li class="none">
               <a href="../changes.html">Change history</a>
         </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -232,7 +236,7 @@
           &lt;groupId&gt;net.jawr&lt;/groupId&gt;
           &lt;artifactId&gt;jawr&lt;/artifactId&gt;
           &lt;version&gt;[2,]&lt;/version&gt;
-        &lt;/dependency&gt;</pre>
+        &lt;/dependency&gt;</pre>
 </div>
 <p>Also, if you are using Maven 2 make sure your project will access the Maven repository at java.net, by specifying it in you POM: </p>
 <div class="source"><pre>  &lt;repositories&gt;
@@ -242,7 +246,7 @@
           &lt;url&gt;http://download.java.net/maven/2/&lt;/url&gt;
           &lt;layout&gt;default&lt;/layout&gt;
         &lt;/repository&gt;
-  &lt;/repositories&gt;</pre>
+  &lt;/repositories&gt;</pre>
 </div>
 </div>
 <div class="section"><h3>Develop your scripts and stylesheets</h3>
@@ -295,7 +299,7 @@
         &lt;servlet-mapping&gt;
                 &lt;servlet-name&gt;CSSServlet&lt;/servlet-name&gt;
                 &lt;url-pattern&gt;*.css&lt;/url-pattern&gt;
-        &lt;/servlet-mapping&gt; </pre>
+        &lt;/servlet-mapping&gt; </pre>
 </div>
 <p>This is all the configuration required to get the Jawr servlet up and running. </p>
 </div>
@@ -325,7 +329,7 @@ jawr.css.bundle.basedir=/css
 
 # CSS files will be all bundled together automatically
 jawr.css.factory.use.singlebundle=true
-jawr.css.factory.singlebundle.bundlename=/bundles/all.css</pre>
+jawr.css.factory.singlebundle.bundlename=/bundles/all.css</pre>
 </div>
 </div>
 <div class="section"><h3>Create the Log4j configuration file</h3>
@@ -341,7 +345,7 @@ log4j.appender.A1.layout=org.apache.log4j.PatternLayout
 log4j.appender.A1.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
 
 # Print messages up to level INFO
-log4j.logger.net.jawr=INFO</pre>
+log4j.logger.net.jawr=INFO</pre>
 </div>
 <p>Note that the log level is set to INFO. The DEBUG level would ouput verbose log messages, and you should use it only if you experience problems with your configuration. This file will setup log4j to log only to the system console. Please refer to the log4j documentation for different setup options. </p>
 </div>
@@ -360,7 +364,7 @@ log4j.logger.net.jawr=INFO</pre>
         ...
 &lt;/body&gt;
 &lt;/html&gt;
-</pre>
+</pre>
 </div>
 <p>Deploy your application to a server and open the JSP you created. The page should contain a link to css004/bundles/all.css, a script tag pointing at lib001/bundles/lib.js and another one pointing at 003/js/test.js. If you visited the page with Firefox, the URl might be prefixed by 'gzip_'. If you open these files from the browser, you will find they have been minified. </p>
 <p>Finally, change the jawr.debug.on property in the descriptor file to <b>true</b>
@@ -382,8 +386,8 @@ log4j.logger.net.jawr=INFO</pre>
 
   
   
-  &nbsp;| Last Published: 02/13/2009
-  &nbsp;| Version: 2.7
+  &nbsp;| Last Published: 05/31/2009
+  &nbsp;| Version: 2.8
 </div>
       <div class="clear">
         <hr/>

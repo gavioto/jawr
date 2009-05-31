@@ -45,6 +45,10 @@
     <li class="none">
               <a href="../changes.html">Change history</a>
         </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -228,7 +232,7 @@
  &#160;<p>Jawr will add files to bundles in the same order you specify in the mappings attribute: </p>
 <div class="source"><pre>        jawr.js.bundle.foo.id=/bundles/lib.js
          # Add all files in needed ordering.  
-        jawr.js.bundle.foo.mappings=/js/lib/Protoype.js, /js/lib/scriptaculous.js, ...  </pre>
+        jawr.js.bundle.foo.mappings=/js/lib/Protoype.js, /js/lib/scriptaculous.js, ...  </pre>
 </div>
 <p>The obvious drawback here is that ordering many files will mean a verbose configuration, so this option is recommended only for very simple cases. </p>
 </li>
@@ -236,7 +240,7 @@
  &#160;<p>When doing recursive mapping, Jawr will always include resources first, then subdirectories. That means that you can effectively force ordering by putting the files which should appear last in a subdirectory. For instance, in the previous example, you could move all the Script.aculo.us files to a subdir, like this: </p>
 <img src="../images/sorting/sub_ptotype.png" alt="A sample directory structure" /><p>Your mapping could then change to this: </p>
 <div class="source"><pre>        jawr.js.bundle.foo.id=/bundles/lib.js
-        jawr.js.bundle.foo.mappings=/js/lib/**  </pre>
+        jawr.js.bundle.foo.mappings=/js/lib/**  </pre>
 </div>
 <p>Since we have Prototype.js directly under /js/lib and everything else in a subfolder, with this mapping we can be sure that our bundle will contain the Prototype library first, and then the rest of our files. </p>
 </li>
@@ -244,13 +248,13 @@
  &#160;<p>Sorting files are simple descriptors that you place at any directory where you need to specify ordering. Following the previous examples, if we still had Prototype and Script.aculo.us at the same directory and we wanted to force ordering, we could create a file named <b>.sorting</b>
  at the /js/lib/ directory. The directory structure would look like this: </p>
 <img src="../images/sorting/flat_ptotype_license.png" alt="A sample directory structure" /><p>The contents of the sorting file would be as follows: </p>
-<div class="source"><pre>        prototype.js</pre>
+<div class="source"><pre>        prototype.js</pre>
 </div>
 <p>As you can see, only the files that need to go first are added. If our mapping was /js/lib/**, we would get prototype.js first, then every other resource in the directory in no particular order. If there were any subdirectory, its contents would be added afterwards. &#160;</p>
 <p>Sorting files can also affect subdirs, so you can do things like add a resource, then everything in a subdir, then another resource, like this: </p>
 <div class="source"><pre>        Prototype.js
         someSubdir/
-        effects.js</pre>
+        effects.js</pre>
 </div>
 <p>If our mapping was /js/lib/**, the resulting bundle would contain: </p>
 <ul><li>The contents of prototype.js. </li>
@@ -277,8 +281,8 @@
 
   
   
-  &nbsp;| Last Published: 02/13/2009
-  &nbsp;| Version: 2.7
+  &nbsp;| Last Published: 05/31/2009
+  &nbsp;| Version: 2.8
 </div>
       <div class="clear">
         <hr/>

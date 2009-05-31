@@ -45,7 +45,7 @@
 <a name="36" href="#36">36</a>  <em class="comment">	 */</em>
 <a name="37" href="#37">37</a>  	<strong>public</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/postprocess/ResourceBundlePostProcessor.html">ResourceBundlePostProcessor</a> buildDefaultProcessorChain() {
 <a name="38" href="#38">38</a>  		JSMinPostProcessor processor = buildJSMinPostProcessor();
-<a name="39" href="#39">39</a>  		processor.setNextProcessor(buildLicensesProcessor());
+<a name="39" href="#39">39</a>  		processor.addNextProcessor(buildLicensesProcessor());
 <a name="40" href="#40">40</a>  		<strong>return</strong> processor;
 <a name="41" href="#41">41</a>  	}
 <a name="42" href="#42">42</a>  	

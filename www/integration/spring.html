@@ -45,6 +45,10 @@
     <li class="none">
               <a href="../changes.html">Change history</a>
         </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -242,7 +246,7 @@
 &lt;!-- CSS controller --&gt;
 &lt;bean id=&quot;jawrCSSController&quot;  parent=&quot;jawrBase&quot;&gt;
         &lt;property name=&quot;type&quot; value=&quot;css&quot; /&gt;
-&lt;/bean&gt;</pre>
+&lt;/bean&gt;</pre>
 </div>
 <p>As you can see, the abstract bean holds most of the configuration details, which is common to both Jawr controllers. The properties which are being set configure the controllers in the following way: </p>
 <ul><li><b>mapping</b>
@@ -270,7 +274,7 @@
           &lt;prop key=&quot;/**/*.png&quot;&gt;jawrCSSController&lt;/prop&gt;
           &lt;/props&gt;
          &lt;/property&gt;
-&lt;/bean&gt;</pre>
+&lt;/bean&gt;</pre>
 </div>
 <p>You may have noticed the *.jpg and *.png mappings in the example. The reason for adding these is to handle background images referenced at css files, when Jawr is in debug mode. This is due to a known problem which will be addressed in future versions. </p>
 <p>If for some reason you need to add some kind of prefixing to the mappings, there is extra work to be done. For instance, if you mapped like this: </p>
@@ -283,7 +287,7 @@
           &lt;prop key=&quot;/jawr/**/*&quot;&gt;jawrCSSController&lt;/prop&gt;
           &lt;/props&gt;
          &lt;/property&gt;
-&lt;/bean&gt;</pre>
+&lt;/bean&gt;</pre>
 </div>
 <p>For this configuration, you will need to let the controllers know the extra path information. The reason for this is that Jawr needs not only to attend to requests, but also to generate URLs which will match its own controllers (incidentially, that's the same reason to need the <i>mapping</i>
  configuration attribute too). Note that the additional images mapping is simpler now, reduced to '/jawr/**/*' to cover all types. The <b>controllerMapping</b>
@@ -302,13 +306,13 @@
                 &lt;util:properties location=&quot;classpath:jawr.properties&quot;/&gt;
         &lt;/property&gt;
 &lt;/bean&gt;
-</pre>
+</pre>
 </div>
 <p>With controllers in place and mappings set, you are ready to start using the Jawr tag library in your pages to get really fast loading times. </p>
 </div>
 <div class="section"><h3>Using Spring's LocaleResolver with the i18n generator. </h3>
 <p>If you will be using Spring's i18n facilities and want to generate 18n message scripts (check the 18n generator docs), you can integrate boths systems by letting Jawr use Spring's LocaleResolver. Jawr has its own way of resolving the locale of a request and a bit of extra configuration is needed to have it delegate in Spring. Actually, this single line in your jawr.properties file will do: </p>
-<div class="source"><pre>jawr.locale.resolver=net.jawr.web.resource.bundle.locale.SpringLocaleResolver</pre>
+<div class="source"><pre>jawr.locale.resolver=net.jawr.web.resource.bundle.locale.SpringLocaleResolver</pre>
 </div>
 </div>
 </div>
@@ -327,8 +331,8 @@
 
   
   
-  &nbsp;| Last Published: 02/13/2009
-  &nbsp;| Version: 2.7
+  &nbsp;| Last Published: 05/31/2009
+  &nbsp;| Version: 2.8
 </div>
       <div class="clear">
         <hr/>
