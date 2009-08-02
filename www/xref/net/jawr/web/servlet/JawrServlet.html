@@ -65,12 +65,12 @@
 <a name="56" href="#56">56</a>  				requestHandler = <strong>new</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a>(getServletContext(),getServletConfig());
 <a name="57" href="#57">57</a>  			}
 <a name="58" href="#58">58</a>  		}<strong>catch</strong> (ServletException e) {
-<a name="59" href="#59">59</a>  			log.fatal(<span class="string">"Jawr servlet with name"</span> +  getServletConfig().getServletName() +<span class="string">" failed to initialize properly. "</span>);
+<a name="59" href="#59">59</a>  			log.fatal(<span class="string">"Jawr servlet with name "</span> +  getServletConfig().getServletName() +<span class="string">" failed to initialize properly. "</span>);
 <a name="60" href="#60">60</a>  			log.fatal(<span class="string">"Cause:"</span>);
 <a name="61" href="#61">61</a>  			log.fatal(e.getMessage(),e);
 <a name="62" href="#62">62</a>  			<strong>throw</strong> e;
 <a name="63" href="#63">63</a>  		}<strong>catch</strong> (RuntimeException e) {
-<a name="64" href="#64">64</a>  			log.fatal(<span class="string">"Jawr servlet with name"</span> +  getServletConfig().getServletName() +<span class="string">" failed to initialize properly. "</span>);
+<a name="64" href="#64">64</a>  			log.fatal(<span class="string">"Jawr servlet with name "</span> +  getServletConfig().getServletName() +<span class="string">" failed to initialize properly. "</span>);
 <a name="65" href="#65">65</a>  			log.fatal(<span class="string">"Cause: "</span>);
 <a name="66" href="#66">66</a>  			log.fatal(e.getMessage(),e);
 <a name="67" href="#67">67</a>  			<strong>throw</strong> <strong>new</strong> ServletException(e);

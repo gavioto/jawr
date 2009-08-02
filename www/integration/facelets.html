@@ -98,6 +98,22 @@
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
         </li>
+              
+    <li class="none">
+              <a href="../docs/jmx_support_gen.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/bundle_preprocessing_gen.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_maven_plugin_gen.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_ant_task_gen.html">Jawr Ant task</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -229,8 +245,7 @@
 <div class="section"><h3>Setup Jawr in a Facelets application</h3>
 <p>There is a very small difference in the way you will use Jawr in your facelets application, compared to using JSPs. Everything is setup the same way except that you need to make changes to faces-config.xml and you will import the taglibs to your pages in a different way. </p>
 <div class="section"><h4>1. Configure the Jawr servlet</h4>
-<p>The first step is to declare the Jawr servlet in the web.xml descriptor. This works exactly the same as in a regular web application, so the <a href="./servlet.html">Jawr Servlet Documentation page</a>
- has all the info you need to do it. You can create the properties file normally, since the only difference in using Facelets with Jawr has to do with the taglibs. </p>
+<p>The first step is to declare the Jawr servlet in the web.xml descriptor. This works exactly the same as in a regular web application, so the <a href="./servlet.html">Jawr Servlet Documentation page</a> has all the info you need to do it. You can create the properties file normally, since the only difference in using Facelets with Jawr has to do with the taglibs. </p>
 </div>
 <div class="section"><h4>2. Edit faces-config.xml</h4>
 <p>In order to use the tag library, you must add the following lines (which you can copy and paste from here) to the faces-config.xml descriptor: </p>
@@ -243,7 +258,15 @@
             &lt;component-type&gt;jawr.CSSBundle&lt;/component-type&gt;
             &lt;component-class&gt;net.jawr.web.taglib.jsf.CSSBundleTag&lt;/component-class&gt;
         &lt;/component&gt;
-        </pre>
+        &lt;component&gt;
+        &lt;component-type&gt;jawr.ImageInput&lt;/component-type&gt;
+        &lt;component-class&gt;net.jawr.web.taglib.jsf.ImageInputTag&lt;/component-class&gt;
+    &lt;/component&gt;
+    &lt;component&gt;
+        &lt;component-type&gt;jawr.ImgHtml&lt;/component-type&gt;
+        &lt;component-class&gt;net.jawr.web.taglib.jsf.ImgHtmlTag&lt;/component-class&gt;
+    &lt;/component&gt;
+        </pre>
 </div>
 </div>
 <div class="section"><h4>3. Import and use the taglibs</h4>
@@ -264,14 +287,16 @@
 &lt;/head&gt;
 ...
 
+&lt;jawr:img src=&quot;/img/icons/logo.png&quot;&gt;
+...
+
+&lt;jawr:image src=&quot;/img/icons/add.png&quot; name=&quot;add&quot; &gt;
+...
 
 &lt;/html&gt;
-        </pre>
+        </pre>
 </div>
-<p>That's it. As you can see in the example, the taglib was imported with the namespace <b>jawr:</b>
-, using the url <b>https://jawr.dev.java.net/jsf/facelets</b>
-. The syntax for the taglibs is exactly the same as that of the JSP taglib, so check its <a href="./taglibs.html">documentation page</a>
- for details on the attributes that you can/must use. </p>
+<p>That's it. As you can see in the example, the taglib was imported with the namespace <b>jawr:</b>, using the url <b>https://jawr.dev.java.net/jsf/facelets</b>. The syntax for the taglibs is exactly the same as that of the JSP taglib, so check its <a href="./taglibs.html">documentation page</a> for details on the attributes that you can/must use. </p>
 </div>
 </div>
 </div>
@@ -290,8 +315,8 @@
 
   
   
-  &nbsp;| Last Published: 05/31/2009
-  &nbsp;| Version: 2.8
+  &nbsp;| Last Published: 08/02/2009
+  &nbsp;| Version: 3.0
 </div>
       <div class="clear">
         <hr/>

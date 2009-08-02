@@ -98,6 +98,22 @@
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
         </li>
+              
+    <li class="none">
+              <a href="../docs/jmx_support_gen.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/bundle_preprocessing_gen.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_maven_plugin_gen.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_ant_task_gen.html">Jawr Ant task</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -226,17 +242,14 @@
       <div id="contentBox">
         <div class="section"><h2>Getting started with Jawr</h2>
 <div class="section"><h3>Download and install</h3>
-<p><a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8543" class="externalLink">Download Jawr from the documents area</a>
- and place it within the classpath of your application (typically, under WEB-INF/lib). Add log4j.jar to the path as well. </p>
-<p>If you are using java 1.4, you can optionally download <a href="http://backport-jsr166.sourceforge.net/" class="externalLink">backport-util-concurrent</a>
- and add it to the classpath as well for improved performance. This is <b>not</b>
- needed if the JDK version of your server is 5 or higher. </p>
+<p><a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8543" class="externalLink">Download Jawr from the documents area</a> and place it within the classpath of your application (typically, under WEB-INF/lib). Add log4j.jar to the path as well. </p>
+<p>If you are using java 1.4, you can optionally download <a href="http://backport-jsr166.sourceforge.net/" class="externalLink">backport-util-concurrent</a> and add it to the classpath as well for improved performance. This is <b>not</b> needed if the JDK version of your server is 5 or higher. </p>
 <p>Alternatively, if you are using Maven 2, add a dependency to Jawr in your POM file: </p>
 <div class="source"><pre>        &lt;dependency&gt;
           &lt;groupId&gt;net.jawr&lt;/groupId&gt;
           &lt;artifactId&gt;jawr&lt;/artifactId&gt;
           &lt;version&gt;[2,]&lt;/version&gt;
-        &lt;/dependency&gt;</pre>
+        &lt;/dependency&gt;</pre>
 </div>
 <p>Also, if you are using Maven 2 make sure your project will access the Maven repository at java.net, by specifying it in you POM: </p>
 <div class="source"><pre>  &lt;repositories&gt;
@@ -246,21 +259,14 @@
           &lt;url&gt;http://download.java.net/maven/2/&lt;/url&gt;
           &lt;layout&gt;default&lt;/layout&gt;
         &lt;/repository&gt;
-  &lt;/repositories&gt;</pre>
+  &lt;/repositories&gt;</pre>
 </div>
 </div>
 <div class="section"><h3>Develop your scripts and stylesheets</h3>
-<p>For the quick setup, it is assumed that you have the following directories at the root of your application: <b>/js</b>
-, <b>/js/lib</b>
- and <b>/css</b>
-. Of course these may contain more subdirs. The sample configuration will create a bundle containing everything under <b>/js/lib</b>
-, named <b>/bundles/lib.js</b>
-. The remaining .js files at /js and subdirs will be served separately. As for the CSS files, a single all-in-one bundle named <b>/bundles/all.css</b>
- will be used. </p>
+<p>For the quick setup, it is assumed that you have the following directories at the root of your application: <b>/js</b>, <b>/js/lib</b> and <b>/css</b>. Of course these may contain more subdirs. The sample configuration will create a bundle containing everything under <b>/js/lib</b>, named <b>/bundles/lib.js</b>. The remaining .js files at /js and subdirs will be served separately. As for the CSS files, a single all-in-one bundle named <b>/bundles/all.css</b> will be used. </p>
 </div>
 <div class="section"><h3>Configure instances of the Jawr Servlet</h3>
-<p>Add <b>net.jawr.web.servlet.JawrServlet</b>
- to your web.xml descriptor. You will need an instance for handling Javascript, and another one for CSS stylesheets. For instance: </p>
+<p>Add <b>net.jawr.web.servlet.JawrServlet</b> to your web.xml descriptor. You will need an instance for handling Javascript, and another one for CSS stylesheets. For instance: </p>
 <div class="source"><pre>        &lt;servlet&gt;
                 &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
                 &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
@@ -299,7 +305,7 @@
         &lt;servlet-mapping&gt;
                 &lt;servlet-name&gt;CSSServlet&lt;/servlet-name&gt;
                 &lt;url-pattern&gt;*.css&lt;/url-pattern&gt;
-        &lt;/servlet-mapping&gt; </pre>
+        &lt;/servlet-mapping&gt; </pre>
 </div>
 <p>This is all the configuration required to get the Jawr servlet up and running. </p>
 </div>
@@ -329,7 +335,7 @@ jawr.css.bundle.basedir=/css
 
 # CSS files will be all bundled together automatically
 jawr.css.factory.use.singlebundle=true
-jawr.css.factory.singlebundle.bundlename=/bundles/all.css</pre>
+jawr.css.factory.singlebundle.bundlename=/bundles/all.css</pre>
 </div>
 </div>
 <div class="section"><h3>Create the Log4j configuration file</h3>
@@ -345,14 +351,12 @@ log4j.appender.A1.layout=org.apache.log4j.PatternLayout
 log4j.appender.A1.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
 
 # Print messages up to level INFO
-log4j.logger.net.jawr=INFO</pre>
+log4j.logger.net.jawr=INFO</pre>
 </div>
 <p>Note that the log level is set to INFO. The DEBUG level would ouput verbose log messages, and you should use it only if you experience problems with your configuration. This file will setup log4j to log only to the system console. Please refer to the log4j documentation for different setup options. </p>
 </div>
 <div class="section"><h3>Test the bundles</h3>
-<p>Create a test javascript file at the <b>/js</b>
- directory, named <b>test.js</b>
-. Then write JSP page and add the following content: </p>
+<p>Create a test javascript file at the <b>/js</b> directory, named <b>test.js</b>. Then write JSP page and add the following content: </p>
 <div class="source"><pre>&lt;%@ taglib uri=&quot;http://jawr.net/tags&quot; prefix=&quot;jwr&quot; %&gt;
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; %&gt;
 &lt;html&gt;
@@ -364,11 +368,10 @@ log4j.logger.net.jawr=INFO</pre>
         ...
 &lt;/body&gt;
 &lt;/html&gt;
-</pre>
+</pre>
 </div>
 <p>Deploy your application to a server and open the JSP you created. The page should contain a link to css004/bundles/all.css, a script tag pointing at lib001/bundles/lib.js and another one pointing at 003/js/test.js. If you visited the page with Firefox, the URl might be prefixed by 'gzip_'. If you open these files from the browser, you will find they have been minified. </p>
-<p>Finally, change the jawr.debug.on property in the descriptor file to <b>true</b>
- and redeploy the application. Visit the page again and you will see how each file is imported separately. If you have used an exploded deployment directory instead of a WAR archived file, you can now change any of the script or css files and see the changes inmediately by refreshing the page. </p>
+<p>Finally, change the jawr.debug.on property in the descriptor file to <b>true</b> and redeploy the application. Visit the page again and you will see how each file is imported separately. If you have used an exploded deployment directory instead of a WAR archived file, you can now change any of the script or css files and see the changes inmediately by refreshing the page. </p>
 </div>
 </div>
 
@@ -386,8 +389,8 @@ log4j.logger.net.jawr=INFO</pre>
 
   
   
-  &nbsp;| Last Published: 05/31/2009
-  &nbsp;| Version: 2.8
+  &nbsp;| Last Published: 08/02/2009
+  &nbsp;| Version: 3.0
 </div>
       <div class="clear">
         <hr/>

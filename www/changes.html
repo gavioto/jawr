@@ -98,6 +98,22 @@
     <li class="none">
               <a href="docs/messages_gen.html">i18n message generator</a>
         </li>
+              
+    <li class="none">
+              <a href="docs/jmx_support_gen.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/bundle_preprocessing_gen.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/jawr_maven_plugin_gen.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/jawr_ant_task_gen.html">Jawr Ant task</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -224,15 +240,74 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2><a name="Announcementes_and_change_log"></a>
-Announcementes and change log</h2>
-<ul><li><strong>5/31/2009</strong>: Version 2.8 released:<br />
+        <div class="section"><h2><a name="Announcementes_and_change_log"></a>Announcementes and change log</h2>
+<ul><li><strong>08/03/2009</strong>: Version 3.0 released:<br />
+<strong>New features/ fixed issues: </strong><ul><li>
+	      		 	Jawr is now able to handle images. This means that all images managed by Jawr will be cached in the browser as the other Javascript and CSS resources.
+	      		 	By default all CSS images will be handled by Jawr if the Jawr image servlet is defined. 
+	      		 	Look for the <em>Jawr image handling</em> section in the <a href="./docs/servlet.html">servlet docs</a> and at <em>jawr.image.resources</em> in the <a href="./docs/descriptor_syntax.html">descriptor syntax docs</a> for extra info.<br />
+
+	      		 	Two new tags have been added to the tag library to handle these images. Look for the image tags at the <a href="./docs/taglibs.html">tag library doc</a> for extra info.
+	      		 </li>
+<li>
+	      		 	Jawr supports now JMX, which means that you will be able to modify at runtime the behaviour of Jawr using a JMX console.
+	      		 	For example, you will be able to pass from production mode to debug mode an entire application or only one session at runtime.
+	      		 	Look at the <a href="./docs/jmx_support.html">JMX support doc</a> for extra info.
+	      		 </li>
+<li>
+	      			A new &quot;bundle preprocessing&quot; feature has been added in Jawr. This feature is also known as &quot;build time bundle processing&quot;.
+	      			This feature allows the user to skip the bundling process at server start-up, and use instead the data of preprocessed bundles. 
+	      			Look at the <a href="./docs/bundle_preprocessing.html">bundle preprocessing documentation</a> for extra info.
+	      		 </li>
+<li>
+	      		 	We have also created a <strong>maven plugin</strong> and an <strong>Ant task</strong> to integrate the new bundle preprocessing feature in the project build phase.  
+	      		 	Look at the <a href="./docs/jawr_ant_task.html">Jawr Ant task docs</a> and the <a href="./docs/jawr_maven_plugin.html">Jawr maven plugin docs</a> for extra info.<br />
+
+	      		 	Thanks to Andreas Andreou for the original idea of the maven plugin.    
+	      		 </li>
+<li>
+	      		 	We have also decided to provide a better support to usage of CDN in Jawr. <br />
+
+	      		 	The new property <em>jawr.url.contextpath.ssl.override</em> allows you to define what the CDN URL to use for HTTPS requests is. <br />
+
+	      		 	In debug mode, it is now possible to reference the debug resource files deployed on the CDN. To enable this feature, you will have to set to true, the property 
+	      		 	<em>jawr.url.contextpath.override.used.in.debug.mode</em>. <br />
+
+	      		 	Look for these properties in the <a href="./docs/descriptor_syntax.html">descriptor syntax docs</a> for extra info.    
+	      		 </li>
+<li>
+	      		 	The property <em>jawr.css.imagepath.override</em> which defined the override path for CSS images has been removed.
+	      		 	Now for CSS images, Jawr generates URLs which are relative to the CSS bundle even if the resource is deployed on a CDN. 
+	      		 	Look at the <em>jawr.css.imagepath.override</em> section at the <a href="./docs/bundle_preprocessing.html">bundle preprocessing doc</a> for extra info.    
+	      		 </li>
+<li>
+	      		 	For a better support of CDN, Jawr provides resources which can be integrated more easily in CDN. These files are generated using the bundle preprocessing feature. 
+	      		 	It even provides a rewrite configuration file for Apache server.
+	      		 	Look at the <em>CDN support</em> section at the <a href="./docs/bundle_preprocessing.html">bundle preprocessing doc</a> for extra info.    
+	      		 </li>
+<li>
+	      		 	Jawr is now able to discover automatically the locales available for message resources.
+	      		 	So the use of the bundle property <em>jawr.js.bundle.[name].locales</em> is no more necessary.
+	      		 	Look for <em>jawr.js.bundle.[name].locales</em> at <a href="./docs/descriptor_syntax.html">descriptor syntax doc</a> for extra info.    
+	      		 </li>
+<li><strong>Issue #69 fixed:</strong> CSS from jar file fails when using jawr.debug.overrideKey in production, is now fixed.      
+	      		 </li>
+<li><strong>Issue #66 fixed:</strong> Add support for @import keyword in CSS is now fixed. You can use the new <strong>cssimport</strong> post processor to resolve the CSS import. Please take a look at the section <em>CSS Import resolver</em> at <a href="./docs/postprocessors.html">postprocessors documentation</a> for more info.
+	      		 </li>
+<li><strong>Issue #72 fixed:</strong> Avoid skipping repeated members of bundles in debug mode which is fixed now.
+	      		 	Before when the same resources was referenced twice in debug mode, the second one was skipped.        
+	      		 </li>
+<li><strong>Issue #73 fixed:</strong> java.lang.IndexOutOfBoundsException in CSSMinifier is fixed now.
+	      		 	The issue occured when the CSS file contains a '$' character in a non commented section. 
+	      		 </li>
+</ul>
+</li>
+<li><strong>5/31/2009</strong>: Version 2.8 released:<br />
 <strong>New features/ fixed issues: </strong><ul><li>
       		 	While until now it has been possible to load CSS from the classpath, images referenced in them would not be resolved. Now the 
       		 	Jawr servlet can be used to serve images from the classpath as well, thus enabling fully the ability to serve styles and related
       		 	images from jar files.  Look for <em>jawr.css.image.classpath.use.servlet</em> at the  
-      		 	<a href="./docs/servlet.html">servlet docs</a>
- for extra info.    
+      		 	<a href="./docs/servlet.html">servlet docs</a> for extra info.    
       		 </li>
 <li>
       		 	The classpath resource generator now allows to use the <em>jar:</em> prefix to map css (it used to be <em>jar_css:</em> for
@@ -243,15 +318,13 @@ Announcementes and change log</h2>
       			debugging session in a deployed application. The bundle members will be requested sepparately as if Jawr were in debug mode 
       			easing debug operations without having to redeploy. This is done by adding a special request parameter which is defined in 
       			configuration.  Look for <em>jawr.debug.overrideKey</em> at the  
-				<a href="./docs/modes.html">debug and production modes documentation</a>
- for extra info.    
+				<a href="./docs/modes.html">debug and production modes documentation</a> for extra info.    
       		 </li>
 <li>
       		 	A new way to force a refresh of all bundles has been added. A secret parameter name is defined in configuration using the key 
       		 	<strong>jawr.config.reload.refreshKey</strong>, and whenever a request that matches the Jawr servlet includes it, the configuration
       		 	wil be reloaded.  Look for <em>jawr.config.reload.refreshKey</em> at the  
-				<a href="./docs/servlet.html">servlet docs</a>
- for extra info.    
+				<a href="./docs/servlet.html">servlet docs</a> for extra info.    
       		 </li>
 <li>
       		 	Orphans search and auto bundle generation can now be disabled for convenience using a new configuration parameter named 
@@ -260,8 +333,7 @@ Announcementes and change log</h2>
 <li>
       		 	Bundles can now be defined with an alternate static URL to use in production mode. This is useful for instance to use publicly 
       		 	served libraries (e.g. the YUI framework) while still using locally served files in development mode.  Details can be found at
-      		 	at the <a href="./docs/custom_bundles.html">bundle definition documentation</a>
-, check out the <em>productionURL</em> param.         
+      		 	at the <a href="./docs/custom_bundles.html">bundle definition documentation</a>, check out the <em>productionURL</em> param.         
       		 </li>
 <li><strong>Issue #60 fixed:</strong> Per-file custom postprocessor were not being added to the postprocessing chain. Thanks 
       		 	to user ebottard for providing a patch to solve the issue.      
@@ -322,13 +394,11 @@ Announcementes and change log</h2>
       </li>
 <li><strong>11/23/2008</strong>: Version 2.6 released:<br />
 <strong>New features/ fixed issues: </strong><ul><li><strong>Spring MVC support added. </strong> Jawr now provides a Spring MVC Controller so it can now be fully configured 
-      		 through Spring's configuration mechanism. See <a href="./integration/spring.html">the manual page</a>
- for details. </li>
+      		 through Spring's configuration mechanism. See <a href="./integration/spring.html">the manual page</a> for details. </li>
 <li>The way LINK tags are rendered can now be configured. Specifically, depending on the content type you choose for your 
       		 pages, you may need the link tags to be closed differently, or even not closed at all. By default, tags will be closed as 
       		 usual (i.e. with '/&gt;'). But adding a new parameter to the properties configuration will make this behavior change. 
-      		 Check the <a href="./docs/taglibs.html"> taglib documentation</a>
- and look for 'jawr.csslinks.flavor' for details.  </li>
+      		 Check the <a href="./docs/taglibs.html"> taglib documentation</a> and look for 'jawr.csslinks.flavor' for details.  </li>
 <li>A new generator has been added. Now CSS resources can be retrieved from the classpath by using the 
       		 <strong>jar_css</strong> prefix. </li>
 <li>[Issue #46] The jawr[css|js].bundle.names property is now augmentable when using ConfigPropertiesAugmenter, 
@@ -341,8 +411,7 @@ Announcementes and change log</h2>
 <strong>New features/ fixed issues: </strong><ul><li>[Grails, issue #26] Switched from using controllers to using a servlet: This has several advantages: it is faster, there is no 
       		 need to fiddle with the grails.mime.file.extensions property, and no controller mappings need to be added. So if you are upgrading, you 
       		 need to remove the controller mappings, reset the grails.mime.file.extensions property and then follow URL mapping instructions at the 
-      		 <a href="./integration/grails.html">plugin instructions page</a>
-. </li>
+      		 <a href="./integration/grails.html">plugin instructions page</a>. </li>
 <li>[Grails, issue #32] New grails-only implementation of the i18n messages generator that solves all previous issues. It is no longer 
       		 needed to copy properties files when deploying/running in war mode, and the previous message character encoding issues should 
       		 be gone for good. </li>
@@ -354,13 +423,11 @@ Announcementes and change log</h2>
 </li>
 <li><strong>10/7/2008</strong>: Version 2.5 released:<br />
 <strong>New features: </strong><ul><li>CDN support: Jawr can be used with a CDN by setting the parameter to an absolute URL. </li>
-<li><a href="./docs/generators.html">Generators API</a>
-: you can now write components that dynamically generate scripts or 
+<li><a href="./docs/generators.html">Generators API</a>: you can now write components that dynamically generate scripts or 
       		 CSS during the application startup. </li>
 <li>Ability to read config the file from the filesystem: instead of reading only from the classpath, the config properties file 
       		 can now be read from the filesystem. To do it the config parameter must be prefixed with file:, followed by the absolute file path. </li>
-<li><a href="./integration/augmenter.html">Multiple configuration sources</a>
- can be used when integrating Jawr with other frameworks.</li>
+<li><a href="./integration/augmenter.html">Multiple configuration sources</a> can be used when integrating Jawr with other frameworks.</li>
 </ul>
 <strong>Fixed issues:</strong><ul><li>#31:media=&quot;print&quot; ignored when useRandomParam=&quot;false&quot; </li>
 <li>#29:Contextpath override does not work with absolute URLs (see CDN support above)</li>
@@ -384,8 +451,7 @@ Announcementes and change log</h2>
       	</li>
 <li><strong>6/16/2008</strong>: Version 2.4 released:<br />
 <strong>Jawr can be used in plain HTML pages</strong>: This has been a major drawback for Jawr, since many times applications are a mix of 
-      	static HTML and dynamic pages. <a href="./docs/plain_html.html"> Click here to find out how this has been solved. </a>
-</li>
+      	static HTML and dynamic pages. <a href="./docs/plain_html.html"> Click here to find out how this has been solved. </a></li>
 <li><strong>6/9/2008</strong>: Version 2.3 released:<br />
 <strong>Commons Validator integration</strong>: Users of Struts and other libraries 
       	supporting the Commons Validator can now have the static and dynamic scripts added to bundles, minified and compressed with Jawr.  
@@ -425,8 +491,7 @@ Other than that, mostly internal changes and bugfixes. The internal changes incl
       	This opens interesting possibilities for the near future. 
       	</li>
 <li><strong>4/5/2008</strong>: Version 2.0 released: new automatic prefixing system, conditional comments support, grails and facelets 
-      	plugins, YUI compressor... Check the <a href="./docs/changes_20.html">what's new in 2.0 page</a>
- for a description of all the new features and fixes.    
+      	plugins, YUI compressor... Check the <a href="./docs/changes_20.html">what's new in 2.0 page</a> for a description of all the new features and fixes.    
       	</li>
 </ul>
 </div>
@@ -445,8 +510,8 @@ Other than that, mostly internal changes and bugfixes. The internal changes incl
 
   
   
-  &nbsp;| Last Published: 05/31/2009
-  &nbsp;| Version: 2.8
+  &nbsp;| Last Published: 08/02/2009
+  &nbsp;| Version: 3.0
 </div>
       <div class="clear">
         <hr/>
