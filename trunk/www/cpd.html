@@ -98,6 +98,22 @@
     <li class="none">
               <a href="docs/messages_gen.html">i18n message generator</a>
         </li>
+              
+    <li class="none">
+              <a href="docs/jmx_support_gen.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/bundle_preprocessing_gen.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/jawr_maven_plugin_gen.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/jawr_ant_task_gen.html">Jawr Ant task</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -225,41 +241,299 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section"><h2>CPD Results</h2>
-<p>The following document contains the results of PMD's  <a href="http://pmd.sourceforge.net/cpd.html" class="externalLink">CPD</a>
- 4.2.2.</p>
+<p>The following document contains the results of PMD's  <a href="http://pmd.sourceforge.net/cpd.html" class="externalLink">CPD</a> 4.2.2.</p>
 </div>
 <div class="section"><h2>Duplications</h2>
 <p><table class="bodyTable"><tr class="a"><th>File</th>
 <th>Line</th>
 </tr>
-<tr class="b"><td>net/jawr/web/servlet/JawrGrailsServlet.java</td>
-<td><a href="./xref/net/jawr/web/servlet/JawrGrailsServlet.html#67">67</a>
-</td>
+<tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#718">718</a></td>
 </tr>
-<tr class="a"><td>net/jawr/web/servlet/JawrServlet.java</td>
-<td><a href="./xref/net/jawr/web/servlet/JawrServlet.html#56">56</a>
-</td>
+<tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1132">1132</a></td>
 </tr>
-<tr class="b"><td colspan='2'><div class="source"><pre>				requestHandler = new JawrRequestHandler(getServletContext(),getServletConfig());
-			}
-		}catch (ServletException e) {
-			log.fatal(&quot;Jawr servlet with name&quot; +  getServletConfig().getServletName() +&quot; failed to initialize properly. &quot;);
-			log.fatal(&quot;Cause:&quot;);
-			log.fatal(e.getMessage(),e);
-			throw e;
-		}catch (RuntimeException e) {
-			log.fatal(&quot;Jawr servlet with name&quot; +  getServletConfig().getServletName() +&quot; failed to initialize properly. &quot;);
-			log.fatal(&quot;Cause: &quot;);
-			log.fatal(e.getMessage(),e);
-			throw new ServletException(e);
-		}
-	}
+<tr class="b"><td colspan='2'><div class="source"><pre>            setOndblclick(string);
+        }
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+        if ((string =
+                EvalHelper.evalString(&quot;onkeydown&quot;, getOnkeydownExpr(), this,
+                    pageContext)) != null) {
+            setOnkeydown(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onkeypress&quot;, getOnkeypressExpr(), this,
+                    pageContext)) != null) {
+            setOnkeypress(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onkeyup&quot;, getOnkeyupExpr(), this,
+                    pageContext)) != null) {
+            setOnkeyup(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmousedown&quot;, getOnmousedownExpr(),
+                    this, pageContext)) != null) {
+            setOnmousedown(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmousemove&quot;, getOnmousemoveExpr(),
+                    this, pageContext)) != null) {
+            setOnmousemove(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmouseout&quot;, getOnmouseoutExpr(), this,
+                    pageContext)) != null) {
+            setOnmouseout(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmouseover&quot;, getOnmouseoverExpr(),
+                    this, pageContext)) != null) {
+            setOnmouseover(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmouseup&quot;, getOnmouseupExpr(), this,
+                    pageContext)) != null) {
+            setOnmouseup(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;src&quot;, getSrcExpr(), this, pageContext)) != null) {
+            setSrc(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;style&quot;, getStyleExpr(), this, pageContext)) != null) {
+            setStyle(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;styleClass&quot;, getStyleClassExpr(), this,
+                    pageContext)) != null) {
+            setStyleClass(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;styleId&quot;, getStyleIdExpr(), this,
+                    pageContext)) != null) {
+            setStyleId(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;title&quot;, getTitleExpr(), this, pageContext)) != null) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#652">652</a></td>
+</tr>
+<tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1065">1065</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>        String string = null;
+
+        if ((string =
+                EvalHelper.evalString(&quot;align&quot;, getAlignExpr(), this, pageContext)) != null) {
+            setAlign(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;alt&quot;, getAltExpr(), this, pageContext)) != null) {
+            setAlt(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;border&quot;, getBorderExpr(), this,
+                    pageContext)) != null) {
+            setBorder(string);
+        }
+
+        if ((string =
+        		EvalHelper.evalString(&quot;dir&quot;, getDirExpr(), this,
+        			pageContext)) != null) {
+        	setDir(string);
+        }
+        
+        if ((string =</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#477">477</a></td>
+</tr>
+<tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#777">777</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>    }
+
+    /**
+     * Setter method for &quot;onkeydown&quot; tag attribute. (Mapping set in associated
+     * BeanInfo class.)
+     */
+    public void setOnkeydownExpr(String onkeydownExpr) {
+        this.onkeydownExpr = onkeydownExpr;
+    }
+
+    /**
+     * Setter method for &quot;onkeypress&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnkeypressExpr(String onkeypressExpr) {
+        this.onkeypressExpr = onkeypressExpr;
+    }
+
+    /**
+     * Setter method for &quot;onkeyup&quot; tag attribute. (Mapping set in associated
+     * BeanInfo class.)
+     */
+    public void setOnkeyupExpr(String onkeyupExpr) {
+        this.onkeyupExpr = onkeyupExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmousedown&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnmousedownExpr(String onmousedownExpr) {
+        this.onmousedownExpr = onmousedownExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmousemove&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnmousemoveExpr(String onmousemoveExpr) {
+        this.onmousemoveExpr = onmousemoveExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmouseout&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnmouseoutExpr(String onmouseoutExpr) {
+        this.onmouseoutExpr = onmouseoutExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmouseover&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnmouseoverExpr(String onmouseoverExpr) {
+        this.onmouseoverExpr = onmouseoverExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmouseup&quot; tag attribute. (Mapping set in associated
+     * BeanInfo class.)
+     */
+    public void setOnmouseupExpr(String onmouseupExpr) {
+        this.onmouseupExpr = onmouseupExpr;
+    }
+
+    /**
+     * Setter method for &quot;paramId&quot; tag attribute. (Mapping set in associated
+     * BeanInfo class.)
+     */
+    public void setParamIdExpr(String paramIdExpr) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java</td>
+<td><a href="./xref/net/jawr/web/resource/bundle/factory/util/ClassLoaderResourceUtils.html#98">98</a></td>
+</tr>
+<tr class="a"><td>net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java</td>
+<td><a href="./xref/net/jawr/web/resource/bundle/factory/util/ClassLoaderResourceUtils.html#162">162</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>			url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
+			
+			// Last chance, hack in the classloader
+			if(null == url) {
+				ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
+				try {
+					 Thread.currentThread().setContextClassLoader(source.getClass().getClassLoader());
+					 if(Thread.currentThread().getContextClassLoader() != null){
+						 url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
+					 }
+				}
+				finally {
+					 Thread.currentThread().setContextClassLoader(threadClassLoader);
+				}
+				
+			}
+			if(null == url){
+				throw new ResourceNotFoundException( resourcePath + &quot; could not be found. &quot;);</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>net\jawr\web\taglib\AbstractImageTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/AbstractImageTag.html#514">514</a></td>
+</tr>
+<tr class="a"><td>net\jawr\web\taglib\jsf\AbstractImageTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/jsf/AbstractImageTag.html#147">147</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>        prepareAttribute(handlers, &quot;onkeypress&quot;, getAttribute(&quot;onkeypress&quot;));
+    }
+
+    /**
+     * Prepares an attribute if the value is not null, appending it to the the
+     * given StringBuffer.
+     *
+     * @param handlers The StringBuffer that output will be appended to.
+     */
+    protected void prepareAttribute(StringBuffer handlers, String name,
+        Object value) {
+        if (value != null) {
+            handlers.append(&quot; &quot;);
+            handlers.append(name);
+            handlers.append(&quot;=\&quot;&quot;);
+            handlers.append(value);
+            handlers.append(&quot;\&quot;&quot;);
+        }
+    }
+    
+    /**
+     * Prepares an attribute if the value is not null, appending it to the the
+     * given StringBuffer.
+     *
+     * @param handlers The StringBuffer that output will be appended to.
+     */
+    protected void prepareAttribute(StringBuffer handlers, String name,
+        boolean value) {
+    
+    	handlers.append(&quot; &quot;);
+        handlers.append(name);
+        handlers.append(&quot;=\&quot;&quot;);
+        handlers.append(value);
+        handlers.append(&quot;\&quot;&quot;);
+    
+    }
+
+    /**
+	 * Prepare the image URL
+	 * @param context the faces context
+	 * @param results the result
+     * @throws IOException if an exception occurs
 	 */
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {</pre>
+	protected void prepareImageUrl(FacesContext context, StringBuffer results) throws IOException {</pre>
 </div>
 </td></tr>
 <table class="bodyTable"></p>
@@ -279,8 +553,8 @@
 
   
   
-  &nbsp;| Last Published: 05/31/2009
-  &nbsp;| Version: 2.8
+  &nbsp;| Last Published: 08/02/2009
+  &nbsp;| Version: 3.0
 </div>
       <div class="clear">
         <hr/>

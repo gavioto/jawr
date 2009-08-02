@@ -98,6 +98,22 @@
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
         </li>
+              
+    <li class="none">
+              <a href="../docs/jmx_support_gen.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/bundle_preprocessing_gen.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_maven_plugin_gen.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_ant_task_gen.html">Jawr Ant task</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -224,36 +240,28 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2><a name="top">Frequently Asked Questions - Howto</a>
-</h2>
-<p><b>Troubleshooting</b>
-</p>
+        <div class="section"><h2><a name="top">Frequently Asked Questions - Howto</a></h2>
+<p><b>Troubleshooting</b></p>
 <ol type="1"><li><a href="#jsp-crash">
         <strong>When I open a JSP it crashes with a <em>java.lang.IllegalStateException</em></strong>
-      </a>
-</li>
+      </a></li>
 <li><a href="#jsmin-crash">
         <strong>JSMin crashes on startup</strong>
-      </a>
-</li>
+      </a></li>
 <li><a href="#jsmin-crash">
         <strong>Can I use Jawr with a CDN?</strong>
-      </a>
-</li>
+      </a></li>
 </ol>
-<p><b>HOWTOs</b>
-</p>
+<p><b>HOWTOs</b></p>
 <ol type="1"><li><a href="#precompressed-libs">
         <strong>How do I use a precompressed library?</strong>
-      </a>
-</li>
+      </a></li>
 </ol>
 </div>
 <div class="section"><h2>Troubleshooting</h2>
 <dl><dt><a name="jsp-crash">
         <strong>When I open a JSP it crashes with a <em>java.lang.IllegalStateException</em></strong>
-      </a>
-</dt>
+      </a></dt>
 <dd>
         <p>
         Whenever there is some problem during the startup of Jawr, you will get an exception whe accessing a JSP that contains jawr tags. 
@@ -277,13 +285,11 @@ Initialization of Jawr either failed or never occurred.</pre>
         <p>
         Sometimes, the error will come from a failure in a minifier. See below for solutions for this problem. 
        </p>
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a>
-</td></tr></table><hr />
+      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr />
 </dd>
 <dt><a name="jsmin-crash">
         <strong>JSMin crashes on startup</strong>
-      </a>
-</dt>
+      </a></dt>
 <dd>
         <p>Ocasionally you might get an exception at startup with a trace similar to this:</p>
         
@@ -306,24 +312,20 @@ Initialization of Jawr either failed or never occurred.</pre>
         the <a href="../docs/postprocessors.html">postprocessors guide</a>. 
        </p>
 
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a>
-</td></tr></table><hr />
+      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr />
 </dd>
 <dt><a name="jsmin-crash">
         <strong>Can I use Jawr with a CDN?</strong>
-      </a>
-</dt>
+      </a></dt>
 <dd>
       Yes, you can. Use the <em>jawr.url.contextpath.override</em> config param to make all generated URLs point to the CDN address. 
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a>
-</td></tr></table></dd>
+      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table></dd>
 </dl>
 </div>
 <div class="section"><h2>HOWTOs</h2>
 <dl><dt><a name="precompressed-libs">
         <strong>How do I use a precompressed library?</strong>
-      </a>
-</dt>
+      </a></dt>
 <dd>
         <p>Chances are you that are using an open source javascript library (Protoype.js, YUI, Ext, Dojo...) And while Jawr includes its own compressing 
         features, often these libraries offer a super-compressed version which goes down to the bare minimum size possible, which Jawr can't match. 
@@ -357,8 +359,7 @@ jawr.js.bundle.compressedLibrary.bundlepostprocessors=none # This line avoids mi
 </div>
 
         
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a>
-</td></tr></table></dd>
+      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table></dd>
 </dl>
 </div>
 
@@ -376,8 +377,8 @@ jawr.js.bundle.compressedLibrary.bundlepostprocessors=none # This line avoids mi
 
   
   
-  &nbsp;| Last Published: 05/31/2009
-  &nbsp;| Version: 2.8
+  &nbsp;| Last Published: 08/02/2009
+  &nbsp;| Version: 3.0
 </div>
       <div class="clear">
         <hr/>

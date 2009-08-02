@@ -98,6 +98,22 @@
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
         </li>
+              
+    <li class="none">
+              <a href="../docs/jmx_support_gen.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/bundle_preprocessing_gen.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_maven_plugin_gen.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_ant_task_gen.html">Jawr Ant task</a>
+        </li>
           </ul></dd>
     </dl>
       <dl class=navgroup>
@@ -227,25 +243,19 @@
         <div class="section"><h2>Jawr plugin for Grails</h2>
 <p>For a Grails user, it is easy to instal Jawr and start using it. The steps to follow are to install the plugin, configure it with the same properties format used in the standard version, and add a couple of URL mapping statements. </p>
 <hr />
-<p><b>Warning:</b>
- If you are upgrading from a version prior to 2.51, be aware that Jawr now uses a servlet instead of a controller to serve its files. This has several advantages: it is faster, there is no need to fiddle with the grails.mime.file.extensions property, and no controller mappings need to be added. So if you are upgrading, you need to remove the controller mappings, reset the grails.mime.file.extensions property and then follow URL mapping instructions below. </p>
+<p><b>Warning:</b> If you are upgrading from a version prior to 2.51, be aware that Jawr now uses a servlet instead of a controller to serve its files. This has several advantages: it is faster, there is no need to fiddle with the grails.mime.file.extensions property, and no controller mappings need to be added. So if you are upgrading, you need to remove the controller mappings, reset the grails.mime.file.extensions property and then follow URL mapping instructions below. </p>
 <hr />
 <div class="section"><h3>Installing the plugin</h3>
 <p>Just execute following from your application directory:</p>
 <p>grails install-plugin Jawr</p>
-<p>If above method does not work for some reason you can download the plugin distribution from <a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8991" class="externalLink">this page</a>
- and install it with:</p>
+<p>If above method does not work for some reason you can download the plugin distribution from <a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8991" class="externalLink">this page</a> and install it with:</p>
 <p>grails install-plugin /path/to/downloaded/plugin.zip</p>
 </div>
 <div class="section"><h3>Configuration</h3>
-<p>To configure Jawr you must add properties to the Config.groovy file located at the /conf folder of your application. The syntax you must use is exactly the same described for the .properties file used in standard java web applications. Check the <a href="./descriptor_syntax.html">config file syntax page</a>
- for details. Of course, the property values must be quoted in order to avoid syntax errors. Keep in mind that there are a few property keys that don't apply when using Jawr with Grails. Those are: </p>
-<ul><li><b>jawr.config.reload.interval</b>
-: The Jawr servlet can be configured to listen to changes to the .properies file to reload it when it changes. In Grails, Jawr will instead listen to changes to the Config.groovy script to reload its configuration. This happens automatically when you start grails in development mode (but keep in mind that the changes are applied after you refresh a page in your browser). </li>
-<li><b>jawr.charset.name</b>
-: The value set for grails.views.gsp.encoding will be used for this attribute (which is 'utf-8' by default in Grails). </li>
-<li><b>jawr.locale.resolver</b>
-: Jawr will use Grails' Locale resolution strategy when it applies. </li>
+<p>To configure Jawr you must add properties to the Config.groovy file located at the /conf folder of your application. The syntax you must use is exactly the same described for the .properties file used in standard java web applications. Check the <a href="./descriptor_syntax.html">config file syntax page</a> for details. Of course, the property values must be quoted in order to avoid syntax errors. Keep in mind that there are a few property keys that don't apply when using Jawr with Grails. Those are: </p>
+<ul><li><b>jawr.config.reload.interval</b>: The Jawr servlet can be configured to listen to changes to the .properies file to reload it when it changes. In Grails, Jawr will instead listen to changes to the Config.groovy script to reload its configuration. This happens automatically when you start grails in development mode (but keep in mind that the changes are applied after you refresh a page in your browser). </li>
+<li><b>jawr.charset.name</b>: The value set for grails.views.gsp.encoding will be used for this attribute (which is 'utf-8' by default in Grails). </li>
+<li><b>jawr.locale.resolver</b>: Jawr will use Grails' Locale resolution strategy when it applies. </li>
 </ul>
 <p>Using this syntax, you will be able to define bundles as specified in the relevant documentation pages. Note that you are not forced to use Jawr for both js and css files. If you add none of the jawr.css.* parameters, for instance, Jawr will do no effort to serve CSS files. </p>
 <p>Jawr uses log4j to log messages, so you can configure its tracing level along with the rest of your application. All jawr packages start with net.jawr.*, so you can use that as a key for an appender. </p>
@@ -255,18 +265,16 @@
 </ul>
 </li>
 <li>You can define a URL fragment as a prefix (such as '/jawr/') to prefix every URL. Jawr will only serve requests containing this prefix. To use this you must add two special parameters to your Config.groovy file, to specify the prefixes for js and css: <div class="source"><pre>jawr.js.mapping = '/script/' // The value can be anything you want for the prefix
-jawr.css.mapping = '/style/'</pre>
+jawr.css.mapping = '/style/'</pre>
 </div>
-<p>Note that the value for these properties <b>must</b>
- be a url-mapping string without the wildcard (i.e. with no asterisk). </p>
+<p>Note that the value for these properties <b>must</b> be a url-mapping string without the wildcard (i.e. with no asterisk). </p>
 <p>With either method, once you have filled out the properties, you will be ready to start adding Jawr tags to your pages. </p>
 </li>
 </ul>
 </div>
 </div>
 <div class="section"><h3>Using the tag library</h3>
-<p>The tag library for grails works exactly the same as the JSP version, so you will find all the details in the <a href="./taglibs.html">JSP taglib documentation page</a>
-. </p>
+<p>The tag library for grails works exactly the same as the JSP version, so you will find all the details in the <a href="./taglibs.html">JSP taglib documentation page</a>. </p>
 <p>The only difference is that in GSP pages there is no need to import the tags at all. Also, keep in mind that the namespace for the Jawr taglib is 'jawr:'. </p>
 <p>This is how you would use the tags in a typical page: </p>
 <div class="source"><pre>&lt;html&gt;
@@ -278,7 +286,7 @@ jawr.css.mapping = '/style/'</pre>
         ...
  &lt;/body&gt;
 &lt;/html&gt;
-</pre>
+</pre>
 </div>
 </div>
 </div>
@@ -297,8 +305,8 @@ jawr.css.mapping = '/style/'</pre>
 
   
   
-  &nbsp;| Last Published: 05/31/2009
-  &nbsp;| Version: 2.8
+  &nbsp;| Last Published: 08/02/2009
+  &nbsp;| Version: 3.0
 </div>
       <div class="clear">
         <hr/>

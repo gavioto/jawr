@@ -55,8 +55,8 @@
 <a name="46" href="#46">46</a>  <em>	 * @param tempDirRoot Directory to store temporary files</em>
 <a name="47" href="#47">47</a>  <em>	 * @param charset Charset to use for reading/writing the files. </em>
 <a name="48" href="#48">48</a>  <em>	 */</em>
-<a name="49" href="#49">49</a>  	<strong>public</strong> <a href="../../../../net/jawr/web/resource/FileSystemResourceHandler.html">FileSystemResourceHandler</a>(String baseDir, File tempDirRoot,Charset charset,GeneratorRegistry generatorRegistry) {
-<a name="50" href="#50">50</a>  		<strong>super</strong>(tempDirRoot, charset,generatorRegistry);
+<a name="49" href="#49">49</a>  	<strong>public</strong> <a href="../../../../net/jawr/web/resource/FileSystemResourceHandler.html">FileSystemResourceHandler</a>(String baseDir, File tempDirRoot,Charset charset,GeneratorRegistry generatorRegistry, String resourceType) {
+<a name="50" href="#50">50</a>  		<strong>super</strong>(tempDirRoot, charset,generatorRegistry, resourceType);
 <a name="51" href="#51">51</a>  		<strong>this</strong>.baseDir = baseDir.replace('/', File.separatorChar);
 <a name="52" href="#52">52</a>          <strong>this</strong>.baseDir = <strong>this</strong>.baseDir.replaceAll(<span class="string">"%20"</span>, <span class="string">" "</span>);
 <a name="53" href="#53">53</a>  	}
@@ -64,14 +64,14 @@
 <a name="55" href="#55">55</a>  	<em class="comment">/*<em class="comment"> (non-Javadoc)</em></em>
 <a name="56" href="#56">56</a>  <em class="comment">	 * @see net.jawr.web.resource.ResourceHandler#getResourceInputStream(java.lang.String)</em>
 <a name="57" href="#57">57</a>  <em class="comment">	 */</em>
-<a name="58" href="#58">58</a>  	<strong>public</strong> InputStream getResourceAsStream(String resourceName) throws ResourceNotFoundException {
+<a name="58" href="#58">58</a>  	<strong>public</strong> InputStream doGetResourceAsStream(String resourceName) {
 <a name="59" href="#59">59</a>  		
 <a name="60" href="#60">60</a>  		InputStream is = <strong>null</strong>;
 <a name="61" href="#61">61</a>  		<strong>try</strong> {
 <a name="62" href="#62">62</a>  			File resource = <strong>new</strong> File(baseDir, resourceName);
 <a name="63" href="#63">63</a>  			is = <strong>new</strong> FileInputStream( resource );
 <a name="64" href="#64">64</a>  		} <strong>catch</strong> (FileNotFoundException e) {
-<a name="65" href="#65">65</a>  			<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a>(baseDir +  resourceName);
+<a name="65" href="#65">65</a>  			<em class="comment">// Nothing to do</em>
 <a name="66" href="#66">66</a>  		}
 <a name="67" href="#67">67</a>  		
 <a name="68" href="#68">68</a>  		<strong>return</strong> is; 
