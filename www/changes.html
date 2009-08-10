@@ -241,7 +241,26 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section"><h2><a name="Announcementes_and_change_log"></a>Announcementes and change log</h2>
-<ul><li><strong>08/03/2009</strong>: Version 3.0 released:<br />
+<ul><li><strong>08/10/2009</strong>: Version 3.1 released:<br />
+
+	      	This version contains mainly bug fixes.<br />
+<br />
+<strong>New features/ fixed issues: </strong><ul><li>
+	      		 	A new tag have been added to the tag library to generate the URL to an image which is handled by Jawr. Look for the image tags at the <a href="./docs/taglibs.html">tag library doc</a> for extra info.
+	      		 </li>
+<li><strong>Issue #74 fixed:</strong> NoSuchElementException when bundle has no file. The issue occured when a bundle was defined with no mapping.      
+	      		 </li>
+<li><strong>Issue #75 fixed:</strong> NullPointerException when using JawrImgServlet and image does not exist.
+	      		 </li>
+<li><strong>Issue #79 fixed:</strong> NullPointerException while requesting a CSS in debug mode if no Jawr image servlet was defined.
+	      		 </li>
+<li><strong>Issue #88 fixed:</strong> Incorrect logging of &quot;The jawr bundle mapping 'jawr-img-mapping.properties' is not found&quot;
+	      		 </li>
+ 
+	      		 We would like to thank sfrancois99, qxo and nordicdevil for reporting issues and providing patches when possible. 
+      	  	</ul>
+</li>
+<li><strong>08/03/2009</strong>: Version 3.0 released:<br />
 <strong>New features/ fixed issues: </strong><ul><li>
 	      		 	Jawr is now able to handle images. This means that all images managed by Jawr will be cached in the browser as the other Javascript and CSS resources.
 	      		 	By default all CSS images will be handled by Jawr if the Jawr image servlet is defined. 
@@ -510,8 +529,8 @@ Other than that, mostly internal changes and bugfixes. The internal changes incl
 
   
   
-  &nbsp;| Last Published: 08/02/2009
-  &nbsp;| Version: 3.0
+  &nbsp;| Last Published: 08/10/2009
+  &nbsp;| Version: 3.1
 </div>
       <div class="clear">
         <hr/>

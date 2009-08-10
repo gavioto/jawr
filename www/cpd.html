@@ -248,10 +248,10 @@
 <th>Line</th>
 </tr>
 <tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#718">718</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#721">721</a></td>
 </tr>
 <tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1132">1132</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1135">1135</a></td>
 </tr>
 <tr class="b"><td colspan='2'><div class="source"><pre>            setOndblclick(string);
         }
@@ -335,10 +335,10 @@
 <th>Line</th>
 </tr>
 <tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#652">652</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#655">655</a></td>
 </tr>
 <tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1065">1065</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1068">1068</a></td>
 </tr>
 <tr class="b"><td colspan='2'><div class="source"><pre>        String string = null;
 
@@ -372,10 +372,10 @@
 <th>Line</th>
 </tr>
 <tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#477">477</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#480">480</a></td>
 </tr>
 <tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#777">777</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#780">780</a></td>
 </tr>
 <tr class="b"><td colspan='2'><div class="source"><pre>    }
 
@@ -485,55 +485,54 @@
 <th>Line</th>
 </tr>
 <tr class="b"><td>net\jawr\web\taglib\AbstractImageTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/AbstractImageTag.html#514">514</a></td>
+<td><a href="./xref/net/jawr/web/taglib/AbstractImageTag.html#487">487</a></td>
 </tr>
-<tr class="a"><td>net\jawr\web\taglib\jsf\AbstractImageTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/jsf/AbstractImageTag.html#147">147</a></td>
+<tr class="a"><td>net\jawr\web\taglib\jsf\AbstractHtmlImageTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/jsf/AbstractHtmlImageTag.html#115">115</a></td>
 </tr>
-<tr class="b"><td colspan='2'><div class="source"><pre>        prepareAttribute(handlers, &quot;onkeypress&quot;, getAttribute(&quot;onkeypress&quot;));
-    }
+<tr class="b"><td colspan='2'><div class="source"><pre>		prepareAttribute(handlers, &quot;onkeypress&quot;, getAttribute(&quot;onkeypress&quot;));
+	}
 
-    /**
-     * Prepares an attribute if the value is not null, appending it to the the
-     * given StringBuffer.
-     *
-     * @param handlers The StringBuffer that output will be appended to.
-     */
-    protected void prepareAttribute(StringBuffer handlers, String name,
-        Object value) {
-        if (value != null) {
-            handlers.append(&quot; &quot;);
-            handlers.append(name);
-            handlers.append(&quot;=\&quot;&quot;);
-            handlers.append(value);
-            handlers.append(&quot;\&quot;&quot;);
-        }
-    }
-    
-    /**
-     * Prepares an attribute if the value is not null, appending it to the the
-     * given StringBuffer.
-     *
-     * @param handlers The StringBuffer that output will be appended to.
-     */
-    protected void prepareAttribute(StringBuffer handlers, String name,
-        boolean value) {
-    
-    	handlers.append(&quot; &quot;);
-        handlers.append(name);
-        handlers.append(&quot;=\&quot;&quot;);
-        handlers.append(value);
-        handlers.append(&quot;\&quot;&quot;);
-    
-    }
+	/**
+	 * Prepares an attribute if the value is not null, appending it to the the given StringBuffer.
+	 * 
+	 * @param handlers The StringBuffer that output will be appended to.
+	 */
+	protected void prepareAttribute(StringBuffer handlers, String name,
+			Object value) {
+		if (value != null) {
+			handlers.append(&quot; &quot;);
+			handlers.append(name);
+			handlers.append(&quot;=\&quot;&quot;);
+			handlers.append(value);
+			handlers.append(&quot;\&quot;&quot;);
+		}
+	}
 
-    /**
+	/**
+	 * Prepares an attribute if the value is not null, appending it to the the given StringBuffer.
+	 * 
+	 * @param handlers The StringBuffer that output will be appended to.
+	 */
+	protected void prepareAttribute(StringBuffer handlers, String name,
+			boolean value) {
+
+		handlers.append(&quot; &quot;);
+		handlers.append(name);
+		handlers.append(&quot;=\&quot;&quot;);
+		handlers.append(value);
+		handlers.append(&quot;\&quot;&quot;);
+
+	}
+
+	/**
 	 * Prepare the image URL
+	 * 
 	 * @param context the faces context
 	 * @param results the result
-     * @throws IOException if an exception occurs
+	 * @throws IOException if an exception occurs
 	 */
-	protected void prepareImageUrl(FacesContext context, StringBuffer results) throws IOException {</pre>
+	protected void prepareImageUrl(FacesContext context, StringBuffer results)</pre>
 </div>
 </td></tr>
 <table class="bodyTable"></p>
@@ -553,8 +552,8 @@
 
   
   
-  &nbsp;| Last Published: 08/02/2009
-  &nbsp;| Version: 3.0
+  &nbsp;| Last Published: 08/10/2009
+  &nbsp;| Version: 3.1
 </div>
       <div class="clear">
         <hr/>
