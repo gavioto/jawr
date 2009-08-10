@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
 <duplication lines="75" tokens="361">
-<file line="718" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="1132" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<file line="721" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="1135" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
             setOndblclick(string);
@@ -84,8 +84,8 @@
 </codefragment>
 </duplication>
 <duplication lines="25" tokens="121">
-<file line="652" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="1065" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<file line="655" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="1068" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
         String string = null;
@@ -117,8 +117,8 @@
 </codefragment>
 </duplication>
 <duplication lines="71" tokens="115">
-<file line="477" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="777" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<file line="480" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="780" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
     }
@@ -196,8 +196,8 @@
 </codefragment>
 </duplication>
 <duplication lines="18" tokens="111">
-<file line="98" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java"/>
-<file line="162" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java"/>
+<file line="98" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java"/>
+<file line="162" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java"/>
 <codefragment>
 <![CDATA[
 			url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
@@ -221,55 +221,54 @@
 ]]>
 </codefragment>
 </duplication>
-<duplication lines="44" tokens="105">
-<file line="514" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\taglib\AbstractImageTag.java"/>
-<file line="147" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.0-release\src\main\java\net\jawr\web\taglib\jsf\AbstractImageTag.java"/>
+<duplication lines="43" tokens="105">
+<file line="487" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\AbstractImageTag.java"/>
+<file line="115" path="E:\Prog\eclipseData\workspace3.3\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\jsf\AbstractHtmlImageTag.java"/>
 <codefragment>
 <![CDATA[
-        prepareAttribute(handlers, "onkeypress", getAttribute("onkeypress"));
-    }
+		prepareAttribute(handlers, "onkeypress", getAttribute("onkeypress"));
+	}
 
-    /**
-     * Prepares an attribute if the value is not null, appending it to the the
-     * given StringBuffer.
-     *
-     * @param handlers The StringBuffer that output will be appended to.
-     */
-    protected void prepareAttribute(StringBuffer handlers, String name,
-        Object value) {
-        if (value != null) {
-            handlers.append(" ");
-            handlers.append(name);
-            handlers.append("=\"");
-            handlers.append(value);
-            handlers.append("\"");
-        }
-    }
-    
-    /**
-     * Prepares an attribute if the value is not null, appending it to the the
-     * given StringBuffer.
-     *
-     * @param handlers The StringBuffer that output will be appended to.
-     */
-    protected void prepareAttribute(StringBuffer handlers, String name,
-        boolean value) {
-    
-    	handlers.append(" ");
-        handlers.append(name);
-        handlers.append("=\"");
-        handlers.append(value);
-        handlers.append("\"");
-    
-    }
+	/**
+	 * Prepares an attribute if the value is not null, appending it to the the given StringBuffer.
+	 * 
+	 * @param handlers The StringBuffer that output will be appended to.
+	 */
+	protected void prepareAttribute(StringBuffer handlers, String name,
+			Object value) {
+		if (value != null) {
+			handlers.append(" ");
+			handlers.append(name);
+			handlers.append("=\"");
+			handlers.append(value);
+			handlers.append("\"");
+		}
+	}
 
-    /**
+	/**
+	 * Prepares an attribute if the value is not null, appending it to the the given StringBuffer.
+	 * 
+	 * @param handlers The StringBuffer that output will be appended to.
+	 */
+	protected void prepareAttribute(StringBuffer handlers, String name,
+			boolean value) {
+
+		handlers.append(" ");
+		handlers.append(name);
+		handlers.append("=\"");
+		handlers.append(value);
+		handlers.append("\"");
+
+	}
+
+	/**
 	 * Prepare the image URL
+	 * 
 	 * @param context the faces context
 	 * @param results the result
-     * @throws IOException if an exception occurs
+	 * @throws IOException if an exception occurs
 	 */
-	protected void prepareImageUrl(FacesContext context, StringBuffer results) throws IOException {
+	protected void prepareImageUrl(FacesContext context, StringBuffer results)
 ]]>
 </codefragment>
 </duplication>

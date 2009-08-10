@@ -154,116 +154,117 @@
 <a name="145" href="#145">145</a> 		<strong>while</strong> (it.hasNext()) {
 <a name="146" href="#146">146</a> 			String resourceName = it.nextPath();
 <a name="147" href="#147">147</a> 
-<a name="148" href="#148">148</a> 			
-<a name="149" href="#149">149</a> 			<em class="comment">// In debug mode, all the resources are included separately and use a random parameter to avoid caching.</em>
-<a name="150" href="#150">150</a> 			<em class="comment">// If useRandomParam is set to false, the links are created without the random parameter.</em>
-<a name="151" href="#151">151</a> 			<strong>if</strong> (debugOn &amp;&amp; useRandomParam &amp;&amp; !bundler.getConfig().getGeneratorRegistry().isPathGenerated(resourceName)) {
-<a name="152" href="#152">152</a> 				<strong>int</strong> random = <strong>new</strong> Random().nextInt();
-<a name="153" href="#153">153</a> 				<strong>if</strong> (random &lt; 0)
-<a name="154" href="#154">154</a> 					random *= -1;
-<a name="155" href="#155">155</a> 				out.write(createBundleLink(resourceName + <span class="string">"?d="</span> + random, contextPath, isSslRequest));
-<a name="156" href="#156">156</a> 			} <strong>else</strong> <strong>if</strong> (!debugOn &amp;&amp; useGzip)
-<a name="157" href="#157">157</a> 				out.write(createGzipBundleLink(resourceName, contextPath, isSslRequest));
-<a name="158" href="#158">158</a> 			<strong>else</strong>
-<a name="159" href="#159">159</a> 				out.write(createBundleLink(resourceName, contextPath, isSslRequest));
-<a name="160" href="#160">160</a> 				
-<a name="161" href="#161">161</a> 			<strong>if</strong> (!includedBundles.add(resourceName) &amp;&amp; debugOn) {
-<a name="162" href="#162">162</a> 				addComment(<span class="string">"The resource '"</span> + resourceName + <span class="string">"' is already included in the page."</span>, out);
-<a name="163" href="#163">163</a> 			}
-<a name="164" href="#164">164</a> 		}
-<a name="165" href="#165">165</a> 	}
-<a name="166" href="#166">166</a> 
-<a name="167" href="#167">167</a> 	<em>/**<em>*</em></em>
-<a name="168" href="#168">168</a> <em>	 * Adds an HTML comment to the output stream.</em>
-<a name="169" href="#169">169</a> <em>	 * </em>
-<a name="170" href="#170">170</a> <em>	 * @param commentText the comment</em>
-<a name="171" href="#171">171</a> <em>	 * @param out Writer</em>
-<a name="172" href="#172">172</a> <em>	 * @throws IOException if an IO exception occurs</em>
-<a name="173" href="#173">173</a> <em>	 */</em>
-<a name="174" href="#174">174</a> 	<strong>protected</strong> <strong>final</strong> <strong>void</strong> addComment(String commentText, Writer out) throws IOException {
-<a name="175" href="#175">175</a> 		StringBuffer sb = <strong>new</strong> StringBuffer(<span class="string">"&lt;script type=\&quot;text/javascript\&quot;>/* "</span>);
-<a name="176" href="#176">176</a> 		sb.append(commentText).append(<span class="string">" */&lt;/script>"</span>).append(<span class="string">"\n"</span>);
-<a name="177" href="#177">177</a> 		out.write(sb.toString());
-<a name="178" href="#178">178</a> 	}
-<a name="179" href="#179">179</a> 
-<a name="180" href="#180">180</a> 	<em>/**<em>*</em></em>
-<a name="181" href="#181">181</a> <em>	 * Creates a link to a bundle in the page, prepending the gzip prefix to its identifier.</em>
-<a name="182" href="#182">182</a> <em>	 * </em>
-<a name="183" href="#183">183</a> <em>	 * @param resourceName the resource name</em>
-<a name="184" href="#184">184</a> <em>	 * @param contextPath the context path</em>
-<a name="185" href="#185">185</a> <em>	 * @return the link to the gzip bundle in the page</em>
-<a name="186" href="#186">186</a> <em>	 */</em>
-<a name="187" href="#187">187</a> 	<strong>protected</strong> String createGzipBundleLink(String resourceName, String contextPath, <strong>boolean</strong> isSslRequest) {
-<a name="188" href="#188">188</a> 		<em class="comment">// remove '/' from start of name</em>
-<a name="189" href="#189">189</a> 		resourceName = resourceName.substring(1, resourceName.length());
-<a name="190" href="#190">190</a> 		<strong>return</strong> createBundleLink(BundleRenderer.GZIP_PATH_PREFIX + resourceName, contextPath, isSslRequest);
-<a name="191" href="#191">191</a> 	}
-<a name="192" href="#192">192</a> 
-<a name="193" href="#193">193</a> 	<em>/**<em>*</em></em>
-<a name="194" href="#194">194</a> <em>	 * Creates a link to a bundle in the page.</em>
-<a name="195" href="#195">195</a> <em>	 * </em>
-<a name="196" href="#196">196</a> <em>	 * @param bundleId the bundle ID</em>
-<a name="197" href="#197">197</a> <em>	 * @param contextPath the context path</em>
-<a name="198" href="#198">198</a> <em>	 * @return the link to a bundle in the page</em>
-<a name="199" href="#199">199</a> <em>	 */</em>
-<a name="200" href="#200">200</a> 	<strong>protected</strong> String createBundleLink(String bundleId, String contextPath, <strong>boolean</strong> isSslRequest) {
-<a name="201" href="#201">201</a> 
-<a name="202" href="#202">202</a> 		<em class="comment">// When debug mode is on and the resource is generated the path must include a parameter</em>
-<a name="203" href="#203">203</a> 		<strong>if</strong> (bundler.getConfig().isDebugModeOn() &amp;&amp; bundler.getConfig().getGeneratorRegistry().isPathGenerated(bundleId)) {
-<a name="204" href="#204">204</a> 			bundleId = PathNormalizer.createGenerationPath(bundleId, bundler.getConfig().getGeneratorRegistry());
-<a name="205" href="#205">205</a> 		}
-<a name="206" href="#206">206</a> 		String fullPath = PathNormalizer.joinPaths(bundler.getConfig().getServletMapping(), bundleId);
-<a name="207" href="#207">207</a> 
-<a name="208" href="#208">208</a> 		String contextPathOverride = getContextPathOverride(isSslRequest);
-<a name="209" href="#209">209</a> 		<em class="comment">// If the contextPathOverride is not null and we are in production mode,</em>
-<a name="210" href="#210">210</a> 		<em class="comment">// or if we are in debug mode but we should use the contextPathOverride even in debug mode</em>
-<a name="211" href="#211">211</a> 		<em class="comment">// then use the contextPathOverride</em>
-<a name="212" href="#212">212</a> 		<strong>if</strong>(contextPathOverride != <strong>null</strong> &amp;&amp; 
-<a name="213" href="#213">213</a> 				((bundler.getConfig().isDebugModeOn() &amp;&amp; bundler.getConfig().isUseContextPathOverrideInDebugMode()) ||
-<a name="214" href="#214">214</a> 				!bundler.getConfig().isDebugModeOn())) {
-<a name="215" href="#215">215</a> 			
-<a name="216" href="#216">216</a> 				String override = contextPathOverride;
-<a name="217" href="#217">217</a> 				<em class="comment">// Blank override, create url relative to path</em>
-<a name="218" href="#218">218</a> 				<strong>if</strong> (<span class="string">""</span>.equals(override)) {
-<a name="219" href="#219">219</a> 					fullPath = fullPath.substring(1);
-<a name="220" href="#220">220</a> 				} <strong>else</strong>
-<a name="221" href="#221">221</a> 					fullPath = PathNormalizer.joinPaths(override, fullPath);
-<a name="222" href="#222">222</a> 		} <strong>else</strong>
-<a name="223" href="#223">223</a> 			fullPath = PathNormalizer.joinPaths(contextPath, fullPath);
-<a name="224" href="#224">224</a> 
-<a name="225" href="#225">225</a> 		<em class="comment">// allow debugOverride to pass through on the generated urls</em>
-<a name="226" href="#226">226</a> 		<strong>if</strong> (ThreadLocalJawrContext.isDebugOverriden()) {
-<a name="227" href="#227">227</a> 			fullPath = PathNormalizer.addGetParameter(fullPath, <span class="string">"overrideKey"</span>, bundler.getConfig().getDebugOverrideKey());
-<a name="228" href="#228">228</a> 		}
-<a name="229" href="#229">229</a> 
-<a name="230" href="#230">230</a> 		<strong>return</strong> renderLink(fullPath);
-<a name="231" href="#231">231</a> 	}
-<a name="232" href="#232">232</a> 
-<a name="233" href="#233">233</a> 	<em>/**<em>*</em></em>
-<a name="234" href="#234">234</a> <em>	 * Returns the context path depending on the request mode (SSL or not)</em>
-<a name="235" href="#235">235</a> <em>	 * </em>
-<a name="236" href="#236">236</a> <em>	 * @param isSslRequest teh flag indicating that the request is an SSL request</em>
-<a name="237" href="#237">237</a> <em>	 * @return the context path depending on the request mode</em>
-<a name="238" href="#238">238</a> <em>	 */</em>
-<a name="239" href="#239">239</a> 	<strong>private</strong> String getContextPathOverride(<strong>boolean</strong> isSslRequest) {
-<a name="240" href="#240">240</a> 		String contextPathOverride = <strong>null</strong>;
-<a name="241" href="#241">241</a> 		<strong>if</strong> (isSslRequest) {
-<a name="242" href="#242">242</a> 			contextPathOverride = bundler.getConfig().getContextPathSslOverride();
-<a name="243" href="#243">243</a> 		} <strong>else</strong> {
-<a name="244" href="#244">244</a> 			contextPathOverride = bundler.getConfig().getContextPathOverride();
-<a name="245" href="#245">245</a> 		}
-<a name="246" href="#246">246</a> 		<strong>return</strong> contextPathOverride;
-<a name="247" href="#247">247</a> 	}
-<a name="248" href="#248">248</a> 
-<a name="249" href="#249">249</a> 	<em>/**<em>*</em></em>
-<a name="250" href="#250">250</a> <em>	 * Creates a link to a bundle in the page, using its identifier.</em>
-<a name="251" href="#251">251</a> <em>	 * </em>
-<a name="252" href="#252">252</a> <em>	 * @param fullPath the full path</em>
-<a name="253" href="#253">253</a> <em>	 * @return a link to a bundle in the page</em>
-<a name="254" href="#254">254</a> <em>	 */</em>
-<a name="255" href="#255">255</a> 	<strong>protected</strong> <strong>abstract</strong> String renderLink(String fullPath);
-<a name="256" href="#256">256</a> 
-<a name="257" href="#257">257</a> }
+<a name="148" href="#148">148</a> 			<strong>if</strong>( resourceName != <strong>null</strong>){
+<a name="149" href="#149">149</a> 				<em class="comment">// In debug mode, all the resources are included separately and use a random parameter to avoid caching.</em>
+<a name="150" href="#150">150</a> 				<em class="comment">// If useRandomParam is set to false, the links are created without the random parameter.</em>
+<a name="151" href="#151">151</a> 				<strong>if</strong> (debugOn &amp;&amp; useRandomParam &amp;&amp; !bundler.getConfig().getGeneratorRegistry().isPathGenerated(resourceName)) {
+<a name="152" href="#152">152</a> 					<strong>int</strong> random = <strong>new</strong> Random().nextInt();
+<a name="153" href="#153">153</a> 					<strong>if</strong> (random &lt; 0)
+<a name="154" href="#154">154</a> 						random *= -1;
+<a name="155" href="#155">155</a> 					out.write(createBundleLink(resourceName + <span class="string">"?d="</span> + random, contextPath, isSslRequest));
+<a name="156" href="#156">156</a> 				} <strong>else</strong> <strong>if</strong> (!debugOn &amp;&amp; useGzip)
+<a name="157" href="#157">157</a> 					out.write(createGzipBundleLink(resourceName, contextPath, isSslRequest));
+<a name="158" href="#158">158</a> 				<strong>else</strong>
+<a name="159" href="#159">159</a> 					out.write(createBundleLink(resourceName, contextPath, isSslRequest));
+<a name="160" href="#160">160</a> 					
+<a name="161" href="#161">161</a> 				<strong>if</strong> (!includedBundles.add(resourceName) &amp;&amp; debugOn) {
+<a name="162" href="#162">162</a> 					addComment(<span class="string">"The resource '"</span> + resourceName + <span class="string">"' is already included in the page."</span>, out);
+<a name="163" href="#163">163</a> 				}
+<a name="164" href="#164">164</a> 			}
+<a name="165" href="#165">165</a> 		}
+<a name="166" href="#166">166</a> 	}
+<a name="167" href="#167">167</a> 
+<a name="168" href="#168">168</a> 	<em>/**<em>*</em></em>
+<a name="169" href="#169">169</a> <em>	 * Adds an HTML comment to the output stream.</em>
+<a name="170" href="#170">170</a> <em>	 * </em>
+<a name="171" href="#171">171</a> <em>	 * @param commentText the comment</em>
+<a name="172" href="#172">172</a> <em>	 * @param out Writer</em>
+<a name="173" href="#173">173</a> <em>	 * @throws IOException if an IO exception occurs</em>
+<a name="174" href="#174">174</a> <em>	 */</em>
+<a name="175" href="#175">175</a> 	<strong>protected</strong> <strong>final</strong> <strong>void</strong> addComment(String commentText, Writer out) throws IOException {
+<a name="176" href="#176">176</a> 		StringBuffer sb = <strong>new</strong> StringBuffer(<span class="string">"&lt;script type=\&quot;text/javascript\&quot;>/* "</span>);
+<a name="177" href="#177">177</a> 		sb.append(commentText).append(<span class="string">" */&lt;/script>"</span>).append(<span class="string">"\n"</span>);
+<a name="178" href="#178">178</a> 		out.write(sb.toString());
+<a name="179" href="#179">179</a> 	}
+<a name="180" href="#180">180</a> 
+<a name="181" href="#181">181</a> 	<em>/**<em>*</em></em>
+<a name="182" href="#182">182</a> <em>	 * Creates a link to a bundle in the page, prepending the gzip prefix to its identifier.</em>
+<a name="183" href="#183">183</a> <em>	 * </em>
+<a name="184" href="#184">184</a> <em>	 * @param resourceName the resource name</em>
+<a name="185" href="#185">185</a> <em>	 * @param contextPath the context path</em>
+<a name="186" href="#186">186</a> <em>	 * @return the link to the gzip bundle in the page</em>
+<a name="187" href="#187">187</a> <em>	 */</em>
+<a name="188" href="#188">188</a> 	<strong>protected</strong> String createGzipBundleLink(String resourceName, String contextPath, <strong>boolean</strong> isSslRequest) {
+<a name="189" href="#189">189</a> 		<em class="comment">// remove '/' from start of name</em>
+<a name="190" href="#190">190</a> 		resourceName = resourceName.substring(1, resourceName.length());
+<a name="191" href="#191">191</a> 		<strong>return</strong> createBundleLink(BundleRenderer.GZIP_PATH_PREFIX + resourceName, contextPath, isSslRequest);
+<a name="192" href="#192">192</a> 	}
+<a name="193" href="#193">193</a> 
+<a name="194" href="#194">194</a> 	<em>/**<em>*</em></em>
+<a name="195" href="#195">195</a> <em>	 * Creates a link to a bundle in the page.</em>
+<a name="196" href="#196">196</a> <em>	 * </em>
+<a name="197" href="#197">197</a> <em>	 * @param bundleId the bundle ID</em>
+<a name="198" href="#198">198</a> <em>	 * @param contextPath the context path</em>
+<a name="199" href="#199">199</a> <em>	 * @return the link to a bundle in the page</em>
+<a name="200" href="#200">200</a> <em>	 */</em>
+<a name="201" href="#201">201</a> 	<strong>protected</strong> String createBundleLink(String bundleId, String contextPath, <strong>boolean</strong> isSslRequest) {
+<a name="202" href="#202">202</a> 
+<a name="203" href="#203">203</a> 		<em class="comment">// When debug mode is on and the resource is generated the path must include a parameter</em>
+<a name="204" href="#204">204</a> 		<strong>if</strong> (bundler.getConfig().isDebugModeOn() &amp;&amp; bundler.getConfig().getGeneratorRegistry().isPathGenerated(bundleId)) {
+<a name="205" href="#205">205</a> 			bundleId = PathNormalizer.createGenerationPath(bundleId, bundler.getConfig().getGeneratorRegistry());
+<a name="206" href="#206">206</a> 		}
+<a name="207" href="#207">207</a> 		String fullPath = PathNormalizer.joinPaths(bundler.getConfig().getServletMapping(), bundleId);
+<a name="208" href="#208">208</a> 
+<a name="209" href="#209">209</a> 		String contextPathOverride = getContextPathOverride(isSslRequest);
+<a name="210" href="#210">210</a> 		<em class="comment">// If the contextPathOverride is not null and we are in production mode,</em>
+<a name="211" href="#211">211</a> 		<em class="comment">// or if we are in debug mode but we should use the contextPathOverride even in debug mode</em>
+<a name="212" href="#212">212</a> 		<em class="comment">// then use the contextPathOverride</em>
+<a name="213" href="#213">213</a> 		<strong>if</strong>(contextPathOverride != <strong>null</strong> &amp;&amp; 
+<a name="214" href="#214">214</a> 				((bundler.getConfig().isDebugModeOn() &amp;&amp; bundler.getConfig().isUseContextPathOverrideInDebugMode()) ||
+<a name="215" href="#215">215</a> 				!bundler.getConfig().isDebugModeOn())) {
+<a name="216" href="#216">216</a> 			
+<a name="217" href="#217">217</a> 				String override = contextPathOverride;
+<a name="218" href="#218">218</a> 				<em class="comment">// Blank override, create url relative to path</em>
+<a name="219" href="#219">219</a> 				<strong>if</strong> (<span class="string">""</span>.equals(override)) {
+<a name="220" href="#220">220</a> 					fullPath = fullPath.substring(1);
+<a name="221" href="#221">221</a> 				} <strong>else</strong>
+<a name="222" href="#222">222</a> 					fullPath = PathNormalizer.joinPaths(override, fullPath);
+<a name="223" href="#223">223</a> 		} <strong>else</strong>
+<a name="224" href="#224">224</a> 			fullPath = PathNormalizer.joinPaths(contextPath, fullPath);
+<a name="225" href="#225">225</a> 
+<a name="226" href="#226">226</a> 		<em class="comment">// allow debugOverride to pass through on the generated urls</em>
+<a name="227" href="#227">227</a> 		<strong>if</strong> (ThreadLocalJawrContext.isDebugOverriden()) {
+<a name="228" href="#228">228</a> 			fullPath = PathNormalizer.addGetParameter(fullPath, <span class="string">"overrideKey"</span>, bundler.getConfig().getDebugOverrideKey());
+<a name="229" href="#229">229</a> 		}
+<a name="230" href="#230">230</a> 
+<a name="231" href="#231">231</a> 		<strong>return</strong> renderLink(fullPath);
+<a name="232" href="#232">232</a> 	}
+<a name="233" href="#233">233</a> 
+<a name="234" href="#234">234</a> 	<em>/**<em>*</em></em>
+<a name="235" href="#235">235</a> <em>	 * Returns the context path depending on the request mode (SSL or not)</em>
+<a name="236" href="#236">236</a> <em>	 * </em>
+<a name="237" href="#237">237</a> <em>	 * @param isSslRequest teh flag indicating that the request is an SSL request</em>
+<a name="238" href="#238">238</a> <em>	 * @return the context path depending on the request mode</em>
+<a name="239" href="#239">239</a> <em>	 */</em>
+<a name="240" href="#240">240</a> 	<strong>private</strong> String getContextPathOverride(<strong>boolean</strong> isSslRequest) {
+<a name="241" href="#241">241</a> 		String contextPathOverride = <strong>null</strong>;
+<a name="242" href="#242">242</a> 		<strong>if</strong> (isSslRequest) {
+<a name="243" href="#243">243</a> 			contextPathOverride = bundler.getConfig().getContextPathSslOverride();
+<a name="244" href="#244">244</a> 		} <strong>else</strong> {
+<a name="245" href="#245">245</a> 			contextPathOverride = bundler.getConfig().getContextPathOverride();
+<a name="246" href="#246">246</a> 		}
+<a name="247" href="#247">247</a> 		<strong>return</strong> contextPathOverride;
+<a name="248" href="#248">248</a> 	}
+<a name="249" href="#249">249</a> 
+<a name="250" href="#250">250</a> 	<em>/**<em>*</em></em>
+<a name="251" href="#251">251</a> <em>	 * Creates a link to a bundle in the page, using its identifier.</em>
+<a name="252" href="#252">252</a> <em>	 * </em>
+<a name="253" href="#253">253</a> <em>	 * @param fullPath the full path</em>
+<a name="254" href="#254">254</a> <em>	 * @return a link to a bundle in the page</em>
+<a name="255" href="#255">255</a> <em>	 */</em>
+<a name="256" href="#256">256</a> 	<strong>protected</strong> <strong>abstract</strong> String renderLink(String fullPath);
+<a name="257" href="#257">257</a> 
+<a name="258" href="#258">258</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

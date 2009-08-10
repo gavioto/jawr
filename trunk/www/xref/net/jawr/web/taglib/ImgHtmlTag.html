@@ -130,87 +130,77 @@
 <a name="121" href="#121">121</a> 	<em class="comment">// --------------------------------------------------------- Public Methods</em>
 <a name="122" href="#122">122</a> 
 <a name="123" href="#123">123</a> 	<em>/**<em>*</em></em>
-<a name="124" href="#124">124</a> <em>	 * Render the beginning of the IMG tag.</em>
+<a name="124" href="#124">124</a> <em>	 * Render the IMG tag.</em>
 <a name="125" href="#125">125</a> <em>	 * </em>
 <a name="126" href="#126">126</a> <em>	 * @throws JspException if a JSP exception has occurred</em>
 <a name="127" href="#127">127</a> <em>	 */</em>
-<a name="128" href="#128">128</a> 	<strong>public</strong> <strong>int</strong> doStartTag() throws JspException {
-<a name="129" href="#129">129</a> 
-<a name="130" href="#130">130</a> 		<strong>return</strong> <strong>super</strong>.doStartTag();
-<a name="131" href="#131">131</a> 	}
-<a name="132" href="#132">132</a> 
-<a name="133" href="#133">133</a> 	<em>/**<em>*</em></em>
-<a name="134" href="#134">134</a> <em>	 * Render the IMG tag.</em>
-<a name="135" href="#135">135</a> <em>	 * </em>
-<a name="136" href="#136">136</a> <em>	 * @throws JspException if a JSP exception has occurred</em>
-<a name="137" href="#137">137</a> <em>	 */</em>
-<a name="138" href="#138">138</a> 	<strong>public</strong> <strong>int</strong> doEndTag() throws JspException {
-<a name="139" href="#139">139</a> 		<em class="comment">// Generate the name definition or image element</em>
-<a name="140" href="#140">140</a> 		HttpServletResponse response = (HttpServletResponse) pageContext
-<a name="141" href="#141">141</a> 				.getResponse();
-<a name="142" href="#142">142</a> 		StringBuffer results = <strong>new</strong> StringBuffer(<span class="string">"&lt;img"</span>);
-<a name="143" href="#143">143</a> 
-<a name="144" href="#144">144</a> 		prepareImageUrl(response, results);
-<a name="145" href="#145">145</a> 
-<a name="146" href="#146">146</a> 		prepareAttribute(results, <span class="string">"name"</span>, getName());
-<a name="147" href="#147">147</a> 		prepareAttribute(results, <span class="string">"height"</span>, getHeight());
-<a name="148" href="#148">148</a> 		prepareAttribute(results, <span class="string">"width"</span>, getWidth());
-<a name="149" href="#149">149</a> 		prepareAttribute(results, <span class="string">"align"</span>, getAlign());
-<a name="150" href="#150">150</a> 		prepareAttribute(results, <span class="string">"border"</span>, getBorder());
-<a name="151" href="#151">151</a> 		prepareAttribute(results, <span class="string">"hspace"</span>, getHspace());
-<a name="152" href="#152">152</a> 		prepareAttribute(results, <span class="string">"vspace"</span>, getVspace());
-<a name="153" href="#153">153</a> 		prepareAttribute(results, <span class="string">"ismap"</span>, getIsmap());
-<a name="154" href="#154">154</a> 		prepareAttribute(results, <span class="string">"usemap"</span>, getUsemap());
-<a name="155" href="#155">155</a> 		results.append(prepareStyles());
-<a name="156" href="#156">156</a> 		results.append(prepareEventHandlers());
-<a name="157" href="#157">157</a> 		results.append(<span class="string">" />"</span>);
-<a name="158" href="#158">158</a> 
-<a name="159" href="#159">159</a> 		<strong>try</strong> {
-<a name="160" href="#160">160</a> 			pageContext.getOut().write(results.toString());
-<a name="161" href="#161">161</a> 		} <strong>catch</strong> (IOException e) {
-<a name="162" href="#162">162</a> 			<strong>throw</strong> <strong>new</strong> JspException(e);
-<a name="163" href="#163">163</a> 		}
-<a name="164" href="#164">164</a> 
-<a name="165" href="#165">165</a> 		<strong>return</strong> (EVAL_PAGE);
-<a name="166" href="#166">166</a> 	}
-<a name="167" href="#167">167</a> 
-<a name="168" href="#168">168</a> 	<em>/**<em>*</em></em>
-<a name="169" href="#169">169</a> <em>	 * Release any acquired resources.</em>
-<a name="170" href="#170">170</a> <em>	 */</em>
-<a name="171" href="#171">171</a> 	<strong>public</strong> <strong>void</strong> release() {
-<a name="172" href="#172">172</a> 		<strong>super</strong>.release();
-<a name="173" href="#173">173</a> 
-<a name="174" href="#174">174</a> 		border = <strong>null</strong>;
-<a name="175" href="#175">175</a> 		height = <strong>null</strong>;
-<a name="176" href="#176">176</a> 		hspace = <strong>null</strong>;
-<a name="177" href="#177">177</a> 		name = <strong>null</strong>;
-<a name="178" href="#178">178</a> 		ismap = <strong>null</strong>;
-<a name="179" href="#179">179</a> 		src = <strong>null</strong>;
-<a name="180" href="#180">180</a> 		usemap = <strong>null</strong>;
-<a name="181" href="#181">181</a> 		vspace = <strong>null</strong>;
-<a name="182" href="#182">182</a> 		width = <strong>null</strong>;
-<a name="183" href="#183">183</a> 	}
-<a name="184" href="#184">184</a> 
-<a name="185" href="#185">185</a> 	<em class="comment">// ------------------------------------------------------ Protected Methods</em>
-<a name="186" href="#186">186</a> 
-<a name="187" href="#187">187</a> 	<em>/**<em>*</em></em>
-<a name="188" href="#188">188</a> <em>	 * Return the specified src URL, modified as necessary with optional request parameters.</em>
-<a name="189" href="#189">189</a> <em>	 * </em>
-<a name="190" href="#190">190</a> <em>	 * @param url The URL to be modified (or null if this url will not be used)</em>
-<a name="191" href="#191">191</a> <em>	 * @throws JspException if an error occurs preparing the URL</em>
-<a name="192" href="#192">192</a> <em>	 */</em>
-<a name="193" href="#193">193</a> 	<strong>protected</strong> String url(String url) throws JspException {
-<a name="194" href="#194">194</a> 		<strong>if</strong> (url == <strong>null</strong>) {
-<a name="195" href="#195">195</a> 			<strong>return</strong> (url);
-<a name="196" href="#196">196</a> 		}
-<a name="197" href="#197">197</a> 
-<a name="198" href="#198">198</a> 		<em class="comment">// Start with an unadorned URL as specified</em>
-<a name="199" href="#199">199</a> 		StringBuffer src = <strong>new</strong> StringBuffer(url);
-<a name="200" href="#200">200</a> 
-<a name="201" href="#201">201</a> 		<em class="comment">// Return the final result</em>
-<a name="202" href="#202">202</a> 		<strong>return</strong> (src.toString());
-<a name="203" href="#203">203</a> 	}
-<a name="204" href="#204">204</a> }
+<a name="128" href="#128">128</a> 	<strong>public</strong> <strong>int</strong> doEndTag() throws JspException {
+<a name="129" href="#129">129</a> 		<em class="comment">// Generate the name definition or image element</em>
+<a name="130" href="#130">130</a> 		HttpServletResponse response = (HttpServletResponse) pageContext
+<a name="131" href="#131">131</a> 				.getResponse();
+<a name="132" href="#132">132</a> 		StringBuffer results = <strong>new</strong> StringBuffer(<span class="string">"&lt;img"</span>);
+<a name="133" href="#133">133</a> 
+<a name="134" href="#134">134</a> 		prepareImageUrl(response, results);
+<a name="135" href="#135">135</a> 
+<a name="136" href="#136">136</a> 		prepareAttribute(results, <span class="string">"name"</span>, getName());
+<a name="137" href="#137">137</a> 		prepareAttribute(results, <span class="string">"height"</span>, getHeight());
+<a name="138" href="#138">138</a> 		prepareAttribute(results, <span class="string">"width"</span>, getWidth());
+<a name="139" href="#139">139</a> 		prepareAttribute(results, <span class="string">"align"</span>, getAlign());
+<a name="140" href="#140">140</a> 		prepareAttribute(results, <span class="string">"border"</span>, getBorder());
+<a name="141" href="#141">141</a> 		prepareAttribute(results, <span class="string">"hspace"</span>, getHspace());
+<a name="142" href="#142">142</a> 		prepareAttribute(results, <span class="string">"vspace"</span>, getVspace());
+<a name="143" href="#143">143</a> 		prepareAttribute(results, <span class="string">"ismap"</span>, getIsmap());
+<a name="144" href="#144">144</a> 		prepareAttribute(results, <span class="string">"usemap"</span>, getUsemap());
+<a name="145" href="#145">145</a> 		results.append(prepareStyles());
+<a name="146" href="#146">146</a> 		results.append(prepareEventHandlers());
+<a name="147" href="#147">147</a> 		results.append(<span class="string">" />"</span>);
+<a name="148" href="#148">148</a> 
+<a name="149" href="#149">149</a> 		<strong>try</strong> {
+<a name="150" href="#150">150</a> 			pageContext.getOut().write(results.toString());
+<a name="151" href="#151">151</a> 		} <strong>catch</strong> (IOException e) {
+<a name="152" href="#152">152</a> 			<strong>throw</strong> <strong>new</strong> JspException(e);
+<a name="153" href="#153">153</a> 		}
+<a name="154" href="#154">154</a> 
+<a name="155" href="#155">155</a> 		<strong>return</strong> (EVAL_PAGE);
+<a name="156" href="#156">156</a> 	}
+<a name="157" href="#157">157</a> 
+<a name="158" href="#158">158</a> 	<em>/**<em>*</em></em>
+<a name="159" href="#159">159</a> <em>	 * Release any acquired resources.</em>
+<a name="160" href="#160">160</a> <em>	 */</em>
+<a name="161" href="#161">161</a> 	<strong>public</strong> <strong>void</strong> release() {
+<a name="162" href="#162">162</a> 		<strong>super</strong>.release();
+<a name="163" href="#163">163</a> 
+<a name="164" href="#164">164</a> 		border = <strong>null</strong>;
+<a name="165" href="#165">165</a> 		height = <strong>null</strong>;
+<a name="166" href="#166">166</a> 		hspace = <strong>null</strong>;
+<a name="167" href="#167">167</a> 		name = <strong>null</strong>;
+<a name="168" href="#168">168</a> 		ismap = <strong>null</strong>;
+<a name="169" href="#169">169</a> 		src = <strong>null</strong>;
+<a name="170" href="#170">170</a> 		usemap = <strong>null</strong>;
+<a name="171" href="#171">171</a> 		vspace = <strong>null</strong>;
+<a name="172" href="#172">172</a> 		width = <strong>null</strong>;
+<a name="173" href="#173">173</a> 	}
+<a name="174" href="#174">174</a> 
+<a name="175" href="#175">175</a> 	<em class="comment">// ------------------------------------------------------ Protected Methods</em>
+<a name="176" href="#176">176</a> 
+<a name="177" href="#177">177</a> 	<em>/**<em>*</em></em>
+<a name="178" href="#178">178</a> <em>	 * Return the specified src URL, modified as necessary with optional request parameters.</em>
+<a name="179" href="#179">179</a> <em>	 * </em>
+<a name="180" href="#180">180</a> <em>	 * @param url The URL to be modified (or null if this url will not be used)</em>
+<a name="181" href="#181">181</a> <em>	 * @throws JspException if an error occurs preparing the URL</em>
+<a name="182" href="#182">182</a> <em>	 */</em>
+<a name="183" href="#183">183</a> 	<strong>protected</strong> String url(String url) throws JspException {
+<a name="184" href="#184">184</a> 		<strong>if</strong> (url == <strong>null</strong>) {
+<a name="185" href="#185">185</a> 			<strong>return</strong> (url);
+<a name="186" href="#186">186</a> 		}
+<a name="187" href="#187">187</a> 
+<a name="188" href="#188">188</a> 		<em class="comment">// Start with an unadorned URL as specified</em>
+<a name="189" href="#189">189</a> 		StringBuffer src = <strong>new</strong> StringBuffer(url);
+<a name="190" href="#190">190</a> 
+<a name="191" href="#191">191</a> 		<em class="comment">// Return the final result</em>
+<a name="192" href="#192">192</a> 		<strong>return</strong> (src.toString());
+<a name="193" href="#193">193</a> 	}
+<a name="194" href="#194">194</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
