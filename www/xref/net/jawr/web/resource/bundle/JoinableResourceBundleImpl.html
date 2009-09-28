@@ -437,7 +437,7 @@
 <a name="428" href="#428">428</a>     	<strong>if</strong>(StringUtils.isNotEmpty(variantKey) &amp;&amp; <strong>null</strong> != <strong>this</strong>.localeVariantKeys) {
 <a name="429" href="#429">429</a>     		String key = getAvailableLocaleVariant(variantKey);
 <a name="430" href="#430">430</a>     		<strong>if</strong>(<strong>null</strong> != key)
-<a name="431" href="#431">431</a>     			<strong>return</strong> prefixMap.get(variantKey) + <span class="string">"."</span> + key + <span class="string">"/"</span>;
+<a name="431" href="#431">431</a>     			<strong>return</strong> prefixMap.get(key) + <span class="string">"."</span> + key + <span class="string">"/"</span>;
 <a name="432" href="#432">432</a>     	}
 <a name="433" href="#433">433</a>     	<strong>return</strong> <strong>this</strong>.urlPrefix + <span class="string">"/"</span>;
 <a name="434" href="#434">434</a>     }
