@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
               <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="../integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -294,7 +314,7 @@
 </li>
 </ul>
 <div class="section"><h3>Jawr image handling</h3>
-<p>Jawr supports images. To enable this feature, you will have to define the Jawr image servlet in your web.xml file. When the Jawr image servlet is defined in you application, all CSS images will be handled by this servlet. You don't have to declare these images in the <b>jawr.image.resources</b> property. This property is used to calculate the hashcode of the images at the image servlet startup. If an image is not defined in this property, the hashcode of the image will be calculated at runtime. Look for <i>jawr.image.resources</i> at the <a href="./descriptor_syntax.html">descriptor syntax doc</a> for more information.\</p>
+<p>Jawr supports images. To enable this feature, you will have to define the Jawr image servlet in your web.xml file. When the Jawr image servlet is defined in you application, all CSS images will be handled by this servlet.</p>
 <p>In order for Jawr to properly handle the CSS images, the Jawr image servlet must start before the Jawr CSS servlet. This means that you will have to set properly the <b>load.on.startup</b> property in your web.xml like below :</p>
 <div class="source"><pre>        ...
         &lt;servlet&gt;
@@ -307,10 +327,6 @@
                 &lt;init-param&gt;
                         &lt;param-name&gt;type&lt;/param-name&gt;
                         &lt;param-value&gt;img&lt;/param-value&gt;
-                &lt;/init-param&gt;
-                &lt;init-param&gt;
-                        &lt;param-name&gt;mapping&lt;/param-name&gt;
-                        &lt;param-value&gt;/jwrImg/&lt;/param-value&gt;
                 &lt;/init-param&gt;
                 &lt;!-- The Jawr Image servlet must start before the Jawr CSS Servlet --&gt;
                 &lt;load-on-startup&gt;0&lt;/load-on-startup&gt;
@@ -333,7 +349,11 @@
         
         &lt;servlet-mapping&gt;
                 &lt;servlet-name&gt;JawrImgServlet&lt;/servlet-name&gt;
-                &lt;url-pattern&gt;/jwrImg/*&lt;/url-pattern&gt;
+                &lt;url-pattern&gt;*.png&lt;/url-pattern&gt;
+        &lt;/servlet-mapping&gt; 
+        &lt;servlet-mapping&gt;
+                &lt;servlet-name&gt;JawrImgServlet&lt;/servlet-name&gt;
+                &lt;url-pattern&gt;*.gif&lt;/url-pattern&gt;
         &lt;/servlet-mapping&gt; 
         &lt;servlet-mapping&gt;
                 &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
@@ -342,6 +362,7 @@
         
         </pre>
 </div>
+<p>Note : The declaration of your images in the <b>jawr.image.resources</b> property is not mandatory. This property is used to calculate the hashcode of the images at the image servlet startup. If an image is not defined in this property, the hashcode of the image will be calculated at runtime. Look for <i>jawr.image.resources</i> at the <a href="./descriptor_syntax.html">descriptor syntax doc</a> for more information. </p>
 </div>
 <div class="section"><h3>Examples web.xml configuration</h3>
 <ul><li>Jawr with JS and CSS handling </li>
@@ -390,10 +411,6 @@
                 &lt;servlet-name&gt;CssServlet&lt;/servlet-name&gt;
                 &lt;url-pattern&gt;*.css&lt;/url-pattern&gt;
         &lt;/servlet-mapping&gt;      
-        &lt;servlet-mapping&gt;
-                &lt;servlet-name&gt;JawrImgServlet&lt;/servlet-name&gt;
-                &lt;url-pattern&gt;/jwrImg/*&lt;/url-pattern&gt;
-        &lt;/servlet-mapping&gt; 
         
 &lt;/web-app&gt;</pre>
 </div>
@@ -432,10 +449,6 @@
                         &lt;param-name&gt;configLocation&lt;/param-name&gt;
                         &lt;param-value&gt;/jawr.properties&lt;/param-value&gt;
                 &lt;/init-param&gt;
-                &lt;init-param&gt;
-                        &lt;param-name&gt;mapping&lt;/param-name&gt;
-                        &lt;param-value&gt;/jwrImg/&lt;/param-value&gt;
-                &lt;/init-param&gt;
                 &lt;!-- The Jawr Image servlet must start before the Jawr CSS Servlet --&gt;
                 &lt;load-on-startup&gt;0&lt;/load-on-startup&gt;
         &lt;/servlet&gt;
@@ -463,7 +476,11 @@
         &lt;/servlet-mapping&gt;      
         &lt;servlet-mapping&gt;
                 &lt;servlet-name&gt;JawrImgServlet&lt;/servlet-name&gt;
-                &lt;url-pattern&gt;/jwrImg/*&lt;/url-pattern&gt;
+                &lt;url-pattern&gt;*.png&lt;/url-pattern&gt;
+        &lt;/servlet-mapping&gt; 
+        &lt;servlet-mapping&gt;
+                &lt;servlet-name&gt;JawrImgServlet&lt;/servlet-name&gt;
+                &lt;url-pattern&gt;*.gif&lt;/url-pattern&gt;
         &lt;/servlet-mapping&gt; 
         
 &lt;/web-app&gt;</pre>
@@ -515,8 +532,8 @@
 
   
   
-  &nbsp;| Last Published: 09/27/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>

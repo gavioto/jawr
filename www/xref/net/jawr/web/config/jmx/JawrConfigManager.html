@@ -133,9 +133,9 @@
 <a name="124" href="#124">124</a> 
 <a name="125" href="#125">125</a> 	<em>/**<em>*</em></em>
 <a name="126" href="#126">126</a> <em>	 * @return</em>
-<a name="127" href="#127">127</a> <em>	 * @see net.jawr.web.config.JawrConfig#isUsingClasspathCssImageServlet()</em>
+<a name="127" href="#127">127</a> <em>	 * @see net.jawr.web.config.JawrConfig#isCssClasspathImageHandledByClasspathCss()</em>
 <a name="128" href="#128">128</a> <em>	 */</em>
-<a name="129" href="#129">129</a> 	<strong>public</strong> <strong>boolean</strong> isUsingClasspathCssImageServlet() {
+<a name="129" href="#129">129</a> 	<strong>public</strong> <strong>boolean</strong> isCssClasspathImageHandledByClasspathCss() {
 <a name="130" href="#130">130</a> 		<strong>return</strong> Boolean.valueOf(configProperties.getProperty(JawrConfig.JAWR_CSS_IMG_USE_CLASSPATH_SERVLET)).booleanValue();
 <a name="131" href="#131">131</a> 	}
 <a name="132" href="#132">132</a> 
@@ -263,9 +263,9 @@
 <a name="254" href="#254">254</a> 
 <a name="255" href="#255">255</a> 	<em>/**<em>*</em></em>
 <a name="256" href="#256">256</a> <em>	 * @param useClasspathCssImgServlet</em>
-<a name="257" href="#257">257</a> <em>	 * @see net.jawr.web.config.JawrConfig#setUseClasspathCssImageServlet(boolean)</em>
+<a name="257" href="#257">257</a> <em>	 * @see net.jawr.web.config.JawrConfig#setCssClasspathImageHandledByClasspathCss(boolean)</em>
 <a name="258" href="#258">258</a> <em>	 */</em>
-<a name="259" href="#259">259</a> 	<strong>public</strong> <strong>void</strong> setUsingClasspathCssImageServlet(<strong>boolean</strong> useClasspathCssImgServlet) {
+<a name="259" href="#259">259</a> 	<strong>public</strong> <strong>void</strong> setCssClasspathImageHandledByClasspathCss(<strong>boolean</strong> useClasspathCssImgServlet) {
 <a name="260" href="#260">260</a> 		configProperties.setProperty(JawrConfig.JAWR_CSS_IMG_USE_CLASSPATH_SERVLET, Boolean.toString(useClasspathCssImgServlet));
 <a name="261" href="#261">261</a> 	}
 <a name="262" href="#262">262</a> 

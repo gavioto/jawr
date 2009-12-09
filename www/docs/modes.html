@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
               <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="../integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -295,7 +315,7 @@
 </ul>
 <p>The caveat here is very clear: never forget to switch off development mode in production or the results might be catastrophic for your bandwidth. As stated before, it's a good idea to use the JVM param <b>-Dnet.jawr.debug.on=false</b> within the startup script of your production server to be safe against this kind of mistake. Also, it is recommended that you have at least one integration step previous to production where you don't use development mode. &#160;</p>
 <p>To further protect you from this kind of problem, a warning is written to the log anytime you start Jawr in development mode. </p>
-<p><b>Warning</b>: Internet explorer has a <a class="externalLink" href="http://support.microsoft.com/default.aspx?scid=kb;en-us;262161">30 stylesheet limit</a>. This means that in debug mode you might hit this limit if you have bundles that join over 30 stylesheets, since after the 30th IE will no longer parse and execute further stylesheets. Keep this in mind when developing your CSS files. </p>
+<p><b>Warning</b>: Internet explorer has a <a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;262161" class="externalLink">30 stylesheet limit</a>. This means that in debug mode you might hit this limit if you have bundles that join over 30 stylesheets, since after the 30th IE will no longer parse and execute further stylesheets. Keep this in mind when developing your CSS files. </p>
 </div>
 
       </div>
@@ -312,8 +332,8 @@
 
   
   
-  &nbsp;| Last Published: 09/27/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>

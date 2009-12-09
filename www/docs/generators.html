@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
               <strong>Generators</strong>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="../integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -241,8 +261,8 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section"><h2>Jawr Generators</h2>
-<p>In some cases it is convenient to generate scripts or CSS dynamically. For instance, Jawr will create certain scripts to, say, copy i18n messages from a ResourceBundle over to a special script. You may need to retrieve some data from a database and create parameters that scripts will need, or simply grab parameters from a configuration file and pass them over to the scripting context. For any case where you may need to generate content you can implement a ResourceGenerator and register it in Jawr to suit your needs. &#160;</p>
-<p>Note that a ResourceGenerator is <b>not</b> a <i>script servlet</i>: it will be only invoked once during application startup. The result of this invocation will be added to whichever bundle you decide and reused until the next redeployment. The point is to be able to generate some script dynamically but still to be able to minify it and add it to your bundles. A perfect example is the DWR generator: all DWR script interfaces are created from java classes once during startup but they can be minified and bundled together. </p>
+<p>In some cases it is convenient to generate scripts, CSS or images dynamically. For instance, Jawr will create certain scripts to, say, copy i18n messages from a ResourceBundle over to a special script. You may need to retrieve some data from a database and create parameters that scripts will need, or simply grab parameters from a configuration file and pass them over to the scripting context. For any case where you may need to generate content you can implement a Resource Generator and register it in Jawr to suit your needs. &#160;</p>
+<p>Note that a Resource Generator is <b>not</b> a <i>script servlet</i>: it will be only invoked once during application startup. The result of this invocation will be added to whichever bundle you decide and reused until the next redeployment. The point is to be able to generate some script dynamically but still to be able to minify it and add it to your bundles. A perfect example is the DWR generator: all DWR script interfaces are created from java classes once during startup but they can be minified and bundled together. </p>
 <div class="section"><h3>Using a generator</h3>
 <p>Generators are mapped to bundles as if they were regular script or CSS files, only using a special syntax: </p>
 <div class="source"><pre>        prefix:path(params)[params]</pre>
@@ -277,18 +297,25 @@
 <p>Unlike the normal mapping, this way of referring to resources does not yet allow wildcards (i.e.: <i>jar:/com/mycompany/myapp/**</i> would not work). </p>
 </div>
 <div class="section"><h3>Implementing a generator</h3>
-<p>A generator is an implementation of the interface net.jawr.web.resource.bundle.generator.ResourceGenerator. This is a simple interface which exposes three methods: </p>
+<p>You will find below the class diagram for generators.</p>
+<img src="../images/generator/jawr_generator.png" alt="Generator class diagram" /><p>The root interface for resource generator is :</p>
+<ul><li>net.jawr.web.resource.bundle.generator.PrefixedResourceGenerator. All resource generator must implement a method, which defines the mapping for this generator. <div class="source"><pre>        public String getMappingPrefix();</pre>
+</div>
+<p>The getMappingPrefix() method returns a key you will use when mapping you generator to bundles. Jawr will recognize this key in the bundle mappings and use your generator when it applies. So, if you returned 'foo' in this method, you would map your generator like this: </p>
+<div class="source"><pre>        jawr.js.bundle.one.mappings=foo:somePath</pre>
+</div>
+<p>There are 2 main types of generator:</p>
+</li>
+<li>net.jawr.web.resource.bundle.generator.ResourceGenerator, which is the generator for the text resources (JS and CSS).</li>
+<li>net.jawr.web.resource.bundle.generator.StreamResourceGenerator, which is the generator for the image resources.</li>
+<li>Implementing a CSS or a JS generator<p>A JS or a CSS generator is an implementation of the interface net.jawr.web.resource.bundle.generator.ResourceGenerator. This is a simple interface which exposes two methods: </p>
 <ul><li>public Reader createResource(GeneratorContext context);</li>
-<li>public String getMappingPrefix();</li>
 <li>public String getDebugModeRequestPath();</li>
 </ul>
 <p>The getDebugModeRequestPath simply returns a path to be used in debug mode. This is simply a fake script or CSS name and it really has no importance unless you are mapping the Jawr servlet to a suffix different from *.css or .js. 99% of the use cases don't need to care about this so you can simply return one of two constants: ResourceGenerator.JAVASCRIPT_DEBUGPATH or ResourceGenerator.CSS_DEBUGPATH: </p>
 <div class="source"><pre>public String getDebugModeRequestPath() {
         return ResourceGenerator.JAVASCRIPT_DEBUGPATH;
 }</pre>
-</div>
-<p>The getMappingPrefix() method returns a key you will use when mapping you generator to bundles. Jawr will recognize this key in the bundle mappings and use your generator when it applies. So, if you returned 'foo' in this method, you would map your generator like this: </p>
-<div class="source"><pre>        jawr.js.bundle.one.mappings=foo:somePath</pre>
 </div>
 <p>Finally, the createResource() method is where the actual generation takes place. This method takes a single parameter of type GeneratorContext, which contains all the information you need to build a dynamic script or CSS. The useful methods are: </p>
 <ul><li>getPath(): this contains the mapping, without the prefix and parameters. For instance, in a mapping of the form 'prefix:thePath(param)', this method returns 'thePath'. </li>
@@ -297,6 +324,13 @@
 <li>getServletContext(): returns the application's ServletContext. </li>
 <li>getParenthesesParam(): returns the params in parentheses, if any were declared. For instance, in a mapping such as 'foo:path(aParam)', this would return 'aParam'. </li>
 <li>getBracketsParam(): returns the params in brackets, if any were declared. For instance, in a mapping such as 'foo:path(aParam)[anotherParam], this would return 'anotherParam'.<p>Using this information, you should be able to generate a script or CSS and return in in the form of a Reader object (typically a StringReader is sufficient for the task). </p>
+</li>
+</ul>
+</li>
+<li>Implementing an Image resource generator<p>An image generator is an implementation of the interface net.jawr.web.resource.bundle.generator.StreamResourceGenerator. This is a simple interface which exposes one method: </p>
+<ul><li>public InputStream createResourceAsStream(GeneratorContext context);</li>
+</ul>
+<p>This method will return the input stream for the generated image resource. Like for the createResource method of the ResourceGenerator, this method takes as parameter a GeneratorContext, which contains all the information you need to build the image resource.</p>
 </li>
 </ul>
 </div>
@@ -334,6 +368,14 @@
 </div>
 <p>And that's it, now add the bundle to any page and when it's loaded, you should get an alert box with the text 'Mapping contained:Hello World!' followed by a second alert box with the text 'Mapping contained:And Hello Again!'. </p>
 </div>
+<div class="section"><h3>Security issues with generator</h3>
+<p>If you develop your own generator, which reads content from resources on your server, you must take care of prevent users to access unauthorized resources. You must check if the requested resource is an allowed one or not. For example, the user must not be able to retrieve the files located under /WEB-INF/ or /META-INF/ in your web application, or directly the content of the JSP files.</p>
+<p>To check if your generator is sensible to this issue, you must launch your application in debug mode, and then try to reach your resource using the following URL: </p>
+<div class="source"><pre>        http://localhost:8080/myWebAppContext/sample.js?generationConfigParam=myGen:/WEB-INF/web.xml
+</pre>
+</div>
+<p>In this example, <b>myGen</b> is the prefix of the generator. So you must replace it by the prefix of your generator. If you are able to see the content of the web.xml file, this means that you need to change your generator to fix this issue. </p>
+</div>
 </div>
 
       </div>
@@ -350,8 +392,8 @@
 
   
   
-  &nbsp;| Last Published: 09/27/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>

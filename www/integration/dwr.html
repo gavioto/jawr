@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
               <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="../integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -241,12 +261,12 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section"><h2>Using DWR with Jawr</h2>
-<p><a class="externalLink" href="http://getahead.org/dwr/">DWR</a> (Direct Web Remoting) is a java library which allows Javascript in a browser to interact with Java on a server and helps you manipulate web pages with the results. </p>
+<p><a href="http://getahead.org/dwr/" class="externalLink">DWR</a> (Direct Web Remoting) is a java library which allows Javascript in a browser to interact with Java on a server and helps you manipulate web pages with the results. </p>
 <p>DWR works by setting up one or several servlets which serve javascript and also convert AJAX requests to java class method invocations. The javascript served by DWR is either one of several static .js files or a generated javascript stub that allows method calls to be routed to the server via AJAX. </p>
 <p>DWR already has a method to minify and compress javascript, but Jawr adds extra functionality so that you serve your resources more consistently. Specifically, with JAWR you can serve all the static .js files in one bundle. You can also combine these with other scripts. For instance, you could have a javascript bundle containng Prototype.js, script.aculo.us, your own infrastructure and the DWR static scripts. </p>
 <p>Also, you can bundle together the generated javascript stubs which normally must be requested separately. For pages that use several remote objects, this can speed up loading. </p>
 <p>Finally, using this approach you have a consistent way of serving all javascript, instead of using different methods to serve DWR scripts or Jawr bundles. </p>
-<p>Jawr supports DWR 2.x out of the box, and it can also be used with version 3 by adding an additional plugin jar to the classpath. The plugin can be downloaded from <a class="externalLink" href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=9382">this page</a>. Maven 2 users can also add a dependency as the following: </p>
+<p>Jawr supports DWR 2.x out of the box, and it can also be used with version 3 by adding an additional plugin jar to the classpath. The plugin can be downloaded from <a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=9382" class="externalLink">this page</a>. Maven 2 users can also add a dependency as the following: </p>
 <div class="source"><pre>    &lt;dependency&gt;
       &lt;groupId&gt;net.jawr.dwr&lt;/groupId&gt;
       &lt;artifactId&gt;dwr3plugin&lt;/artifactId&gt;
@@ -254,7 +274,7 @@
     &lt;/dependency&gt;</pre>
 </div>
 <p>Currently this plugin is only available for a Java 5 or higher JVM. </p>
-<p>There is a sample application that you can download to chek out how integration with DWR works, which you can download from <a class="externalLink" href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=9330">this page</a>. </p>
+<p>There is a sample application that you can download to chek out how integration with DWR works, which you can download from <a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=9330" class="externalLink">this page</a>. </p>
 <div class="section"><h3>Set up</h3>
 <p>The jawr servlet must be started after the DWR one. To make sure this order is followed, you must set up the <i>load-on-startup</i> parameter so that the value for the Jawr servlet is greater than the one for the DWR servlet: </p>
 <div class="source"><pre>        &lt;servlet&gt;
@@ -372,8 +392,8 @@
 
   
   
-  &nbsp;| Last Published: 09/27/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>

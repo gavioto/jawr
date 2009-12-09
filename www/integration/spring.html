@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
               <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="../integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -249,10 +269,7 @@
 &lt;bean abstract=&quot;true&quot; id=&quot;jawrBase&quot;  class=&quot;net.jawr.web.servlet.JawrSpringController&quot; &gt;
         &lt;!-- This must match the servlet-mapping to which the spring servlet is bound --&gt;
         &lt;property name=&quot;mapping&quot; value=&quot;/spring/&quot;/&gt;
-
-        &lt;property name=&quot;configuration&quot;&gt;
-                &lt;util:properties location=&quot;classpath:jawr.properties&quot;/&gt;
-        &lt;/property&gt;
+        &lt;property name=&quot;configLocation&quot; value=&quot;/jawr.properties&quot; /&gt;
 &lt;/bean&gt;
 
 &lt;!-- JS controller --&gt;
@@ -265,11 +282,12 @@
 </div>
 <p>As you can see, the abstract bean holds most of the configuration details, which is common to both Jawr controllers. The properties which are being set configure the controllers in the following way: </p>
 <ul><li><b>mapping</b> is needed only if the dispatcher servlet is mapped to some subpath in the server (i.e., anything other than /*). So if the spring servlet-mapping property has a value of '/spring/*', the mapping attribute should be '/spring/' (without the '*'). </li>
-<li><b>configuration</b> is a Properties object holding the usual Jawr configuration values. Check the descriptor syntax page for an overview of what goes here. Of course, while the example uses the simplest possible form (reading a properties file from the classpath), you can declare it inline, extend its properties, and generally do all that the Spring configuration system allows to do about Properties objects. </li>
+<li><b>configLocation</b> is a location of the Jawr configuration file. Check the descriptor syntax page for an overview of what goes here. </li>
 <li><b>type</b> tells the controller wether it is serving .js or .css files. Since by default .js is assumed, you only need to set it at the CSS controller declaration. <p>There are two additional properties you might need to set: </p>
 </li>
 <li><b>configPropertiesSourceClass</b>: This optional parameter holds the qualified class name of you custom implementation of ConfigPropertiesSource, in case you want to customize the way configuration is loaded when Jawr starts up. Now, this doesn't make much sense when using Spring, since it already makes config loading much more flexible, but since this is available when using the servlet it doesn't hurt to make it available for Spring users as well. </li>
 <li><b>controllerMapping</b>: Depending on how you map the controllers, you might need to set this property. See below for more info. </li>
+<li><b>configuration</b> is a Properties object holding the usual Jawr configuration values. This property is <b>deprecated</b> since the version 3.2. We recommend to use the configLocation properties instead. Check the descriptor syntax page for an overview of what can be specified for the properties. </li>
 </ul>
 </div>
 <div class="section"><h3>Mapping the controllers</h3>
@@ -339,8 +357,8 @@
 
   
   
-  &nbsp;| Last Published: 09/27/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>
