@@ -26,8 +26,8 @@
 <a name="17" href="#17">17</a>  <strong>import</strong> java.util.Map;
 <a name="18" href="#18">18</a>  
 <a name="19" href="#19">19</a>  <strong>import</strong> net.jawr.web.config.JawrConfig;
-<a name="20" href="#20">20</a>  <strong>import</strong> net.jawr.web.resource.ResourceHandler;
-<a name="21" href="#21">21</a>  <strong>import</strong> net.jawr.web.resource.bundle.JoinableResourceBundle;
+<a name="20" href="#20">20</a>  <strong>import</strong> net.jawr.web.resource.bundle.JoinableResourceBundle;
+<a name="21" href="#21">21</a>  <strong>import</strong> net.jawr.web.resource.handler.reader.ResourceReaderHandler;
 <a name="22" href="#22">22</a>  
 <a name="23" href="#23">23</a>  <em>/**<em>*</em></em>
 <a name="24" href="#24">24</a>  <em> * This class encapsulates the status of a bundling process. It is meant to let </em>
@@ -41,8 +41,8 @@
 <a name="32" href="#32">32</a>  	<em>/**<em>* The current bundle */</em></em>
 <a name="33" href="#33">33</a>  	<strong>private</strong> <strong>final</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> currentBundle;
 <a name="34" href="#34">34</a>  	
-<a name="35" href="#35">35</a>  	<em>/**<em>* The resource handler */</em></em>
-<a name="36" href="#36">36</a>  	<strong>private</strong> <strong>final</strong> <a href="../../../../../../net/jawr/web/resource/ResourceHandler.html">ResourceHandler</a> rsHandler;
+<a name="35" href="#35">35</a>  	<em>/**<em>* The resource reader */</em></em>
+<a name="36" href="#36">36</a>  	<strong>private</strong> <strong>final</strong> <a href="../../../../../../net/jawr/web/resource/handler/reader/ResourceReaderHandler.html">ResourceReaderHandler</a> rsReader;
 <a name="37" href="#37">37</a>  	
 <a name="38" href="#38">38</a>  	<em>/**<em>* The Jawr config */</em></em>
 <a name="39" href="#39">39</a>  	<strong>private</strong> <strong>final</strong> <a href="../../../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> jawrConfig;
@@ -60,10 +60,10 @@
 <a name="51" href="#51">51</a>  <em>	 * @param jawrConfig the Jawr config</em>
 <a name="52" href="#52">52</a>  <em>	 */</em>
 <a name="53" href="#53">53</a>  	<strong>public</strong> <a href="../../../../../../net/jawr/web/resource/bundle/postprocess/BundleProcessingStatus.html">BundleProcessingStatus</a>(<strong>final</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> currentBundle,
-<a name="54" href="#54">54</a>  			<strong>final</strong> <a href="../../../../../../net/jawr/web/resource/ResourceHandler.html">ResourceHandler</a> rsHandler,<strong>final</strong> <a href="../../../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> jawrConfig) {
+<a name="54" href="#54">54</a>  			<strong>final</strong> <a href="../../../../../../net/jawr/web/resource/handler/reader/ResourceReaderHandler.html">ResourceReaderHandler</a> rsHandler,<strong>final</strong> <a href="../../../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> jawrConfig) {
 <a name="55" href="#55">55</a>  		<strong>super</strong>();
 <a name="56" href="#56">56</a>  		<strong>this</strong>.currentBundle = currentBundle;
-<a name="57" href="#57">57</a>  		<strong>this</strong>.rsHandler = rsHandler;
+<a name="57" href="#57">57</a>  		<strong>this</strong>.rsReader = rsHandler;
 <a name="58" href="#58">58</a>  		<strong>this</strong>.jawrConfig = jawrConfig;
 <a name="59" href="#59">59</a>  	}
 <a name="60" href="#60">60</a>  	
@@ -95,8 +95,8 @@
 <a name="86" href="#86">86</a>  <em>	 * Returns the resource handler</em>
 <a name="87" href="#87">87</a>  <em>	 * @return the resource handler</em>
 <a name="88" href="#88">88</a>  <em>	 */</em>
-<a name="89" href="#89">89</a>  	<strong>public</strong> <a href="../../../../../../net/jawr/web/resource/ResourceHandler.html">ResourceHandler</a> getRsHandler() {
-<a name="90" href="#90">90</a>  		<strong>return</strong> rsHandler;
+<a name="89" href="#89">89</a>  	<strong>public</strong> <a href="../../../../../../net/jawr/web/resource/handler/reader/ResourceReaderHandler.html">ResourceReaderHandler</a> getRsReader() {
+<a name="90" href="#90">90</a>  		<strong>return</strong> rsReader;
 <a name="91" href="#91">91</a>  	}
 <a name="92" href="#92">92</a>  
 <a name="93" href="#93">93</a>  	<em>/**<em>*</em></em>

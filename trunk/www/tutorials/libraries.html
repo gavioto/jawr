@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
               <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="../integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -248,9 +268,9 @@
         handle events, perform animations, and add Ajax interactions to your web pages. 
         jQuery is designed to change the way that you write JavaScript.</pre>
 </div>
-<p>To use jQuery within a Jawr enabled web application, we would start off by <a class="externalLink" href="http://jquery.com/">downloading the jQuery distribution</a>. There are several download options: gzipped, packed (minified) and regular. Since Jawr supports serving both gzipped and non-gzipped versions of the same resource, we will use the 'packed' version. Download it, create a directory named /js/lib at the root of the web application and place the file there. </p>
+<p>To use jQuery within a Jawr enabled web application, we would start off by <a href="http://jquery.com/" class="externalLink">downloading the jQuery distribution</a>. There are several download options: gzipped, packed (minified) and regular. Since Jawr supports serving both gzipped and non-gzipped versions of the same resource, we will use the 'packed' version. Download it, create a directory named /js/lib at the root of the web application and place the file there. </p>
 <p>During the tests, I experienced some problems when bundling the minified jquery with other scripts. These are easily solved by adding a semicolon (;) at the end of the jQuery packed file. Do add the semicolon or you will get errors in Firefox and possibly in other browsers. </p>
-<p>When using jQuery it is likely that you will eventually use some of the many plugins available for it. In this case we will setup the jQuery date picker plugin, which you can download from <a class="externalLink" href="http://kelvinluck.com/assets/jquery/datePicker/v2/demo/">this page</a>. You will need to download three files from there: jquery.datePicker.js, datePicker.css and from the requirements section, date.js. from there: Once you have them, create a directory named /js/lib/plugins and place the two scripts there (not the css). Create a .license file in this directory and copy and paste the licenses at the top of the scripts, so once minified they will get the licenses appended back in. Finally, create a file named .sorting and simply write 'date.js' (without the quotes) in it. Finally, create a dir named /css and place the css file there. </p>
+<p>When using jQuery it is likely that you will eventually use some of the many plugins available for it. In this case we will setup the jQuery date picker plugin, which you can download from <a href="http://kelvinluck.com/assets/jquery/datePicker/v2/demo/" class="externalLink">this page</a>. You will need to download three files from there: jquery.datePicker.js, datePicker.css and from the requirements section, date.js. from there: Once you have them, create a directory named /js/lib/plugins and place the two scripts there (not the css). Create a .license file in this directory and copy and paste the licenses at the top of the scripts, so once minified they will get the licenses appended back in. Finally, create a file named .sorting and simply write 'date.js' (without the quotes) in it. Finally, create a dir named /css and place the css file there. </p>
 <p>Using the date picker plugin yields an interesting problem for Jawr to solve: we have the minified version of jQuery and, on the other hand, we have the date picker component, and the associated date.js library, for which there are no minified versions available. We intend to bundle all together but we face the problem that we don't want to run the minifier on jQuery but we do want to minify the date picker component. To achieve this we will use a composite bundle made up of one non minified bundle with jQuery and a minified plugins bundle: </p>
 <div class="source"><pre>
 # Our composite bundle
@@ -304,7 +324,7 @@ jawr.css.bundle.all.mappings=/css/**
         script.aculo.us provides you with easy-to-use, cross-browser user interface JavaScript libraries 
         to make your web sites and web applications fly</pre>
 </div>
-<p>Prototype and script.aculo.us are popular javascript tools, and it is easy to integrate them in a Jawr-enabled application. The first step would be to <a class="externalLink" href="http://script.aculo.us/downloads">download the script.aculo.us distribution</a> which already includes the prototype library. </p>
+<p>Prototype and script.aculo.us are popular javascript tools, and it is easy to integrate them in a Jawr-enabled application. The first step would be to <a href="http://script.aculo.us/downloads" class="externalLink">download the script.aculo.us distribution</a> which already includes the prototype library. </p>
 <p>Create a /js/lib directory at the root of your web application and copy prototype.js there. Prototype must be loaded first in order for script.aculo.us to work, so what we will do is to create a subdirectory (/js/lib/sriptaculous for instance) and put there the script.aculo.us. files. Using a recurring mapping we make sure this way that prototype goes first. Note that for this example we are including every one of the script.aculo.us components, but keep in mind that in a real application you would only add the ones you were going to use. </p>
 <p>There is one problem about using script.aculo.us with Jawr. Script.aculo.us expects you to load only one of the scripts of its distribution, namely scriptaculous.js. This file contains a javascript module which inserts script tags in your document to import all the other files. This is not needed when using Jawr, since all the files are bundled together as a single resource. Therefore we need to disable this behavior. </p>
 <p>The quickest way to accomplish that is to open scriptaculous.js and remove the last line in this file, which should read as follows: </p>
@@ -378,7 +398,7 @@ Event.observe(window, 'load', attachFadeOutBehavior);</pre>
 <p>When you open the page in your browser, you should be able to make the text dissapear by clicking on it. Yoy will then be ready to use Prototype and script.aculo.us in your Jawr enabled application. </p>
 </div>
 <div class="section"><h3>Yahoo! UI library</h3>
-<p>YUI is a collection of javascript and CSS files that help in building rich web applications. You can download it from <a class="externalLink" href="http://developer.yahoo.com/yui/">http://developer.yahoo.com/yui/</a>. &#160;</p>
+<p>YUI is a collection of javascript and CSS files that help in building rich web applications. You can download it from <a href="http://developer.yahoo.com/yui/" class="externalLink">http://developer.yahoo.com/yui/</a>. &#160;</p>
 <p>The YUI distribution brings a huge collection of .js files, some of them with related .css stylesheets. Normally you will not use every one of them, so you must pick whichever you want to use and include them in your application. &#160; </p>
 <p>Once you download and decompress the YUI distribution, you will find all the scripts under a dir named 'build'. There is one directory for each component, plus an assets directory with required CSS and image files. Note that all files come in UTF-8 encoding, so you may want to use that as Jawr encoding, or otherwise convert all files to whichever encoding you want to use. &#160;</p>
 <p>Within each script directory, javascript files come in three flavors: a normal, uncompressed version, another one targeted at debugging which writes to a console component, and a minified version. As we will see, having a debug version plays well with the debug-only bundles feature in Jawr. Many compontents depend on others to be loaded in order to work, you will need to check the documentation to find out about this dependencies. &#160;</p>
@@ -553,8 +573,8 @@ YAHOO.util.Event.addListener(window, &quot;load&quot;, init);</pre>
 
   
   
-  &nbsp;| Last Published: 09/27/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>

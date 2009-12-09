@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <strong>Postprocessors</strong>
         </li>
               
     <li class="none">
               <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="../integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -316,7 +336,7 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 <ul><li><b>Type</b>: Bundle</li>
 <li><b>Properties Key</b>: YUI, YUIobf</li>
 </ul>
-<p>This processor uses <a class="externalLink" href="http://developer.yahoo.com/yui/compressor/"> Julien Lecomte's YUI compressor</a>. This is a javascript and CSS minification tool that can also perform code obfuscation in the case of javascript bundles. If you want obfuscation, you should use the <b>YUIobf</b> key when defining postprocessors, but remember that this is only valid for javascript bundles. The YUI compressor has an advantage over JSMin and Jawr's custom CSS compressor in that it will achieve better minification (although in the case of CSS the difference is minimal). On the other hand it will add a dependency to the YUI compressor and Rhino libraries. You can get YUI <a class="externalLink" href="http://www.julienlecomte.net/yuicompressor/"> here</a>, and rhino <a class="externalLink" href="http://www.mozilla.org/rhino/download.html"> here</a>. Maven users can get both by adding a single dependency, like this: </p>
+<p>This processor uses <a href="http://developer.yahoo.com/yui/compressor/" class="externalLink"> Julien Lecomte's YUI compressor</a>. This is a javascript and CSS minification tool that can also perform code obfuscation in the case of javascript bundles. If you want obfuscation, you should use the <b>YUIobf</b> key when defining postprocessors, but remember that this is only valid for javascript bundles. The YUI compressor has an advantage over JSMin and Jawr's custom CSS compressor in that it will achieve better minification (although in the case of CSS the difference is minimal). On the other hand it will add a dependency to the YUI compressor and Rhino libraries. You can get YUI <a href="http://www.julienlecomte.net/yuicompressor/" class="externalLink"> here</a>, and rhino <a href="http://www.mozilla.org/rhino/download.html" class="externalLink"> here</a>. Maven users can get both by adding a single dependency, like this: </p>
 <div class="source"><pre>        &lt;dependency&gt;
             &lt;groupId&gt;com.yahoo.platform.yui&lt;/groupId&gt;
             &lt;artifactId&gt;yuicompressor&lt;/artifactId&gt;
@@ -331,7 +351,7 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 <ul><li><b>Type</b>: Bundle</li>
 <li><b>Properties Key</b>: JSMin</li>
 </ul>
-<p>This processor uses <a class="externalLink" href="http://www.crockford.com/javascript/jsmin.html">Douglas Crockford's JSMin</a> minificator. It will remove any comments in code and unnecesary whitespace in a very safe manner. </p>
+<p>This processor uses <a href="http://www.crockford.com/javascript/jsmin.html" class="externalLink">Douglas Crockford's JSMin</a> minificator. It will remove any comments in code and unnecesary whitespace in a very safe manner. </p>
 <div class="section"><h3>CSS-specific postprocessors</h3>
 </div>
 </div>
@@ -357,7 +377,7 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 </div>
 </div>
 <div class="section"><h2><b>Console Log Statement Remover</b></h2>
-<ul><li><b>Submitted by</b>: Ryan Wilson (<a class="externalLink" href="http://blog.augmentedfragments.com">http://blog.augmentedfragments.com</a>)</li>
+<ul><li><b>Submitted by</b>: Ryan Wilson (<a href="http://blog.augmentedfragments.com" class="externalLink">http://blog.augmentedfragments.com</a>)</li>
 <li><b>Source</b>: <a href="../java/ConsolePostProcessor.java">ConsolePostProcessor.java</a></li>
 <li><b>Type</b>: Bundle</li>
 </ul>
@@ -379,8 +399,8 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 
   
   
-  &nbsp;| Last Published: 09/27/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>

@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
               <a href="docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -451,91 +471,6 @@
 </div>
 </td></tr>
 <table class="bodyTable"></p>
-<p><table class="bodyTable"><tr class="a"><th>File</th>
-<th>Line</th>
-</tr>
-<tr class="b"><td>net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java</td>
-<td><a href="./xref/net/jawr/web/resource/bundle/factory/util/ClassLoaderResourceUtils.html#98">98</a></td>
-</tr>
-<tr class="a"><td>net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java</td>
-<td><a href="./xref/net/jawr/web/resource/bundle/factory/util/ClassLoaderResourceUtils.html#162">162</a></td>
-</tr>
-<tr class="b"><td colspan='2'><div class="source"><pre>			url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
-			
-			// Last chance, hack in the classloader
-			if(null == url) {
-				ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
-				try {
-					 Thread.currentThread().setContextClassLoader(source.getClass().getClassLoader());
-					 if(Thread.currentThread().getContextClassLoader() != null){
-						 url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
-					 }
-				}
-				finally {
-					 Thread.currentThread().setContextClassLoader(threadClassLoader);
-				}
-				
-			}
-			if(null == url){
-				throw new ResourceNotFoundException( resourcePath + &quot; could not be found. &quot;);</pre>
-</div>
-</td></tr>
-<table class="bodyTable"></p>
-<p><table class="bodyTable"><tr class="a"><th>File</th>
-<th>Line</th>
-</tr>
-<tr class="b"><td>net\jawr\web\taglib\AbstractImageTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/AbstractImageTag.html#487">487</a></td>
-</tr>
-<tr class="a"><td>net\jawr\web\taglib\jsf\AbstractHtmlImageTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/jsf/AbstractHtmlImageTag.html#115">115</a></td>
-</tr>
-<tr class="b"><td colspan='2'><div class="source"><pre>		prepareAttribute(handlers, &quot;onkeypress&quot;, getAttribute(&quot;onkeypress&quot;));
-	}
-
-	/**
-	 * Prepares an attribute if the value is not null, appending it to the the given StringBuffer.
-	 * 
-	 * @param handlers The StringBuffer that output will be appended to.
-	 */
-	protected void prepareAttribute(StringBuffer handlers, String name,
-			Object value) {
-		if (value != null) {
-			handlers.append(&quot; &quot;);
-			handlers.append(name);
-			handlers.append(&quot;=\&quot;&quot;);
-			handlers.append(value);
-			handlers.append(&quot;\&quot;&quot;);
-		}
-	}
-
-	/**
-	 * Prepares an attribute if the value is not null, appending it to the the given StringBuffer.
-	 * 
-	 * @param handlers The StringBuffer that output will be appended to.
-	 */
-	protected void prepareAttribute(StringBuffer handlers, String name,
-			boolean value) {
-
-		handlers.append(&quot; &quot;);
-		handlers.append(name);
-		handlers.append(&quot;=\&quot;&quot;);
-		handlers.append(value);
-		handlers.append(&quot;\&quot;&quot;);
-
-	}
-
-	/**
-	 * Prepare the image URL
-	 * 
-	 * @param context the faces context
-	 * @param results the result
-	 * @throws IOException if an exception occurs
-	 */
-	protected void prepareImageUrl(FacesContext context, StringBuffer results)</pre>
-</div>
-</td></tr>
-<table class="bodyTable"></p>
 </div>
 
       </div>
@@ -552,8 +487,8 @@
 
   
   
-  &nbsp;| Last Published: 09/28/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>

@@ -103,187 +103,169 @@
 <a name="94" href="#94">94</a>  		
 <a name="95" href="#95">95</a>  		<em class="comment">// Try to retrieve by URL</em>
 <a name="96" href="#96">96</a>  		<strong>if</strong>(<strong>null</strong> == is) {
-<a name="97" href="#97">97</a>  			<strong>try</strong> {
-<a name="98" href="#98">98</a>  				URL url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
-<a name="99" href="#99">99</a>  				
-<a name="100" href="#100">100</a> 				
-<a name="101" href="#101">101</a> 				<em class="comment">// Last chance, hack in the classloader</em>
-<a name="102" href="#102">102</a> 				<strong>if</strong>(<strong>null</strong> == url) {
-<a name="103" href="#103">103</a> 					ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
-<a name="104" href="#104">104</a> 					<strong>try</strong> {
-<a name="105" href="#105">105</a> 						 Thread.currentThread().setContextClassLoader(source.getClass().getClassLoader());
-<a name="106" href="#106">106</a> 						 <strong>if</strong>(Thread.currentThread().getContextClassLoader() != <strong>null</strong>){
-<a name="107" href="#107">107</a> 							 url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
-<a name="108" href="#108">108</a> 						 }
-<a name="109" href="#109">109</a> 					}
-<a name="110" href="#110">110</a> 					<strong>finally</strong> {
-<a name="111" href="#111">111</a> 						 Thread.currentThread().setContextClassLoader(threadClassLoader);
-<a name="112" href="#112">112</a> 					}
-<a name="113" href="#113">113</a> 					
-<a name="114" href="#114">114</a> 				}
-<a name="115" href="#115">115</a> 				<strong>if</strong>(<strong>null</strong> == url){
-<a name="116" href="#116">116</a> 					<strong>throw</strong> <strong>new</strong> FileNotFoundException( resourcePath + <span class="string">" could not be found. "</span>);
-<a name="117" href="#117">117</a> 				}
-<a name="118" href="#118">118</a> 				
-<a name="119" href="#119">119</a> 				is = <strong>new</strong> FileInputStream(<strong>new</strong> File(url.getFile()));			
-<a name="120" href="#120">120</a> 			} 
-<a name="121" href="#121">121</a> 			<strong>catch</strong> (IOException e) {
-<a name="122" href="#122">122</a> 				<strong>throw</strong> <strong>new</strong> FileNotFoundException( resourcePath + <span class="string">" could not be found. "</span>);
-<a name="123" href="#123">123</a> 			}
-<a name="124" href="#124">124</a> 		}
-<a name="125" href="#125">125</a> 		
-<a name="126" href="#126">126</a> 		<em class="comment">// Everything failed... exception is trown. </em>
-<a name="127" href="#127">127</a> 		<strong>if</strong>(<strong>null</strong> == is)
-<a name="128" href="#128">128</a> 			<strong>throw</strong> <strong>new</strong> FileNotFoundException( resourcePath + <span class="string">" could not be found. "</span>);
-<a name="129" href="#129">129</a> 		<strong>return</strong> is;
-<a name="130" href="#130">130</a> 	}
-<a name="131" href="#131">131</a> 
-<a name="132" href="#132">132</a> 	<em>/**<em>*</em></em>
-<a name="133" href="#133">133</a> <em>	 * Attempts to find the URL of a resource from the classpath, either usinf the caller's class loader or the current thread's </em>
-<a name="134" href="#134">134</a> <em>	 * context classloader. </em>
-<a name="135" href="#135">135</a> <em>	 * </em>
-<a name="136" href="#136">136</a> <em>	 * @param resourcePath the resource path</em>
-<a name="137" href="#137">137</a> <em>	 * @param source the object</em>
-<a name="138" href="#138">138</a> <em>	 * @return the URL.</em>
-<a name="139" href="#139">139</a> <em>	 * @throws ResourceNotFoundException if the resource is not found</em>
-<a name="140" href="#140">140</a> <em>	 */</em>
-<a name="141" href="#141">141</a> 	<strong>public</strong> <strong>static</strong> URL getResourceURL(String resourcePath, Object source) throws ResourceNotFoundException {
-<a name="142" href="#142">142</a> 		
-<a name="143" href="#143">143</a> 		<em class="comment">// Try the current classloader</em>
-<a name="144" href="#144">144</a> 		URL url = source.getClass().getResource(resourcePath);
-<a name="145" href="#145">145</a> 		
-<a name="146" href="#146">146</a> 		<em class="comment">// Weblogic 10 likes this one better..</em>
-<a name="147" href="#147">147</a> 		<strong>if</strong>(<strong>null</strong> == url) {
-<a name="148" href="#148">148</a> 			ClassLoader cl = source.getClass().getClassLoader();
-<a name="149" href="#149">149</a> 			<strong>if</strong>(<strong>null</strong> != cl)
-<a name="150" href="#150">150</a> 				url = cl.getResource(resourcePath);
-<a name="151" href="#151">151</a> 		}
-<a name="152" href="#152">152</a> 		
-<a name="153" href="#153">153</a> 		<em class="comment">// If current classloader failed, try with the Threads context classloader. If that fails ott, the resource is either not on the </em>
-<a name="154" href="#154">154</a> 		<em class="comment">// classpath or inaccessible from the current context. </em>
-<a name="155" href="#155">155</a> 		
-<a name="156" href="#156">156</a> 		<strong>if</strong>(<strong>null</strong> == url) {
-<a name="157" href="#157">157</a> 			url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
-<a name="158" href="#158">158</a> 		}
-<a name="159" href="#159">159</a> 		
-<a name="160" href="#160">160</a> 		<em class="comment">// Try to retrieve by URL</em>
-<a name="161" href="#161">161</a> 		<strong>if</strong>(<strong>null</strong> == url) {
-<a name="162" href="#162">162</a> 			url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
-<a name="163" href="#163">163</a> 			
-<a name="164" href="#164">164</a> 			<em class="comment">// Last chance, hack in the classloader</em>
-<a name="165" href="#165">165</a> 			<strong>if</strong>(<strong>null</strong> == url) {
-<a name="166" href="#166">166</a> 				ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
-<a name="167" href="#167">167</a> 				<strong>try</strong> {
-<a name="168" href="#168">168</a> 					 Thread.currentThread().setContextClassLoader(source.getClass().getClassLoader());
-<a name="169" href="#169">169</a> 					 <strong>if</strong>(Thread.currentThread().getContextClassLoader() != <strong>null</strong>){
-<a name="170" href="#170">170</a> 						 url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
-<a name="171" href="#171">171</a> 					 }
-<a name="172" href="#172">172</a> 				}
-<a name="173" href="#173">173</a> 				<strong>finally</strong> {
-<a name="174" href="#174">174</a> 					 Thread.currentThread().setContextClassLoader(threadClassLoader);
-<a name="175" href="#175">175</a> 				}
-<a name="176" href="#176">176</a> 				
-<a name="177" href="#177">177</a> 			}
-<a name="178" href="#178">178</a> 			<strong>if</strong>(<strong>null</strong> == url){
-<a name="179" href="#179">179</a> 				<strong>throw</strong> <strong>new</strong> <a href="../../../../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a>( resourcePath + <span class="string">" could not be found. "</span>);
-<a name="180" href="#180">180</a> 			}
-<a name="181" href="#181">181</a> 		}
-<a name="182" href="#182">182</a> 		
-<a name="183" href="#183">183</a> 		<strong>return</strong> url;
-<a name="184" href="#184">184</a> 	}
-<a name="185" href="#185">185</a> 	
-<a name="186" href="#186">186</a> 	<em>/**<em>*</em></em>
-<a name="187" href="#187">187</a> <em>	 * Builds a class instance using reflection, by using its classname. The class must have a zero-arg constructor. </em>
-<a name="188" href="#188">188</a> <em>	 * @param classname the class to build an instance of. </em>
-<a name="189" href="#189">189</a> <em>	 * @return</em>
-<a name="190" href="#190">190</a> <em>	 */</em>
-<a name="191" href="#191">191</a> 	<strong>public</strong> <strong>static</strong> Object buildObjectInstance(String classname) {
-<a name="192" href="#192">192</a> 		Object rets = <strong>null</strong>;
-<a name="193" href="#193">193</a> 		Class clazz = locateClass(classname);
-<a name="194" href="#194">194</a> 		<strong>try</strong> {
-<a name="195" href="#195">195</a> 			rets = clazz.newInstance();
-<a name="196" href="#196">196</a> 		}<strong>catch</strong>(Exception e) {
-<a name="197" href="#197">197</a> 				<strong>throw</strong> <strong>new</strong> RuntimeException(e.getMessage() 
-<a name="198" href="#198">198</a> 											+ <span class="string">" [The custom class "</span> 
-<a name="199" href="#199">199</a> 											+ classname 
-<a name="200" href="#200">200</a> 											+ <span class="string">" could not be instantiated, check wether it is available on the classpath and"</span> 
-<a name="201" href="#201">201</a> 											+ <span class="string">" verify that it has a zero-arg constructor].\n"</span> 
-<a name="202" href="#202">202</a> 											+ <span class="string">" The specific error message is: "</span> + e.getClass().getName() + <span class="string">":"</span> + e.getMessage(),e);			
-<a name="203" href="#203">203</a> 		}
-<a name="204" href="#204">204</a> 		<strong>return</strong> rets;
-<a name="205" href="#205">205</a> 	}
-<a name="206" href="#206">206</a> 	
-<a name="207" href="#207">207</a> 	<strong>private</strong> <strong>static</strong> Class locateClass(String classname) {
-<a name="208" href="#208">208</a> 		Class clazz = <strong>null</strong>;
-<a name="209" href="#209">209</a> 		<strong>try</strong> {
-<a name="210" href="#210">210</a> 			clazz = Class.forName(classname);
-<a name="211" href="#211">211</a> 			
-<a name="212" href="#212">212</a> 		} <strong>catch</strong> (Exception e) {
-<a name="213" href="#213">213</a> 			<em class="comment">// Try the second approach </em>
-<a name="214" href="#214">214</a> 		}
-<a name="215" href="#215">215</a> 		<strong>if</strong>(<strong>null</strong> == clazz) {
-<a name="216" href="#216">216</a> 			Exception classNotFoundEx = <strong>null</strong>;
-<a name="217" href="#217">217</a> 			<strong>try</strong> {
-<a name="218" href="#218">218</a> 				clazz = Class.forName(classname, <strong>true</strong>, <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/factory/util/ClassLoaderResourceUtils.html">ClassLoaderResourceUtils</a>().getClass().getClassLoader());
-<a name="219" href="#219">219</a> 			} <strong>catch</strong> (Exception e) {
-<a name="220" href="#220">220</a> 				<em class="comment">// Try the third approach</em>
-<a name="221" href="#221">221</a> 				classNotFoundEx = e;
-<a name="222" href="#222">222</a> 			}
-<a name="223" href="#223">223</a> 			<strong>if</strong>(<strong>null</strong> == clazz){
-<a name="224" href="#224">224</a> 				ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
-<a name="225" href="#225">225</a> 				<strong>if</strong>(<strong>null</strong> != threadClassLoader){
-<a name="226" href="#226">226</a> 					<strong>try</strong>{
-<a name="227" href="#227">227</a> 						clazz = Class.forName(classname, <strong>true</strong>, threadClassLoader);
-<a name="228" href="#228">228</a> 					}<strong>catch</strong>(Exception e){
-<a name="229" href="#229">229</a> 						<strong>throw</strong> <strong>new</strong> RuntimeException(e.getMessage() 
-<a name="230" href="#230">230</a> 								+ <span class="string">" [The custom class "</span> 
-<a name="231" href="#231">231</a> 								+ classname 
-<a name="232" href="#232">232</a> 								+ <span class="string">" could not be instantiated, check wether it is available on the classpath and"</span> 
-<a name="233" href="#233">233</a> 								+ <span class="string">" verify that it has a zero-arg constructor].\n"</span> 
-<a name="234" href="#234">234</a> 								+ <span class="string">" The specific error message is: "</span> + e.getClass().getName() + <span class="string">":"</span> + e.getMessage(),e);
-<a name="235" href="#235">235</a> 					}
-<a name="236" href="#236">236</a> 				}<strong>else</strong>{
-<a name="237" href="#237">237</a> 					<strong>throw</strong> <strong>new</strong> RuntimeException(classNotFoundEx.getMessage() 
-<a name="238" href="#238">238</a> 							+ <span class="string">" [The custom class "</span> 
-<a name="239" href="#239">239</a> 							+ classname 
-<a name="240" href="#240">240</a> 							+ <span class="string">" could not be instantiated, check wether it is available on the classpath and"</span> 
-<a name="241" href="#241">241</a> 							+ <span class="string">" verify that it has a zero-arg constructor].\n"</span> 
-<a name="242" href="#242">242</a> 							+ <span class="string">" The specific error message is: "</span> + classNotFoundEx.getClass().getName() + <span class="string">":"</span> + classNotFoundEx.getMessage(),classNotFoundEx);
-<a name="243" href="#243">243</a> 				}
-<a name="244" href="#244">244</a> 				
-<a name="245" href="#245">245</a> 			}
-<a name="246" href="#246">246</a> 		}
-<a name="247" href="#247">247</a> 		<strong>return</strong> clazz;
-<a name="248" href="#248">248</a> 	}
-<a name="249" href="#249">249</a> 	
-<a name="250" href="#250">250</a> 	<em>/**<em>*</em></em>
-<a name="251" href="#251">251</a> <em>	 * Builds a class instance using reflection, by using its classname. The class must have a zero-arg constructor. </em>
-<a name="252" href="#252">252</a> <em>	 * @param classname the class to build an instance of. </em>
-<a name="253" href="#253">253</a> <em>	 * @return</em>
-<a name="254" href="#254">254</a> <em>	 */</em>
-<a name="255" href="#255">255</a> 	<strong>public</strong> <strong>static</strong> Object buildObjectInstance(String classname, Object[] params) {
-<a name="256" href="#256">256</a> 		Object rets = <strong>null</strong>;
-<a name="257" href="#257">257</a> 		
-<a name="258" href="#258">258</a> 		Class[] paramTypes = <strong>new</strong> Class[params.length];
-<a name="259" href="#259">259</a> 		<strong>for</strong>(<strong>int</strong> x = 0; x &lt; params.length; x++){
-<a name="260" href="#260">260</a> 			paramTypes[x] = params[x].getClass();
-<a name="261" href="#261">261</a> 		}
-<a name="262" href="#262">262</a> 		
-<a name="263" href="#263">263</a> 		<strong>try</strong> {
-<a name="264" href="#264">264</a> 			Class clazz = locateClass(classname);
-<a name="265" href="#265">265</a> 			rets = clazz.getConstructor(paramTypes).newInstance(params);
-<a name="266" href="#266">266</a> 			
-<a name="267" href="#267">267</a> 		} <strong>catch</strong> (Exception e) {
-<a name="268" href="#268">268</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(e.getMessage() 
-<a name="269" href="#269">269</a> 										+ <span class="string">" [The custom class "</span> 
-<a name="270" href="#270">270</a> 										+ classname 
-<a name="271" href="#271">271</a> 										+ <span class="string">" could not be instantiated, check wether it is available on the classpath and"</span> 
-<a name="272" href="#272">272</a> 										+ <span class="string">" verify that it has a zero-arg constructor].\n"</span> 
-<a name="273" href="#273">273</a> 										+ <span class="string">" The specific error message is: "</span> + e.getClass().getName() + <span class="string">":"</span> + e.getMessage(),e);
-<a name="274" href="#274">274</a> 		}
-<a name="275" href="#275">275</a> 		<strong>return</strong> rets;
-<a name="276" href="#276">276</a> 	}
-<a name="277" href="#277">277</a> }
+<a name="97" href="#97">97</a>  			
+<a name="98" href="#98">98</a>  			<strong>try</strong> {
+<a name="99" href="#99">99</a>  				URL url = getResourceURL(resourcePath, source);
+<a name="100" href="#100">100</a> 				is = <strong>new</strong> FileInputStream(<strong>new</strong> File(url.getFile()));
+<a name="101" href="#101">101</a> 			} <strong>catch</strong> (ResourceNotFoundException e) {
+<a name="102" href="#102">102</a> 				<strong>throw</strong> <strong>new</strong> FileNotFoundException( resourcePath + <span class="string">" could not be found. "</span>);
+<a name="103" href="#103">103</a> 			}<strong>catch</strong> (IOException e) {
+<a name="104" href="#104">104</a> 				<strong>throw</strong> <strong>new</strong> FileNotFoundException( resourcePath + <span class="string">" could not be found. "</span>);
+<a name="105" href="#105">105</a> 			}
+<a name="106" href="#106">106</a> 		}
+<a name="107" href="#107">107</a> 		
+<a name="108" href="#108">108</a> 		<em class="comment">// Everything failed... exception is trown. </em>
+<a name="109" href="#109">109</a> 		<strong>if</strong>(<strong>null</strong> == is)
+<a name="110" href="#110">110</a> 			<strong>throw</strong> <strong>new</strong> FileNotFoundException( resourcePath + <span class="string">" could not be found. "</span>);
+<a name="111" href="#111">111</a> 		<strong>return</strong> is;
+<a name="112" href="#112">112</a> 	}
+<a name="113" href="#113">113</a> 
+<a name="114" href="#114">114</a> 	<em>/**<em>*</em></em>
+<a name="115" href="#115">115</a> <em>	 * Attempts to find the URL of a resource from the classpath, either usinf the caller's class loader or the current thread's </em>
+<a name="116" href="#116">116</a> <em>	 * context classloader. </em>
+<a name="117" href="#117">117</a> <em>	 * </em>
+<a name="118" href="#118">118</a> <em>	 * @param resourcePath the resource path</em>
+<a name="119" href="#119">119</a> <em>	 * @param source the object</em>
+<a name="120" href="#120">120</a> <em>	 * @return the URL.</em>
+<a name="121" href="#121">121</a> <em>	 * @throws ResourceNotFoundException if the resource is not found</em>
+<a name="122" href="#122">122</a> <em>	 */</em>
+<a name="123" href="#123">123</a> 	<strong>public</strong> <strong>static</strong> URL getResourceURL(String resourcePath, Object source) throws ResourceNotFoundException {
+<a name="124" href="#124">124</a> 		
+<a name="125" href="#125">125</a> 		<em class="comment">// Try the current classloader</em>
+<a name="126" href="#126">126</a> 		URL url = source.getClass().getResource(resourcePath);
+<a name="127" href="#127">127</a> 		
+<a name="128" href="#128">128</a> 		<em class="comment">// Weblogic 10 likes this one better..</em>
+<a name="129" href="#129">129</a> 		<strong>if</strong>(<strong>null</strong> == url) {
+<a name="130" href="#130">130</a> 			ClassLoader cl = source.getClass().getClassLoader();
+<a name="131" href="#131">131</a> 			<strong>if</strong>(<strong>null</strong> != cl)
+<a name="132" href="#132">132</a> 				url = cl.getResource(resourcePath);
+<a name="133" href="#133">133</a> 		}
+<a name="134" href="#134">134</a> 		
+<a name="135" href="#135">135</a> 		<em class="comment">// If current classloader failed, try with the Threads context classloader. If that fails ott, the resource is either not on the </em>
+<a name="136" href="#136">136</a> 		<em class="comment">// classpath or inaccessible from the current context. </em>
+<a name="137" href="#137">137</a> 		
+<a name="138" href="#138">138</a> 		<strong>if</strong>(<strong>null</strong> == url) {
+<a name="139" href="#139">139</a> 			url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
+<a name="140" href="#140">140</a> 		}
+<a name="141" href="#141">141</a> 		
+<a name="142" href="#142">142</a> 		<em class="comment">// Try to retrieve by URL</em>
+<a name="143" href="#143">143</a> 		<strong>if</strong>(<strong>null</strong> == url) {
+<a name="144" href="#144">144</a> 			url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
+<a name="145" href="#145">145</a> 			
+<a name="146" href="#146">146</a> 			<em class="comment">// Last chance, hack in the classloader</em>
+<a name="147" href="#147">147</a> 			<strong>if</strong>(<strong>null</strong> == url) {
+<a name="148" href="#148">148</a> 				ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
+<a name="149" href="#149">149</a> 				<strong>try</strong> {
+<a name="150" href="#150">150</a> 					 Thread.currentThread().setContextClassLoader(source.getClass().getClassLoader());
+<a name="151" href="#151">151</a> 					 <strong>if</strong>(Thread.currentThread().getContextClassLoader() != <strong>null</strong>){
+<a name="152" href="#152">152</a> 						 url = Thread.currentThread().getContextClassLoader().getResource(resourcePath);
+<a name="153" href="#153">153</a> 					 }
+<a name="154" href="#154">154</a> 				}
+<a name="155" href="#155">155</a> 				<strong>finally</strong> {
+<a name="156" href="#156">156</a> 					 Thread.currentThread().setContextClassLoader(threadClassLoader);
+<a name="157" href="#157">157</a> 				}
+<a name="158" href="#158">158</a> 				
+<a name="159" href="#159">159</a> 			}
+<a name="160" href="#160">160</a> 			<strong>if</strong>(<strong>null</strong> == url){
+<a name="161" href="#161">161</a> 				<strong>throw</strong> <strong>new</strong> <a href="../../../../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a>( resourcePath + <span class="string">" could not be found. "</span>);
+<a name="162" href="#162">162</a> 			}
+<a name="163" href="#163">163</a> 		}
+<a name="164" href="#164">164</a> 		
+<a name="165" href="#165">165</a> 		<strong>return</strong> url;
+<a name="166" href="#166">166</a> 	}
+<a name="167" href="#167">167</a> 	
+<a name="168" href="#168">168</a> 	<em>/**<em>*</em></em>
+<a name="169" href="#169">169</a> <em>	 * Builds a class instance using reflection, by using its classname. The class must have a zero-arg constructor. </em>
+<a name="170" href="#170">170</a> <em>	 * @param classname the class to build an instance of. </em>
+<a name="171" href="#171">171</a> <em>	 * @return</em>
+<a name="172" href="#172">172</a> <em>	 */</em>
+<a name="173" href="#173">173</a> 	<strong>public</strong> <strong>static</strong> Object buildObjectInstance(String classname) {
+<a name="174" href="#174">174</a> 		Object rets = <strong>null</strong>;
+<a name="175" href="#175">175</a> 		Class clazz = locateClass(classname);
+<a name="176" href="#176">176</a> 		<strong>try</strong> {
+<a name="177" href="#177">177</a> 			rets = clazz.newInstance();
+<a name="178" href="#178">178</a> 		}<strong>catch</strong>(Exception e) {
+<a name="179" href="#179">179</a> 				<strong>throw</strong> <strong>new</strong> RuntimeException(e.getMessage() 
+<a name="180" href="#180">180</a> 											+ <span class="string">" [The custom class "</span> 
+<a name="181" href="#181">181</a> 											+ classname 
+<a name="182" href="#182">182</a> 											+ <span class="string">" could not be instantiated, check wether it is available on the classpath and"</span> 
+<a name="183" href="#183">183</a> 											+ <span class="string">" verify that it has a zero-arg constructor].\n"</span> 
+<a name="184" href="#184">184</a> 											+ <span class="string">" The specific error message is: "</span> + e.getClass().getName() + <span class="string">":"</span> + e.getMessage(),e);			
+<a name="185" href="#185">185</a> 		}
+<a name="186" href="#186">186</a> 		<strong>return</strong> rets;
+<a name="187" href="#187">187</a> 	}
+<a name="188" href="#188">188</a> 	
+<a name="189" href="#189">189</a> 	<strong>private</strong> <strong>static</strong> Class locateClass(String classname) {
+<a name="190" href="#190">190</a> 		Class clazz = <strong>null</strong>;
+<a name="191" href="#191">191</a> 		<strong>try</strong> {
+<a name="192" href="#192">192</a> 			clazz = Class.forName(classname);
+<a name="193" href="#193">193</a> 			
+<a name="194" href="#194">194</a> 		} <strong>catch</strong> (Exception e) {
+<a name="195" href="#195">195</a> 			<em class="comment">// Try the second approach </em>
+<a name="196" href="#196">196</a> 		}
+<a name="197" href="#197">197</a> 		<strong>if</strong>(<strong>null</strong> == clazz) {
+<a name="198" href="#198">198</a> 			Exception classNotFoundEx = <strong>null</strong>;
+<a name="199" href="#199">199</a> 			<strong>try</strong> {
+<a name="200" href="#200">200</a> 				clazz = Class.forName(classname, <strong>true</strong>, <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/factory/util/ClassLoaderResourceUtils.html">ClassLoaderResourceUtils</a>().getClass().getClassLoader());
+<a name="201" href="#201">201</a> 			} <strong>catch</strong> (Exception e) {
+<a name="202" href="#202">202</a> 				<em class="comment">// Try the third approach</em>
+<a name="203" href="#203">203</a> 				classNotFoundEx = e;
+<a name="204" href="#204">204</a> 			}
+<a name="205" href="#205">205</a> 			<strong>if</strong>(<strong>null</strong> == clazz){
+<a name="206" href="#206">206</a> 				ClassLoader threadClassLoader = Thread.currentThread().getContextClassLoader();
+<a name="207" href="#207">207</a> 				<strong>if</strong>(<strong>null</strong> != threadClassLoader){
+<a name="208" href="#208">208</a> 					<strong>try</strong>{
+<a name="209" href="#209">209</a> 						clazz = Class.forName(classname, <strong>true</strong>, threadClassLoader);
+<a name="210" href="#210">210</a> 					}<strong>catch</strong>(Exception e){
+<a name="211" href="#211">211</a> 						<strong>throw</strong> <strong>new</strong> RuntimeException(e.getMessage() 
+<a name="212" href="#212">212</a> 								+ <span class="string">" [The custom class "</span> 
+<a name="213" href="#213">213</a> 								+ classname 
+<a name="214" href="#214">214</a> 								+ <span class="string">" could not be instantiated, check wether it is available on the classpath and"</span> 
+<a name="215" href="#215">215</a> 								+ <span class="string">" verify that it has a zero-arg constructor].\n"</span> 
+<a name="216" href="#216">216</a> 								+ <span class="string">" The specific error message is: "</span> + e.getClass().getName() + <span class="string">":"</span> + e.getMessage(),e);
+<a name="217" href="#217">217</a> 					}
+<a name="218" href="#218">218</a> 				}<strong>else</strong>{
+<a name="219" href="#219">219</a> 					<strong>throw</strong> <strong>new</strong> RuntimeException(classNotFoundEx.getMessage() 
+<a name="220" href="#220">220</a> 							+ <span class="string">" [The custom class "</span> 
+<a name="221" href="#221">221</a> 							+ classname 
+<a name="222" href="#222">222</a> 							+ <span class="string">" could not be instantiated, check wether it is available on the classpath and"</span> 
+<a name="223" href="#223">223</a> 							+ <span class="string">" verify that it has a zero-arg constructor].\n"</span> 
+<a name="224" href="#224">224</a> 							+ <span class="string">" The specific error message is: "</span> + classNotFoundEx.getClass().getName() + <span class="string">":"</span> + classNotFoundEx.getMessage(),classNotFoundEx);
+<a name="225" href="#225">225</a> 				}
+<a name="226" href="#226">226</a> 				
+<a name="227" href="#227">227</a> 			}
+<a name="228" href="#228">228</a> 		}
+<a name="229" href="#229">229</a> 		<strong>return</strong> clazz;
+<a name="230" href="#230">230</a> 	}
+<a name="231" href="#231">231</a> 	
+<a name="232" href="#232">232</a> 	<em>/**<em>*</em></em>
+<a name="233" href="#233">233</a> <em>	 * Builds a class instance using reflection, by using its classname. The class must have a zero-arg constructor. </em>
+<a name="234" href="#234">234</a> <em>	 * @param classname the class to build an instance of. </em>
+<a name="235" href="#235">235</a> <em>	 * @return</em>
+<a name="236" href="#236">236</a> <em>	 */</em>
+<a name="237" href="#237">237</a> 	<strong>public</strong> <strong>static</strong> Object buildObjectInstance(String classname, Object[] params) {
+<a name="238" href="#238">238</a> 		Object rets = <strong>null</strong>;
+<a name="239" href="#239">239</a> 		
+<a name="240" href="#240">240</a> 		Class[] paramTypes = <strong>new</strong> Class[params.length];
+<a name="241" href="#241">241</a> 		<strong>for</strong>(<strong>int</strong> x = 0; x &lt; params.length; x++){
+<a name="242" href="#242">242</a> 			paramTypes[x] = params[x].getClass();
+<a name="243" href="#243">243</a> 		}
+<a name="244" href="#244">244</a> 		
+<a name="245" href="#245">245</a> 		<strong>try</strong> {
+<a name="246" href="#246">246</a> 			Class clazz = locateClass(classname);
+<a name="247" href="#247">247</a> 			rets = clazz.getConstructor(paramTypes).newInstance(params);
+<a name="248" href="#248">248</a> 			
+<a name="249" href="#249">249</a> 		} <strong>catch</strong> (Exception e) {
+<a name="250" href="#250">250</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(e.getMessage() 
+<a name="251" href="#251">251</a> 										+ <span class="string">" [The custom class "</span> 
+<a name="252" href="#252">252</a> 										+ classname 
+<a name="253" href="#253">253</a> 										+ <span class="string">" could not be instantiated, check wether it is available on the classpath and"</span> 
+<a name="254" href="#254">254</a> 										+ <span class="string">" verify that it has a zero-arg constructor].\n"</span> 
+<a name="255" href="#255">255</a> 										+ <span class="string">" The specific error message is: "</span> + e.getClass().getName() + <span class="string">":"</span> + e.getMessage(),e);
+<a name="256" href="#256">256</a> 		}
+<a name="257" href="#257">257</a> 		<strong>return</strong> rets;
+<a name="258" href="#258">258</a> 	}
+<a name="259" href="#259">259</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

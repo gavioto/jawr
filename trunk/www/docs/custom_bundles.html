@@ -72,11 +72,19 @@
         </li>
               
     <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
               <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
@@ -133,6 +141,10 @@
         </li>
               
     <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
               <a href="../integration/grails.html">Grails plugin</a>
         </li>
               
@@ -151,6 +163,14 @@
               
     <li class="none">
               <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
@@ -342,6 +362,81 @@ jawr.js.bundle.comp.child.names=foo, bar
 </div>
 <p>With such mapping, we specify that, when in development mode, the composite will not contain the files mapped by the <i>foo</i> bundle, and that the <i>baz</i> bundle will not use any postprocessor even if there were globally defined ones. </p>
 </div>
+<div class="section"><h3>Bundle dependencies</h3>
+<p>Since the version <i>3.2</i>, Jawr allows you to define the dependencies for your bundles. This means that if your bundle defines dependencies to other bundles, when you include your bundle in a page, Jawr will add the dependencies in your page before referencing your bundle, if these dependencies are not already included. To define your dependencies, you need to use <b>dependencies</b> property in your bundle definition. <br />
+This property contains a list of comma separated bundle names, on which the bundle depends. You can define dependencies to a bundle or to a composite bundle.</p>
+<div class="source"><pre>        
+        jawr.js.bundle.foo.id=/bundles/fooBundle.js
+        jawr.js.bundle.foo.mappings=/js/foo.js, /js/bar.js
+        jawr.js.bundle.foo.dependencies=baz,bar
+        
+        jawr.js.bundle.baz.id=/bundles/bazBundle.js
+        jawr.js.bundle.baz.mappings=/js/baz/**, /js/someScript.js, /js/someSubdir/      
+        
+        jawr.js.bundle.bar.id=/bundles/barBundle.js
+        jawr.js.bundle.bar.mappings=/js/bar/**, /js/someScript1.js, /js/someSubdir1/    
+        </pre>
+</div>
+<p>With such mapping, if you include the bundle <i>/bundles/fooBundle.js</i> in your page, if the bundles <i>/bundles/bazBundle.js</i> and <i>/bundles/barBundle.js</i> are not included, then Jawr will automatically add the reference to the missing dependencies.</p>
+<div class="source"><pre>&lt;head&gt;  
+        &lt;jwr:script src=&quot;/bundles/fooBundle.js&quot;/&gt; 
+&lt;/head&gt;  </pre>
+</div>
+<p>In our example, this will generate:</p>
+<div class="source"><pre>&lt;script type=&quot;text/javascript&quot; src=&quot;/myWarContext/prefix/bundles/bazBundle.js&quot; &gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/myWarContext/prefix/bundles/barBundle.js&quot; &gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;/myWarContext/prefix/bundles/fooBundle.js&quot; &gt;&lt;/script&gt;</pre>
+</div>
+<ul><li>Dependency resolution and inclusion order<p>The dependency resolution algorithm can be summed up as follows:</p>
+<p>The dependencies are included before the bundle, and there are included in the same order as the one defined in the dependencies declaration. <br />
+And if a dependency bundle has also a dependency in that case, the bundle dependencies will be included before the dependency itself.</p>
+<div class="source"><pre>        
+        jawr.js.bundle.foo.id=/bundles/fooBundle.js
+        jawr.js.bundle.foo.mappings=/js/foo.js, /js/bar.js
+        jawr.js.bundle.foo.dependencies=baz,bar
+        
+        jawr.js.bundle.baz.id=/bundles/bazBundle.js
+        jawr.js.bundle.baz.mappings=/js/baz/**, /js/someScript.js, /js/someSubdir/      
+        jawr.js.bundle.baz.dependencies=qux
+        
+        jawr.js.bundle.bar.id=/bundles/barBundle.js
+        jawr.js.bundle.bar.mappings=/js/bar/**, /js/someScript1.js, /js/someSubdir1/    
+        
+        jawr.js.bundle.qux.id=/bundles/quxBundle.js
+        jawr.js.bundle.qux.mappings=/js/qux/**, /js/someScript2.js, /js/someSubdir2/    
+        </pre>
+</div>
+<p>With the mapping above, this is how Jawr will resolve the dependencies of the bundle <b>foo</b>:</p>
+<p>1. As <i>baz</i> is the first dependency, we check if this bundle has dependencies, <br />
+if it's the case, we will try to resolve its dependencies, and include them before <i>baz</i>. <br />
+2. <i>baz</i> has a dependency on <i>qux</i>. So we include <i>qux</i> and its dependencies before <i>baz</i>. <br />
+3. <i>qux</i> has no dependency. So we just include <i>qux</i> before <i>baz</i>. <br />
+4. We have finished the dependency resolution for <i>baz</i>, so we include <i>baz</i> and now we try to resolve the dependencies for <i>bar</i>. <br />
+5. <i>bar</i> has no dependency. So it's simply included. <br />
+6. <i>foo</i> has no more dependency so we add <i>foo</i></p>
+<p>So the inclusion order, resulting from the dependency resolution is the following:</p>
+<div class="source"><pre>        bar1, baz, bar, foo</pre>
+</div>
+</li>
+<li>Global bundle<p>It is unnecessary to reference a global bundle in your dependencies, because it will be automatically be added in any case. It is also important to note that you can't define dependencies for global bundles. This property is not allowed for this kind of bundle. To define the order of the global bundle, you can use the <i>order</i> property. Please check <a href="../descriptor_syntax.html">the descriptor syntax doc</a> for more information.</p>
+</li>
+<li>Circular dependencies<p>The circular dependencies are not allowed. So if you define dependencies, where a bundle appears twice in the dependency chain, a <i>net.jawr.web.exception.BundleDependencyException</i> will be thrown during the bundling process. You will see below an example of circular dependency where <i>/bundles/fooBundle.js</i> appears twice in the dependency chain.</p>
+<div class="source"><pre>        
+        jawr.js.bundle.foo.id=/bundles/fooBundle.js
+        jawr.js.bundle.foo.mappings=/js/foo.js, /js/bar.js
+        jawr.js.bundle.foo.dependencies=baz,bar
+        
+        jawr.js.bundle.baz.id=/bundles/bazBundle.js
+        jawr.js.bundle.baz.mappings=/js/baz/**, /js/someScript.js, /js/someSubdir/      
+        
+        jawr.js.bundle.bar.id=/bundles/barBundle.js
+        jawr.js.bundle.bar.mappings=/js/bar/**, /js/someScript1.js, /js/someSubdir1/
+        awr.js.bundle.bar.dependencies=foo      
+        </pre>
+</div>
+</li>
+</ul>
+</div>
 <div class="section"><h3>Orphan resources</h3>
 <p>In Jawr terminology, orphan resources are those not mapped to any bundle after initial configuration. The 'jawr.[js or css].bundle.basedir' property lets Jawr know where to look for orphan resources. After all bundles are created, Jawr scans this location and its subdirs to find non mapped resources (if the property is not specified, Jawr will search from the web app root dir). </p>
 <p>You may choose not to define any bundle at all, so <b>all</b> resources will be orphan. Typically, you would want this if you want Jawr to act as a traditional (yet powerful) resources compressor. &#160;</p>
@@ -388,8 +483,8 @@ jawr.js.bundle.comp.child.names=foo, bar
 
   
   
-  &nbsp;| Last Published: 09/27/2009
-  &nbsp;| Version: 3.1.2
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
 </div>
       <div class="clear">
         <hr/>

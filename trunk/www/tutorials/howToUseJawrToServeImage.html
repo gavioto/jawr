@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+<html>
+  <head>
+    <title>Jawr - Tutorial: How to set up Jawr to serve images</title>
+    <style type="text/css" media="all">
+      @import url("../css/maven-base.css");
+      @import url("../css/maven-theme.css");
+      @import url("../css/site.css");
+    </style>
+    <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <!-- TODO: move this into JavaScript to patch the skin
+      <div class="xright">  </div>
+    -->
+    <div id="leftColumn">
+      <div id="navcolumn">
+             <dl class=navgroup>
+        <dt>About</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../servlets/ProjectHome">Home</a>
+        </li>
+              
+    <li class="none">
+              <a href="../introduction.html">Introduction</a>
+        </li>
+              
+    <li class="none">
+              <a href="../features.html">Features</a>
+        </li>
+              
+    <li class="none">
+              <a href="../changes.html">Change history</a>
+        </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Documentation</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../docs/servlet.html">The Jawr servlet</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/descriptor_syntax.html">Descriptor syntax</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/custom_bundles.html">Bundle definition</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/postprocessors.html">Postprocessors</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/license_files.html">Licenses in resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/taglibs.html">JSP Tag library</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/plain_html.html">Use in HTML pages</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/modes.html">Debug and production modes</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jmx_support.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/bundle_preprocessing.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_maven_plugin.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_ant_task.html">Jawr Ant task</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Integration</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../integration/augmenter.html">Add Jawr to your framework</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/spring.html">Spring MVC</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/facelets.html">Facelets Tag library</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/grails.html">Grails plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/dwr.html">DWR</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/validator.html">Commons Validator - Struts</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Tutorials</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <strong>How to use Jawr to serve image resources</strong>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/faq_howto.html">FAQ-Howto</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/libraries.html">Using popular libraries</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>API and sources</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../nonav/apidocs/index.html">JavaDocs</a>
+        </li>
+              
+    <li class="none">
+              <a href="../nonav/xref/index.html">Source XREF</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Project tools</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../servlets/ProjectHome">Project home</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectMemberList">Membership</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectNewsList">Announcements</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectForumView">Discussion forums</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectMailingListList">Mailing lists</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectDocumentList">Documents & files</a>
+        </li>
+              
+    <li class="none">
+              <a href="../source/browse/jawr/">Subversion</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectIssues">Issue tracker</a>
+        </li>
+          </ul></dd>
+    </dl>
+        </div>
+      <script>
+        // replace the java.net project tools with the navigation bar from Maven.
+        // also get rid of "Get Involved" thingie too, while we are at it
+        var pt = document.getElementById("projecttools");
+        var nv = document.getElementById("navcolumn");
+        
+        while(pt.previousSibling!=null)
+          pt.parentNode.removeChild(pt.previousSibling);
+        
+        pt.parentNode.insertBefore(nv,pt);
+        pt.parentNode.removeChild(pt);
+      </script>
+      <script>
+        // kill "description" h3 bar
+        var ld = document.getElementById("longdescription");
+        if(ld!=null) {
+          for( n=ld.firstChild; n!=null; n=n.nextSibling ) {
+            if(n.nodeType==1 && n.innerHTML=="Description" ) {
+              n.parentNode.removeChild(n);
+              break;
+            }
+          }
+        }
+      </script>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>How to set up Jawr to serve images</h2>
+<p>The goal of this tutorial is to explain how to set up Jawr to serve images. Since the version 3.0, Jawr is also able to handle images. The images can be reference from the CSS stylesheets or directly in the JSP using specific tags. Look for the image tags at the <a href="https://jawr.dev.java.net/docs/taglibs.html" class="externalLink">tag library doc</a> for extra info. Jawr will set a long expiration date for the image, and will create a unique URL for the image, which is dependent of the file content.</p>
+<div class="section"><h3>Set up Jawr in your project</h3>
+<p>Please check the &quot;quickstart&quot; tutorial for the instruction about Jawr installation in your project.</p>
+</div>
+<div class="section"><h3>Configure instances of the Jawr Servlet</h3>
+<p>As for CSS and Javascript resources, Jawr use a specific Servlet to serve the images. So you will need to add <b>net.jawr.web.servlet.JawrServlet</b> to your web.xml descriptor. <b>Important note :</b> If you are using Jawr for CSS, the JawrServlet for image resources must be initialized before the CSS one. Otherwise the bundling process will not work.</p>
+<p>For instance: </p>
+<div class="source"><pre>        &lt;servlet&gt;
+                &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
+                &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
+                
+                &lt;!-- Location in classpath of the config file --&gt;
+                &lt;init-param&gt;
+                        &lt;param-name&gt;configLocation&lt;/param-name&gt;
+                        &lt;param-value&gt;/jawr.properties&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+        &lt;/servlet&gt;
+        
+        &lt;servlet&gt;
+                &lt;servlet-name&gt;ImageServlet&lt;/servlet-name&gt;
+                &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
+                
+                &lt;!-- Location in classpath of the config file --&gt;
+                &lt;init-param&gt;
+                        &lt;param-name&gt;configLocation&lt;/param-name&gt;
+                        &lt;param-value&gt;/jawr.properties&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                        &lt;param-name&gt;type&lt;/param-name&gt;
+                        &lt;param-value&gt;img&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+        &lt;/servlet&gt;
+        
+        &lt;servlet&gt;
+                &lt;servlet-name&gt;CSSServlet&lt;/servlet-name&gt;
+                &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
+                
+                &lt;!-- Location in classpath of the config file --&gt;
+                &lt;init-param&gt;
+                        &lt;param-name&gt;configLocation&lt;/param-name&gt;
+                        &lt;param-value&gt;/jawr.properties&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;init-param&gt;
+                        &lt;param-name&gt;type&lt;/param-name&gt;
+                        &lt;param-value&gt;css&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;!-- Here we make sure that the CSS servlet will start after the image one --&gt;
+                &lt;load-on-startup&gt;2&lt;/load-on-startup&gt;
+        &lt;/servlet&gt;
+        
+        ...
+        
+        &lt;servlet-mapping&gt;
+                &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
+                &lt;url-pattern&gt;*.js&lt;/url-pattern&gt;
+        &lt;/servlet-mapping&gt; 
+        
+        &lt;servlet-mapping&gt;
+                &lt;servlet-name&gt;CSSServlet&lt;/servlet-name&gt;
+                &lt;url-pattern&gt;*.css&lt;/url-pattern&gt;
+        &lt;/servlet-mapping&gt; 
+        
+        &lt;!-- The image servlet will be able to serve &quot;png&quot; and &quot;gif&quot; files --&gt;
+        &lt;servlet-mapping&gt;
+                &lt;servlet-name&gt;ImageServlet&lt;/servlet-name&gt;
+                &lt;url-pattern&gt;*.png&lt;/url-pattern&gt;
+        &lt;/servlet-mapping&gt; 
+        &lt;servlet-mapping&gt;
+                &lt;servlet-name&gt;ImageServlet&lt;/servlet-name&gt;
+                &lt;url-pattern&gt;*.gif&lt;/url-pattern&gt;
+        &lt;/servlet-mapping&gt; 
+        </pre>
+</div>
+<p>This is all the configuration required to get the Jawr servlet up and running. You will note that we have set the property <b>load-on-startup</b> for the servlets, to make sure that the image servlet will start before the CSS one.</p>
+</div>
+<div class="section"><h3>Jawr configuration file</h3>
+<p>There are 3 properties which are related to image handling in Jawr.</p>
+<table class="bodyTable"><tbody><tr class="a"><td align="left"><b>Property name</b></td>
+<td align="left"><b>Type</b></td>
+<td align="left"><b>Purpose</b></td>
+<td align="left"><b>Default value</b></td>
+</tr>
+<tr class="b"><td align="left">jawr.css.classpath.handle.image</td>
+<td align="left">Boolean</td>
+<td align="left">The flag indicating if the CSS images should be retrieved from the classpath, for the CSS defined in the classpath.</td>
+<td align="left">None</td>
+</tr>
+<tr class="a"><td align="left">jawr.image.resources</td>
+<td align="left">String</td>
+<td align="left">The comma separated list of images, whose the hashcode will be calculated at Jawr image servlet startup. If an image is not defined here, the hashcode will be calculated at runtime and put in cache.</td>
+<td align="left">None</td>
+</tr>
+<tr class="b"><td align="left">jawr.image.hash.algorithm</td>
+<td align="left">String</td>
+<td align="left">The hash algorithm to use for the images. Two values are possible : CRC32 and MD5</td>
+<td align="left">CRC32</td>
+</tr>
+</tbody>
+</table>
+<p>The declaration of your images in the <b>jawr.image.resources</b> property is not mandatory. This property is used to calculate the hashcode of the images at the image servlet startup. If an image is not defined in this property, the hashcode of the image will be calculated at runtime.</p>
+</div>
+<div class="section"><h3>Test the image resource serving</h3>
+<p>Create an <b>/img</b> directory at the root of your web application and copy an <b>png</b> image in it and rename it as <b>logo.png</b> . Write a test JSP page and add the following content: </p>
+<div class="source"><pre>&lt;%@ taglib uri=&quot;http://jawr.net/tags&quot; prefix=&quot;jwr&quot; %&gt;
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt;
+&lt;body&gt;
+        ...
+        &lt;jwr:img src=&quot;/img/logo.png&quot;/&gt;  
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+<p>Deploy your application to a server and open the JSP you created. The page should contain a link to cb1341564321/logo.png. </p>
+</div>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2009
+    
+          
+  
+
+  
+  
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
+</div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
