@@ -253,494 +253,525 @@
 <a name="244" href="#244">244</a>     	<strong>return</strong> JawrConstant.URL_SEPARATOR; 
 <a name="245" href="#245">245</a>     }
 <a name="246" href="#246">246</a>     
-<a name="247" href="#247">247</a>     <em>/**<em>*</em></em>
-<a name="248" href="#248">248</a> <em>     * Determines the relative path of a filename from a base directory.</em>
-<a name="249" href="#249">249</a> <em>     * This method is useful in building relative links within pages of</em>
-<a name="250" href="#250">250</a> <em>     * a web site.  It provides similar functionality to Anakia's</em>
-<a name="251" href="#251">251</a> <em>     * &lt;code>$relativePath&lt;/code> context variable.  The arguments to</em>
-<a name="252" href="#252">252</a> <em>     * this method may contain either forward or backward slashes as</em>
-<a name="253" href="#253">253</a> <em>     * file separators.  The relative path returned is formed using</em>
-<a name="254" href="#254">254</a> <em>     * forward slashes as it is expected this path is to be used as a</em>
-<a name="255" href="#255">255</a> <em>     * link in a web page (again mimicking Anakia's behavior).</em>
-<a name="256" href="#256">256</a> <em>     * &lt;p/></em>
-<a name="257" href="#257">257</a> <em>     * This method is thread-safe.</em>
-<a name="258" href="#258">258</a> <em>     * &lt;br/></em>
-<a name="259" href="#259">259</a> <em>     * &lt;pre></em>
-<a name="260" href="#260">260</a> <em>     * PathUtils.getRelativePath( null, null )                                   = ""</em>
-<a name="261" href="#261">261</a> <em>     * PathUtils.getRelativePath( null, "/usr/local/java/bin" )                  = ""</em>
-<a name="262" href="#262">262</a> <em>     * PathUtils.getRelativePath( "/usr/local/", null )                          = ""</em>
-<a name="263" href="#263">263</a> <em>     * PathUtils.getRelativePath( "/usr/local/", "/usr/local/java/bin" )         = ".."</em>
-<a name="264" href="#264">264</a> <em>     * PathUtils.getRelativePath( "/usr/local/", "/usr/local/java/bin/java.sh" ) = "../.."</em>
-<a name="265" href="#265">265</a> <em>     * PathUtils.getRelativePath( "/usr/local/java/bin/java.sh", "/usr/local/" ) = ""</em>
-<a name="266" href="#266">266</a> <em>     * &lt;/pre></em>
-<a name="267" href="#267">267</a> <em>     *</em>
-<a name="268" href="#268">268</a> <em>     * @param basedir The base directory.</em>
-<a name="269" href="#269">269</a> <em>     * @param filename The filename that is relative to the base</em>
-<a name="270" href="#270">270</a> <em>     * directory.</em>
-<a name="271" href="#271">271</a> <em>     * @return The relative path of the filename from the base</em>
-<a name="272" href="#272">272</a> <em>     * directory.  This value is not terminated with a forward slash.</em>
-<a name="273" href="#273">273</a> <em>     * A zero-length string is returned if: the filename is not relative to</em>
-<a name="274" href="#274">274</a> <em>     * the base directory, &lt;code>basedir&lt;/code> is null or zero-length,</em>
-<a name="275" href="#275">275</a> <em>     * or &lt;code>filename&lt;/code> is null or zero-length.</em>
-<a name="276" href="#276">276</a> <em>     */</em>
-<a name="277" href="#277">277</a>     <strong>public</strong> <strong>static</strong> <strong>final</strong> String getRelativePath( String basedir, String filename )
-<a name="278" href="#278">278</a>     {
-<a name="279" href="#279">279</a>         basedir = uppercaseDrive(basedir);
-<a name="280" href="#280">280</a>         filename = uppercaseDrive(filename);
-<a name="281" href="#281">281</a> 
-<a name="282" href="#282">282</a>         <em class="comment">/*</em>
-<a name="283" href="#283">283</a> <em class="comment">         * Verify the arguments and make sure the filename is relative</em>
-<a name="284" href="#284">284</a> <em class="comment">         * to the base directory.</em>
-<a name="285" href="#285">285</a> <em class="comment">         */</em>
-<a name="286" href="#286">286</a>         <strong>if</strong> ( basedir == <strong>null</strong> || basedir.length() == 0 || filename == <strong>null</strong>
-<a name="287" href="#287">287</a>             || filename.length() == 0 || !filename.startsWith( basedir ) )
-<a name="288" href="#288">288</a>         {
-<a name="289" href="#289">289</a>             <strong>return</strong> <span class="string">""</span>;
-<a name="290" href="#290">290</a>         }
-<a name="291" href="#291">291</a> 
-<a name="292" href="#292">292</a>         <em class="comment">/*</em>
-<a name="293" href="#293">293</a> <em class="comment">         * Normalize the arguments.  First, determine the file separator</em>
-<a name="294" href="#294">294</a> <em class="comment">         * that is being used, then strip that off the end of both the</em>
-<a name="295" href="#295">295</a> <em class="comment">         * base directory and filename.</em>
-<a name="296" href="#296">296</a> <em class="comment">         */</em>
-<a name="297" href="#297">297</a>         String separator = determineSeparator( filename );
-<a name="298" href="#298">298</a>         basedir = StringUtils.chompLast( basedir, separator );
-<a name="299" href="#299">299</a>         filename = StringUtils.chompLast( filename, separator );
-<a name="300" href="#300">300</a> 
-<a name="301" href="#301">301</a>         <em class="comment">/*</em>
-<a name="302" href="#302">302</a> <em class="comment">         * Remove the base directory from the filename to end up with a</em>
-<a name="303" href="#303">303</a> <em class="comment">         * relative filename (relative to the base directory).  This</em>
-<a name="304" href="#304">304</a> <em class="comment">         * filename is then used to determine the relative path.</em>
-<a name="305" href="#305">305</a> <em class="comment">         */</em>
-<a name="306" href="#306">306</a>         String relativeFilename = filename.substring( basedir.length() );
-<a name="307" href="#307">307</a> 
-<a name="308" href="#308">308</a>         <strong>return</strong> determineRelativePath( relativeFilename, separator );
-<a name="309" href="#309">309</a>     }
-<a name="310" href="#310">310</a> 
-<a name="311" href="#311">311</a>     <em>/**<em>*</em></em>
-<a name="312" href="#312">312</a> <em>     * Concatenates a filename to a base web path.</em>
-<a name="313" href="#313">313</a> <em>     * If the base path doesn't end with "/", it will consider as base path the parent folder of the base path passed as parameter.</em>
-<a name="314" href="#314">314</a> <em>     * </em>
-<a name="315" href="#315">315</a> <em>     * &lt;pre></em>
-<a name="316" href="#316">316</a> <em>     * PathUtils.concatWebPath("", null));								   			= null</em>
-<a name="317" href="#317">317</a> <em>	 * PathUtils.concatWebPath(null, null));								   		= null</em>
-<a name="318" href="#318">318</a> <em>	 * PathUtils.concatWebPath(null, ""));								   			= null</em>
-<a name="319" href="#319">319</a> <em>	 * PathUtils.concatWebPath(null, "a"));								   			= null			</em>
-<a name="320" href="#320">320</a> <em>	 * PathUtils.concatWebPath(null, "/a"));								   		= "/a" </em>
-<a name="321" href="#321">321</a> <em> 	 * PathUtils.concatWebPath( "/css/folder/subfolder/", "icons/img.png" )      	= "/css/folder/subfolder/icons/img.png"</em>
-<a name="322" href="#322">322</a> <em>     * PathUtils.concatWebPath( "/css/folder/subfolder/style.css", "icons/img.png") = "/css/folder/subfolder/icons/img.png"</em>
-<a name="323" href="#323">323</a> <em>     * PathUtils.concatWebPath( "/css/folder/", "../icons/img.png" )      			= "/css/icons/img.png"</em>
-<a name="324" href="#324">324</a> <em>     * PathUtils.concatWebPath( "/css/folder/style.css", "../icons/img.png" ) 		= "/css/icons/img.png"</em>
-<a name="325" href="#325">325</a> <em>     * &lt;/pre></em>
-<a name="326" href="#326">326</a> <em>     * </em>
-<a name="327" href="#327">327</a> <em>     * @param basePath the base path</em>
-<a name="328" href="#328">328</a> <em>     * @param fullFilenameToAdd the file name to add</em>
-<a name="329" href="#329">329</a> <em>     * @return the concatenated path, or null if invalid</em>
-<a name="330" href="#330">330</a> <em>     */</em>
-<a name="331" href="#331">331</a>     <strong>public</strong> <strong>static</strong> String concatWebPath(String basePath, String fullFilenameToAdd){
-<a name="332" href="#332">332</a>      	
-<a name="333" href="#333">333</a>     	<strong>if</strong>(fullFilenameToAdd == <strong>null</strong> || basePath == <strong>null</strong> &amp;&amp; (fullFilenameToAdd.length() == 0
-<a name="334" href="#334">334</a>     			|| fullFilenameToAdd.charAt(0) != JawrConstant.URL_SEPARATOR_CHAR)){
-<a name="335" href="#335">335</a>     		<strong>return</strong> <strong>null</strong>;
-<a name="336" href="#336">336</a>     	}
-<a name="337" href="#337">337</a>     	
-<a name="338" href="#338">338</a>     	<strong>if</strong>(basePath == <strong>null</strong>){
-<a name="339" href="#339">339</a>     		basePath = <span class="string">""</span>;
-<a name="340" href="#340">340</a>     	}
-<a name="341" href="#341">341</a>     	<em class="comment">// If the basePath is pointing to a file, set the base path to the parent directory</em>
-<a name="342" href="#342">342</a>     	<strong>if</strong>(basePath.length() > 1 &amp;&amp; basePath.charAt(basePath.length()-1) != '/'){
-<a name="343" href="#343">343</a>     		basePath = getParentPath(basePath);
-<a name="344" href="#344">344</a>     	}
-<a name="345" href="#345">345</a>     	
-<a name="346" href="#346">346</a>     	<strong>int</strong> len = basePath.length();
-<a name="347" href="#347">347</a>     	String fullPath = <strong>null</strong>;
-<a name="348" href="#348">348</a>         <strong>if</strong> (len == 0) {
-<a name="349" href="#349">349</a>         	<strong>return</strong> doNormalizeIgnoreOtherSeparator(fullFilenameToAdd, <strong>true</strong>);
-<a name="350" href="#350">350</a>         }
-<a name="351" href="#351">351</a>         
-<a name="352" href="#352">352</a>     	<strong>char</strong> ch = basePath.<strong>char</strong>At(len - 1);
-<a name="353" href="#353">353</a>         <strong>if</strong> (ch == JawrConstant.URL_SEPARATOR_CHAR) {
-<a name="354" href="#354">354</a>         	fullPath = basePath + fullFilenameToAdd;
-<a name="355" href="#355">355</a>         } <strong>else</strong> {
-<a name="356" href="#356">356</a>         	fullPath = basePath + '/' + fullFilenameToAdd;
-<a name="357" href="#357">357</a>         }
-<a name="358" href="#358">358</a>         
-<a name="359" href="#359">359</a>         <strong>return</strong> doNormalizeIgnoreOtherSeparator(fullPath, <strong>true</strong>); 
-<a name="360" href="#360">360</a>         
-<a name="361" href="#361">361</a>     }
-<a name="362" href="#362">362</a>     
-<a name="363" href="#363">363</a>     <em>/**<em>*</em></em>
-<a name="364" href="#364">364</a> <em>     * Internal method to perform the normalization.</em>
-<a name="365" href="#365">365</a> <em>     *</em>
-<a name="366" href="#366">366</a> <em>     * @param filename  the filename</em>
-<a name="367" href="#367">367</a> <em>     * @param keepSeparator  true to keep the final separator</em>
-<a name="368" href="#368">368</a> <em>     * @return the normalized filename</em>
-<a name="369" href="#369">369</a> <em>     */</em>
-<a name="370" href="#370">370</a>     <strong>private</strong> <strong>static</strong> String doNormalizeIgnoreOtherSeparator(String filename, <strong>boolean</strong> keepSeparator) {
-<a name="371" href="#371">371</a>         <strong>if</strong> (filename == <strong>null</strong>) {
-<a name="372" href="#372">372</a>             <strong>return</strong> <strong>null</strong>;
-<a name="373" href="#373">373</a>         }
-<a name="374" href="#374">374</a>         <strong>int</strong> size = filename.length();
-<a name="375" href="#375">375</a>         <strong>if</strong> (size == 0) {
-<a name="376" href="#376">376</a>             <strong>return</strong> filename;
-<a name="377" href="#377">377</a>         }
-<a name="378" href="#378">378</a>         <strong>int</strong> prefix = 0;
-<a name="379" href="#379">379</a> <em class="comment">//        int prefix = getPrefixLength(filename);</em>
-<a name="380" href="#380">380</a> <em class="comment">//        if (prefix &lt; 0) {</em>
-<a name="381" href="#381">381</a> <em class="comment">//            return null;</em>
-<a name="382" href="#382">382</a> <em class="comment">//        }</em>
-<a name="383" href="#383">383</a>         
-<a name="384" href="#384">384</a>         <strong>char</strong>[] array = <strong>new</strong> <strong>char</strong>[size + 2];  <em class="comment">// +1 for possible extra slash, +2 for arraycopy</em>
-<a name="385" href="#385">385</a>         filename.getChars(0, filename.length(), array, 0);
-<a name="386" href="#386">386</a>         
-<a name="387" href="#387">387</a>         <em class="comment">// add extra separator on the end to simplify code below</em>
-<a name="388" href="#388">388</a>         <strong>boolean</strong> lastIsDirectory = <strong>true</strong>;
-<a name="389" href="#389">389</a>         <strong>if</strong> (array[size - 1] != JawrConstant.URL_SEPARATOR_CHAR) {
-<a name="390" href="#390">390</a>             array[size++] = JawrConstant.URL_SEPARATOR_CHAR;
-<a name="391" href="#391">391</a>             lastIsDirectory = false;
-<a name="392" href="#392">392</a>         }
-<a name="393" href="#393">393</a>         
-<a name="394" href="#394">394</a>         <em class="comment">// adjoining slashes</em>
-<a name="395" href="#395">395</a>         <strong>for</strong> (<strong>int</strong> i = prefix + 1; i &lt; size; i++) {
-<a name="396" href="#396">396</a>             <strong>if</strong> (array[i] == JawrConstant.URL_SEPARATOR_CHAR &amp;&amp; array[i - 1] == JawrConstant.URL_SEPARATOR_CHAR) {
-<a name="397" href="#397">397</a>                 System.arraycopy(array, i, array, i - 1, size - i);
-<a name="398" href="#398">398</a>                 size--;
-<a name="399" href="#399">399</a>                 i--;
-<a name="400" href="#400">400</a>             }
-<a name="401" href="#401">401</a>         }
-<a name="402" href="#402">402</a>         
-<a name="403" href="#403">403</a>         <em class="comment">// dot slash</em>
-<a name="404" href="#404">404</a>         <strong>for</strong> (<strong>int</strong> i = prefix + 1; i &lt; size; i++) {
-<a name="405" href="#405">405</a>             <strong>if</strong> (array[i] == JawrConstant.URL_SEPARATOR_CHAR &amp;&amp; array[i - 1] == '.' &amp;&amp;
-<a name="406" href="#406">406</a>                     (i == prefix + 1 || array[i - 2] == JawrConstant.URL_SEPARATOR_CHAR)) {
-<a name="407" href="#407">407</a>                 <strong>if</strong> (i == size - 1) {
-<a name="408" href="#408">408</a>                     lastIsDirectory = <strong>true</strong>;
-<a name="409" href="#409">409</a>                 }
-<a name="410" href="#410">410</a>                 System.arraycopy(array, i + 1, array, i - 1, size - i);
-<a name="411" href="#411">411</a>                 size -=2;
-<a name="412" href="#412">412</a>                 i--;
-<a name="413" href="#413">413</a>             }
-<a name="414" href="#414">414</a>         }
-<a name="415" href="#415">415</a>         
-<a name="416" href="#416">416</a>         <em class="comment">// double dot slash</em>
-<a name="417" href="#417">417</a>         <strong>outer</strong>:
-<a name="418" href="#418">418</a>         <strong>for</strong> (<strong>int</strong> i = prefix + 2; i &lt; size; i++) {
-<a name="419" href="#419">419</a>             <strong>if</strong> (array[i] == JawrConstant.URL_SEPARATOR_CHAR &amp;&amp; array[i - 1] == '.' &amp;&amp; array[i - 2] == '.' &amp;&amp;
-<a name="420" href="#420">420</a>                     (i == prefix + 2 || array[i - 3] == JawrConstant.URL_SEPARATOR_CHAR)) {
-<a name="421" href="#421">421</a>                 <strong>if</strong> (i == prefix + 2) {
-<a name="422" href="#422">422</a>                     <strong>return</strong> <strong>null</strong>;
-<a name="423" href="#423">423</a>                 }
-<a name="424" href="#424">424</a>                 <strong>if</strong> (i == size - 1) {
-<a name="425" href="#425">425</a>                     lastIsDirectory = <strong>true</strong>;
-<a name="426" href="#426">426</a>                 }
-<a name="427" href="#427">427</a>                 <strong>int</strong> j;
-<a name="428" href="#428">428</a>                 <strong>for</strong> (j = i - 4 ; j >= prefix; j--) {
-<a name="429" href="#429">429</a>                     <strong>if</strong> (array[j] == JawrConstant.URL_SEPARATOR_CHAR) {
-<a name="430" href="#430">430</a>                         <em class="comment">// remove b/../ from a/b/../c</em>
-<a name="431" href="#431">431</a>                         System.arraycopy(array, i + 1, array, j + 1, size - i);
-<a name="432" href="#432">432</a>                         size -= (i - j);
-<a name="433" href="#433">433</a>                         i = j + 1;
-<a name="434" href="#434">434</a>                         <strong>continue</strong> <strong>outer</strong>;
-<a name="435" href="#435">435</a>                     }
-<a name="436" href="#436">436</a>                 }
-<a name="437" href="#437">437</a>                 <em class="comment">// remove a/../ from a/../c</em>
-<a name="438" href="#438">438</a>                 System.arraycopy(array, i + 1, array, prefix, size - i);
-<a name="439" href="#439">439</a>                 size -= (i + 1 - prefix);
-<a name="440" href="#440">440</a>                 i = prefix + 1;
-<a name="441" href="#441">441</a>             }
-<a name="442" href="#442">442</a>         }
-<a name="443" href="#443">443</a>         
-<a name="444" href="#444">444</a>         <strong>if</strong> (size &lt;= 0) {  <em class="comment">// should never be less than 0</em>
-<a name="445" href="#445">445</a>             <strong>return</strong> <span class="string">""</span>;
-<a name="446" href="#446">446</a>         }
-<a name="447" href="#447">447</a>         <strong>if</strong> (size &lt;= prefix) {  <em class="comment">// should never be less than prefix</em>
-<a name="448" href="#448">448</a>             <strong>return</strong> <strong>new</strong> String(array, 0, size);
-<a name="449" href="#449">449</a>         }
-<a name="450" href="#450">450</a>         <strong>if</strong> (lastIsDirectory &amp;&amp; keepSeparator) {
-<a name="451" href="#451">451</a>             <strong>return</strong> <strong>new</strong> String(array, 0, size);  <em class="comment">// keep trailing separator</em>
-<a name="452" href="#452">452</a>         }
-<a name="453" href="#453">453</a>         <strong>return</strong> <strong>new</strong> String(array, 0, size - 1);  <em class="comment">// lose trailing separator</em>
-<a name="454" href="#454">454</a>     }
-<a name="455" href="#455">455</a> 
-<a name="456" href="#456">456</a>     <em>/**<em>*</em></em>
-<a name="457" href="#457">457</a> <em>     * This method can calculate the relative path between two pathes on a web site.</em>
-<a name="458" href="#458">458</a> <em>     * &lt;br/></em>
-<a name="459" href="#459">459</a> <em>     * &lt;pre></em>
-<a name="460" href="#460">460</a> <em>     * PathUtils.getRelativeWebPath( null, null )                                          = ""</em>
-<a name="461" href="#461">461</a> <em>     * PathUtils.getRelativeWebPath( null, "<a href="http://plexus.codehaus.org/" target="alexandria_uri">http://plexus.codehaus.org/</a>" )                 = ""</em>
-<a name="462" href="#462">462</a> <em>     * PathUtils.getRelativeWebPath( "<a href="http://plexus.codehaus.org/" target="alexandria_uri">http://plexus.codehaus.org/</a>", null )                 = ""</em>
-<a name="463" href="#463">463</a> <em>     * PathUtils.getRelativeWebPath( "<a href="http://plexus.codehaus.org/" target="alexandria_uri">http://plexus.codehaus.org/</a>",</em>
-<a name="464" href="#464">464</a> <em>     *                      "<a href="http://plexus.codehaus.org/plexus-utils/index.html" target="alexandria_uri">http://plexus.codehaus.org/plexus-utils/index.html</a>" )        = "plexus-utils/index.html"</em>
-<a name="465" href="#465">465</a> <em>     * PathUtils.getRelativeWebPath( "<a href="http://plexus.codehaus.org/plexus-utils/index.html" target="alexandria_uri">http://plexus.codehaus.org/plexus-utils/index.html</a>",</em>
-<a name="466" href="#466">466</a> <em>     *                      "<a href="http://plexus.codehaus.org/" target="alexandria_uri">http://plexus.codehaus.org/</a>"                                 = "../../"</em>
-<a name="467" href="#467">467</a> <em>     * &lt;/pre></em>
-<a name="468" href="#468">468</a> <em>     *</em>
-<a name="469" href="#469">469</a> <em>     * @param oldPath</em>
-<a name="470" href="#470">470</a> <em>     * @param newPath</em>
-<a name="471" href="#471">471</a> <em>     * @return a relative web path from &lt;code>oldPath&lt;/code>.</em>
-<a name="472" href="#472">472</a> <em>     */</em>
-<a name="473" href="#473">473</a>     <strong>public</strong> <strong>static</strong> <strong>final</strong> String getRelativeWebPath( <strong>final</strong> String oldPath, <strong>final</strong> String newPath )
-<a name="474" href="#474">474</a>     {
-<a name="475" href="#475">475</a>         <strong>if</strong> ( StringUtils.isEmpty( oldPath ) || StringUtils.isEmpty( newPath ) )
-<a name="476" href="#476">476</a>         {
-<a name="477" href="#477">477</a>             <strong>return</strong> <span class="string">""</span>;
-<a name="478" href="#478">478</a>         }
-<a name="479" href="#479">479</a> 
-<a name="480" href="#480">480</a>         String resultPath = buildRelativePath( newPath, oldPath, '/' );
-<a name="481" href="#481">481</a> 
-<a name="482" href="#482">482</a>         <strong>if</strong> ( newPath.endsWith( <span class="string">"/"</span> ) &amp;&amp; !resultPath.endsWith( <span class="string">"/"</span> ) )
-<a name="483" href="#483">483</a>         {
-<a name="484" href="#484">484</a>             <strong>return</strong> resultPath + <span class="string">"/"</span>;
-<a name="485" href="#485">485</a>         }
+<a name="247" href="#247">247</a>  <em class="comment">// New method</em>
+<a name="248" href="#248">248</a>     <em>/**<em>*</em></em>
+<a name="249" href="#249">249</a> <em>     * Determines the parent path of a filename or a directory.</em>
+<a name="250" href="#250">250</a> <em>     * </em>
+<a name="251" href="#251">251</a> <em>     * &lt;pre></em>
+<a name="252" href="#252">252</a> <em>     * PathNormalizer.getPathName( null )                           = ""</em>
+<a name="253" href="#253">253</a> <em>     * PathNormalizer.getPathName( "" )                             = ""</em>
+<a name="254" href="#254">254</a> <em>     * PathNormalizer.getPathName( "/" )                            = "/"</em>
+<a name="255" href="#255">255</a> <em>     * PathNormalizer.getPathName( "/usr/local/" )                  = "local"</em>
+<a name="256" href="#256">256</a> <em>     * PathNormalizer.getPathName( "/usr/local/bin/java.sh" )     = "java.sh"</em>
+<a name="257" href="#257">257</a> <em>     * &lt;/pre></em>
+<a name="258" href="#258">258</a> <em>     * </em>
+<a name="259" href="#259">259</a> <em>     * @param path the path</em>
+<a name="260" href="#260">260</a> <em>     * @return the parent path.</em>
+<a name="261" href="#261">261</a> <em>     */</em>
+<a name="262" href="#262">262</a>     <strong>public</strong> <strong>static</strong> String getPathName(String path){
+<a name="263" href="#263">263</a>     
+<a name="264" href="#264">264</a>     	<strong>if</strong>(StringUtils.isEmpty(path)){
+<a name="265" href="#265">265</a>     		<strong>return</strong> <span class="string">""</span>;
+<a name="266" href="#266">266</a>     	}
+<a name="267" href="#267">267</a>     	
+<a name="268" href="#268">268</a>     	<strong>if</strong>(path.length() > 1 &amp;&amp; path.endsWith(JawrConstant.URL_SEPARATOR)){
+<a name="269" href="#269">269</a>     		path = path.substring(0, path.length()-2);
+<a name="270" href="#270">270</a>     	}
+<a name="271" href="#271">271</a>     	<strong>int</strong> index = path.lastIndexOf(JawrConstant.URL_SEPARATOR);
+<a name="272" href="#272">272</a>     	<strong>if</strong>(index > 0){
+<a name="273" href="#273">273</a>     		<strong>return</strong> path.substring(index+1);
+<a name="274" href="#274">274</a>     	}
+<a name="275" href="#275">275</a>     	<strong>return</strong> JawrConstant.URL_SEPARATOR; 
+<a name="276" href="#276">276</a>     }
+<a name="277" href="#277">277</a>     
+<a name="278" href="#278">278</a>     <em>/**<em>*</em></em>
+<a name="279" href="#279">279</a> <em>     * Determines the relative path of a filename from a base directory.</em>
+<a name="280" href="#280">280</a> <em>     * This method is useful in building relative links within pages of</em>
+<a name="281" href="#281">281</a> <em>     * a web site.  It provides similar functionality to Anakia's</em>
+<a name="282" href="#282">282</a> <em>     * &lt;code>$relativePath&lt;/code> context variable.  The arguments to</em>
+<a name="283" href="#283">283</a> <em>     * this method may contain either forward or backward slashes as</em>
+<a name="284" href="#284">284</a> <em>     * file separators.  The relative path returned is formed using</em>
+<a name="285" href="#285">285</a> <em>     * forward slashes as it is expected this path is to be used as a</em>
+<a name="286" href="#286">286</a> <em>     * link in a web page (again mimicking Anakia's behavior).</em>
+<a name="287" href="#287">287</a> <em>     * &lt;p/></em>
+<a name="288" href="#288">288</a> <em>     * This method is thread-safe.</em>
+<a name="289" href="#289">289</a> <em>     * &lt;br/></em>
+<a name="290" href="#290">290</a> <em>     * &lt;pre></em>
+<a name="291" href="#291">291</a> <em>     * PathUtils.getRelativePath( null, null )                                   = ""</em>
+<a name="292" href="#292">292</a> <em>     * PathUtils.getRelativePath( null, "/usr/local/java/bin" )                  = ""</em>
+<a name="293" href="#293">293</a> <em>     * PathUtils.getRelativePath( "/usr/local/", null )                          = ""</em>
+<a name="294" href="#294">294</a> <em>     * PathUtils.getRelativePath( "/usr/local/", "/usr/local/java/bin" )         = ".."</em>
+<a name="295" href="#295">295</a> <em>     * PathUtils.getRelativePath( "/usr/local/", "/usr/local/java/bin/java.sh" ) = "../.."</em>
+<a name="296" href="#296">296</a> <em>     * PathUtils.getRelativePath( "/usr/local/java/bin/java.sh", "/usr/local/" ) = ""</em>
+<a name="297" href="#297">297</a> <em>     * &lt;/pre></em>
+<a name="298" href="#298">298</a> <em>     *</em>
+<a name="299" href="#299">299</a> <em>     * @param basedir The base directory.</em>
+<a name="300" href="#300">300</a> <em>     * @param filename The filename that is relative to the base</em>
+<a name="301" href="#301">301</a> <em>     * directory.</em>
+<a name="302" href="#302">302</a> <em>     * @return The relative path of the filename from the base</em>
+<a name="303" href="#303">303</a> <em>     * directory.  This value is not terminated with a forward slash.</em>
+<a name="304" href="#304">304</a> <em>     * A zero-length string is returned if: the filename is not relative to</em>
+<a name="305" href="#305">305</a> <em>     * the base directory, &lt;code>basedir&lt;/code> is null or zero-length,</em>
+<a name="306" href="#306">306</a> <em>     * or &lt;code>filename&lt;/code> is null or zero-length.</em>
+<a name="307" href="#307">307</a> <em>     */</em>
+<a name="308" href="#308">308</a>     <strong>public</strong> <strong>static</strong> <strong>final</strong> String getRelativePath( String basedir, String filename )
+<a name="309" href="#309">309</a>     {
+<a name="310" href="#310">310</a>         basedir = uppercaseDrive(basedir);
+<a name="311" href="#311">311</a>         filename = uppercaseDrive(filename);
+<a name="312" href="#312">312</a> 
+<a name="313" href="#313">313</a>         <em class="comment">/*</em>
+<a name="314" href="#314">314</a> <em class="comment">         * Verify the arguments and make sure the filename is relative</em>
+<a name="315" href="#315">315</a> <em class="comment">         * to the base directory.</em>
+<a name="316" href="#316">316</a> <em class="comment">         */</em>
+<a name="317" href="#317">317</a>         <strong>if</strong> ( basedir == <strong>null</strong> || basedir.length() == 0 || filename == <strong>null</strong>
+<a name="318" href="#318">318</a>             || filename.length() == 0 || !filename.startsWith( basedir ) )
+<a name="319" href="#319">319</a>         {
+<a name="320" href="#320">320</a>             <strong>return</strong> <span class="string">""</span>;
+<a name="321" href="#321">321</a>         }
+<a name="322" href="#322">322</a> 
+<a name="323" href="#323">323</a>         <em class="comment">/*</em>
+<a name="324" href="#324">324</a> <em class="comment">         * Normalize the arguments.  First, determine the file separator</em>
+<a name="325" href="#325">325</a> <em class="comment">         * that is being used, then strip that off the end of both the</em>
+<a name="326" href="#326">326</a> <em class="comment">         * base directory and filename.</em>
+<a name="327" href="#327">327</a> <em class="comment">         */</em>
+<a name="328" href="#328">328</a>         String separator = determineSeparator( filename );
+<a name="329" href="#329">329</a>         basedir = StringUtils.chompLast( basedir, separator );
+<a name="330" href="#330">330</a>         filename = StringUtils.chompLast( filename, separator );
+<a name="331" href="#331">331</a> 
+<a name="332" href="#332">332</a>         <em class="comment">/*</em>
+<a name="333" href="#333">333</a> <em class="comment">         * Remove the base directory from the filename to end up with a</em>
+<a name="334" href="#334">334</a> <em class="comment">         * relative filename (relative to the base directory).  This</em>
+<a name="335" href="#335">335</a> <em class="comment">         * filename is then used to determine the relative path.</em>
+<a name="336" href="#336">336</a> <em class="comment">         */</em>
+<a name="337" href="#337">337</a>         String relativeFilename = filename.substring( basedir.length() );
+<a name="338" href="#338">338</a> 
+<a name="339" href="#339">339</a>         <strong>return</strong> determineRelativePath( relativeFilename, separator );
+<a name="340" href="#340">340</a>     }
+<a name="341" href="#341">341</a> 
+<a name="342" href="#342">342</a>     <em>/**<em>*</em></em>
+<a name="343" href="#343">343</a> <em>     * Concatenates a filename to a base web path.</em>
+<a name="344" href="#344">344</a> <em>     * If the base path doesn't end with "/", it will consider as base path the parent folder of the base path passed as parameter.</em>
+<a name="345" href="#345">345</a> <em>     * </em>
+<a name="346" href="#346">346</a> <em>     * &lt;pre></em>
+<a name="347" href="#347">347</a> <em>     * PathUtils.concatWebPath("", null));								   			= null</em>
+<a name="348" href="#348">348</a> <em>	 * PathUtils.concatWebPath(null, null));								   		= null</em>
+<a name="349" href="#349">349</a> <em>	 * PathUtils.concatWebPath(null, ""));								   			= null</em>
+<a name="350" href="#350">350</a> <em>	 * PathUtils.concatWebPath(null, "a"));								   			= null			</em>
+<a name="351" href="#351">351</a> <em>	 * PathUtils.concatWebPath(null, "/a"));								   		= "/a" </em>
+<a name="352" href="#352">352</a> <em> 	 * PathUtils.concatWebPath( "/css/folder/subfolder/", "icons/img.png" )      	= "/css/folder/subfolder/icons/img.png"</em>
+<a name="353" href="#353">353</a> <em>     * PathUtils.concatWebPath( "/css/folder/subfolder/style.css", "icons/img.png") = "/css/folder/subfolder/icons/img.png"</em>
+<a name="354" href="#354">354</a> <em>     * PathUtils.concatWebPath( "/css/folder/", "../icons/img.png" )      			= "/css/icons/img.png"</em>
+<a name="355" href="#355">355</a> <em>     * PathUtils.concatWebPath( "/css/folder/style.css", "../icons/img.png" ) 		= "/css/icons/img.png"</em>
+<a name="356" href="#356">356</a> <em>     * &lt;/pre></em>
+<a name="357" href="#357">357</a> <em>     * </em>
+<a name="358" href="#358">358</a> <em>     * @param basePath the base path</em>
+<a name="359" href="#359">359</a> <em>     * @param fullFilenameToAdd the file name to add</em>
+<a name="360" href="#360">360</a> <em>     * @return the concatenated path, or null if invalid</em>
+<a name="361" href="#361">361</a> <em>     */</em>
+<a name="362" href="#362">362</a>     <strong>public</strong> <strong>static</strong> String concatWebPath(String basePath, String fullFilenameToAdd){
+<a name="363" href="#363">363</a>      	
+<a name="364" href="#364">364</a>     	<strong>if</strong>(fullFilenameToAdd == <strong>null</strong> || basePath == <strong>null</strong> &amp;&amp; (fullFilenameToAdd.length() == 0
+<a name="365" href="#365">365</a>     			|| fullFilenameToAdd.charAt(0) != JawrConstant.URL_SEPARATOR_CHAR)){
+<a name="366" href="#366">366</a>     		<strong>return</strong> <strong>null</strong>;
+<a name="367" href="#367">367</a>     	}
+<a name="368" href="#368">368</a>     	
+<a name="369" href="#369">369</a>     	<strong>if</strong>(basePath == <strong>null</strong>){
+<a name="370" href="#370">370</a>     		basePath = <span class="string">""</span>;
+<a name="371" href="#371">371</a>     	}
+<a name="372" href="#372">372</a>     	<em class="comment">// If the basePath is pointing to a file, set the base path to the parent directory</em>
+<a name="373" href="#373">373</a>     	<strong>if</strong>(basePath.length() > 1 &amp;&amp; basePath.charAt(basePath.length()-1) != '/'){
+<a name="374" href="#374">374</a>     		basePath = getParentPath(basePath);
+<a name="375" href="#375">375</a>     	}
+<a name="376" href="#376">376</a>     	
+<a name="377" href="#377">377</a>     	<strong>int</strong> len = basePath.length();
+<a name="378" href="#378">378</a>     	String fullPath = <strong>null</strong>;
+<a name="379" href="#379">379</a>         <strong>if</strong> (len == 0) {
+<a name="380" href="#380">380</a>         	<strong>return</strong> doNormalizeIgnoreOtherSeparator(fullFilenameToAdd, <strong>true</strong>);
+<a name="381" href="#381">381</a>         }
+<a name="382" href="#382">382</a>         
+<a name="383" href="#383">383</a>     	<strong>char</strong> ch = basePath.<strong>char</strong>At(len - 1);
+<a name="384" href="#384">384</a>         <strong>if</strong> (ch == JawrConstant.URL_SEPARATOR_CHAR) {
+<a name="385" href="#385">385</a>         	fullPath = basePath + fullFilenameToAdd;
+<a name="386" href="#386">386</a>         } <strong>else</strong> {
+<a name="387" href="#387">387</a>         	fullPath = basePath + '/' + fullFilenameToAdd;
+<a name="388" href="#388">388</a>         }
+<a name="389" href="#389">389</a>         
+<a name="390" href="#390">390</a>         <strong>return</strong> doNormalizeIgnoreOtherSeparator(fullPath, <strong>true</strong>); 
+<a name="391" href="#391">391</a>         
+<a name="392" href="#392">392</a>     }
+<a name="393" href="#393">393</a>     
+<a name="394" href="#394">394</a>     <em>/**<em>*</em></em>
+<a name="395" href="#395">395</a> <em>     * Internal method to perform the normalization.</em>
+<a name="396" href="#396">396</a> <em>     *</em>
+<a name="397" href="#397">397</a> <em>     * @param filename  the filename</em>
+<a name="398" href="#398">398</a> <em>     * @param keepSeparator  true to keep the final separator</em>
+<a name="399" href="#399">399</a> <em>     * @return the normalized filename</em>
+<a name="400" href="#400">400</a> <em>     */</em>
+<a name="401" href="#401">401</a>     <strong>private</strong> <strong>static</strong> String doNormalizeIgnoreOtherSeparator(String filename, <strong>boolean</strong> keepSeparator) {
+<a name="402" href="#402">402</a>         <strong>if</strong> (filename == <strong>null</strong>) {
+<a name="403" href="#403">403</a>             <strong>return</strong> <strong>null</strong>;
+<a name="404" href="#404">404</a>         }
+<a name="405" href="#405">405</a>         <strong>int</strong> size = filename.length();
+<a name="406" href="#406">406</a>         <strong>if</strong> (size == 0) {
+<a name="407" href="#407">407</a>             <strong>return</strong> filename;
+<a name="408" href="#408">408</a>         }
+<a name="409" href="#409">409</a>         <strong>int</strong> prefix = 0;
+<a name="410" href="#410">410</a> <em class="comment">//        int prefix = getPrefixLength(filename);</em>
+<a name="411" href="#411">411</a> <em class="comment">//        if (prefix &lt; 0) {</em>
+<a name="412" href="#412">412</a> <em class="comment">//            return null;</em>
+<a name="413" href="#413">413</a> <em class="comment">//        }</em>
+<a name="414" href="#414">414</a>         
+<a name="415" href="#415">415</a>         <strong>char</strong>[] array = <strong>new</strong> <strong>char</strong>[size + 2];  <em class="comment">// +1 for possible extra slash, +2 for arraycopy</em>
+<a name="416" href="#416">416</a>         filename.getChars(0, filename.length(), array, 0);
+<a name="417" href="#417">417</a>         
+<a name="418" href="#418">418</a>         <em class="comment">// add extra separator on the end to simplify code below</em>
+<a name="419" href="#419">419</a>         <strong>boolean</strong> lastIsDirectory = <strong>true</strong>;
+<a name="420" href="#420">420</a>         <strong>if</strong> (array[size - 1] != JawrConstant.URL_SEPARATOR_CHAR) {
+<a name="421" href="#421">421</a>             array[size++] = JawrConstant.URL_SEPARATOR_CHAR;
+<a name="422" href="#422">422</a>             lastIsDirectory = false;
+<a name="423" href="#423">423</a>         }
+<a name="424" href="#424">424</a>         
+<a name="425" href="#425">425</a>         <em class="comment">// adjoining slashes</em>
+<a name="426" href="#426">426</a>         <strong>for</strong> (<strong>int</strong> i = prefix + 1; i &lt; size; i++) {
+<a name="427" href="#427">427</a>             <strong>if</strong> (array[i] == JawrConstant.URL_SEPARATOR_CHAR &amp;&amp; array[i - 1] == JawrConstant.URL_SEPARATOR_CHAR) {
+<a name="428" href="#428">428</a>                 System.arraycopy(array, i, array, i - 1, size - i);
+<a name="429" href="#429">429</a>                 size--;
+<a name="430" href="#430">430</a>                 i--;
+<a name="431" href="#431">431</a>             }
+<a name="432" href="#432">432</a>         }
+<a name="433" href="#433">433</a>         
+<a name="434" href="#434">434</a>         <em class="comment">// dot slash</em>
+<a name="435" href="#435">435</a>         <strong>for</strong> (<strong>int</strong> i = prefix + 1; i &lt; size; i++) {
+<a name="436" href="#436">436</a>             <strong>if</strong> (array[i] == JawrConstant.URL_SEPARATOR_CHAR &amp;&amp; array[i - 1] == '.' &amp;&amp;
+<a name="437" href="#437">437</a>                     (i == prefix + 1 || array[i - 2] == JawrConstant.URL_SEPARATOR_CHAR)) {
+<a name="438" href="#438">438</a>                 <strong>if</strong> (i == size - 1) {
+<a name="439" href="#439">439</a>                     lastIsDirectory = <strong>true</strong>;
+<a name="440" href="#440">440</a>                 }
+<a name="441" href="#441">441</a>                 System.arraycopy(array, i + 1, array, i - 1, size - i);
+<a name="442" href="#442">442</a>                 size -=2;
+<a name="443" href="#443">443</a>                 i--;
+<a name="444" href="#444">444</a>             }
+<a name="445" href="#445">445</a>         }
+<a name="446" href="#446">446</a>         
+<a name="447" href="#447">447</a>         <em class="comment">// double dot slash</em>
+<a name="448" href="#448">448</a>         <strong>outer</strong>:
+<a name="449" href="#449">449</a>         <strong>for</strong> (<strong>int</strong> i = prefix + 2; i &lt; size; i++) {
+<a name="450" href="#450">450</a>             <strong>if</strong> (array[i] == JawrConstant.URL_SEPARATOR_CHAR &amp;&amp; array[i - 1] == '.' &amp;&amp; array[i - 2] == '.' &amp;&amp;
+<a name="451" href="#451">451</a>                     (i == prefix + 2 || array[i - 3] == JawrConstant.URL_SEPARATOR_CHAR)) {
+<a name="452" href="#452">452</a>                 <strong>if</strong> (i == prefix + 2) {
+<a name="453" href="#453">453</a>                     <strong>return</strong> <strong>null</strong>;
+<a name="454" href="#454">454</a>                 }
+<a name="455" href="#455">455</a>                 <strong>if</strong> (i == size - 1) {
+<a name="456" href="#456">456</a>                     lastIsDirectory = <strong>true</strong>;
+<a name="457" href="#457">457</a>                 }
+<a name="458" href="#458">458</a>                 <strong>int</strong> j;
+<a name="459" href="#459">459</a>                 <strong>for</strong> (j = i - 4 ; j >= prefix; j--) {
+<a name="460" href="#460">460</a>                     <strong>if</strong> (array[j] == JawrConstant.URL_SEPARATOR_CHAR) {
+<a name="461" href="#461">461</a>                         <em class="comment">// remove b/../ from a/b/../c</em>
+<a name="462" href="#462">462</a>                         System.arraycopy(array, i + 1, array, j + 1, size - i);
+<a name="463" href="#463">463</a>                         size -= (i - j);
+<a name="464" href="#464">464</a>                         i = j + 1;
+<a name="465" href="#465">465</a>                         <strong>continue</strong> <strong>outer</strong>;
+<a name="466" href="#466">466</a>                     }
+<a name="467" href="#467">467</a>                 }
+<a name="468" href="#468">468</a>                 <em class="comment">// remove a/../ from a/../c</em>
+<a name="469" href="#469">469</a>                 System.arraycopy(array, i + 1, array, prefix, size - i);
+<a name="470" href="#470">470</a>                 size -= (i + 1 - prefix);
+<a name="471" href="#471">471</a>                 i = prefix + 1;
+<a name="472" href="#472">472</a>             }
+<a name="473" href="#473">473</a>         }
+<a name="474" href="#474">474</a>         
+<a name="475" href="#475">475</a>         <strong>if</strong> (size &lt;= 0) {  <em class="comment">// should never be less than 0</em>
+<a name="476" href="#476">476</a>             <strong>return</strong> <span class="string">""</span>;
+<a name="477" href="#477">477</a>         }
+<a name="478" href="#478">478</a>         <strong>if</strong> (size &lt;= prefix) {  <em class="comment">// should never be less than prefix</em>
+<a name="479" href="#479">479</a>             <strong>return</strong> <strong>new</strong> String(array, 0, size);
+<a name="480" href="#480">480</a>         }
+<a name="481" href="#481">481</a>         <strong>if</strong> (lastIsDirectory &amp;&amp; keepSeparator) {
+<a name="482" href="#482">482</a>             <strong>return</strong> <strong>new</strong> String(array, 0, size);  <em class="comment">// keep trailing separator</em>
+<a name="483" href="#483">483</a>         }
+<a name="484" href="#484">484</a>         <strong>return</strong> <strong>new</strong> String(array, 0, size - 1);  <em class="comment">// lose trailing separator</em>
+<a name="485" href="#485">485</a>     }
 <a name="486" href="#486">486</a> 
-<a name="487" href="#487">487</a>         <strong>return</strong> resultPath;
-<a name="488" href="#488">488</a>     }
-<a name="489" href="#489">489</a> 
-<a name="490" href="#490">490</a>     <em>/**<em>*</em></em>
-<a name="491" href="#491">491</a> <em>     * This method can calculate the relative path between two pathes on a file system.</em>
-<a name="492" href="#492">492</a> <em>     * &lt;br/></em>
-<a name="493" href="#493">493</a> <em>     * &lt;pre></em>
-<a name="494" href="#494">494</a> <em>     * PathUtils.getRelativeFilePath( null, null )                                   = ""</em>
-<a name="495" href="#495">495</a> <em>     * PathUtils.getRelativeFilePath( null, "/usr/local/java/bin" )                  = ""</em>
-<a name="496" href="#496">496</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local", null )                           = ""</em>
-<a name="497" href="#497">497</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local", "/usr/local/java/bin" )          = "java/bin"</em>
-<a name="498" href="#498">498</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local", "/usr/local/java/bin/" )         = "java/bin"</em>
-<a name="499" href="#499">499</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local/java/bin", "/usr/local/" )         = "../.."</em>
-<a name="500" href="#500">500</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local/", "/usr/local/java/bin/java.sh" ) = "java/bin/java.sh"</em>
-<a name="501" href="#501">501</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local/java/bin/java.sh", "/usr/local/" ) = "../../.."</em>
-<a name="502" href="#502">502</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local/", "/bin" )                        = "../../bin"</em>
-<a name="503" href="#503">503</a> <em>     * PathUtils.getRelativeFilePath( "/bin", "/usr/local/" )                        = "../usr/local"</em>
-<a name="504" href="#504">504</a> <em>     * &lt;/pre></em>
-<a name="505" href="#505">505</a> <em>     * Note: On Windows based system, the &lt;code>/&lt;/code> character should be replaced by &lt;code>\&lt;/code> character.</em>
-<a name="506" href="#506">506</a> <em>     *</em>
-<a name="507" href="#507">507</a> <em>     * @param oldPath</em>
-<a name="508" href="#508">508</a> <em>     * @param newPath</em>
-<a name="509" href="#509">509</a> <em>     * @return a relative file path from &lt;code>oldPath&lt;/code>.</em>
-<a name="510" href="#510">510</a> <em>     */</em>
-<a name="511" href="#511">511</a>     <strong>public</strong> <strong>static</strong> <strong>final</strong> String getRelativeFilePath( <strong>final</strong> String oldPath, <strong>final</strong> String newPath )
-<a name="512" href="#512">512</a>     {
-<a name="513" href="#513">513</a>         <strong>if</strong> ( StringUtils.isEmpty( oldPath ) || StringUtils.isEmpty( newPath ) )
+<a name="487" href="#487">487</a>     <em>/**<em>*</em></em>
+<a name="488" href="#488">488</a> <em>     * This method can calculate the relative path between two pathes on a web site.</em>
+<a name="489" href="#489">489</a> <em>     * &lt;br/></em>
+<a name="490" href="#490">490</a> <em>     * &lt;pre></em>
+<a name="491" href="#491">491</a> <em>     * PathUtils.getRelativeWebPath( null, null )                                          = ""</em>
+<a name="492" href="#492">492</a> <em>     * PathUtils.getRelativeWebPath( null, "<a href="http://plexus.codehaus.org/" target="alexandria_uri">http://plexus.codehaus.org/</a>" )                 = ""</em>
+<a name="493" href="#493">493</a> <em>     * PathUtils.getRelativeWebPath( "<a href="http://plexus.codehaus.org/" target="alexandria_uri">http://plexus.codehaus.org/</a>", null )                 = ""</em>
+<a name="494" href="#494">494</a> <em>     * PathUtils.getRelativeWebPath( "<a href="http://plexus.codehaus.org/" target="alexandria_uri">http://plexus.codehaus.org/</a>",</em>
+<a name="495" href="#495">495</a> <em>     *                      "<a href="http://plexus.codehaus.org/plexus-utils/index.html" target="alexandria_uri">http://plexus.codehaus.org/plexus-utils/index.html</a>" )        = "plexus-utils/index.html"</em>
+<a name="496" href="#496">496</a> <em>     * PathUtils.getRelativeWebPath( "<a href="http://plexus.codehaus.org/plexus-utils/index.html" target="alexandria_uri">http://plexus.codehaus.org/plexus-utils/index.html</a>",</em>
+<a name="497" href="#497">497</a> <em>     *                      "<a href="http://plexus.codehaus.org/" target="alexandria_uri">http://plexus.codehaus.org/</a>"                                 = "../../"</em>
+<a name="498" href="#498">498</a> <em>     * &lt;/pre></em>
+<a name="499" href="#499">499</a> <em>     *</em>
+<a name="500" href="#500">500</a> <em>     * @param oldPath</em>
+<a name="501" href="#501">501</a> <em>     * @param newPath</em>
+<a name="502" href="#502">502</a> <em>     * @return a relative web path from &lt;code>oldPath&lt;/code>.</em>
+<a name="503" href="#503">503</a> <em>     */</em>
+<a name="504" href="#504">504</a>     <strong>public</strong> <strong>static</strong> <strong>final</strong> String getRelativeWebPath( <strong>final</strong> String oldPath, <strong>final</strong> String newPath )
+<a name="505" href="#505">505</a>     {
+<a name="506" href="#506">506</a>         <strong>if</strong> ( StringUtils.isEmpty( oldPath ) || StringUtils.isEmpty( newPath ) )
+<a name="507" href="#507">507</a>         {
+<a name="508" href="#508">508</a>             <strong>return</strong> <span class="string">""</span>;
+<a name="509" href="#509">509</a>         }
+<a name="510" href="#510">510</a> 
+<a name="511" href="#511">511</a>         String resultPath = buildRelativePath( newPath, oldPath, '/' );
+<a name="512" href="#512">512</a> 
+<a name="513" href="#513">513</a>         <strong>if</strong> ( newPath.endsWith( <span class="string">"/"</span> ) &amp;&amp; !resultPath.endsWith( <span class="string">"/"</span> ) )
 <a name="514" href="#514">514</a>         {
-<a name="515" href="#515">515</a>             <strong>return</strong> <span class="string">""</span>;
+<a name="515" href="#515">515</a>             <strong>return</strong> resultPath + <span class="string">"/"</span>;
 <a name="516" href="#516">516</a>         }
 <a name="517" href="#517">517</a> 
-<a name="518" href="#518">518</a>         <em class="comment">// normalise the path delimiters</em>
-<a name="519" href="#519">519</a>         String fromPath = <strong>new</strong> File( oldPath ).getPath();
-<a name="520" href="#520">520</a>         String toPath = <strong>new</strong> File( <strong>new</strong>Path ).getPath();
-<a name="521" href="#521">521</a> 
-<a name="522" href="#522">522</a>         <em class="comment">// strip any leading slashes if its a windows path</em>
-<a name="523" href="#523">523</a>         <strong>if</strong> ( toPath.matches( <span class="string">"^&#47;&#47;[a-zA-Z]:"</span> ) )
-<a name="524" href="#524">524</a>         {
-<a name="525" href="#525">525</a>             toPath = toPath.substring( 1 );
-<a name="526" href="#526">526</a>         }
-<a name="527" href="#527">527</a>         <strong>if</strong> ( fromPath.matches( <span class="string">"^&#47;&#47;[a-zA-Z]:"</span> ) )
-<a name="528" href="#528">528</a>         {
-<a name="529" href="#529">529</a>             fromPath = fromPath.substring( 1 );
-<a name="530" href="#530">530</a>         }
-<a name="531" href="#531">531</a> 
-<a name="532" href="#532">532</a>         <em class="comment">// lowercase windows drive letters.</em>
-<a name="533" href="#533">533</a>         <strong>if</strong> ( fromPath.startsWith( <span class="string">":"</span>, 1 ) )
-<a name="534" href="#534">534</a>         {
-<a name="535" href="#535">535</a>             fromPath = Character.toLowerCase( fromPath.charAt( 0 ) ) + fromPath.substring( 1 );
-<a name="536" href="#536">536</a>         }
-<a name="537" href="#537">537</a>         <strong>if</strong> ( toPath.startsWith( <span class="string">":"</span>, 1 ) )
-<a name="538" href="#538">538</a>         {
-<a name="539" href="#539">539</a>             toPath = Character.toLowerCase( toPath.charAt( 0 ) ) + toPath.substring( 1 );
-<a name="540" href="#540">540</a>         }
-<a name="541" href="#541">541</a> 
-<a name="542" href="#542">542</a>         <em class="comment">// check for the presence of windows drives. No relative way of</em>
-<a name="543" href="#543">543</a>         <em class="comment">// traversing from one to the other.</em>
-<a name="544" href="#544">544</a>         <strong>if</strong> ( ( toPath.startsWith( <span class="string">":"</span>, 1 ) &amp;&amp; fromPath.startsWith( <span class="string">":"</span>, 1 ) )
-<a name="545" href="#545">545</a>                         &amp;&amp; ( !toPath.substring( 0, 1 ).equals( fromPath.substring( 0, 1 ) ) ) )
-<a name="546" href="#546">546</a>         {
-<a name="547" href="#547">547</a>             <em class="comment">// they both have drive path element but they dont match, no</em>
-<a name="548" href="#548">548</a>             <em class="comment">// relative path</em>
-<a name="549" href="#549">549</a>             <strong>return</strong> <strong>null</strong>;
-<a name="550" href="#550">550</a>         }
-<a name="551" href="#551">551</a> 
-<a name="552" href="#552">552</a>         <strong>if</strong> ( ( toPath.startsWith( <span class="string">":"</span>, 1 ) &amp;&amp; !fromPath.startsWith( <span class="string">":"</span>, 1 ) )
-<a name="553" href="#553">553</a>                         || ( !toPath.startsWith( <span class="string">":"</span>, 1 ) &amp;&amp; fromPath.startsWith( <span class="string">":"</span>, 1 ) ) )
-<a name="554" href="#554">554</a>         {
-<a name="555" href="#555">555</a>             <em class="comment">// one has a drive path element and the other doesnt, no relative</em>
-<a name="556" href="#556">556</a>             <em class="comment">// path.</em>
-<a name="557" href="#557">557</a>             <strong>return</strong> <strong>null</strong>;
-<a name="558" href="#558">558</a>         }
-<a name="559" href="#559">559</a> 
-<a name="560" href="#560">560</a>         String resultPath = buildRelativePath( toPath, fromPath, File.separatorChar );
-<a name="561" href="#561">561</a> 
-<a name="562" href="#562">562</a>         <strong>if</strong> ( newPath.endsWith( File.separator ) &amp;&amp; !resultPath.endsWith( File.separator ) )
-<a name="563" href="#563">563</a>         {
-<a name="564" href="#564">564</a>             <strong>return</strong> resultPath + File.separator;
-<a name="565" href="#565">565</a>         }
-<a name="566" href="#566">566</a> 
-<a name="567" href="#567">567</a>         <strong>return</strong> resultPath;
-<a name="568" href="#568">568</a>     }
-<a name="569" href="#569">569</a> 
-<a name="570" href="#570">570</a>     <em class="comment">// ----------------------------------------------------------------------</em>
-<a name="571" href="#571">571</a>     <em class="comment">// Private methods</em>
-<a name="572" href="#572">572</a>     <em class="comment">// ----------------------------------------------------------------------</em>
-<a name="573" href="#573">573</a> 
-<a name="574" href="#574">574</a>     <em>/**<em>*</em></em>
-<a name="575" href="#575">575</a> <em>     * Determines the relative path of a filename.  For each separator</em>
-<a name="576" href="#576">576</a> <em>     * within the filename (except the leading if present), append the</em>
-<a name="577" href="#577">577</a> <em>     * "../" string to the return value.</em>
-<a name="578" href="#578">578</a> <em>     *</em>
-<a name="579" href="#579">579</a> <em>     * @param filename The filename to parse.</em>
-<a name="580" href="#580">580</a> <em>     * @param separator The separator used within the filename.</em>
-<a name="581" href="#581">581</a> <em>     * @return The relative path of the filename.  This value is not</em>
-<a name="582" href="#582">582</a> <em>     * terminated with a forward slash.  A zero-length string is</em>
-<a name="583" href="#583">583</a> <em>     * returned if: the filename is zero-length.</em>
-<a name="584" href="#584">584</a> <em>     */</em>
-<a name="585" href="#585">585</a>     <strong>private</strong> <strong>static</strong> <strong>final</strong> String determineRelativePath( String filename,
-<a name="586" href="#586">586</a>                                                        String separator )
-<a name="587" href="#587">587</a>     {
-<a name="588" href="#588">588</a>         <strong>if</strong> ( filename.length() == 0 )
-<a name="589" href="#589">589</a>         {
-<a name="590" href="#590">590</a>             <strong>return</strong> <span class="string">""</span>;
-<a name="591" href="#591">591</a>         }
+<a name="518" href="#518">518</a>         <strong>return</strong> resultPath;
+<a name="519" href="#519">519</a>     }
+<a name="520" href="#520">520</a> 
+<a name="521" href="#521">521</a>     <em>/**<em>*</em></em>
+<a name="522" href="#522">522</a> <em>     * This method can calculate the relative path between two pathes on a file system.</em>
+<a name="523" href="#523">523</a> <em>     * &lt;br/></em>
+<a name="524" href="#524">524</a> <em>     * &lt;pre></em>
+<a name="525" href="#525">525</a> <em>     * PathUtils.getRelativeFilePath( null, null )                                   = ""</em>
+<a name="526" href="#526">526</a> <em>     * PathUtils.getRelativeFilePath( null, "/usr/local/java/bin" )                  = ""</em>
+<a name="527" href="#527">527</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local", null )                           = ""</em>
+<a name="528" href="#528">528</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local", "/usr/local/java/bin" )          = "java/bin"</em>
+<a name="529" href="#529">529</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local", "/usr/local/java/bin/" )         = "java/bin"</em>
+<a name="530" href="#530">530</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local/java/bin", "/usr/local/" )         = "../.."</em>
+<a name="531" href="#531">531</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local/", "/usr/local/java/bin/java.sh" ) = "java/bin/java.sh"</em>
+<a name="532" href="#532">532</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local/java/bin/java.sh", "/usr/local/" ) = "../../.."</em>
+<a name="533" href="#533">533</a> <em>     * PathUtils.getRelativeFilePath( "/usr/local/", "/bin" )                        = "../../bin"</em>
+<a name="534" href="#534">534</a> <em>     * PathUtils.getRelativeFilePath( "/bin", "/usr/local/" )                        = "../usr/local"</em>
+<a name="535" href="#535">535</a> <em>     * &lt;/pre></em>
+<a name="536" href="#536">536</a> <em>     * Note: On Windows based system, the &lt;code>/&lt;/code> character should be replaced by &lt;code>\&lt;/code> character.</em>
+<a name="537" href="#537">537</a> <em>     *</em>
+<a name="538" href="#538">538</a> <em>     * @param oldPath</em>
+<a name="539" href="#539">539</a> <em>     * @param newPath</em>
+<a name="540" href="#540">540</a> <em>     * @return a relative file path from &lt;code>oldPath&lt;/code>.</em>
+<a name="541" href="#541">541</a> <em>     */</em>
+<a name="542" href="#542">542</a>     <strong>public</strong> <strong>static</strong> <strong>final</strong> String getRelativeFilePath( <strong>final</strong> String oldPath, <strong>final</strong> String newPath )
+<a name="543" href="#543">543</a>     {
+<a name="544" href="#544">544</a>         <strong>if</strong> ( StringUtils.isEmpty( oldPath ) || StringUtils.isEmpty( newPath ) )
+<a name="545" href="#545">545</a>         {
+<a name="546" href="#546">546</a>             <strong>return</strong> <span class="string">""</span>;
+<a name="547" href="#547">547</a>         }
+<a name="548" href="#548">548</a> 
+<a name="549" href="#549">549</a>         <em class="comment">// normalise the path delimiters</em>
+<a name="550" href="#550">550</a>         String fromPath = <strong>new</strong> File( oldPath ).getPath();
+<a name="551" href="#551">551</a>         String toPath = <strong>new</strong> File( <strong>new</strong>Path ).getPath();
+<a name="552" href="#552">552</a> 
+<a name="553" href="#553">553</a>         <em class="comment">// strip any leading slashes if its a windows path</em>
+<a name="554" href="#554">554</a>         <strong>if</strong> ( toPath.matches( <span class="string">"^&#47;&#47;[a-zA-Z]:"</span> ) )
+<a name="555" href="#555">555</a>         {
+<a name="556" href="#556">556</a>             toPath = toPath.substring( 1 );
+<a name="557" href="#557">557</a>         }
+<a name="558" href="#558">558</a>         <strong>if</strong> ( fromPath.matches( <span class="string">"^&#47;&#47;[a-zA-Z]:"</span> ) )
+<a name="559" href="#559">559</a>         {
+<a name="560" href="#560">560</a>             fromPath = fromPath.substring( 1 );
+<a name="561" href="#561">561</a>         }
+<a name="562" href="#562">562</a> 
+<a name="563" href="#563">563</a>         <em class="comment">// lowercase windows drive letters.</em>
+<a name="564" href="#564">564</a>         <strong>if</strong> ( fromPath.startsWith( <span class="string">":"</span>, 1 ) )
+<a name="565" href="#565">565</a>         {
+<a name="566" href="#566">566</a>             fromPath = Character.toLowerCase( fromPath.charAt( 0 ) ) + fromPath.substring( 1 );
+<a name="567" href="#567">567</a>         }
+<a name="568" href="#568">568</a>         <strong>if</strong> ( toPath.startsWith( <span class="string">":"</span>, 1 ) )
+<a name="569" href="#569">569</a>         {
+<a name="570" href="#570">570</a>             toPath = Character.toLowerCase( toPath.charAt( 0 ) ) + toPath.substring( 1 );
+<a name="571" href="#571">571</a>         }
+<a name="572" href="#572">572</a> 
+<a name="573" href="#573">573</a>         <em class="comment">// check for the presence of windows drives. No relative way of</em>
+<a name="574" href="#574">574</a>         <em class="comment">// traversing from one to the other.</em>
+<a name="575" href="#575">575</a>         <strong>if</strong> ( ( toPath.startsWith( <span class="string">":"</span>, 1 ) &amp;&amp; fromPath.startsWith( <span class="string">":"</span>, 1 ) )
+<a name="576" href="#576">576</a>                         &amp;&amp; ( !toPath.substring( 0, 1 ).equals( fromPath.substring( 0, 1 ) ) ) )
+<a name="577" href="#577">577</a>         {
+<a name="578" href="#578">578</a>             <em class="comment">// they both have drive path element but they dont match, no</em>
+<a name="579" href="#579">579</a>             <em class="comment">// relative path</em>
+<a name="580" href="#580">580</a>             <strong>return</strong> <strong>null</strong>;
+<a name="581" href="#581">581</a>         }
+<a name="582" href="#582">582</a> 
+<a name="583" href="#583">583</a>         <strong>if</strong> ( ( toPath.startsWith( <span class="string">":"</span>, 1 ) &amp;&amp; !fromPath.startsWith( <span class="string">":"</span>, 1 ) )
+<a name="584" href="#584">584</a>                         || ( !toPath.startsWith( <span class="string">":"</span>, 1 ) &amp;&amp; fromPath.startsWith( <span class="string">":"</span>, 1 ) ) )
+<a name="585" href="#585">585</a>         {
+<a name="586" href="#586">586</a>             <em class="comment">// one has a drive path element and the other doesnt, no relative</em>
+<a name="587" href="#587">587</a>             <em class="comment">// path.</em>
+<a name="588" href="#588">588</a>             <strong>return</strong> <strong>null</strong>;
+<a name="589" href="#589">589</a>         }
+<a name="590" href="#590">590</a> 
+<a name="591" href="#591">591</a>         String resultPath = buildRelativePath( toPath, fromPath, File.separatorChar );
 <a name="592" href="#592">592</a> 
-<a name="593" href="#593">593</a> 
-<a name="594" href="#594">594</a>         <em class="comment">/*</em>
-<a name="595" href="#595">595</a> <em class="comment">         * Count the slashes in the relative filename, but exclude the</em>
-<a name="596" href="#596">596</a> <em class="comment">         * leading slash.  If the path has no slashes, then the filename</em>
-<a name="597" href="#597">597</a> <em class="comment">         * is relative to the current directory.</em>
-<a name="598" href="#598">598</a> <em class="comment">         */</em>
-<a name="599" href="#599">599</a>         <strong>int</strong> slashCount = StringUtils.countMatches( filename, separator ) - 1;
-<a name="600" href="#600">600</a>         <strong>if</strong> ( slashCount &lt;= 0 )
-<a name="601" href="#601">601</a>         {
-<a name="602" href="#602">602</a>             <strong>return</strong> <span class="string">"."</span>;
-<a name="603" href="#603">603</a>         }
+<a name="593" href="#593">593</a>         <strong>if</strong> ( newPath.endsWith( File.separator ) &amp;&amp; !resultPath.endsWith( File.separator ) )
+<a name="594" href="#594">594</a>         {
+<a name="595" href="#595">595</a>             <strong>return</strong> resultPath + File.separator;
+<a name="596" href="#596">596</a>         }
+<a name="597" href="#597">597</a> 
+<a name="598" href="#598">598</a>         <strong>return</strong> resultPath;
+<a name="599" href="#599">599</a>     }
+<a name="600" href="#600">600</a> 
+<a name="601" href="#601">601</a>     <em class="comment">// ----------------------------------------------------------------------</em>
+<a name="602" href="#602">602</a>     <em class="comment">// Private methods</em>
+<a name="603" href="#603">603</a>     <em class="comment">// ----------------------------------------------------------------------</em>
 <a name="604" href="#604">604</a> 
-<a name="605" href="#605">605</a>         <em class="comment">/*</em>
-<a name="606" href="#606">606</a> <em class="comment">         * The relative filename contains one or more slashes indicating</em>
-<a name="607" href="#607">607</a> <em class="comment">         * that the file is within one or more directories.  Thus, each</em>
-<a name="608" href="#608">608</a> <em class="comment">         * slash represents a "../" in the relative path.</em>
-<a name="609" href="#609">609</a> <em class="comment">         */</em>
-<a name="610" href="#610">610</a>         StringBuffer sb = <strong>new</strong> StringBuffer();
-<a name="611" href="#611">611</a>         <strong>for</strong> ( <strong>int</strong> i = 0; i &lt; slashCount; i++ )
-<a name="612" href="#612">612</a>         {
-<a name="613" href="#613">613</a>             sb.append( <span class="string">"../"</span> );
-<a name="614" href="#614">614</a>         }
-<a name="615" href="#615">615</a> 
-<a name="616" href="#616">616</a>         <em class="comment">/*</em>
-<a name="617" href="#617">617</a> <em class="comment">         * Finally, return the relative path but strip the trailing</em>
-<a name="618" href="#618">618</a> <em class="comment">         * slash to mimic Anakia's behavior.</em>
-<a name="619" href="#619">619</a> <em class="comment">         */</em>
-<a name="620" href="#620">620</a>         <strong>return</strong> StringUtils.chop( sb.toString() );
-<a name="621" href="#621">621</a>     }
-<a name="622" href="#622">622</a> 
-<a name="623" href="#623">623</a>     <em>/**<em>*</em></em>
-<a name="624" href="#624">624</a> <em>     * Helper method to determine the file separator (forward or</em>
-<a name="625" href="#625">625</a> <em>     * backward slash) used in a filename.  The slash that occurs more</em>
-<a name="626" href="#626">626</a> <em>     * often is returned as the separator.</em>
-<a name="627" href="#627">627</a> <em>     *</em>
-<a name="628" href="#628">628</a> <em>     * @param filename The filename parsed to determine the file</em>
-<a name="629" href="#629">629</a> <em>     * separator.</em>
-<a name="630" href="#630">630</a> <em>     * @return The file separator used within &lt;code>filename&lt;/code>.</em>
-<a name="631" href="#631">631</a> <em>     * This value is either a forward or backward slash.</em>
-<a name="632" href="#632">632</a> <em>     */</em>
-<a name="633" href="#633">633</a>     <strong>private</strong> <strong>static</strong> <strong>final</strong> String determineSeparator( String filename )
-<a name="634" href="#634">634</a>     {
-<a name="635" href="#635">635</a>         <strong>int</strong> forwardCount = StringUtils.countMatches( filename, <span class="string">"/"</span> );
-<a name="636" href="#636">636</a>         <strong>int</strong> backwardCount = StringUtils.countMatches( filename, <span class="string">"&#47;&#47;"</span> );
-<a name="637" href="#637">637</a> 
-<a name="638" href="#638">638</a>         <strong>return</strong> forwardCount >= backwardCount ? <span class="string">"/"</span> : <span class="string">"&#47;&#47;"</span>;
-<a name="639" href="#639">639</a>     }
-<a name="640" href="#640">640</a> 
-<a name="641" href="#641">641</a>     <em>/**<em>*</em></em>
-<a name="642" href="#642">642</a> <em>     * Cygwin prefers lowercase drive letters, but other parts of maven use uppercase</em>
-<a name="643" href="#643">643</a> <em>     * @param path</em>
-<a name="644" href="#644">644</a> <em>     * @return String</em>
-<a name="645" href="#645">645</a> <em>     */</em>
-<a name="646" href="#646">646</a>     <strong>static</strong> <strong>final</strong> String uppercaseDrive(String path)
-<a name="647" href="#647">647</a>     {
-<a name="648" href="#648">648</a>         <strong>if</strong> (path == <strong>null</strong>)
-<a name="649" href="#649">649</a>         {
-<a name="650" href="#650">650</a>             <strong>return</strong> <strong>null</strong>;
-<a name="651" href="#651">651</a>         }
-<a name="652" href="#652">652</a>         <strong>if</strong> (path.length() >= 2 &amp;&amp; path.charAt(1) == ':')
-<a name="653" href="#653">653</a>         {
-<a name="654" href="#654">654</a>             path = Character.toUpperCase( path.charAt( 0 ) ) + path.substring( 1 );
-<a name="655" href="#655">655</a>         }
-<a name="656" href="#656">656</a>         <strong>return</strong> path;
-<a name="657" href="#657">657</a>     }
-<a name="658" href="#658">658</a> 
-<a name="659" href="#659">659</a>     <strong>private</strong> <strong>static</strong> <strong>final</strong> String buildRelativePath( String toPath,  String fromPath, <strong>final</strong> <strong>char</strong> separatorChar )
-<a name="660" href="#660">660</a>     {
-<a name="661" href="#661">661</a>         <em class="comment">// use tokeniser to traverse paths and for lazy checking</em>
-<a name="662" href="#662">662</a>         StringTokenizer toTokeniser = <strong>new</strong> StringTokenizer( toPath, String.valueOf( separatorChar ) );
-<a name="663" href="#663">663</a>         StringTokenizer fromTokeniser = <strong>new</strong> StringTokenizer( fromPath, String.valueOf( separatorChar ) );
-<a name="664" href="#664">664</a> 
-<a name="665" href="#665">665</a>         <strong>int</strong> count = 0;
-<a name="666" href="#666">666</a> 
-<a name="667" href="#667">667</a>         <em class="comment">// walk along the to path looking for divergence from the from path</em>
-<a name="668" href="#668">668</a>         <strong>while</strong> ( toTokeniser.hasMoreTokens() &amp;&amp; fromTokeniser.hasMoreTokens() )
-<a name="669" href="#669">669</a>         {
-<a name="670" href="#670">670</a>             <strong>if</strong> ( separatorChar == '&#47;&#47;' )
-<a name="671" href="#671">671</a>             {
-<a name="672" href="#672">672</a>                 <strong>if</strong> ( !fromTokeniser.nextToken().equalsIgnoreCase( toTokeniser.nextToken() ) )
-<a name="673" href="#673">673</a>                 {
-<a name="674" href="#674">674</a>                     <strong>break</strong>;
-<a name="675" href="#675">675</a>                 }
-<a name="676" href="#676">676</a>             }
-<a name="677" href="#677">677</a>             <strong>else</strong>
-<a name="678" href="#678">678</a>             {
-<a name="679" href="#679">679</a>                 <strong>if</strong> ( !fromTokeniser.nextToken().equals( toTokeniser.nextToken() ) )
-<a name="680" href="#680">680</a>                 {
-<a name="681" href="#681">681</a>                     <strong>break</strong>;
-<a name="682" href="#682">682</a>                 }
-<a name="683" href="#683">683</a>             }
-<a name="684" href="#684">684</a> 
-<a name="685" href="#685">685</a>             count++;
+<a name="605" href="#605">605</a>     <em>/**<em>*</em></em>
+<a name="606" href="#606">606</a> <em>     * Determines the relative path of a filename.  For each separator</em>
+<a name="607" href="#607">607</a> <em>     * within the filename (except the leading if present), append the</em>
+<a name="608" href="#608">608</a> <em>     * "../" string to the return value.</em>
+<a name="609" href="#609">609</a> <em>     *</em>
+<a name="610" href="#610">610</a> <em>     * @param filename The filename to parse.</em>
+<a name="611" href="#611">611</a> <em>     * @param separator The separator used within the filename.</em>
+<a name="612" href="#612">612</a> <em>     * @return The relative path of the filename.  This value is not</em>
+<a name="613" href="#613">613</a> <em>     * terminated with a forward slash.  A zero-length string is</em>
+<a name="614" href="#614">614</a> <em>     * returned if: the filename is zero-length.</em>
+<a name="615" href="#615">615</a> <em>     */</em>
+<a name="616" href="#616">616</a>     <strong>private</strong> <strong>static</strong> <strong>final</strong> String determineRelativePath( String filename,
+<a name="617" href="#617">617</a>                                                        String separator )
+<a name="618" href="#618">618</a>     {
+<a name="619" href="#619">619</a>         <strong>if</strong> ( filename.length() == 0 )
+<a name="620" href="#620">620</a>         {
+<a name="621" href="#621">621</a>             <strong>return</strong> <span class="string">""</span>;
+<a name="622" href="#622">622</a>         }
+<a name="623" href="#623">623</a> 
+<a name="624" href="#624">624</a> 
+<a name="625" href="#625">625</a>         <em class="comment">/*</em>
+<a name="626" href="#626">626</a> <em class="comment">         * Count the slashes in the relative filename, but exclude the</em>
+<a name="627" href="#627">627</a> <em class="comment">         * leading slash.  If the path has no slashes, then the filename</em>
+<a name="628" href="#628">628</a> <em class="comment">         * is relative to the current directory.</em>
+<a name="629" href="#629">629</a> <em class="comment">         */</em>
+<a name="630" href="#630">630</a>         <strong>int</strong> slashCount = StringUtils.countMatches( filename, separator ) - 1;
+<a name="631" href="#631">631</a>         <strong>if</strong> ( slashCount &lt;= 0 )
+<a name="632" href="#632">632</a>         {
+<a name="633" href="#633">633</a>             <strong>return</strong> <span class="string">"."</span>;
+<a name="634" href="#634">634</a>         }
+<a name="635" href="#635">635</a> 
+<a name="636" href="#636">636</a>         <em class="comment">/*</em>
+<a name="637" href="#637">637</a> <em class="comment">         * The relative filename contains one or more slashes indicating</em>
+<a name="638" href="#638">638</a> <em class="comment">         * that the file is within one or more directories.  Thus, each</em>
+<a name="639" href="#639">639</a> <em class="comment">         * slash represents a "../" in the relative path.</em>
+<a name="640" href="#640">640</a> <em class="comment">         */</em>
+<a name="641" href="#641">641</a>         StringBuffer sb = <strong>new</strong> StringBuffer();
+<a name="642" href="#642">642</a>         <strong>for</strong> ( <strong>int</strong> i = 0; i &lt; slashCount; i++ )
+<a name="643" href="#643">643</a>         {
+<a name="644" href="#644">644</a>             sb.append( <span class="string">"../"</span> );
+<a name="645" href="#645">645</a>         }
+<a name="646" href="#646">646</a> 
+<a name="647" href="#647">647</a>         <em class="comment">/*</em>
+<a name="648" href="#648">648</a> <em class="comment">         * Finally, return the relative path but strip the trailing</em>
+<a name="649" href="#649">649</a> <em class="comment">         * slash to mimic Anakia's behavior.</em>
+<a name="650" href="#650">650</a> <em class="comment">         */</em>
+<a name="651" href="#651">651</a>         <strong>return</strong> StringUtils.chop( sb.toString() );
+<a name="652" href="#652">652</a>     }
+<a name="653" href="#653">653</a> 
+<a name="654" href="#654">654</a>     <em>/**<em>*</em></em>
+<a name="655" href="#655">655</a> <em>     * Helper method to determine the file separator (forward or</em>
+<a name="656" href="#656">656</a> <em>     * backward slash) used in a filename.  The slash that occurs more</em>
+<a name="657" href="#657">657</a> <em>     * often is returned as the separator.</em>
+<a name="658" href="#658">658</a> <em>     *</em>
+<a name="659" href="#659">659</a> <em>     * @param filename The filename parsed to determine the file</em>
+<a name="660" href="#660">660</a> <em>     * separator.</em>
+<a name="661" href="#661">661</a> <em>     * @return The file separator used within &lt;code>filename&lt;/code>.</em>
+<a name="662" href="#662">662</a> <em>     * This value is either a forward or backward slash.</em>
+<a name="663" href="#663">663</a> <em>     */</em>
+<a name="664" href="#664">664</a>     <strong>private</strong> <strong>static</strong> <strong>final</strong> String determineSeparator( String filename )
+<a name="665" href="#665">665</a>     {
+<a name="666" href="#666">666</a>         <strong>int</strong> forwardCount = StringUtils.countMatches( filename, <span class="string">"/"</span> );
+<a name="667" href="#667">667</a>         <strong>int</strong> backwardCount = StringUtils.countMatches( filename, <span class="string">"&#47;&#47;"</span> );
+<a name="668" href="#668">668</a> 
+<a name="669" href="#669">669</a>         <strong>return</strong> forwardCount >= backwardCount ? <span class="string">"/"</span> : <span class="string">"&#47;&#47;"</span>;
+<a name="670" href="#670">670</a>     }
+<a name="671" href="#671">671</a> 
+<a name="672" href="#672">672</a>     <em>/**<em>*</em></em>
+<a name="673" href="#673">673</a> <em>     * Cygwin prefers lowercase drive letters, but other parts of maven use uppercase</em>
+<a name="674" href="#674">674</a> <em>     * @param path</em>
+<a name="675" href="#675">675</a> <em>     * @return String</em>
+<a name="676" href="#676">676</a> <em>     */</em>
+<a name="677" href="#677">677</a>     <strong>static</strong> <strong>final</strong> String uppercaseDrive(String path)
+<a name="678" href="#678">678</a>     {
+<a name="679" href="#679">679</a>         <strong>if</strong> (path == <strong>null</strong>)
+<a name="680" href="#680">680</a>         {
+<a name="681" href="#681">681</a>             <strong>return</strong> <strong>null</strong>;
+<a name="682" href="#682">682</a>         }
+<a name="683" href="#683">683</a>         <strong>if</strong> (path.length() >= 2 &amp;&amp; path.charAt(1) == ':')
+<a name="684" href="#684">684</a>         {
+<a name="685" href="#685">685</a>             path = Character.toUpperCase( path.charAt( 0 ) ) + path.substring( 1 );
 <a name="686" href="#686">686</a>         }
-<a name="687" href="#687">687</a> 
-<a name="688" href="#688">688</a>         <em class="comment">// reinitialise the tokenisers to count positions to retrieve the</em>
-<a name="689" href="#689">689</a>         <em class="comment">// gobbled token</em>
-<a name="690" href="#690">690</a> 
-<a name="691" href="#691">691</a>         toTokeniser = <strong>new</strong> StringTokenizer( toPath, String.valueOf( separatorChar ) );
-<a name="692" href="#692">692</a>         fromTokeniser = <strong>new</strong> StringTokenizer( fromPath, String.valueOf( separatorChar ) );
-<a name="693" href="#693">693</a> 
-<a name="694" href="#694">694</a>         <strong>while</strong> ( count-- > 0 )
-<a name="695" href="#695">695</a>         {
-<a name="696" href="#696">696</a>             fromTokeniser.nextToken();
-<a name="697" href="#697">697</a>             toTokeniser.nextToken();
-<a name="698" href="#698">698</a>         }
-<a name="699" href="#699">699</a> 
-<a name="700" href="#700">700</a>         StringBuffer relativePath = <strong>new</strong> StringBuffer();
-<a name="701" href="#701">701</a> 
-<a name="702" href="#702">702</a>         <em class="comment">// add back refs for the rest of from location.</em>
-<a name="703" href="#703">703</a>         <strong>while</strong> ( fromTokeniser.hasMoreTokens() )
-<a name="704" href="#704">704</a>         {
-<a name="705" href="#705">705</a>             fromTokeniser.nextToken();
-<a name="706" href="#706">706</a> 
-<a name="707" href="#707">707</a>             relativePath.append(<span class="string">".."</span>);
-<a name="708" href="#708">708</a> 
-<a name="709" href="#709">709</a>             <strong>if</strong> ( fromTokeniser.hasMoreTokens() )
-<a name="710" href="#710">710</a>             {
-<a name="711" href="#711">711</a>             	relativePath.append(separatorChar);
-<a name="712" href="#712">712</a>             }
-<a name="713" href="#713">713</a>         }
-<a name="714" href="#714">714</a> 
-<a name="715" href="#715">715</a>         <strong>if</strong> ( relativePath.length() != 0 &amp;&amp; toTokeniser.hasMoreTokens() )
-<a name="716" href="#716">716</a>         {
-<a name="717" href="#717">717</a>         	relativePath.append(separatorChar);
-<a name="718" href="#718">718</a>         }
-<a name="719" href="#719">719</a> 
-<a name="720" href="#720">720</a>         <em class="comment">// add fwd fills for whatevers left of newPath.</em>
-<a name="721" href="#721">721</a>         <strong>while</strong> ( toTokeniser.hasMoreTokens() )
-<a name="722" href="#722">722</a>         {
-<a name="723" href="#723">723</a>         	relativePath.append(toTokeniser.nextToken());
+<a name="687" href="#687">687</a>         <strong>return</strong> path;
+<a name="688" href="#688">688</a>     }
+<a name="689" href="#689">689</a> 
+<a name="690" href="#690">690</a>     <strong>private</strong> <strong>static</strong> <strong>final</strong> String buildRelativePath( String toPath,  String fromPath, <strong>final</strong> <strong>char</strong> separatorChar )
+<a name="691" href="#691">691</a>     {
+<a name="692" href="#692">692</a>         <em class="comment">// use tokeniser to traverse paths and for lazy checking</em>
+<a name="693" href="#693">693</a>         StringTokenizer toTokeniser = <strong>new</strong> StringTokenizer( toPath, String.valueOf( separatorChar ) );
+<a name="694" href="#694">694</a>         StringTokenizer fromTokeniser = <strong>new</strong> StringTokenizer( fromPath, String.valueOf( separatorChar ) );
+<a name="695" href="#695">695</a> 
+<a name="696" href="#696">696</a>         <strong>int</strong> count = 0;
+<a name="697" href="#697">697</a> 
+<a name="698" href="#698">698</a>         <em class="comment">// walk along the to path looking for divergence from the from path</em>
+<a name="699" href="#699">699</a>         <strong>while</strong> ( toTokeniser.hasMoreTokens() &amp;&amp; fromTokeniser.hasMoreTokens() )
+<a name="700" href="#700">700</a>         {
+<a name="701" href="#701">701</a>             <strong>if</strong> ( separatorChar == '&#47;&#47;' )
+<a name="702" href="#702">702</a>             {
+<a name="703" href="#703">703</a>                 <strong>if</strong> ( !fromTokeniser.nextToken().equalsIgnoreCase( toTokeniser.nextToken() ) )
+<a name="704" href="#704">704</a>                 {
+<a name="705" href="#705">705</a>                     <strong>break</strong>;
+<a name="706" href="#706">706</a>                 }
+<a name="707" href="#707">707</a>             }
+<a name="708" href="#708">708</a>             <strong>else</strong>
+<a name="709" href="#709">709</a>             {
+<a name="710" href="#710">710</a>                 <strong>if</strong> ( !fromTokeniser.nextToken().equals( toTokeniser.nextToken() ) )
+<a name="711" href="#711">711</a>                 {
+<a name="712" href="#712">712</a>                     <strong>break</strong>;
+<a name="713" href="#713">713</a>                 }
+<a name="714" href="#714">714</a>             }
+<a name="715" href="#715">715</a> 
+<a name="716" href="#716">716</a>             count++;
+<a name="717" href="#717">717</a>         }
+<a name="718" href="#718">718</a> 
+<a name="719" href="#719">719</a>         <em class="comment">// reinitialise the tokenisers to count positions to retrieve the</em>
+<a name="720" href="#720">720</a>         <em class="comment">// gobbled token</em>
+<a name="721" href="#721">721</a> 
+<a name="722" href="#722">722</a>         toTokeniser = <strong>new</strong> StringTokenizer( toPath, String.valueOf( separatorChar ) );
+<a name="723" href="#723">723</a>         fromTokeniser = <strong>new</strong> StringTokenizer( fromPath, String.valueOf( separatorChar ) );
 <a name="724" href="#724">724</a> 
-<a name="725" href="#725">725</a>             <strong>if</strong> ( toTokeniser.hasMoreTokens() )
-<a name="726" href="#726">726</a>             {
-<a name="727" href="#727">727</a>             	relativePath.append(separatorChar);
-<a name="728" href="#728">728</a>             }
+<a name="725" href="#725">725</a>         <strong>while</strong> ( count-- > 0 )
+<a name="726" href="#726">726</a>         {
+<a name="727" href="#727">727</a>             fromTokeniser.nextToken();
+<a name="728" href="#728">728</a>             toTokeniser.nextToken();
 <a name="729" href="#729">729</a>         }
-<a name="730" href="#730">730</a>         <strong>return</strong> relativePath.toString();
-<a name="731" href="#731">731</a>     }
+<a name="730" href="#730">730</a> 
+<a name="731" href="#731">731</a>         StringBuffer relativePath = <strong>new</strong> StringBuffer();
 <a name="732" href="#732">732</a> 
-<a name="733" href="#733">733</a> 	
-<a name="734" href="#734">734</a> }
+<a name="733" href="#733">733</a>         <em class="comment">// add back refs for the rest of from location.</em>
+<a name="734" href="#734">734</a>         <strong>while</strong> ( fromTokeniser.hasMoreTokens() )
+<a name="735" href="#735">735</a>         {
+<a name="736" href="#736">736</a>             fromTokeniser.nextToken();
+<a name="737" href="#737">737</a> 
+<a name="738" href="#738">738</a>             relativePath.append(<span class="string">".."</span>);
+<a name="739" href="#739">739</a> 
+<a name="740" href="#740">740</a>             <strong>if</strong> ( fromTokeniser.hasMoreTokens() )
+<a name="741" href="#741">741</a>             {
+<a name="742" href="#742">742</a>             	relativePath.append(separatorChar);
+<a name="743" href="#743">743</a>             }
+<a name="744" href="#744">744</a>         }
+<a name="745" href="#745">745</a> 
+<a name="746" href="#746">746</a>         <strong>if</strong> ( relativePath.length() != 0 &amp;&amp; toTokeniser.hasMoreTokens() )
+<a name="747" href="#747">747</a>         {
+<a name="748" href="#748">748</a>         	relativePath.append(separatorChar);
+<a name="749" href="#749">749</a>         }
+<a name="750" href="#750">750</a> 
+<a name="751" href="#751">751</a>         <em class="comment">// add fwd fills for whatevers left of newPath.</em>
+<a name="752" href="#752">752</a>         <strong>while</strong> ( toTokeniser.hasMoreTokens() )
+<a name="753" href="#753">753</a>         {
+<a name="754" href="#754">754</a>         	relativePath.append(toTokeniser.nextToken());
+<a name="755" href="#755">755</a> 
+<a name="756" href="#756">756</a>             <strong>if</strong> ( toTokeniser.hasMoreTokens() )
+<a name="757" href="#757">757</a>             {
+<a name="758" href="#758">758</a>             	relativePath.append(separatorChar);
+<a name="759" href="#759">759</a>             }
+<a name="760" href="#760">760</a>         }
+<a name="761" href="#761">761</a>         <strong>return</strong> relativePath.toString();
+<a name="762" href="#762">762</a>     }
+<a name="763" href="#763">763</a> 
+<a name="764" href="#764">764</a> 	
+<a name="765" href="#765">765</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

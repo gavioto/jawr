@@ -304,6 +304,7 @@
 <ul><li><b>baseDirPath</b> the web application base directory path</li>
 <li><b>tmpDirPath</b> the temporary directory path</li>
 <li><b>destDirPath</b> the destination directory path, where the result will be stored</li>
+<li><b>springConfigFiles</b> the comma separated list of spring configuration files, which will be used to initialize the Jawr spring controller. This property accepts any spring resource location definition like classpath:..., file:..., etc</li>
 <li><b>servletsToInitialize</b> the list of comma separated names of servlets to initialize</li>
 <li><b>generateCdnFiles</b> the flag indicating if we should generate the CDN files or not</li>
 </ul>
@@ -311,6 +312,40 @@
 <p>As we have seen, the bundle preprocessing has almost the same behaviour as the standard bundle processing. To implement this feature, we have decided to simulate the server startup. By default we will only initialize the Jawr servlets. You could add in the <b>servletsToInitialize</b> the list of servlets to initialize.</p>
 <p>As said above, we only fake a server startup, which means that we don't initialize the entire web application context (filters, servlets ...). This could be a problem if you are initializing things, in the standard server startup, which you are used later in Jawr. These elements could be missing. This is why we have added the parameter <b>servletsToInitialize</b> to be able to initialize other servlets, which you could initialize data used later by Jawr.</p>
 </div>
+</div>
+<div class="section"><h3>Spring MVC support</h3>
+<p>As the bundle processor simulate the server startup, the idea is to only initialize the Jawr component. So with the <b>springConfigFiles</b> parameter, we can choose exactly which beans must be instanciated, in order to initialize the Jawr component.</p>
+<p>For Spring MCV, Jawr provides the JawrSpringController which generates the bundles and handles the request. By default, if you don't provide the spring configuration files to the bundle processor, it will search for the configuration file associated to your spring dispatcher servlet. For example:</p>
+<div class="source"><pre>        &lt;servlet&gt;
+              &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;
+              &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+              &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+        &lt;/servlet&gt;
+        </pre>
+</div>
+<p>With the below configuration, the bundle processor will search for a configuration file named <b>dispatcher</b>-servlet.xml. Here <b>dispatcher</b> is the name of the servlet.</p>
+<p>If in your spring MVC configuration file, you don't have only the JawrSpringController defined (which is generally the case), we advise you to create a separate file containing only the JawrSpringController declaration, and use the import tag to include it in your spring configuration. So in that case, you must pass as argument to the bundle processor the spring configuration file containing the JawrSpringController declaration.</p>
+<p>If your controller use dynamic properties, you can define these dynamic properties in another file, and pass to the bundle processor, the files defining the properties and the JawrSpringController.</p>
+<p>For example, if you have the following JawrSpringController declaration :</p>
+<div class="source"><pre>        
+        &lt;!-- Base Jawr config --&gt;
+        &lt;bean id=&quot;jawrJsController&quot;  class=&quot;net.jawr.web.servlet.JawrSpringController&quot; &gt;
+                &lt;!-- This must match the servlet-mapping to which the spring servlet is bound --&gt;
+                &lt;property name=&quot;mapping&quot; value=&quot;/spring/&quot;/&gt;
+                
+                &lt;!-- This must match the controller mapping prefix to which the 
+                        jawr controllers are bound at the urlMapping bean below --&gt;
+                &lt;property name=&quot;controllerMapping&quot; value=&quot;/jawrJS/&quot;/&gt;
+                &lt;property name=&quot;configuration&quot;&gt;
+                        &lt;props&gt;
+                                &lt;prop key=&quot;jawr.gzip.on&quot;&gt;{gzip.resource}&lt;/prop&gt;
+                        &lt;/props&gt;
+                &lt;/property&gt;
+                &lt;property name=&quot;configLocation&quot; value=&quot;/jawr-springMVC.properties&quot; /&gt;
+        &lt;/bean&gt;
+</pre>
+</div>
+<p>In the configuration above, you will notice that the &quot;jawr.gzip.on&quot; property is set with the value of &quot;<a name="gzip.resource">gzip.resource</a>&quot;. If you have a such configuration, you will probably have the declaration of your property in another file. And in that case you will pass the file defining the <b>gzip.resource</b> property to the bundle processor, so the Jawr component initialization can be initialized properly.</p>
 </div>
 <div class="section"><h3>CDN support</h3>
 <p>One of the goals of this feature is to provide a better support for CDN. In the CDN directory, generated by the BundleProcessor, you will find all the bundles which are accessible in production and in debug modes.</p>
@@ -339,15 +374,15 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2010
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 02/01/2010
+  &nbsp;| Version: 3.2.1
 </div>
       <div class="clear">
         <hr/>

@@ -123,14 +123,14 @@
 <a name="114" href="#114">114</a> 			addComment(<span class="string">"Start adding members resolved by '"</span> + requestedPath + <span class="string">"'. Bundle id is: '"</span> + bundle.getId() + <span class="string">"'"</span>, out);
 <a name="115" href="#115">115</a> 		}
 <a name="116" href="#116">116</a> 
-<a name="117" href="#117">117</a> 		<em class="comment">// If DWR is being used, add a path var to the page</em>
-<a name="118" href="#118">118</a> 		<strong>if</strong> (<strong>null</strong> != bundler.getConfig().getDwrMapping() &amp;&amp; ctx.getIncludedBundles().add(ID_SCRIPT_DWR_PATH)) {
-<a name="119" href="#119">119</a> 
-<a name="120" href="#120">120</a> 			String contextPath = ctx.getContextPath();
-<a name="121" href="#121">121</a> 			StringBuffer sb = DWRParamWriter.buildRequestSpecificParams(contextPath, PathNormalizer.joinPaths(contextPath, bundler.getConfig()
-<a name="122" href="#122">122</a> 					.getDwrMapping()));
-<a name="123" href="#123">123</a> 			out.write(sb.toString());
-<a name="124" href="#124">124</a> 		}
+<a name="117" href="#117">117</a> <em class="comment">//		// If DWR is being used, add a path var to the page</em>
+<a name="118" href="#118">118</a> <em class="comment">//		if (null != bundler.getConfig().getDwrMapping() &amp;&amp; ctx.getIncludedBundles().add(ID_SCRIPT_DWR_PATH)) {</em>
+<a name="119" href="#119">119</a> <em class="comment">//</em>
+<a name="120" href="#120">120</a> <em class="comment">//			String contextPath = ctx.getContextPath();</em>
+<a name="121" href="#121">121</a> <em class="comment">//			StringBuffer sb = DWRParamWriter.buildRequestSpecificParams(contextPath, PathNormalizer.joinPaths(contextPath, bundler.getConfig()</em>
+<a name="122" href="#122">122</a> <em class="comment">//					.getDwrMapping()));</em>
+<a name="123" href="#123">123</a> <em class="comment">//			out.write(sb.toString());</em>
+<a name="124" href="#124">124</a> <em class="comment">//		}</em>
 <a name="125" href="#125">125</a> 
 <a name="126" href="#126">126</a> 		<em class="comment">// Include the bundle if it has not been included yet</em>
 <a name="127" href="#127">127</a> 		<strong>if</strong>(ctx.getIncludedBundles().add(bundle.getId())){
@@ -172,190 +172,200 @@
 <a name="163" href="#163">163</a> 		<strong>if</strong> (debugOn) {
 <a name="164" href="#164">164</a> 			addComment(<span class="string">"Start adding global members."</span>, out);
 <a name="165" href="#165">165</a> 		}
-<a name="166" href="#166">166</a> 		<strong>if</strong>(isForcedToRenderIeCssBundleInDebug(ctx, debugOn)){
-<a name="167" href="#167">167</a> 			ResourceBundlePathsIterator resourceBundleIterator = bundler.getGlobalResourceBundlePaths(false, <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/renderer/ConditionalCommentRenderer.html">ConditionalCommentRenderer</a>(out), ctx.getVariantKey());
-<a name="168" href="#168">168</a> 			<strong>while</strong>(resourceBundleIterator.hasNext()){
-<a name="169" href="#169">169</a> 				String globalBundlePath = resourceBundleIterator.nextPath();
-<a name="170" href="#170">170</a> 				renderIeCssBundleLink(ctx, out, globalBundlePath);
-<a name="171" href="#171">171</a> 			}
-<a name="172" href="#172">172</a> 		}<strong>else</strong>{
-<a name="173" href="#173">173</a> 			
-<a name="174" href="#174">174</a> 			ResourceBundlePathsIterator resourceBundleIterator = bundler.getGlobalResourceBundlePaths(<strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/renderer/ConditionalCommentRenderer.html">ConditionalCommentRenderer</a>(out), ctx.getVariantKey());
-<a name="175" href="#175">175</a> 			renderBundleLinks(resourceBundleIterator,
-<a name="176" href="#176">176</a> 					ctx, debugOn, out);
-<a name="177" href="#177">177</a> 		}
-<a name="178" href="#178">178</a> 		
-<a name="179" href="#179">179</a> 		ctx.setGlobalBundleAdded(<strong>true</strong>);
-<a name="180" href="#180">180</a> 		<strong>if</strong> (debugOn) {
-<a name="181" href="#181">181</a> 			addComment(<span class="string">"Finished adding global members."</span>, out);
-<a name="182" href="#182">182</a> 		}
-<a name="183" href="#183">183</a> 	}
-<a name="184" href="#184">184</a> 
-<a name="185" href="#185">185</a> 	<em>/**<em>*</em></em>
-<a name="186" href="#186">186</a> <em>	 * Renders the bundle links for the bundle dependencies</em>
-<a name="187" href="#187">187</a> <em>	 * @param requestedPath the request path</em>
-<a name="188" href="#188">188</a> <em>	 * @param ctx the context</em>
-<a name="189" href="#189">189</a> <em>	 * @param out the writer</em>
-<a name="190" href="#190">190</a> <em>	 * @param debugOn the debug flag</em>
-<a name="191" href="#191">191</a> <em>	 * @param dependencies the dependencies</em>
-<a name="192" href="#192">192</a> <em>	 * @throws IOException if an IOException occurs.</em>
-<a name="193" href="#193">193</a> <em>	 */</em>
-<a name="194" href="#194">194</a> 	<strong>private</strong> <strong>void</strong> renderBundleDependenciesLinks(String requestedPath,
-<a name="195" href="#195">195</a> 			BundleRendererContext ctx, Writer out, <strong>boolean</strong> debugOn,
-<a name="196" href="#196">196</a> 			List dependencies) throws IOException {
-<a name="197" href="#197">197</a> 		
-<a name="198" href="#198">198</a> 		<strong>if</strong>(dependencies != <strong>null</strong> &amp;&amp; !dependencies.isEmpty()){
-<a name="199" href="#199">199</a> 			<strong>for</strong> (Iterator iterator = dependencies.iterator(); iterator
-<a name="200" href="#200">200</a> 					.hasNext();) {
-<a name="201" href="#201">201</a> 				JoinableResourceBundle dependencyBundle = (JoinableResourceBundle) iterator.next();
-<a name="202" href="#202">202</a> 				<strong>if</strong>(debugOn){
-<a name="203" href="#203">203</a> 					addComment(<span class="string">"Start adding dependency '"</span>+dependencyBundle.getId()+<span class="string">"'"</span>, out);
-<a name="204" href="#204">204</a> 				}
-<a name="205" href="#205">205</a> 				renderBundleLinks(dependencyBundle, requestedPath, ctx, out, debugOn, false);
-<a name="206" href="#206">206</a> 				<strong>if</strong>(debugOn){
-<a name="207" href="#207">207</a> 					addComment(<span class="string">"Finished adding dependency '"</span>+dependencyBundle.getId()+<span class="string">"'"</span>, out);
-<a name="208" href="#208">208</a> 				}
-<a name="209" href="#209">209</a> 			}
-<a name="210" href="#210">210</a> 		}
-<a name="211" href="#211">211</a> 	}
-<a name="212" href="#212">212</a> 
-<a name="213" href="#213">213</a> 	<em>/**<em>*</em></em>
-<a name="214" href="#214">214</a> <em>	 * Returns true if the renderer must render a CSS bundle link even in debug mode</em>
-<a name="215" href="#215">215</a> <em>	 * @param ctx the context</em>
-<a name="216" href="#216">216</a> <em>	 * @param debugOn the debug flag</em>
-<a name="217" href="#217">217</a> <em>	 * @return true if the renderer must render a CSS bundle link even in debug mode</em>
-<a name="218" href="#218">218</a> <em>	 */</em>
-<a name="219" href="#219">219</a> 	<strong>private</strong> <strong>boolean</strong> isForcedToRenderIeCssBundleInDebug(<a href="../../../../../../net/jawr/web/resource/bundle/renderer/BundleRendererContext.html">BundleRendererContext</a> ctx,
-<a name="220" href="#220">220</a> 			<strong>boolean</strong> debugOn) {
-<a name="221" href="#221">221</a> 		
-<a name="222" href="#222">222</a> 		<strong>return</strong> debugOn &amp;&amp; getResourceType().equals(JawrConstant.CSS_TYPE) &amp;&amp; 
-<a name="223" href="#223">223</a> 				bundler.getConfig().isForceCssBundleInDebugForIEOn() &amp;&amp; RendererRequestUtils.isIE(ctx.getRequest());
-<a name="224" href="#224">224</a> 	}
-<a name="225" href="#225">225</a> 
-<a name="226" href="#226">226</a> 	<em>/**<em>*</em></em>
-<a name="227" href="#227">227</a> <em>	 * Renders the CSS link to retrieve the CSS bundle for IE in debug mode.</em>
-<a name="228" href="#228">228</a> <em>	 * @param ctx the context</em>
-<a name="229" href="#229">229</a> <em>	 * @param out the writer</em>
-<a name="230" href="#230">230</a> <em>	 * @param bundle the bundle</em>
-<a name="231" href="#231">231</a> <em>	 * @throws IOException if an IOException occurs</em>
-<a name="232" href="#232">232</a> <em>	 */</em>
-<a name="233" href="#233">233</a> 	<strong>private</strong> <strong>void</strong> renderIeCssBundleLink(<a href="../../../../../../net/jawr/web/resource/bundle/renderer/BundleRendererContext.html">BundleRendererContext</a> ctx, Writer out,
-<a name="234" href="#234">234</a> 			String bundlePath) throws IOException {
-<a name="235" href="#235">235</a> 		Random randomSeed = <strong>new</strong> Random();
-<a name="236" href="#236">236</a> 		<strong>int</strong> random = randomSeed.nextInt();
-<a name="237" href="#237">237</a> 		<strong>if</strong> (random &lt; 0)
-<a name="238" href="#238">238</a> 			random *= -1;
-<a name="239" href="#239">239</a> 		String path = GeneratorRegistry.IE_CSS_GENERATOR_PREFIX+GeneratorRegistry.PREFIX_SEPARATOR+bundlePath;
-<a name="240" href="#240">240</a> 		path = PathNormalizer.createGenerationPath(path, bundler.getConfig().getGeneratorRegistry())+<span class="string">"&amp;d="</span>+random;
-<a name="241" href="#241">241</a> 		out.write(createBundleLink(path, ctx.getContextPath(), ctx.isSslRequest()));
-<a name="242" href="#242">242</a> 	}
-<a name="243" href="#243">243</a> 
-<a name="244" href="#244">244</a> 	
-<a name="245" href="#245">245</a> 
-<a name="246" href="#246">246</a> 	<em>/**<em>*</em></em>
-<a name="247" href="#247">247</a> <em>	 * Renders the bundle links for the resource iterator passed in parameter</em>
-<a name="248" href="#248">248</a> <em>	 * @param it the iterator on the bundles </em>
-<a name="249" href="#249">249</a> <em>	 * @param contextPath the context path</em>
-<a name="250" href="#250">250</a> <em>	 * @param includedBundles the included bundles</em>
-<a name="251" href="#251">251</a> <em>	 * @param useGzip the flag indicating if we use gzip or not</em>
-<a name="252" href="#252">252</a> <em>	 * @param isSslRequest the flag indicating if it's an SSL request or not</em>
-<a name="253" href="#253">253</a> <em>	 * @param debugOn the flag indicating if we are in debug mode or not</em>
-<a name="254" href="#254">254</a> <em>	 * @param out the output writer</em>
-<a name="255" href="#255">255</a> <em>	 * @throws IOException if an IO exception occurs</em>
-<a name="256" href="#256">256</a> <em>	 */</em>
-<a name="257" href="#257">257</a> 	<strong>private</strong> <strong>void</strong> renderBundleLinks(<a href="../../../../../../net/jawr/web/resource/bundle/iterator/ResourceBundlePathsIterator.html">ResourceBundlePathsIterator</a> it,
-<a name="258" href="#258">258</a> 			BundleRendererContext ctx, <strong>boolean</strong> debugOn, Writer out) throws IOException {
-<a name="259" href="#259">259</a> 	
-<a name="260" href="#260">260</a> 		String contextPath = ctx.getContextPath();
-<a name="261" href="#261">261</a> 		<strong>boolean</strong> useGzip = ctx.isUseGzip();
-<a name="262" href="#262">262</a> 		<strong>boolean</strong> isSslRequest = ctx.isSslRequest();
-<a name="263" href="#263">263</a> 		
-<a name="264" href="#264">264</a> 		<em class="comment">// Add resources to the page as links.</em>
-<a name="265" href="#265">265</a> 		Random randomSeed = <strong>new</strong> Random();
-<a name="266" href="#266">266</a> 		<strong>while</strong> (it.hasNext()) {
-<a name="267" href="#267">267</a> 			String resourceName = it.nextPath();
-<a name="268" href="#268">268</a> 
-<a name="269" href="#269">269</a> 			<strong>if</strong>( resourceName != <strong>null</strong>){
-<a name="270" href="#270">270</a> 				<em class="comment">// In debug mode, all the resources are included separately and use a random parameter to avoid caching.</em>
-<a name="271" href="#271">271</a> 				<em class="comment">// If useRandomParam is set to false, the links are created without the random parameter.</em>
-<a name="272" href="#272">272</a> 				<strong>if</strong> (debugOn &amp;&amp; useRandomParam &amp;&amp; !bundler.getConfig().getGeneratorRegistry().isPathGenerated(resourceName)) {
-<a name="273" href="#273">273</a> 					<strong>int</strong> random = randomSeed.nextInt();
-<a name="274" href="#274">274</a> 					<strong>if</strong> (random &lt; 0)
-<a name="275" href="#275">275</a> 						random *= -1;
-<a name="276" href="#276">276</a> 					out.write(createBundleLink(resourceName + <span class="string">"?d="</span> + random, contextPath, isSslRequest));
-<a name="277" href="#277">277</a> 				} <strong>else</strong> <strong>if</strong> (!debugOn &amp;&amp; useGzip){
-<a name="278" href="#278">278</a> 					out.write(createGzipBundleLink(resourceName, contextPath, isSslRequest));
-<a name="279" href="#279">279</a> 				}<strong>else</strong>{
-<a name="280" href="#280">280</a> 					out.write(createBundleLink(resourceName, contextPath, isSslRequest));
-<a name="281" href="#281">281</a> 				}
-<a name="282" href="#282">282</a> 				
-<a name="283" href="#283">283</a> 				<strong>if</strong>(debugOn &amp;&amp; !ctx.getIncludedResources().add(resourceName)){
-<a name="284" href="#284">284</a> 					addComment(<span class="string">"The resource '"</span> + resourceName + <span class="string">"' is already included in the page."</span>, out);
-<a name="285" href="#285">285</a> 				}
-<a name="286" href="#286">286</a> 			}
-<a name="287" href="#287">287</a> 		}
-<a name="288" href="#288">288</a> 	}
-<a name="289" href="#289">289</a> 
-<a name="290" href="#290">290</a> 	<em>/**<em>*</em></em>
-<a name="291" href="#291">291</a> <em>	 * Adds an HTML comment to the output stream.</em>
-<a name="292" href="#292">292</a> <em>	 * </em>
-<a name="293" href="#293">293</a> <em>	 * @param commentText the comment</em>
-<a name="294" href="#294">294</a> <em>	 * @param out Writer</em>
-<a name="295" href="#295">295</a> <em>	 * @throws IOException if an IO exception occurs</em>
-<a name="296" href="#296">296</a> <em>	 */</em>
-<a name="297" href="#297">297</a> 	<strong>protected</strong> <strong>final</strong> <strong>void</strong> addComment(String commentText, Writer out) throws IOException {
-<a name="298" href="#298">298</a> 		StringBuffer sb = <strong>new</strong> StringBuffer(<span class="string">"&lt;script type=\&quot;text/javascript\&quot;>/* "</span>);
-<a name="299" href="#299">299</a> 		sb.append(commentText).append(<span class="string">" */&lt;/script>"</span>).append(<span class="string">"\n"</span>);
-<a name="300" href="#300">300</a> 		out.write(sb.toString());
-<a name="301" href="#301">301</a> 	}
-<a name="302" href="#302">302</a> 
-<a name="303" href="#303">303</a> 	<em>/**<em>*</em></em>
-<a name="304" href="#304">304</a> <em>	 * Creates a link to a bundle in the page, prepending the gzip prefix to its identifier.</em>
-<a name="305" href="#305">305</a> <em>	 * </em>
-<a name="306" href="#306">306</a> <em>	 * @param resourceName the resource name</em>
-<a name="307" href="#307">307</a> <em>	 * @param contextPath the context path</em>
-<a name="308" href="#308">308</a> <em>	 * @return the link to the gzip bundle in the page</em>
-<a name="309" href="#309">309</a> <em>	 */</em>
-<a name="310" href="#310">310</a> 	<strong>protected</strong> String createGzipBundleLink(String resourceName, String contextPath, <strong>boolean</strong> isSslRequest) {
-<a name="311" href="#311">311</a> 		<em class="comment">// remove '/' from start of name</em>
-<a name="312" href="#312">312</a> 		resourceName = resourceName.substring(1, resourceName.length());
-<a name="313" href="#313">313</a> 		<strong>return</strong> createBundleLink(BundleRenderer.GZIP_PATH_PREFIX + resourceName, contextPath, isSslRequest);
-<a name="314" href="#314">314</a> 	}
-<a name="315" href="#315">315</a> 
-<a name="316" href="#316">316</a> 	<em>/**<em>*</em></em>
-<a name="317" href="#317">317</a> <em>	 * Creates a link to a bundle in the page.</em>
-<a name="318" href="#318">318</a> <em>	 * </em>
-<a name="319" href="#319">319</a> <em>	 * @param bundleId the bundle ID</em>
-<a name="320" href="#320">320</a> <em>	 * @param contextPath the context path</em>
-<a name="321" href="#321">321</a> <em>	 * @return the link to a bundle in the page</em>
-<a name="322" href="#322">322</a> <em>	 */</em>
-<a name="323" href="#323">323</a> 	<strong>protected</strong> String createBundleLink(String bundleId, String contextPath, <strong>boolean</strong> isSslRequest) {
-<a name="324" href="#324">324</a> 
-<a name="325" href="#325">325</a> 		<em class="comment">// When debug mode is on and the resource is generated the path must include a parameter</em>
-<a name="326" href="#326">326</a> 		<strong>if</strong> (bundler.getConfig().isDebugModeOn() &amp;&amp; bundler.getConfig().getGeneratorRegistry().isPathGenerated(bundleId)) {
-<a name="327" href="#327">327</a> 			bundleId = PathNormalizer.createGenerationPath(bundleId, bundler.getConfig().getGeneratorRegistry());
-<a name="328" href="#328">328</a> 		}
-<a name="329" href="#329">329</a> 		String fullPath = PathNormalizer.joinPaths(bundler.getConfig().getServletMapping(), bundleId);
-<a name="330" href="#330">330</a> 
-<a name="331" href="#331">331</a> 		fullPath = RendererRequestUtils.getRenderedUrl(fullPath, bundler.getConfig(), contextPath, isSslRequest);
-<a name="332" href="#332">332</a> 		
-<a name="333" href="#333">333</a> 		<em class="comment">// allow debugOverride to pass through on the generated urls</em>
-<a name="334" href="#334">334</a> 		<strong>if</strong> (ThreadLocalJawrContext.isDebugOverriden()) {
-<a name="335" href="#335">335</a> 			fullPath = PathNormalizer.addGetParameter(fullPath, <span class="string">"overrideKey"</span>, bundler.getConfig().getDebugOverrideKey());
-<a name="336" href="#336">336</a> 		}
-<a name="337" href="#337">337</a> 
-<a name="338" href="#338">338</a> 		<strong>return</strong> renderLink(fullPath);
-<a name="339" href="#339">339</a> 	}
+<a name="166" href="#166">166</a> 		
+<a name="167" href="#167">167</a> 		<em class="comment">// If DWR is being used, add a path var to the page</em>
+<a name="168" href="#168">168</a> 		<strong>if</strong> (<strong>null</strong> != bundler.getConfig().getDwrMapping()) {
+<a name="169" href="#169">169</a> 
+<a name="170" href="#170">170</a> 			String contextPath = ctx.getContextPath();
+<a name="171" href="#171">171</a> 			StringBuffer sb = DWRParamWriter.buildRequestSpecificParams(contextPath, PathNormalizer.joinPaths(contextPath, bundler.getConfig()
+<a name="172" href="#172">172</a> 					.getDwrMapping()));
+<a name="173" href="#173">173</a> 			out.write(sb.toString());
+<a name="174" href="#174">174</a> 		}
+<a name="175" href="#175">175</a> 		
+<a name="176" href="#176">176</a> 		<strong>if</strong>(isForcedToRenderIeCssBundleInDebug(ctx, debugOn)){
+<a name="177" href="#177">177</a> 			ResourceBundlePathsIterator resourceBundleIterator = bundler.getGlobalResourceBundlePaths(false, <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/renderer/ConditionalCommentRenderer.html">ConditionalCommentRenderer</a>(out), ctx.getVariantKey());
+<a name="178" href="#178">178</a> 			<strong>while</strong>(resourceBundleIterator.hasNext()){
+<a name="179" href="#179">179</a> 				String globalBundlePath = resourceBundleIterator.nextPath();
+<a name="180" href="#180">180</a> 				renderIeCssBundleLink(ctx, out, globalBundlePath);
+<a name="181" href="#181">181</a> 			}
+<a name="182" href="#182">182</a> 		}<strong>else</strong>{
+<a name="183" href="#183">183</a> 			
+<a name="184" href="#184">184</a> 			ResourceBundlePathsIterator resourceBundleIterator = bundler.getGlobalResourceBundlePaths(<strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/renderer/ConditionalCommentRenderer.html">ConditionalCommentRenderer</a>(out), ctx.getVariantKey());
+<a name="185" href="#185">185</a> 			renderBundleLinks(resourceBundleIterator,
+<a name="186" href="#186">186</a> 					ctx, debugOn, out);
+<a name="187" href="#187">187</a> 		}
+<a name="188" href="#188">188</a> 		
+<a name="189" href="#189">189</a> 		ctx.setGlobalBundleAdded(<strong>true</strong>);
+<a name="190" href="#190">190</a> 		<strong>if</strong> (debugOn) {
+<a name="191" href="#191">191</a> 			addComment(<span class="string">"Finished adding global members."</span>, out);
+<a name="192" href="#192">192</a> 		}
+<a name="193" href="#193">193</a> 	}
+<a name="194" href="#194">194</a> 
+<a name="195" href="#195">195</a> 	<em>/**<em>*</em></em>
+<a name="196" href="#196">196</a> <em>	 * Renders the bundle links for the bundle dependencies</em>
+<a name="197" href="#197">197</a> <em>	 * @param requestedPath the request path</em>
+<a name="198" href="#198">198</a> <em>	 * @param ctx the context</em>
+<a name="199" href="#199">199</a> <em>	 * @param out the writer</em>
+<a name="200" href="#200">200</a> <em>	 * @param debugOn the debug flag</em>
+<a name="201" href="#201">201</a> <em>	 * @param dependencies the dependencies</em>
+<a name="202" href="#202">202</a> <em>	 * @throws IOException if an IOException occurs.</em>
+<a name="203" href="#203">203</a> <em>	 */</em>
+<a name="204" href="#204">204</a> 	<strong>private</strong> <strong>void</strong> renderBundleDependenciesLinks(String requestedPath,
+<a name="205" href="#205">205</a> 			BundleRendererContext ctx, Writer out, <strong>boolean</strong> debugOn,
+<a name="206" href="#206">206</a> 			List dependencies) throws IOException {
+<a name="207" href="#207">207</a> 		
+<a name="208" href="#208">208</a> 		<strong>if</strong>(dependencies != <strong>null</strong> &amp;&amp; !dependencies.isEmpty()){
+<a name="209" href="#209">209</a> 			<strong>for</strong> (Iterator iterator = dependencies.iterator(); iterator
+<a name="210" href="#210">210</a> 					.hasNext();) {
+<a name="211" href="#211">211</a> 				JoinableResourceBundle dependencyBundle = (JoinableResourceBundle) iterator.next();
+<a name="212" href="#212">212</a> 				<strong>if</strong>(debugOn){
+<a name="213" href="#213">213</a> 					addComment(<span class="string">"Start adding dependency '"</span>+dependencyBundle.getId()+<span class="string">"'"</span>, out);
+<a name="214" href="#214">214</a> 				}
+<a name="215" href="#215">215</a> 				renderBundleLinks(dependencyBundle, requestedPath, ctx, out, debugOn, false);
+<a name="216" href="#216">216</a> 				<strong>if</strong>(debugOn){
+<a name="217" href="#217">217</a> 					addComment(<span class="string">"Finished adding dependency '"</span>+dependencyBundle.getId()+<span class="string">"'"</span>, out);
+<a name="218" href="#218">218</a> 				}
+<a name="219" href="#219">219</a> 			}
+<a name="220" href="#220">220</a> 		}
+<a name="221" href="#221">221</a> 	}
+<a name="222" href="#222">222</a> 
+<a name="223" href="#223">223</a> 	<em>/**<em>*</em></em>
+<a name="224" href="#224">224</a> <em>	 * Returns true if the renderer must render a CSS bundle link even in debug mode</em>
+<a name="225" href="#225">225</a> <em>	 * @param ctx the context</em>
+<a name="226" href="#226">226</a> <em>	 * @param debugOn the debug flag</em>
+<a name="227" href="#227">227</a> <em>	 * @return true if the renderer must render a CSS bundle link even in debug mode</em>
+<a name="228" href="#228">228</a> <em>	 */</em>
+<a name="229" href="#229">229</a> 	<strong>private</strong> <strong>boolean</strong> isForcedToRenderIeCssBundleInDebug(<a href="../../../../../../net/jawr/web/resource/bundle/renderer/BundleRendererContext.html">BundleRendererContext</a> ctx,
+<a name="230" href="#230">230</a> 			<strong>boolean</strong> debugOn) {
+<a name="231" href="#231">231</a> 		
+<a name="232" href="#232">232</a> 		<strong>return</strong> debugOn &amp;&amp; getResourceType().equals(JawrConstant.CSS_TYPE) &amp;&amp; 
+<a name="233" href="#233">233</a> 				bundler.getConfig().isForceCssBundleInDebugForIEOn() &amp;&amp; RendererRequestUtils.isIE(ctx.getRequest());
+<a name="234" href="#234">234</a> 	}
+<a name="235" href="#235">235</a> 
+<a name="236" href="#236">236</a> 	<em>/**<em>*</em></em>
+<a name="237" href="#237">237</a> <em>	 * Renders the CSS link to retrieve the CSS bundle for IE in debug mode.</em>
+<a name="238" href="#238">238</a> <em>	 * @param ctx the context</em>
+<a name="239" href="#239">239</a> <em>	 * @param out the writer</em>
+<a name="240" href="#240">240</a> <em>	 * @param bundle the bundle</em>
+<a name="241" href="#241">241</a> <em>	 * @throws IOException if an IOException occurs</em>
+<a name="242" href="#242">242</a> <em>	 */</em>
+<a name="243" href="#243">243</a> 	<strong>private</strong> <strong>void</strong> renderIeCssBundleLink(<a href="../../../../../../net/jawr/web/resource/bundle/renderer/BundleRendererContext.html">BundleRendererContext</a> ctx, Writer out,
+<a name="244" href="#244">244</a> 			String bundlePath) throws IOException {
+<a name="245" href="#245">245</a> 		Random randomSeed = <strong>new</strong> Random();
+<a name="246" href="#246">246</a> 		<strong>int</strong> random = randomSeed.nextInt();
+<a name="247" href="#247">247</a> 		<strong>if</strong> (random &lt; 0)
+<a name="248" href="#248">248</a> 			random *= -1;
+<a name="249" href="#249">249</a> 		String path = GeneratorRegistry.IE_CSS_GENERATOR_PREFIX+GeneratorRegistry.PREFIX_SEPARATOR+bundlePath;
+<a name="250" href="#250">250</a> 		path = PathNormalizer.createGenerationPath(path, bundler.getConfig().getGeneratorRegistry())+<span class="string">"&amp;d="</span>+random;
+<a name="251" href="#251">251</a> 		out.write(createBundleLink(path, ctx.getContextPath(), ctx.isSslRequest()));
+<a name="252" href="#252">252</a> 	}
+<a name="253" href="#253">253</a> 
+<a name="254" href="#254">254</a> 	
+<a name="255" href="#255">255</a> 
+<a name="256" href="#256">256</a> 	<em>/**<em>*</em></em>
+<a name="257" href="#257">257</a> <em>	 * Renders the bundle links for the resource iterator passed in parameter</em>
+<a name="258" href="#258">258</a> <em>	 * @param it the iterator on the bundles </em>
+<a name="259" href="#259">259</a> <em>	 * @param contextPath the context path</em>
+<a name="260" href="#260">260</a> <em>	 * @param includedBundles the included bundles</em>
+<a name="261" href="#261">261</a> <em>	 * @param useGzip the flag indicating if we use gzip or not</em>
+<a name="262" href="#262">262</a> <em>	 * @param isSslRequest the flag indicating if it's an SSL request or not</em>
+<a name="263" href="#263">263</a> <em>	 * @param debugOn the flag indicating if we are in debug mode or not</em>
+<a name="264" href="#264">264</a> <em>	 * @param out the output writer</em>
+<a name="265" href="#265">265</a> <em>	 * @throws IOException if an IO exception occurs</em>
+<a name="266" href="#266">266</a> <em>	 */</em>
+<a name="267" href="#267">267</a> 	<strong>private</strong> <strong>void</strong> renderBundleLinks(<a href="../../../../../../net/jawr/web/resource/bundle/iterator/ResourceBundlePathsIterator.html">ResourceBundlePathsIterator</a> it,
+<a name="268" href="#268">268</a> 			BundleRendererContext ctx, <strong>boolean</strong> debugOn, Writer out) throws IOException {
+<a name="269" href="#269">269</a> 	
+<a name="270" href="#270">270</a> 		String contextPath = ctx.getContextPath();
+<a name="271" href="#271">271</a> 		<strong>boolean</strong> useGzip = ctx.isUseGzip();
+<a name="272" href="#272">272</a> 		<strong>boolean</strong> isSslRequest = ctx.isSslRequest();
+<a name="273" href="#273">273</a> 		
+<a name="274" href="#274">274</a> 		<em class="comment">// Add resources to the page as links.</em>
+<a name="275" href="#275">275</a> 		Random randomSeed = <strong>new</strong> Random();
+<a name="276" href="#276">276</a> 		<strong>while</strong> (it.hasNext()) {
+<a name="277" href="#277">277</a> 			String resourceName = it.nextPath();
+<a name="278" href="#278">278</a> 
+<a name="279" href="#279">279</a> 			<strong>if</strong>( resourceName != <strong>null</strong>){
+<a name="280" href="#280">280</a> 				<em class="comment">// In debug mode, all the resources are included separately and use a random parameter to avoid caching.</em>
+<a name="281" href="#281">281</a> 				<em class="comment">// If useRandomParam is set to false, the links are created without the random parameter.</em>
+<a name="282" href="#282">282</a> 				<strong>if</strong> (debugOn &amp;&amp; useRandomParam &amp;&amp; !bundler.getConfig().getGeneratorRegistry().isPathGenerated(resourceName)) {
+<a name="283" href="#283">283</a> 					<strong>int</strong> random = randomSeed.nextInt();
+<a name="284" href="#284">284</a> 					<strong>if</strong> (random &lt; 0)
+<a name="285" href="#285">285</a> 						random *= -1;
+<a name="286" href="#286">286</a> 					out.write(createBundleLink(resourceName + <span class="string">"?d="</span> + random, contextPath, isSslRequest));
+<a name="287" href="#287">287</a> 				} <strong>else</strong> <strong>if</strong> (!debugOn &amp;&amp; useGzip){
+<a name="288" href="#288">288</a> 					out.write(createGzipBundleLink(resourceName, contextPath, isSslRequest));
+<a name="289" href="#289">289</a> 				}<strong>else</strong>{
+<a name="290" href="#290">290</a> 					out.write(createBundleLink(resourceName, contextPath, isSslRequest));
+<a name="291" href="#291">291</a> 				}
+<a name="292" href="#292">292</a> 				
+<a name="293" href="#293">293</a> 				<strong>if</strong>(debugOn &amp;&amp; !ctx.getIncludedResources().add(resourceName)){
+<a name="294" href="#294">294</a> 					addComment(<span class="string">"The resource '"</span> + resourceName + <span class="string">"' is already included in the page."</span>, out);
+<a name="295" href="#295">295</a> 				}
+<a name="296" href="#296">296</a> 			}
+<a name="297" href="#297">297</a> 		}
+<a name="298" href="#298">298</a> 	}
+<a name="299" href="#299">299</a> 
+<a name="300" href="#300">300</a> 	<em>/**<em>*</em></em>
+<a name="301" href="#301">301</a> <em>	 * Adds an HTML comment to the output stream.</em>
+<a name="302" href="#302">302</a> <em>	 * </em>
+<a name="303" href="#303">303</a> <em>	 * @param commentText the comment</em>
+<a name="304" href="#304">304</a> <em>	 * @param out Writer</em>
+<a name="305" href="#305">305</a> <em>	 * @throws IOException if an IO exception occurs</em>
+<a name="306" href="#306">306</a> <em>	 */</em>
+<a name="307" href="#307">307</a> 	<strong>protected</strong> <strong>final</strong> <strong>void</strong> addComment(String commentText, Writer out) throws IOException {
+<a name="308" href="#308">308</a> 		StringBuffer sb = <strong>new</strong> StringBuffer(<span class="string">"&lt;script type=\&quot;text/javascript\&quot;>/* "</span>);
+<a name="309" href="#309">309</a> 		sb.append(commentText).append(<span class="string">" */&lt;/script>"</span>).append(<span class="string">"\n"</span>);
+<a name="310" href="#310">310</a> 		out.write(sb.toString());
+<a name="311" href="#311">311</a> 	}
+<a name="312" href="#312">312</a> 
+<a name="313" href="#313">313</a> 	<em>/**<em>*</em></em>
+<a name="314" href="#314">314</a> <em>	 * Creates a link to a bundle in the page, prepending the gzip prefix to its identifier.</em>
+<a name="315" href="#315">315</a> <em>	 * </em>
+<a name="316" href="#316">316</a> <em>	 * @param resourceName the resource name</em>
+<a name="317" href="#317">317</a> <em>	 * @param contextPath the context path</em>
+<a name="318" href="#318">318</a> <em>	 * @return the link to the gzip bundle in the page</em>
+<a name="319" href="#319">319</a> <em>	 */</em>
+<a name="320" href="#320">320</a> 	<strong>protected</strong> String createGzipBundleLink(String resourceName, String contextPath, <strong>boolean</strong> isSslRequest) {
+<a name="321" href="#321">321</a> 		<em class="comment">// remove '/' from start of name</em>
+<a name="322" href="#322">322</a> 		resourceName = resourceName.substring(1, resourceName.length());
+<a name="323" href="#323">323</a> 		<strong>return</strong> createBundleLink(BundleRenderer.GZIP_PATH_PREFIX + resourceName, contextPath, isSslRequest);
+<a name="324" href="#324">324</a> 	}
+<a name="325" href="#325">325</a> 
+<a name="326" href="#326">326</a> 	<em>/**<em>*</em></em>
+<a name="327" href="#327">327</a> <em>	 * Creates a link to a bundle in the page.</em>
+<a name="328" href="#328">328</a> <em>	 * </em>
+<a name="329" href="#329">329</a> <em>	 * @param bundleId the bundle ID</em>
+<a name="330" href="#330">330</a> <em>	 * @param contextPath the context path</em>
+<a name="331" href="#331">331</a> <em>	 * @return the link to a bundle in the page</em>
+<a name="332" href="#332">332</a> <em>	 */</em>
+<a name="333" href="#333">333</a> 	<strong>protected</strong> String createBundleLink(String bundleId, String contextPath, <strong>boolean</strong> isSslRequest) {
+<a name="334" href="#334">334</a> 
+<a name="335" href="#335">335</a> 		<em class="comment">// When debug mode is on and the resource is generated the path must include a parameter</em>
+<a name="336" href="#336">336</a> 		<strong>if</strong> (bundler.getConfig().isDebugModeOn() &amp;&amp; bundler.getConfig().getGeneratorRegistry().isPathGenerated(bundleId)) {
+<a name="337" href="#337">337</a> 			bundleId = PathNormalizer.createGenerationPath(bundleId, bundler.getConfig().getGeneratorRegistry());
+<a name="338" href="#338">338</a> 		}
+<a name="339" href="#339">339</a> 		String fullPath = PathNormalizer.joinPaths(bundler.getConfig().getServletMapping(), bundleId);
 <a name="340" href="#340">340</a> 
-<a name="341" href="#341">341</a> 	<em>/**<em>*</em></em>
-<a name="342" href="#342">342</a> <em>	 * Creates a link to a bundle in the page, using its identifier.</em>
-<a name="343" href="#343">343</a> <em>	 * </em>
-<a name="344" href="#344">344</a> <em>	 * @param fullPath the full path</em>
-<a name="345" href="#345">345</a> <em>	 * @return a link to a bundle in the page</em>
-<a name="346" href="#346">346</a> <em>	 */</em>
-<a name="347" href="#347">347</a> 	<strong>protected</strong> <strong>abstract</strong> String renderLink(String fullPath);
-<a name="348" href="#348">348</a> 
-<a name="349" href="#349">349</a> }
+<a name="341" href="#341">341</a> 		fullPath = RendererRequestUtils.getRenderedUrl(fullPath, bundler.getConfig(), contextPath, isSslRequest);
+<a name="342" href="#342">342</a> 		
+<a name="343" href="#343">343</a> 		<em class="comment">// allow debugOverride to pass through on the generated urls</em>
+<a name="344" href="#344">344</a> 		<strong>if</strong> (ThreadLocalJawrContext.isDebugOverriden()) {
+<a name="345" href="#345">345</a> 			fullPath = PathNormalizer.addGetParameter(fullPath, <span class="string">"overrideKey"</span>, bundler.getConfig().getDebugOverrideKey());
+<a name="346" href="#346">346</a> 		}
+<a name="347" href="#347">347</a> 
+<a name="348" href="#348">348</a> 		<strong>return</strong> renderLink(fullPath);
+<a name="349" href="#349">349</a> 	}
+<a name="350" href="#350">350</a> 
+<a name="351" href="#351">351</a> 	<em>/**<em>*</em></em>
+<a name="352" href="#352">352</a> <em>	 * Creates a link to a bundle in the page, using its identifier.</em>
+<a name="353" href="#353">353</a> <em>	 * </em>
+<a name="354" href="#354">354</a> <em>	 * @param fullPath the full path</em>
+<a name="355" href="#355">355</a> <em>	 * @return a link to a bundle in the page</em>
+<a name="356" href="#356">356</a> <em>	 */</em>
+<a name="357" href="#357">357</a> 	<strong>protected</strong> <strong>abstract</strong> String renderLink(String fullPath);
+<a name="358" href="#358">358</a> 
+<a name="359" href="#359">359</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

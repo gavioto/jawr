@@ -115,7 +115,7 @@
 <a name="106" href="#106">106</a> 		
 <a name="107" href="#107">107</a> 		<em class="comment">// Use orphans resolution at all, on by default. FACTORY_PROCESS_ORPHANS</em>
 <a name="108" href="#108">108</a> 		factory.setScanForOrphans(Boolean.valueOf(
-<a name="109" href="#109">109</a> 				props.getProperty(PropertiesBundleConstant.FACTORY_PROCESS_ORPHANS, <span class="string">"true"</span>)).booleanValue());
+<a name="109" href="#109">109</a> 				props.getCommonProperty(PropertiesBundleConstant.FACTORY_PROCESS_ORPHANS, <span class="string">"true"</span>)).booleanValue());
 <a name="110" href="#110">110</a> 
 <a name="111" href="#111">111</a> 		<em class="comment">// Use the automatic directory-as-bundle mapper.</em>
 <a name="112" href="#112">112</a> 		factory.setUseDirMapperFactory(Boolean.valueOf(
@@ -125,7 +125,7 @@
 <a name="116" href="#116">116</a> 				.getPropertyAsSet(PropertiesBundleConstant.FACTORY_DIR_MAPPER_EXCLUSION));
 <a name="117" href="#117">117</a> 
 <a name="118" href="#118">118</a> 		<em class="comment">// Initialize custom generators</em>
-<a name="119" href="#119">119</a> 		Iterator generators = props.getPropertyAsSet(PropertiesBundleConstant.CUSTOM_GENERATORS)
+<a name="119" href="#119">119</a> 		Iterator generators = props.getCommonPropertyAsSet(PropertiesBundleConstant.CUSTOM_GENERATORS)
 <a name="120" href="#120">120</a> 				.iterator();
 <a name="121" href="#121">121</a> 		<strong>while</strong> (generators.hasNext()) {
 <a name="122" href="#122">122</a> 			String generatorClass = (String) generators.next();

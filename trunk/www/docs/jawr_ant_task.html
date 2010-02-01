@@ -271,6 +271,7 @@
 <li><b>tempDirPath</b> The path to the temporary directory for JAWR.</li>
 <li><b>destDirPath</b> The path to the destination directory.</li>
 <li><b>servletsToInitialize</b> The comma separated list of servlets name to initialize</li>
+<li><b>springConfigFiles</b> the comma separated list of spring configuration files, which will be used to initialize the Jawr spring controller. This property accepts any spring resource location definition like classpath:..., file:..., etc</li>
 <li><b>generateCDNFiles</b> The flag indicating if we should generate the CDN files or not Default value: true <div class="source"><pre>
         &lt;!-- Definition of the Jawr bundle task --&gt;
         &lt;taskdef name=&quot;jawrBundle&quot; classname=&quot;net.jawr.ant.BundleTask&quot;&gt;
@@ -280,6 +281,18 @@
         
         &lt;jawrBundle rootPath=&quot;${webapp.dir}&quot; tempDirPath=&quot;${temp.dir}/jawrFinal/&quot; 
                                 destDirPath=&quot;${temp.dir}/jawrTemp/&quot; /&gt;
+                                </pre>
+</div>
+<p>For the spring MVC projects, you can use:</p>
+<div class="source"><pre>
+        &lt;!-- Definition of the Jawr bundle task --&gt;
+        &lt;taskdef name=&quot;jawrBundle&quot; classname=&quot;net.jawr.ant.BundleTask&quot;&gt;
+        &lt;/taskdef&gt;
+        
+        ...
+        
+        &lt;jawrBundle rootPath=&quot;${webapp.dir}&quot; tempDirPath=&quot;${temp.dir}/jawrFinal/&quot; 
+                                destDirPath=&quot;${temp.dir}/jawrTemp/&quot; springConfigFiles=&quot;classpath:/spring-JawrConfig.xml,/WEB-INF/jawr-controllers.xml&quot;/&gt;
                                 </pre>
 </div>
 </li>
@@ -331,15 +344,15 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2010
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 01/31/2010
+  &nbsp;| Version: 3.2.1
 </div>
       <div class="clear">
         <hr/>

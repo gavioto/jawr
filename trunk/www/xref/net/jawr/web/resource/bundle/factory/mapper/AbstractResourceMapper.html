@@ -75,7 +75,7 @@
 <a name="66" href="#66">66</a>  	<strong>public</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/factory/mapper/AbstractResourceMapper.html">AbstractResourceMapper</a>(String baseDir, <a href="../../../../../../../net/jawr/web/resource/handler/reader/ResourceReaderHandler.html">ResourceReaderHandler</a> rsHandler,
 <a name="67" href="#67">67</a>  			List currentBundles, String resourceExtension) {
 <a name="68" href="#68">68</a>  		<strong>super</strong>();
-<a name="69" href="#69">69</a>  		<strong>this</strong>.baseDir = PathNormalizer.normalizePath(baseDir);
+<a name="69" href="#69">69</a>  		<strong>this</strong>.baseDir = PathNormalizer.asDirPath(baseDir);
 <a name="70" href="#70">70</a>  		<strong>this</strong>.rsHandler = rsHandler;
 <a name="71" href="#71">71</a>  		<strong>this</strong>.currentBundles = <strong>new</strong> ArrayList();
 <a name="72" href="#72">72</a>  		<strong>if</strong> (<strong>null</strong> != currentBundles)

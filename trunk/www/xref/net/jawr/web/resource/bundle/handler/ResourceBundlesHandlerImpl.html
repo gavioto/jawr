@@ -392,400 +392,403 @@
 <a name="383" href="#383">383</a> 
 <a name="384" href="#384">384</a> 		<strong>try</strong> {
 <a name="385" href="#385">385</a> 			IOUtils.copy(rd, writer);
-<a name="386" href="#386">386</a> 			rd.close();
-<a name="387" href="#387">387</a> 			writer.flush();
-<a name="388" href="#388">388</a> 		} <strong>catch</strong> (IOException e) {
-<a name="389" href="#389">389</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(<span class="string">"Unexpected IOException writing bundle["</span>
-<a name="390" href="#390">390</a> 					+ bundlePath + <span class="string">"]"</span>, e);
-<a name="391" href="#391">391</a> 		}
-<a name="392" href="#392">392</a> 	}
-<a name="393" href="#393">393</a> 
-<a name="394" href="#394">394</a> 	<em class="comment">/*</em>
-<a name="395" href="#395">395</a> <em class="comment">	 * (non-Javadoc)</em>
-<a name="396" href="#396">396</a> <em class="comment">	 * </em>
-<a name="397" href="#397">397</a> <em class="comment">	 * @see</em>
-<a name="398" href="#398">398</a> <em class="comment">	 * net.jawr.web.resource.bundle.ResourceBundlesHandler#streamBundleTo(java</em>
-<a name="399" href="#399">399</a> <em class="comment">	 * .lang.String, java.io.OutputStream)</em>
-<a name="400" href="#400">400</a> <em class="comment">	 */</em>
-<a name="401" href="#401">401</a> 	<strong>public</strong> <strong>void</strong> streamBundleTo(String bundlePath, OutputStream out)
-<a name="402" href="#402">402</a> 			throws <a href="../../../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a> {
-<a name="403" href="#403">403</a> 
-<a name="404" href="#404">404</a> 		<em class="comment">// Remove prefix, which are used only in production mode</em>
-<a name="405" href="#405">405</a> 		bundlePath = PathNormalizer.removeVariantPrefixFromPath(bundlePath);
-<a name="406" href="#406">406</a> 
-<a name="407" href="#407">407</a> 		<strong>try</strong> {
-<a name="408" href="#408">408</a> 
-<a name="409" href="#409">409</a> 			ReadableByteChannel data = resourceBundleHandler
-<a name="410" href="#410">410</a> 					.getResourceBundleChannel(bundlePath);
-<a name="411" href="#411">411</a> 			WritableByteChannel outChannel = Channels.newChannel(out);
-<a name="412" href="#412">412</a> 			IOUtils.copy(data, outChannel);
-<a name="413" href="#413">413</a> 
-<a name="414" href="#414">414</a> 		} <strong>catch</strong> (IOException e) {
-<a name="415" href="#415">415</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(
-<a name="416" href="#416">416</a> 					<span class="string">"Unexpected IOException writing bundle ["</span> + bundlePath
-<a name="417" href="#417">417</a> 							+ <span class="string">"]"</span>, e);
-<a name="418" href="#418">418</a> 		}
-<a name="419" href="#419">419</a> 	}
-<a name="420" href="#420">420</a> 
-<a name="421" href="#421">421</a> 	<em class="comment">/*</em>
-<a name="422" href="#422">422</a> <em class="comment">	 * (non-Javadoc)</em>
-<a name="423" href="#423">423</a> <em class="comment">	 * </em>
-<a name="424" href="#424">424</a> <em class="comment">	 * @see net.jawr.web.resource.bundle.ResourceCollector#getConfig()</em>
-<a name="425" href="#425">425</a> <em class="comment">	 */</em>
-<a name="426" href="#426">426</a> 	<strong>public</strong> <a href="../../../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> getConfig() {
-<a name="427" href="#427">427</a> 		<strong>return</strong> config;
-<a name="428" href="#428">428</a> 	}
-<a name="429" href="#429">429</a> 
-<a name="430" href="#430">430</a> 	<em class="comment">/*</em>
-<a name="431" href="#431">431</a> <em class="comment">	 * (non-Javadoc)</em>
-<a name="432" href="#432">432</a> <em class="comment">	 * </em>
-<a name="433" href="#433">433</a> <em class="comment">	 * @see net.jawr.web.resource.bundle.ResourceCollector#initAllBundles()</em>
-<a name="434" href="#434">434</a> <em class="comment">	 */</em>
-<a name="435" href="#435">435</a> 	<strong>public</strong> <strong>void</strong> initAllBundles() {
-<a name="436" href="#436">436</a> 
-<a name="437" href="#437">437</a> 		<strong>if</strong> (config.getUseBundleMapping()) {
-<a name="438" href="#438">438</a> 			bundleMapping = resourceBundleHandler.getJawrBundleMapping();
-<a name="439" href="#439">439</a> 		}
-<a name="440" href="#440">440</a> 
-<a name="441" href="#441">441</a> 		<em class="comment">// Run through every bundle</em>
-<a name="442" href="#442">442</a> 		<strong>boolean</strong> mappingFileExists = resourceBundleHandler
-<a name="443" href="#443">443</a> 				.isExistingMappingFile();
-<a name="444" href="#444">444</a> 		<strong>boolean</strong> processBundleFlag = !config.getUseBundleMapping()
-<a name="445" href="#445">445</a> 				|| !mappingFileExists;
-<a name="446" href="#446">446</a> 
-<a name="447" href="#447">447</a> 		<strong>if</strong> (resourceTypeProcessor != <strong>null</strong>) {
-<a name="448" href="#448">448</a> 			GlobalPreprocessingContext ctx = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/global/preprocessor/GlobalPreprocessingContext.html">GlobalPreprocessingContext</a>(
-<a name="449" href="#449">449</a> 					config, resourceHandler, processBundleFlag);
-<a name="450" href="#450">450</a> 			resourceTypeProcessor.processBundles(ctx, bundles);
-<a name="451" href="#451">451</a> 		}
-<a name="452" href="#452">452</a> 
-<a name="453" href="#453">453</a> 		<strong>for</strong> (Iterator itCol = bundles.iterator(); itCol.hasNext();) {
-<a name="454" href="#454">454</a> 			JoinableResourceBundle bundle = (JoinableResourceBundle) itCol
-<a name="455" href="#455">455</a> 					.next();
-<a name="456" href="#456">456</a> 
-<a name="457" href="#457">457</a> 			<strong>boolean</strong> processBundle = processBundleFlag;
-<a name="458" href="#458">458</a> 			<strong>if</strong> (!ThreadLocalJawrContext.isBundleProcessingAtBuildTime()
-<a name="459" href="#459">459</a> 					&amp;&amp; <strong>null</strong> != bundle.getAlternateProductionURL()) {
-<a name="460" href="#460">460</a> 				<strong>if</strong> (log.isDebugEnabled()) {
-<a name="461" href="#461">461</a> 					log
-<a name="462" href="#462">462</a> 							.debug(<span class="string">"No bundle generated for '"</span>
-<a name="463" href="#463">463</a> 									+ bundle.getId()
-<a name="464" href="#464">464</a> 									+ <span class="string">"' because a production URL is defined for this bundle."</span>);
-<a name="465" href="#465">465</a> 				}
-<a name="466" href="#466">466</a> 				processBundle = false;
-<a name="467" href="#467">467</a> 			}
-<a name="468" href="#468">468</a> 			<strong>if</strong> (bundle instanceof CompositeResourceBundle)
-<a name="469" href="#469">469</a> 				joinAndStoreCompositeResourcebundle(
-<a name="470" href="#470">470</a> 						(<a href="../../../../../../net/jawr/web/resource/bundle/CompositeResourceBundle.html">CompositeResourceBundle</a>) bundle, processBundle);
-<a name="471" href="#471">471</a> 			<strong>else</strong>
-<a name="472" href="#472">472</a> 				joinAndStoreBundle(bundle, processBundle);
-<a name="473" href="#473">473</a> 
-<a name="474" href="#474">474</a> 			<strong>if</strong> (config.getUseBundleMapping() &amp;&amp; !mappingFileExists) {
-<a name="475" href="#475">475</a> 				JoinableResourceBundlePropertySerializer.serializeInProperties(
-<a name="476" href="#476">476</a> 						bundle, resourceBundleHandler.getResourceType(),
-<a name="477" href="#477">477</a> 						bundleMapping);
-<a name="478" href="#478">478</a> 			}
-<a name="479" href="#479">479</a> 		}
-<a name="480" href="#480">480</a> 
-<a name="481" href="#481">481</a> 		<strong>if</strong> (config.getUseBundleMapping() &amp;&amp; !mappingFileExists) {
-<a name="482" href="#482">482</a> 			resourceBundleHandler.storeJawrBundleMapping(bundleMapping);
+<a name="386" href="#386">386</a> 			writer.flush();
+<a name="387" href="#387">387</a> 		} <strong>catch</strong> (IOException e) {
+<a name="388" href="#388">388</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(<span class="string">"Unexpected IOException writing bundle["</span>
+<a name="389" href="#389">389</a> 					+ bundlePath + <span class="string">"]"</span>, e);
+<a name="390" href="#390">390</a> 		}<strong>finally</strong>{
+<a name="391" href="#391">391</a> 			IOUtils.close(rd);
+<a name="392" href="#392">392</a> 		}
+<a name="393" href="#393">393</a> 	}
+<a name="394" href="#394">394</a> 
+<a name="395" href="#395">395</a> 	<em class="comment">/*</em>
+<a name="396" href="#396">396</a> <em class="comment">	 * (non-Javadoc)</em>
+<a name="397" href="#397">397</a> <em class="comment">	 * </em>
+<a name="398" href="#398">398</a> <em class="comment">	 * @see</em>
+<a name="399" href="#399">399</a> <em class="comment">	 * net.jawr.web.resource.bundle.ResourceBundlesHandler#streamBundleTo(java</em>
+<a name="400" href="#400">400</a> <em class="comment">	 * .lang.String, java.io.OutputStream)</em>
+<a name="401" href="#401">401</a> <em class="comment">	 */</em>
+<a name="402" href="#402">402</a> 	<strong>public</strong> <strong>void</strong> streamBundleTo(String bundlePath, OutputStream out)
+<a name="403" href="#403">403</a> 			throws <a href="../../../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a> {
+<a name="404" href="#404">404</a> 
+<a name="405" href="#405">405</a> 		<em class="comment">// Remove prefix, which are used only in production mode</em>
+<a name="406" href="#406">406</a> 		bundlePath = PathNormalizer.removeVariantPrefixFromPath(bundlePath);
+<a name="407" href="#407">407</a> 		ReadableByteChannel data = <strong>null</strong>;
+<a name="408" href="#408">408</a> 		<strong>try</strong> {
+<a name="409" href="#409">409</a> 
+<a name="410" href="#410">410</a> 			data = resourceBundleHandler
+<a name="411" href="#411">411</a> 					.getResourceBundleChannel(bundlePath);
+<a name="412" href="#412">412</a> 			WritableByteChannel outChannel = Channels.newChannel(out);
+<a name="413" href="#413">413</a> 			IOUtils.copy(data, outChannel);
+<a name="414" href="#414">414</a> 
+<a name="415" href="#415">415</a> 		} <strong>catch</strong> (IOException e) {
+<a name="416" href="#416">416</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(
+<a name="417" href="#417">417</a> 					<span class="string">"Unexpected IOException writing bundle ["</span> + bundlePath
+<a name="418" href="#418">418</a> 							+ <span class="string">"]"</span>, e);
+<a name="419" href="#419">419</a> 		}<strong>finally</strong>{
+<a name="420" href="#420">420</a> 			IOUtils.close(data);
+<a name="421" href="#421">421</a> 		}
+<a name="422" href="#422">422</a> 	}
+<a name="423" href="#423">423</a> 
+<a name="424" href="#424">424</a> 	<em class="comment">/*</em>
+<a name="425" href="#425">425</a> <em class="comment">	 * (non-Javadoc)</em>
+<a name="426" href="#426">426</a> <em class="comment">	 * </em>
+<a name="427" href="#427">427</a> <em class="comment">	 * @see net.jawr.web.resource.bundle.ResourceCollector#getConfig()</em>
+<a name="428" href="#428">428</a> <em class="comment">	 */</em>
+<a name="429" href="#429">429</a> 	<strong>public</strong> <a href="../../../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> getConfig() {
+<a name="430" href="#430">430</a> 		<strong>return</strong> config;
+<a name="431" href="#431">431</a> 	}
+<a name="432" href="#432">432</a> 
+<a name="433" href="#433">433</a> 	<em class="comment">/*</em>
+<a name="434" href="#434">434</a> <em class="comment">	 * (non-Javadoc)</em>
+<a name="435" href="#435">435</a> <em class="comment">	 * </em>
+<a name="436" href="#436">436</a> <em class="comment">	 * @see net.jawr.web.resource.bundle.ResourceCollector#initAllBundles()</em>
+<a name="437" href="#437">437</a> <em class="comment">	 */</em>
+<a name="438" href="#438">438</a> 	<strong>public</strong> <strong>void</strong> initAllBundles() {
+<a name="439" href="#439">439</a> 
+<a name="440" href="#440">440</a> 		<strong>if</strong> (config.getUseBundleMapping()) {
+<a name="441" href="#441">441</a> 			bundleMapping = resourceBundleHandler.getJawrBundleMapping();
+<a name="442" href="#442">442</a> 		}
+<a name="443" href="#443">443</a> 
+<a name="444" href="#444">444</a> 		<em class="comment">// Run through every bundle</em>
+<a name="445" href="#445">445</a> 		<strong>boolean</strong> mappingFileExists = resourceBundleHandler
+<a name="446" href="#446">446</a> 				.isExistingMappingFile();
+<a name="447" href="#447">447</a> 		<strong>boolean</strong> processBundleFlag = !config.getUseBundleMapping()
+<a name="448" href="#448">448</a> 				|| !mappingFileExists;
+<a name="449" href="#449">449</a> 
+<a name="450" href="#450">450</a> 		<strong>if</strong> (resourceTypeProcessor != <strong>null</strong>) {
+<a name="451" href="#451">451</a> 			GlobalPreprocessingContext ctx = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/global/preprocessor/GlobalPreprocessingContext.html">GlobalPreprocessingContext</a>(
+<a name="452" href="#452">452</a> 					config, resourceHandler, processBundleFlag);
+<a name="453" href="#453">453</a> 			resourceTypeProcessor.processBundles(ctx, bundles);
+<a name="454" href="#454">454</a> 		}
+<a name="455" href="#455">455</a> 
+<a name="456" href="#456">456</a> 		<strong>for</strong> (Iterator itCol = bundles.iterator(); itCol.hasNext();) {
+<a name="457" href="#457">457</a> 			JoinableResourceBundle bundle = (JoinableResourceBundle) itCol
+<a name="458" href="#458">458</a> 					.next();
+<a name="459" href="#459">459</a> 
+<a name="460" href="#460">460</a> 			<strong>boolean</strong> processBundle = processBundleFlag;
+<a name="461" href="#461">461</a> 			<strong>if</strong> (!ThreadLocalJawrContext.isBundleProcessingAtBuildTime()
+<a name="462" href="#462">462</a> 					&amp;&amp; <strong>null</strong> != bundle.getAlternateProductionURL()) {
+<a name="463" href="#463">463</a> 				<strong>if</strong> (log.isDebugEnabled()) {
+<a name="464" href="#464">464</a> 					log
+<a name="465" href="#465">465</a> 							.debug(<span class="string">"No bundle generated for '"</span>
+<a name="466" href="#466">466</a> 									+ bundle.getId()
+<a name="467" href="#467">467</a> 									+ <span class="string">"' because a production URL is defined for this bundle."</span>);
+<a name="468" href="#468">468</a> 				}
+<a name="469" href="#469">469</a> 				processBundle = false;
+<a name="470" href="#470">470</a> 			}
+<a name="471" href="#471">471</a> 			<strong>if</strong> (bundle instanceof CompositeResourceBundle)
+<a name="472" href="#472">472</a> 				joinAndStoreCompositeResourcebundle(
+<a name="473" href="#473">473</a> 						(<a href="../../../../../../net/jawr/web/resource/bundle/CompositeResourceBundle.html">CompositeResourceBundle</a>) bundle, processBundle);
+<a name="474" href="#474">474</a> 			<strong>else</strong>
+<a name="475" href="#475">475</a> 				joinAndStoreBundle(bundle, processBundle);
+<a name="476" href="#476">476</a> 
+<a name="477" href="#477">477</a> 			<strong>if</strong> (config.getUseBundleMapping() &amp;&amp; !mappingFileExists) {
+<a name="478" href="#478">478</a> 				JoinableResourceBundlePropertySerializer.serializeInProperties(
+<a name="479" href="#479">479</a> 						bundle, resourceBundleHandler.getResourceType(),
+<a name="480" href="#480">480</a> 						bundleMapping);
+<a name="481" href="#481">481</a> 			}
+<a name="482" href="#482">482</a> 		}
 <a name="483" href="#483">483</a> 
-<a name="484" href="#484">484</a> 			<strong>if</strong> (resourceBundleHandler.getResourceType().equals(
-<a name="485" href="#485">485</a> 					JawrConstant.CSS_TYPE)) {
-<a name="486" href="#486">486</a> 				<em class="comment">// Retrieve the image servlet mapping</em>
-<a name="487" href="#487">487</a> 				ImageResourcesHandler imgRsHandler = (ImageResourcesHandler) config
-<a name="488" href="#488">488</a> 						.getContext().getAttribute(
-<a name="489" href="#489">489</a> 								JawrConstant.IMG_CONTEXT_ATTRIBUTE);
-<a name="490" href="#490">490</a> 				<strong>if</strong> (imgRsHandler != <strong>null</strong>) {
-<a name="491" href="#491">491</a> 					<em class="comment">// Here we update the image mapping if we are using the</em>
-<a name="492" href="#492">492</a> 					<em class="comment">// build time bundle processor</em>
-<a name="493" href="#493">493</a> 					JawrConfig imgJawrConfig = imgRsHandler.getJawrConfig();
-<a name="494" href="#494">494</a> 
-<a name="495" href="#495">495</a> 					<em class="comment">// If we use the full image bundle mapping and the jawr</em>
-<a name="496" href="#496">496</a> 					<em class="comment">// working directory is not located inside the web</em>
-<a name="497" href="#497">497</a> 					<em class="comment">// application</em>
-<a name="498" href="#498">498</a> 					<em class="comment">// We store the image bundle maping which now contains the</em>
-<a name="499" href="#499">499</a> 					<em class="comment">// mapping for CSS images</em>
-<a name="500" href="#500">500</a> 					String jawrWorkingDirectory = imgJawrConfig
-<a name="501" href="#501">501</a> 							.getJawrWorkingDirectory();
-<a name="502" href="#502">502</a> 					<strong>if</strong> (imgJawrConfig.getUseBundleMapping()
-<a name="503" href="#503">503</a> 							&amp;&amp; (jawrWorkingDirectory == <strong>null</strong> || !jawrWorkingDirectory
-<a name="504" href="#504">504</a> 									.startsWith(JawrConstant.URL_SEPARATOR))) {
-<a name="505" href="#505">505</a> 
-<a name="506" href="#506">506</a> 						<em class="comment">// Store the bundle mapping</em>
-<a name="507" href="#507">507</a> 						Properties props = <strong>new</strong> Properties();
-<a name="508" href="#508">508</a> 						props.putAll(imgRsHandler.getImageMap());
-<a name="509" href="#509">509</a> 						imgRsHandler.getRsBundleHandler()
-<a name="510" href="#510">510</a> 								.storeJawrBundleMapping(props);
-<a name="511" href="#511">511</a> 
-<a name="512" href="#512">512</a> 					}
-<a name="513" href="#513">513</a> 				}
-<a name="514" href="#514">514</a> 			}
-<a name="515" href="#515">515</a> 		}
-<a name="516" href="#516">516</a> 	}
-<a name="517" href="#517">517</a> 
-<a name="518" href="#518">518</a> 	<em>/**<em>*</em></em>
-<a name="519" href="#519">519</a> <em>	 * Joins the members of a composite bundle in all its variants, storing in a</em>
-<a name="520" href="#520">520</a> <em>	 * separate file for each variant.</em>
-<a name="521" href="#521">521</a> <em>	 * </em>
-<a name="522" href="#522">522</a> <em>	 * @param composite</em>
-<a name="523" href="#523">523</a> <em>	 *            the composite resource bundle</em>
-<a name="524" href="#524">524</a> <em>	 * @param processBundle</em>
-<a name="525" href="#525">525</a> <em>	 *            the flag indicating if we should process the bundle or not</em>
-<a name="526" href="#526">526</a> <em>	 */</em>
-<a name="527" href="#527">527</a> 	<strong>private</strong> <strong>void</strong> joinAndStoreCompositeResourcebundle(
-<a name="528" href="#528">528</a> 			CompositeResourceBundle composite, <strong>boolean</strong> processBundle) {
-<a name="529" href="#529">529</a> 		JoinableResourceBundleContent store = <strong>null</strong>;
-<a name="530" href="#530">530</a> 
-<a name="531" href="#531">531</a> 		<em class="comment">// Collect all variant names from child bundles</em>
-<a name="532" href="#532">532</a> 		Set variants = <strong>new</strong> HashSet();
-<a name="533" href="#533">533</a> 		<strong>for</strong> (Iterator it = composite.getChildBundles().iterator(); it.hasNext();) {
-<a name="534" href="#534">534</a> 			JoinableResourceBundle childbundle = (JoinableResourceBundle) it
-<a name="535" href="#535">535</a> 					.next();
-<a name="536" href="#536">536</a> 			<strong>if</strong> (<strong>null</strong> != childbundle.getLocaleVariantKeys())
-<a name="537" href="#537">537</a> 				variants.addAll(childbundle.getLocaleVariantKeys());
-<a name="538" href="#538">538</a> 		}
-<a name="539" href="#539">539</a> 
-<a name="540" href="#540">540</a> 		<em class="comment">// Process all variants</em>
-<a name="541" href="#541">541</a> 		<strong>for</strong> (Iterator vars = variants.iterator(); vars.hasNext();) {
+<a name="484" href="#484">484</a> 		<strong>if</strong> (config.getUseBundleMapping() &amp;&amp; !mappingFileExists) {
+<a name="485" href="#485">485</a> 			resourceBundleHandler.storeJawrBundleMapping(bundleMapping);
+<a name="486" href="#486">486</a> 
+<a name="487" href="#487">487</a> 			<strong>if</strong> (resourceBundleHandler.getResourceType().equals(
+<a name="488" href="#488">488</a> 					JawrConstant.CSS_TYPE)) {
+<a name="489" href="#489">489</a> 				<em class="comment">// Retrieve the image servlet mapping</em>
+<a name="490" href="#490">490</a> 				ImageResourcesHandler imgRsHandler = (ImageResourcesHandler) config
+<a name="491" href="#491">491</a> 						.getContext().getAttribute(
+<a name="492" href="#492">492</a> 								JawrConstant.IMG_CONTEXT_ATTRIBUTE);
+<a name="493" href="#493">493</a> 				<strong>if</strong> (imgRsHandler != <strong>null</strong>) {
+<a name="494" href="#494">494</a> 					<em class="comment">// Here we update the image mapping if we are using the</em>
+<a name="495" href="#495">495</a> 					<em class="comment">// build time bundle processor</em>
+<a name="496" href="#496">496</a> 					JawrConfig imgJawrConfig = imgRsHandler.getJawrConfig();
+<a name="497" href="#497">497</a> 
+<a name="498" href="#498">498</a> 					<em class="comment">// If we use the full image bundle mapping and the jawr</em>
+<a name="499" href="#499">499</a> 					<em class="comment">// working directory is not located inside the web</em>
+<a name="500" href="#500">500</a> 					<em class="comment">// application</em>
+<a name="501" href="#501">501</a> 					<em class="comment">// We store the image bundle maping which now contains the</em>
+<a name="502" href="#502">502</a> 					<em class="comment">// mapping for CSS images</em>
+<a name="503" href="#503">503</a> 					String jawrWorkingDirectory = imgJawrConfig
+<a name="504" href="#504">504</a> 							.getJawrWorkingDirectory();
+<a name="505" href="#505">505</a> 					<strong>if</strong> (imgJawrConfig.getUseBundleMapping()
+<a name="506" href="#506">506</a> 							&amp;&amp; (jawrWorkingDirectory == <strong>null</strong> || !jawrWorkingDirectory
+<a name="507" href="#507">507</a> 									.startsWith(JawrConstant.URL_SEPARATOR))) {
+<a name="508" href="#508">508</a> 
+<a name="509" href="#509">509</a> 						<em class="comment">// Store the bundle mapping</em>
+<a name="510" href="#510">510</a> 						Properties props = <strong>new</strong> Properties();
+<a name="511" href="#511">511</a> 						props.putAll(imgRsHandler.getImageMap());
+<a name="512" href="#512">512</a> 						imgRsHandler.getRsBundleHandler()
+<a name="513" href="#513">513</a> 								.storeJawrBundleMapping(props);
+<a name="514" href="#514">514</a> 
+<a name="515" href="#515">515</a> 					}
+<a name="516" href="#516">516</a> 				}
+<a name="517" href="#517">517</a> 			}
+<a name="518" href="#518">518</a> 		}
+<a name="519" href="#519">519</a> 	}
+<a name="520" href="#520">520</a> 
+<a name="521" href="#521">521</a> 	<em>/**<em>*</em></em>
+<a name="522" href="#522">522</a> <em>	 * Joins the members of a composite bundle in all its variants, storing in a</em>
+<a name="523" href="#523">523</a> <em>	 * separate file for each variant.</em>
+<a name="524" href="#524">524</a> <em>	 * </em>
+<a name="525" href="#525">525</a> <em>	 * @param composite</em>
+<a name="526" href="#526">526</a> <em>	 *            the composite resource bundle</em>
+<a name="527" href="#527">527</a> <em>	 * @param processBundle</em>
+<a name="528" href="#528">528</a> <em>	 *            the flag indicating if we should process the bundle or not</em>
+<a name="529" href="#529">529</a> <em>	 */</em>
+<a name="530" href="#530">530</a> 	<strong>private</strong> <strong>void</strong> joinAndStoreCompositeResourcebundle(
+<a name="531" href="#531">531</a> 			CompositeResourceBundle composite, <strong>boolean</strong> processBundle) {
+<a name="532" href="#532">532</a> 		JoinableResourceBundleContent store = <strong>null</strong>;
+<a name="533" href="#533">533</a> 
+<a name="534" href="#534">534</a> 		<em class="comment">// Collect all variant names from child bundles</em>
+<a name="535" href="#535">535</a> 		Set variants = <strong>new</strong> HashSet();
+<a name="536" href="#536">536</a> 		<strong>for</strong> (Iterator it = composite.getChildBundles().iterator(); it.hasNext();) {
+<a name="537" href="#537">537</a> 			JoinableResourceBundle childbundle = (JoinableResourceBundle) it
+<a name="538" href="#538">538</a> 					.next();
+<a name="539" href="#539">539</a> 			<strong>if</strong> (<strong>null</strong> != childbundle.getLocaleVariantKeys())
+<a name="540" href="#540">540</a> 				variants.addAll(childbundle.getLocaleVariantKeys());
+<a name="541" href="#541">541</a> 		}
 <a name="542" href="#542">542</a> 
-<a name="543" href="#543">543</a> 			String variant = (String) vars.next();
-<a name="544" href="#544">544</a> 			store = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleContent.html">JoinableResourceBundleContent</a>();
-<a name="545" href="#545">545</a> 			<strong>for</strong> (Iterator it = composite.getChildBundles().iterator(); it
-<a name="546" href="#546">546</a> 					.hasNext();) {
-<a name="547" href="#547">547</a> 				JoinableResourceBundle childbundle = (JoinableResourceBundle) it
-<a name="548" href="#548">548</a> 						.next();
-<a name="549" href="#549">549</a> 				store.append(joinandPostprocessBundle(childbundle, variant,
-<a name="550" href="#550">550</a> 						processBundle));
-<a name="551" href="#551">551</a> 			}
-<a name="552" href="#552">552</a> 
-<a name="553" href="#553">553</a> 			<strong>if</strong> (processBundle) {
-<a name="554" href="#554">554</a> 				String name = LocaleUtils.getLocalizedBundleName(composite
-<a name="555" href="#555">555</a> 						.getId(), variant);
-<a name="556" href="#556">556</a> 				resourceBundleHandler.storeBundle(name, store);
-<a name="557" href="#557">557</a> 				initBundleDataHashcode(composite, store, variant);
-<a name="558" href="#558">558</a> 			}
-<a name="559" href="#559">559</a> 		}
-<a name="560" href="#560">560</a> 
-<a name="561" href="#561">561</a> 		<em class="comment">// Create the default bundle (the non variant one)</em>
-<a name="562" href="#562">562</a> 		store = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleContent.html">JoinableResourceBundleContent</a>();
-<a name="563" href="#563">563</a> 		<strong>for</strong> (Iterator it = composite.getChildBundles().iterator(); it.hasNext();) {
-<a name="564" href="#564">564</a> 			JoinableResourceBundle childbundle = (JoinableResourceBundle) it
-<a name="565" href="#565">565</a> 					.next();
-<a name="566" href="#566">566</a> 			store.append(joinandPostprocessBundle(childbundle, <strong>null</strong>,
-<a name="567" href="#567">567</a> 					processBundle));
-<a name="568" href="#568">568</a> 		}
-<a name="569" href="#569">569</a> 
-<a name="570" href="#570">570</a> 		<em class="comment">// Store the collected resources as a single file, both in text and gzip</em>
-<a name="571" href="#571">571</a> 		<em class="comment">// formats.</em>
-<a name="572" href="#572">572</a> 		<strong>if</strong> (processBundle) {
-<a name="573" href="#573">573</a> 
-<a name="574" href="#574">574</a> 			resourceBundleHandler.storeBundle(composite.getId(), store);
-<a name="575" href="#575">575</a> 			<em class="comment">// Set the data hascode in the bundle, in case the prefix needs to</em>
-<a name="576" href="#576">576</a> 			<em class="comment">// be generated</em>
-<a name="577" href="#577">577</a> 			initBundleDataHashcode(composite, store, <strong>null</strong>);
-<a name="578" href="#578">578</a> 		}
-<a name="579" href="#579">579</a> 
-<a name="580" href="#580">580</a> 	}
-<a name="581" href="#581">581</a> 
-<a name="582" href="#582">582</a> 	<em>/**<em>*</em></em>
-<a name="583" href="#583">583</a> <em>	 * Initialize the bundle data hashcode and initialize the bundle mapping if</em>
-<a name="584" href="#584">584</a> <em>	 * needed</em>
-<a name="585" href="#585">585</a> <em>	 * </em>
-<a name="586" href="#586">586</a> <em>	 * @param bundle</em>
-<a name="587" href="#587">587</a> <em>	 *            the bundle</em>
-<a name="588" href="#588">588</a> <em>	 * @param store</em>
-<a name="589" href="#589">589</a> <em>	 *            the data to store</em>
-<a name="590" href="#590">590</a> <em>	 */</em>
-<a name="591" href="#591">591</a> 	<strong>private</strong> <strong>void</strong> initBundleDataHashcode(<a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> bundle,
-<a name="592" href="#592">592</a> 			JoinableResourceBundleContent store, String localeVariant) {
-<a name="593" href="#593">593</a> 		<strong>int</strong> bundleHashcode = store.toString().hashCode();
-<a name="594" href="#594">594</a> 		bundle.setBundleDataHashCode(localeVariant, bundleHashcode);
-<a name="595" href="#595">595</a> 	}
-<a name="596" href="#596">596</a> 
-<a name="597" href="#597">597</a> 	<em>/**<em>*</em></em>
-<a name="598" href="#598">598</a> <em>	 * Joins the members of a bundle and stores it</em>
-<a name="599" href="#599">599</a> <em>	 * </em>
-<a name="600" href="#600">600</a> <em>	 * @param bundle</em>
-<a name="601" href="#601">601</a> <em>	 *            the bundle</em>
-<a name="602" href="#602">602</a> <em>	 * @param the</em>
-<a name="603" href="#603">603</a> <em>	 *            flag indicating if we should process the bundle or not</em>
-<a name="604" href="#604">604</a> <em>	 */</em>
-<a name="605" href="#605">605</a> 	<strong>private</strong> <strong>void</strong> joinAndStoreBundle(<a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> bundle,
-<a name="606" href="#606">606</a> 			<strong>boolean</strong> processBundle) {
-<a name="607" href="#607">607</a> 		
-<a name="608" href="#608">608</a> 		<strong>if</strong>(processBundle){
-<a name="609" href="#609">609</a> 			
-<a name="610" href="#610">610</a> 			JoinableResourceBundleContent store = <strong>null</strong>;
-<a name="611" href="#611">611</a> 			<em class="comment">// Process the locale specific variants</em>
-<a name="612" href="#612">612</a> 			<strong>if</strong> (<strong>null</strong> != bundle.getLocaleVariantKeys()) {
-<a name="613" href="#613">613</a> 				<strong>for</strong> (Iterator it = bundle.getLocaleVariantKeys().iterator(); it
-<a name="614" href="#614">614</a> 						.hasNext();) {
-<a name="615" href="#615">615</a> 					String variantKey = (String) it.next();
-<a name="616" href="#616">616</a> 					String name = LocaleUtils.getLocalizedBundleName(bundle
-<a name="617" href="#617">617</a> 							.getId(), variantKey);
-<a name="618" href="#618">618</a> 					store = joinandPostprocessBundle(bundle, variantKey,
-<a name="619" href="#619">619</a> 							processBundle);
-<a name="620" href="#620">620</a> 					resourceBundleHandler.storeBundle(name, store);
-<a name="621" href="#621">621</a> 					initBundleDataHashcode(bundle, store, variantKey);
-<a name="622" href="#622">622</a> 				}
-<a name="623" href="#623">623</a> 			}
-<a name="624" href="#624">624</a> 
-<a name="625" href="#625">625</a> 			<em class="comment">// Store the collected resources as a single file, both in text and gzip</em>
-<a name="626" href="#626">626</a> 			<em class="comment">// formats.</em>
-<a name="627" href="#627">627</a> 			store = joinandPostprocessBundle(bundle, <strong>null</strong>, processBundle);
-<a name="628" href="#628">628</a> 			resourceBundleHandler.storeBundle(bundle.getId(), store);
-<a name="629" href="#629">629</a> 			<em class="comment">// Set the data hascode in the bundle, in case the prefix needs to</em>
-<a name="630" href="#630">630</a> 			<em class="comment">// be generated</em>
-<a name="631" href="#631">631</a> 			initBundleDataHashcode(bundle, store, <strong>null</strong>);
-<a name="632" href="#632">632</a> 		
-<a name="633" href="#633">633</a> 		}
-<a name="634" href="#634">634</a> 	}
-<a name="635" href="#635">635</a> 
-<a name="636" href="#636">636</a> 	<em>/**<em>*</em></em>
-<a name="637" href="#637">637</a> <em>	 * Reads all the members of a bundle and executes all associated</em>
-<a name="638" href="#638">638</a> <em>	 * postprocessors.</em>
-<a name="639" href="#639">639</a> <em>	 * </em>
-<a name="640" href="#640">640</a> <em>	 * @param bundle</em>
-<a name="641" href="#641">641</a> <em>	 *            the bundle</em>
-<a name="642" href="#642">642</a> <em>	 * @param variantKey</em>
-<a name="643" href="#643">643</a> <em>	 *            the variant key</em>
-<a name="644" href="#644">644</a> <em>	 * @param the</em>
-<a name="645" href="#645">645</a> <em>	 *            flag indicating if we should process the bundle or not</em>
-<a name="646" href="#646">646</a> <em>	 * @return the resource bundle content, where all postprocessors have been</em>
-<a name="647" href="#647">647</a> <em>	 *         executed</em>
-<a name="648" href="#648">648</a> <em>	 */</em>
-<a name="649" href="#649">649</a> 	<strong>private</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleContent.html">JoinableResourceBundleContent</a> joinandPostprocessBundle(
-<a name="650" href="#650">650</a> 			JoinableResourceBundle bundle, String variantKey,
-<a name="651" href="#651">651</a> 			<strong>boolean</strong> processBundle) {
-<a name="652" href="#652">652</a> 
-<a name="653" href="#653">653</a> 		JoinableResourceBundleContent bundleContent = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleContent.html">JoinableResourceBundleContent</a>();
-<a name="654" href="#654">654</a> 
-<a name="655" href="#655">655</a> 		<em class="comment">// Don't bother with the bundle if it is excluded because of the</em>
-<a name="656" href="#656">656</a> 		<em class="comment">// inclusion pattern</em>
-<a name="657" href="#657">657</a> 		<em class="comment">// or if we don't process the bundle at start up</em>
-<a name="658" href="#658">658</a> 		<strong>if</strong> ((bundle.getInclusionPattern().isExcludeOnDebug() &amp;&amp; config
-<a name="659" href="#659">659</a> 				.isDebugModeOn())
-<a name="660" href="#660">660</a> 				|| (bundle.getInclusionPattern().isIncludeOnDebug() &amp;&amp; !config
-<a name="661" href="#661">661</a> 						.isDebugModeOn()) || !processBundle)
-<a name="662" href="#662">662</a> 			<strong>return</strong> bundleContent;
-<a name="663" href="#663">663</a> 
-<a name="664" href="#664">664</a> 		StringBuffer bundleData = <strong>new</strong> StringBuffer();
-<a name="665" href="#665">665</a> 		StringBuffer store = <strong>null</strong>;
+<a name="543" href="#543">543</a> 		<em class="comment">// Process all variants</em>
+<a name="544" href="#544">544</a> 		<strong>for</strong> (Iterator vars = variants.iterator(); vars.hasNext();) {
+<a name="545" href="#545">545</a> 
+<a name="546" href="#546">546</a> 			String variant = (String) vars.next();
+<a name="547" href="#547">547</a> 			store = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleContent.html">JoinableResourceBundleContent</a>();
+<a name="548" href="#548">548</a> 			<strong>for</strong> (Iterator it = composite.getChildBundles().iterator(); it
+<a name="549" href="#549">549</a> 					.hasNext();) {
+<a name="550" href="#550">550</a> 				JoinableResourceBundle childbundle = (JoinableResourceBundle) it
+<a name="551" href="#551">551</a> 						.next();
+<a name="552" href="#552">552</a> 				store.append(joinandPostprocessBundle(childbundle, variant,
+<a name="553" href="#553">553</a> 						processBundle));
+<a name="554" href="#554">554</a> 			}
+<a name="555" href="#555">555</a> 
+<a name="556" href="#556">556</a> 			<strong>if</strong> (processBundle) {
+<a name="557" href="#557">557</a> 				String name = LocaleUtils.getLocalizedBundleName(composite
+<a name="558" href="#558">558</a> 						.getId(), variant);
+<a name="559" href="#559">559</a> 				resourceBundleHandler.storeBundle(name, store);
+<a name="560" href="#560">560</a> 				initBundleDataHashcode(composite, store, variant);
+<a name="561" href="#561">561</a> 			}
+<a name="562" href="#562">562</a> 		}
+<a name="563" href="#563">563</a> 
+<a name="564" href="#564">564</a> 		<em class="comment">// Create the default bundle (the non variant one)</em>
+<a name="565" href="#565">565</a> 		store = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleContent.html">JoinableResourceBundleContent</a>();
+<a name="566" href="#566">566</a> 		<strong>for</strong> (Iterator it = composite.getChildBundles().iterator(); it.hasNext();) {
+<a name="567" href="#567">567</a> 			JoinableResourceBundle childbundle = (JoinableResourceBundle) it
+<a name="568" href="#568">568</a> 					.next();
+<a name="569" href="#569">569</a> 			store.append(joinandPostprocessBundle(childbundle, <strong>null</strong>,
+<a name="570" href="#570">570</a> 					processBundle));
+<a name="571" href="#571">571</a> 		}
+<a name="572" href="#572">572</a> 
+<a name="573" href="#573">573</a> 		<em class="comment">// Store the collected resources as a single file, both in text and gzip</em>
+<a name="574" href="#574">574</a> 		<em class="comment">// formats.</em>
+<a name="575" href="#575">575</a> 		<strong>if</strong> (processBundle) {
+<a name="576" href="#576">576</a> 
+<a name="577" href="#577">577</a> 			resourceBundleHandler.storeBundle(composite.getId(), store);
+<a name="578" href="#578">578</a> 			<em class="comment">// Set the data hascode in the bundle, in case the prefix needs to</em>
+<a name="579" href="#579">579</a> 			<em class="comment">// be generated</em>
+<a name="580" href="#580">580</a> 			initBundleDataHashcode(composite, store, <strong>null</strong>);
+<a name="581" href="#581">581</a> 		}
+<a name="582" href="#582">582</a> 
+<a name="583" href="#583">583</a> 	}
+<a name="584" href="#584">584</a> 
+<a name="585" href="#585">585</a> 	<em>/**<em>*</em></em>
+<a name="586" href="#586">586</a> <em>	 * Initialize the bundle data hashcode and initialize the bundle mapping if</em>
+<a name="587" href="#587">587</a> <em>	 * needed</em>
+<a name="588" href="#588">588</a> <em>	 * </em>
+<a name="589" href="#589">589</a> <em>	 * @param bundle</em>
+<a name="590" href="#590">590</a> <em>	 *            the bundle</em>
+<a name="591" href="#591">591</a> <em>	 * @param store</em>
+<a name="592" href="#592">592</a> <em>	 *            the data to store</em>
+<a name="593" href="#593">593</a> <em>	 */</em>
+<a name="594" href="#594">594</a> 	<strong>private</strong> <strong>void</strong> initBundleDataHashcode(<a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> bundle,
+<a name="595" href="#595">595</a> 			JoinableResourceBundleContent store, String localeVariant) {
+<a name="596" href="#596">596</a> 		<strong>int</strong> bundleHashcode = store.toString().hashCode();
+<a name="597" href="#597">597</a> 		bundle.setBundleDataHashCode(localeVariant, bundleHashcode);
+<a name="598" href="#598">598</a> 	}
+<a name="599" href="#599">599</a> 
+<a name="600" href="#600">600</a> 	<em>/**<em>*</em></em>
+<a name="601" href="#601">601</a> <em>	 * Joins the members of a bundle and stores it</em>
+<a name="602" href="#602">602</a> <em>	 * </em>
+<a name="603" href="#603">603</a> <em>	 * @param bundle</em>
+<a name="604" href="#604">604</a> <em>	 *            the bundle</em>
+<a name="605" href="#605">605</a> <em>	 * @param the</em>
+<a name="606" href="#606">606</a> <em>	 *            flag indicating if we should process the bundle or not</em>
+<a name="607" href="#607">607</a> <em>	 */</em>
+<a name="608" href="#608">608</a> 	<strong>private</strong> <strong>void</strong> joinAndStoreBundle(<a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> bundle,
+<a name="609" href="#609">609</a> 			<strong>boolean</strong> processBundle) {
+<a name="610" href="#610">610</a> 		
+<a name="611" href="#611">611</a> 		<strong>if</strong>(processBundle){
+<a name="612" href="#612">612</a> 			
+<a name="613" href="#613">613</a> 			JoinableResourceBundleContent store = <strong>null</strong>;
+<a name="614" href="#614">614</a> 			<em class="comment">// Process the locale specific variants</em>
+<a name="615" href="#615">615</a> 			<strong>if</strong> (<strong>null</strong> != bundle.getLocaleVariantKeys()) {
+<a name="616" href="#616">616</a> 				<strong>for</strong> (Iterator it = bundle.getLocaleVariantKeys().iterator(); it
+<a name="617" href="#617">617</a> 						.hasNext();) {
+<a name="618" href="#618">618</a> 					String variantKey = (String) it.next();
+<a name="619" href="#619">619</a> 					String name = LocaleUtils.getLocalizedBundleName(bundle
+<a name="620" href="#620">620</a> 							.getId(), variantKey);
+<a name="621" href="#621">621</a> 					store = joinandPostprocessBundle(bundle, variantKey,
+<a name="622" href="#622">622</a> 							processBundle);
+<a name="623" href="#623">623</a> 					resourceBundleHandler.storeBundle(name, store);
+<a name="624" href="#624">624</a> 					initBundleDataHashcode(bundle, store, variantKey);
+<a name="625" href="#625">625</a> 				}
+<a name="626" href="#626">626</a> 			}
+<a name="627" href="#627">627</a> 
+<a name="628" href="#628">628</a> 			<em class="comment">// Store the collected resources as a single file, both in text and gzip</em>
+<a name="629" href="#629">629</a> 			<em class="comment">// formats.</em>
+<a name="630" href="#630">630</a> 			store = joinandPostprocessBundle(bundle, <strong>null</strong>, processBundle);
+<a name="631" href="#631">631</a> 			resourceBundleHandler.storeBundle(bundle.getId(), store);
+<a name="632" href="#632">632</a> 			<em class="comment">// Set the data hascode in the bundle, in case the prefix needs to</em>
+<a name="633" href="#633">633</a> 			<em class="comment">// be generated</em>
+<a name="634" href="#634">634</a> 			initBundleDataHashcode(bundle, store, <strong>null</strong>);
+<a name="635" href="#635">635</a> 		
+<a name="636" href="#636">636</a> 		}
+<a name="637" href="#637">637</a> 	}
+<a name="638" href="#638">638</a> 
+<a name="639" href="#639">639</a> 	<em>/**<em>*</em></em>
+<a name="640" href="#640">640</a> <em>	 * Reads all the members of a bundle and executes all associated</em>
+<a name="641" href="#641">641</a> <em>	 * postprocessors.</em>
+<a name="642" href="#642">642</a> <em>	 * </em>
+<a name="643" href="#643">643</a> <em>	 * @param bundle</em>
+<a name="644" href="#644">644</a> <em>	 *            the bundle</em>
+<a name="645" href="#645">645</a> <em>	 * @param variantKey</em>
+<a name="646" href="#646">646</a> <em>	 *            the variant key</em>
+<a name="647" href="#647">647</a> <em>	 * @param the</em>
+<a name="648" href="#648">648</a> <em>	 *            flag indicating if we should process the bundle or not</em>
+<a name="649" href="#649">649</a> <em>	 * @return the resource bundle content, where all postprocessors have been</em>
+<a name="650" href="#650">650</a> <em>	 *         executed</em>
+<a name="651" href="#651">651</a> <em>	 */</em>
+<a name="652" href="#652">652</a> 	<strong>private</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleContent.html">JoinableResourceBundleContent</a> joinandPostprocessBundle(
+<a name="653" href="#653">653</a> 			JoinableResourceBundle bundle, String variantKey,
+<a name="654" href="#654">654</a> 			<strong>boolean</strong> processBundle) {
+<a name="655" href="#655">655</a> 
+<a name="656" href="#656">656</a> 		JoinableResourceBundleContent bundleContent = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleContent.html">JoinableResourceBundleContent</a>();
+<a name="657" href="#657">657</a> 
+<a name="658" href="#658">658</a> 		<em class="comment">// Don't bother with the bundle if it is excluded because of the</em>
+<a name="659" href="#659">659</a> 		<em class="comment">// inclusion pattern</em>
+<a name="660" href="#660">660</a> 		<em class="comment">// or if we don't process the bundle at start up</em>
+<a name="661" href="#661">661</a> 		<strong>if</strong> ((bundle.getInclusionPattern().isExcludeOnDebug() &amp;&amp; config
+<a name="662" href="#662">662</a> 				.isDebugModeOn())
+<a name="663" href="#663">663</a> 				|| (bundle.getInclusionPattern().isIncludeOnDebug() &amp;&amp; !config
+<a name="664" href="#664">664</a> 						.isDebugModeOn()) || !processBundle)
+<a name="665" href="#665">665</a> 			<strong>return</strong> bundleContent;
 <a name="666" href="#666">666</a> 
-<a name="667" href="#667">667</a> 		BundleProcessingStatus status = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/postprocess/BundleProcessingStatus.html">BundleProcessingStatus</a>(bundle,
-<a name="668" href="#668">668</a> 				resourceHandler, config);
+<a name="667" href="#667">667</a> 		StringBuffer bundleData = <strong>new</strong> StringBuffer();
+<a name="668" href="#668">668</a> 		StringBuffer store = <strong>null</strong>;
 <a name="669" href="#669">669</a> 
-<a name="670" href="#670">670</a> 		<strong>try</strong> {
-<a name="671" href="#671">671</a> 			<em class="comment">// Run through all the files belonging to the bundle</em>
-<a name="672" href="#672">672</a> 			<strong>for</strong> (Iterator it = bundle.getItemPathList(variantKey).iterator(); it
-<a name="673" href="#673">673</a> 					.hasNext();) {
-<a name="674" href="#674">674</a> 
-<a name="675" href="#675">675</a> 				<em class="comment">// File is first created in memory using a stringwriter.</em>
-<a name="676" href="#676">676</a> 				StringWriter writer = <strong>new</strong> StringWriter();
-<a name="677" href="#677">677</a> 				BufferedWriter bwriter = <strong>new</strong> BufferedWriter(writer);
-<a name="678" href="#678">678</a> 
-<a name="679" href="#679">679</a> 				String path = (String) it.next();
-<a name="680" href="#680">680</a> 				<strong>if</strong> (log.isDebugEnabled())
-<a name="681" href="#681">681</a> 					log.debug(<span class="string">"Adding file ["</span> + path + <span class="string">"] to bundle "</span>
-<a name="682" href="#682">682</a> 							+ bundle.getId());
-<a name="683" href="#683">683</a> 
-<a name="684" href="#684">684</a> 				<em class="comment">// Get a reader on the resource, with appropiate encoding</em>
-<a name="685" href="#685">685</a> 				Reader rd = <strong>null</strong>;
+<a name="670" href="#670">670</a> 		BundleProcessingStatus status = <strong>new</strong> <a href="../../../../../../net/jawr/web/resource/bundle/postprocess/BundleProcessingStatus.html">BundleProcessingStatus</a>(bundle,
+<a name="671" href="#671">671</a> 				resourceHandler, config);
+<a name="672" href="#672">672</a> 
+<a name="673" href="#673">673</a> 		<strong>try</strong> {
+<a name="674" href="#674">674</a> 			<em class="comment">// Run through all the files belonging to the bundle</em>
+<a name="675" href="#675">675</a> 			<strong>for</strong> (Iterator it = bundle.getItemPathList(variantKey).iterator(); it
+<a name="676" href="#676">676</a> 					.hasNext();) {
+<a name="677" href="#677">677</a> 
+<a name="678" href="#678">678</a> 				<em class="comment">// File is first created in memory using a stringwriter.</em>
+<a name="679" href="#679">679</a> 				StringWriter writer = <strong>new</strong> StringWriter();
+<a name="680" href="#680">680</a> 				BufferedWriter bwriter = <strong>new</strong> BufferedWriter(writer);
+<a name="681" href="#681">681</a> 
+<a name="682" href="#682">682</a> 				String path = (String) it.next();
+<a name="683" href="#683">683</a> 				<strong>if</strong> (log.isDebugEnabled())
+<a name="684" href="#684">684</a> 					log.debug(<span class="string">"Adding file ["</span> + path + <span class="string">"] to bundle "</span>
+<a name="685" href="#685">685</a> 							+ bundle.getId());
 <a name="686" href="#686">686</a> 
-<a name="687" href="#687">687</a> 				<strong>try</strong> {
-<a name="688" href="#688">688</a> 					rd = resourceHandler.getResource(path, <strong>true</strong>);
-<a name="689" href="#689">689</a> 				} <strong>catch</strong> (ResourceNotFoundException e) {
-<a name="690" href="#690">690</a> 					<em class="comment">// If a mapped file does not exist, a warning is issued and</em>
-<a name="691" href="#691">691</a> 					<em class="comment">// process continues normally.</em>
-<a name="692" href="#692">692</a> 					log.warn(<span class="string">"A mapped resource was not found: ["</span> + path
-<a name="693" href="#693">693</a> 							+ <span class="string">"]. Please check your configuration"</span>);
-<a name="694" href="#694">694</a> 					<strong>continue</strong>;
-<a name="695" href="#695">695</a> 				}
-<a name="696" href="#696">696</a> 
-<a name="697" href="#697">697</a> 				<em class="comment">// Update the status.</em>
-<a name="698" href="#698">698</a> 				status.setLastPathAdded(path);
+<a name="687" href="#687">687</a> 				<em class="comment">// Get a reader on the resource, with appropiate encoding</em>
+<a name="688" href="#688">688</a> 				Reader rd = <strong>null</strong>;
+<a name="689" href="#689">689</a> 
+<a name="690" href="#690">690</a> 				<strong>try</strong> {
+<a name="691" href="#691">691</a> 					rd = resourceHandler.getResource(path, <strong>true</strong>);
+<a name="692" href="#692">692</a> 				} <strong>catch</strong> (ResourceNotFoundException e) {
+<a name="693" href="#693">693</a> 					<em class="comment">// If a mapped file does not exist, a warning is issued and</em>
+<a name="694" href="#694">694</a> 					<em class="comment">// process continues normally.</em>
+<a name="695" href="#695">695</a> 					log.warn(<span class="string">"A mapped resource was not found: ["</span> + path
+<a name="696" href="#696">696</a> 							+ <span class="string">"]. Please check your configuration"</span>);
+<a name="697" href="#697">697</a> 					<strong>continue</strong>;
+<a name="698" href="#698">698</a> 				}
 <a name="699" href="#699">699</a> 
-<a name="700" href="#700">700</a> 				<em class="comment">// Make a buffered reader, to read line by line.</em>
-<a name="701" href="#701">701</a> 				BufferedReader bRd = <strong>new</strong> BufferedReader(rd);
-<a name="702" href="#702">702</a> 				String line;
-<a name="703" href="#703">703</a> 
-<a name="704" href="#704">704</a> 				<em class="comment">// Write each line and the corresponding new line.</em>
-<a name="705" href="#705">705</a> 				<strong>while</strong> ((line = bRd.readLine()) != <strong>null</strong>) {
-<a name="706" href="#706">706</a> 					bwriter.write(line);
-<a name="707" href="#707">707</a> 					bwriter.newLine();
-<a name="708" href="#708">708</a> 				}
-<a name="709" href="#709">709</a> 				bRd.close();
-<a name="710" href="#710">710</a> 				bwriter.close();
-<a name="711" href="#711">711</a> 
-<a name="712" href="#712">712</a> 				<em class="comment">// Do unitary postprocessing.</em>
-<a name="713" href="#713">713</a> 				<strong>if</strong> (<strong>null</strong> != bundle.getUnitaryPostProcessor()) {
-<a name="714" href="#714">714</a> 					StringBuffer resourceData = bundle
-<a name="715" href="#715">715</a> 							.getUnitaryPostProcessor().postProcessBundle(
-<a name="716" href="#716">716</a> 									status, writer.getBuffer());
-<a name="717" href="#717">717</a> 
-<a name="718" href="#718">718</a> 					bundleData.append(resourceData);
-<a name="719" href="#719">719</a> 				} <strong>else</strong> <strong>if</strong> (<strong>null</strong> != <strong>this</strong>.unitaryPostProcessor) {
-<a name="720" href="#720">720</a> 					<strong>if</strong> (log.isDebugEnabled())
-<a name="721" href="#721">721</a> 						log.debug(<span class="string">"POSTPROCESSING UNIT:"</span>
-<a name="722" href="#722">722</a> 								+ status.getLastPathAdded());
-<a name="723" href="#723">723</a> 					StringBuffer resourceData = <strong>this</strong>.unitaryPostProcessor
-<a name="724" href="#724">724</a> 							.postProcessBundle(status, writer.getBuffer());
-<a name="725" href="#725">725</a> 					bundleData.append(resourceData);
-<a name="726" href="#726">726</a> 				} <strong>else</strong>
-<a name="727" href="#727">727</a> 					bundleData.append(writer.getBuffer());
-<a name="728" href="#728">728</a> 			}
-<a name="729" href="#729">729</a> 
-<a name="730" href="#730">730</a> 			<em class="comment">// Post process bundle as needed</em>
-<a name="731" href="#731">731</a> 			<strong>if</strong> (<strong>null</strong> != bundle.getBundlePostProcessor())
-<a name="732" href="#732">732</a> 				store = bundle.getBundlePostProcessor().postProcessBundle(
-<a name="733" href="#733">733</a> 						status, bundleData);
-<a name="734" href="#734">734</a> 			<strong>else</strong> <strong>if</strong> (<strong>null</strong> != <strong>this</strong>.postProcessor)
-<a name="735" href="#735">735</a> 				store = <strong>this</strong>.postProcessor
-<a name="736" href="#736">736</a> 						.postProcessBundle(status, bundleData);
-<a name="737" href="#737">737</a> 			<strong>else</strong>
-<a name="738" href="#738">738</a> 				store = bundleData;
-<a name="739" href="#739">739</a> 
-<a name="740" href="#740">740</a> 		} <strong>catch</strong> (IOException e) {
-<a name="741" href="#741">741</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(
-<a name="742" href="#742">742</a> 					<span class="string">"Unexpected IOException generating collected file ["</span>
-<a name="743" href="#743">743</a> 							+ bundle.getId() + <span class="string">"]."</span>, e);
-<a name="744" href="#744">744</a> 		}
-<a name="745" href="#745">745</a> 
-<a name="746" href="#746">746</a> 		bundleContent.setContent(store);
-<a name="747" href="#747">747</a> 		<strong>return</strong> bundleContent;
-<a name="748" href="#748">748</a> 	}
-<a name="749" href="#749">749</a> 
-<a name="750" href="#750">750</a> 	<em class="comment">/*</em>
-<a name="751" href="#751">751</a> <em class="comment">	 * (non-Javadoc)</em>
-<a name="752" href="#752">752</a> <em class="comment">	 * </em>
-<a name="753" href="#753">753</a> <em class="comment">	 * @seenet.jawr.web.resource.bundle.handler.ResourceBundlesHandler#</em>
-<a name="754" href="#754">754</a> <em class="comment">	 * resolveBundleForPath(java.lang.String)</em>
-<a name="755" href="#755">755</a> <em class="comment">	 */</em>
-<a name="756" href="#756">756</a> 	<strong>public</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> resolveBundleForPath(String path) {
-<a name="757" href="#757">757</a> 
-<a name="758" href="#758">758</a> 		JoinableResourceBundle theBundle = <strong>null</strong>;
-<a name="759" href="#759">759</a> 		<strong>for</strong> (Iterator it = bundles.iterator(); it.hasNext();) {
-<a name="760" href="#760">760</a> 			JoinableResourceBundle bundle = (JoinableResourceBundle) it.next();
-<a name="761" href="#761">761</a> 			<strong>if</strong> (bundle.getId().equals(path) || bundle.belongsToBundle(path)) {
-<a name="762" href="#762">762</a> 				theBundle = bundle;
-<a name="763" href="#763">763</a> 				<strong>break</strong>;
-<a name="764" href="#764">764</a> 			}
-<a name="765" href="#765">765</a> 		}
-<a name="766" href="#766">766</a> 		<strong>return</strong> theBundle;
-<a name="767" href="#767">767</a> 	}
-<a name="768" href="#768">768</a> 
-<a name="769" href="#769">769</a> 	<em class="comment">/*</em>
-<a name="770" href="#770">770</a> <em class="comment">	 * (non-Javadoc)</em>
-<a name="771" href="#771">771</a> <em class="comment">	 * </em>
-<a name="772" href="#772">772</a> <em class="comment">	 * @seenet.jawr.web.resource.bundle.handler.ResourceBundlesHandler#</em>
-<a name="773" href="#773">773</a> <em class="comment">	 * getClientSideHandler()</em>
-<a name="774" href="#774">774</a> <em class="comment">	 */</em>
-<a name="775" href="#775">775</a> 	<strong>public</strong> <a href="../../../../../../net/jawr/web/resource/bundle/handler/ClientSideHandlerGenerator.html">ClientSideHandlerGenerator</a> getClientSideHandler() {
-<a name="776" href="#776">776</a> 		<strong>return</strong> <strong>this</strong>.clientSideHandlerGenerator;
-<a name="777" href="#777">777</a> 	}
-<a name="778" href="#778">778</a> 
-<a name="779" href="#779">779</a> }
+<a name="700" href="#700">700</a> 				<em class="comment">// Update the status.</em>
+<a name="701" href="#701">701</a> 				status.setLastPathAdded(path);
+<a name="702" href="#702">702</a> 
+<a name="703" href="#703">703</a> 				<em class="comment">// Make a buffered reader, to read line by line.</em>
+<a name="704" href="#704">704</a> 				BufferedReader bRd = <strong>new</strong> BufferedReader(rd);
+<a name="705" href="#705">705</a> 				String line;
+<a name="706" href="#706">706</a> 
+<a name="707" href="#707">707</a> 				<em class="comment">// Write each line and the corresponding new line.</em>
+<a name="708" href="#708">708</a> 				<strong>while</strong> ((line = bRd.readLine()) != <strong>null</strong>) {
+<a name="709" href="#709">709</a> 					bwriter.write(line);
+<a name="710" href="#710">710</a> 					bwriter.newLine();
+<a name="711" href="#711">711</a> 				}
+<a name="712" href="#712">712</a> 				bRd.close();
+<a name="713" href="#713">713</a> 				bwriter.close();
+<a name="714" href="#714">714</a> 
+<a name="715" href="#715">715</a> 				<em class="comment">// Do unitary postprocessing.</em>
+<a name="716" href="#716">716</a> 				<strong>if</strong> (<strong>null</strong> != bundle.getUnitaryPostProcessor()) {
+<a name="717" href="#717">717</a> 					StringBuffer resourceData = bundle
+<a name="718" href="#718">718</a> 							.getUnitaryPostProcessor().postProcessBundle(
+<a name="719" href="#719">719</a> 									status, writer.getBuffer());
+<a name="720" href="#720">720</a> 
+<a name="721" href="#721">721</a> 					bundleData.append(resourceData);
+<a name="722" href="#722">722</a> 				} <strong>else</strong> <strong>if</strong> (<strong>null</strong> != <strong>this</strong>.unitaryPostProcessor) {
+<a name="723" href="#723">723</a> 					<strong>if</strong> (log.isDebugEnabled())
+<a name="724" href="#724">724</a> 						log.debug(<span class="string">"POSTPROCESSING UNIT:"</span>
+<a name="725" href="#725">725</a> 								+ status.getLastPathAdded());
+<a name="726" href="#726">726</a> 					StringBuffer resourceData = <strong>this</strong>.unitaryPostProcessor
+<a name="727" href="#727">727</a> 							.postProcessBundle(status, writer.getBuffer());
+<a name="728" href="#728">728</a> 					bundleData.append(resourceData);
+<a name="729" href="#729">729</a> 				} <strong>else</strong>
+<a name="730" href="#730">730</a> 					bundleData.append(writer.getBuffer());
+<a name="731" href="#731">731</a> 			}
+<a name="732" href="#732">732</a> 
+<a name="733" href="#733">733</a> 			<em class="comment">// Post process bundle as needed</em>
+<a name="734" href="#734">734</a> 			<strong>if</strong> (<strong>null</strong> != bundle.getBundlePostProcessor())
+<a name="735" href="#735">735</a> 				store = bundle.getBundlePostProcessor().postProcessBundle(
+<a name="736" href="#736">736</a> 						status, bundleData);
+<a name="737" href="#737">737</a> 			<strong>else</strong> <strong>if</strong> (<strong>null</strong> != <strong>this</strong>.postProcessor)
+<a name="738" href="#738">738</a> 				store = <strong>this</strong>.postProcessor
+<a name="739" href="#739">739</a> 						.postProcessBundle(status, bundleData);
+<a name="740" href="#740">740</a> 			<strong>else</strong>
+<a name="741" href="#741">741</a> 				store = bundleData;
+<a name="742" href="#742">742</a> 
+<a name="743" href="#743">743</a> 		} <strong>catch</strong> (IOException e) {
+<a name="744" href="#744">744</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(
+<a name="745" href="#745">745</a> 					<span class="string">"Unexpected IOException generating collected file ["</span>
+<a name="746" href="#746">746</a> 							+ bundle.getId() + <span class="string">"]."</span>, e);
+<a name="747" href="#747">747</a> 		}
+<a name="748" href="#748">748</a> 
+<a name="749" href="#749">749</a> 		bundleContent.setContent(store);
+<a name="750" href="#750">750</a> 		<strong>return</strong> bundleContent;
+<a name="751" href="#751">751</a> 	}
+<a name="752" href="#752">752</a> 
+<a name="753" href="#753">753</a> 	<em class="comment">/*</em>
+<a name="754" href="#754">754</a> <em class="comment">	 * (non-Javadoc)</em>
+<a name="755" href="#755">755</a> <em class="comment">	 * </em>
+<a name="756" href="#756">756</a> <em class="comment">	 * @seenet.jawr.web.resource.bundle.handler.ResourceBundlesHandler#</em>
+<a name="757" href="#757">757</a> <em class="comment">	 * resolveBundleForPath(java.lang.String)</em>
+<a name="758" href="#758">758</a> <em class="comment">	 */</em>
+<a name="759" href="#759">759</a> 	<strong>public</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> resolveBundleForPath(String path) {
+<a name="760" href="#760">760</a> 
+<a name="761" href="#761">761</a> 		JoinableResourceBundle theBundle = <strong>null</strong>;
+<a name="762" href="#762">762</a> 		<strong>for</strong> (Iterator it = bundles.iterator(); it.hasNext();) {
+<a name="763" href="#763">763</a> 			JoinableResourceBundle bundle = (JoinableResourceBundle) it.next();
+<a name="764" href="#764">764</a> 			<strong>if</strong> (bundle.getId().equals(path) || bundle.belongsToBundle(path)) {
+<a name="765" href="#765">765</a> 				theBundle = bundle;
+<a name="766" href="#766">766</a> 				<strong>break</strong>;
+<a name="767" href="#767">767</a> 			}
+<a name="768" href="#768">768</a> 		}
+<a name="769" href="#769">769</a> 		<strong>return</strong> theBundle;
+<a name="770" href="#770">770</a> 	}
+<a name="771" href="#771">771</a> 
+<a name="772" href="#772">772</a> 	<em class="comment">/*</em>
+<a name="773" href="#773">773</a> <em class="comment">	 * (non-Javadoc)</em>
+<a name="774" href="#774">774</a> <em class="comment">	 * </em>
+<a name="775" href="#775">775</a> <em class="comment">	 * @seenet.jawr.web.resource.bundle.handler.ResourceBundlesHandler#</em>
+<a name="776" href="#776">776</a> <em class="comment">	 * getClientSideHandler()</em>
+<a name="777" href="#777">777</a> <em class="comment">	 */</em>
+<a name="778" href="#778">778</a> 	<strong>public</strong> <a href="../../../../../../net/jawr/web/resource/bundle/handler/ClientSideHandlerGenerator.html">ClientSideHandlerGenerator</a> getClientSideHandler() {
+<a name="779" href="#779">779</a> 		<strong>return</strong> <strong>this</strong>.clientSideHandlerGenerator;
+<a name="780" href="#780">780</a> 	}
+<a name="781" href="#781">781</a> 
+<a name="782" href="#782">782</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
