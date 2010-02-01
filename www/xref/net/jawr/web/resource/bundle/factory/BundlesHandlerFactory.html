@@ -627,7 +627,7 @@
 <a name="618" href="#618">618</a> <em>	 * @param baseDir the base directory to set</em>
 <a name="619" href="#619">619</a> <em>	 */</em>
 <a name="620" href="#620">620</a> 	<strong>public</strong> <strong>void</strong> setBaseDir(String baseDir) {
-<a name="621" href="#621">621</a> 		<strong>this</strong>.baseDir = PathNormalizer.normalizePath(baseDir);
+<a name="621" href="#621">621</a> 		<strong>this</strong>.baseDir = PathNormalizer.asDirPath(baseDir);
 <a name="622" href="#622">622</a> 	}
 <a name="623" href="#623">623</a> 
 <a name="624" href="#624">624</a> 	<em>/**<em>*</em></em>
@@ -720,7 +720,7 @@
 <a name="711" href="#711">711</a> <em>	 * @param excludedDirMapperDirs</em>
 <a name="712" href="#712">712</a> <em>	 */</em>
 <a name="713" href="#713">713</a> 	<strong>public</strong> <strong>void</strong> setExludedDirMapperDirs(Set exludedDirMapperDirs) {
-<a name="714" href="#714">714</a> 		<strong>if</strong> (<strong>null</strong> != excludedDirMapperDirs)
+<a name="714" href="#714">714</a> 		<strong>if</strong> (<strong>null</strong> != exludedDirMapperDirs)
 <a name="715" href="#715">715</a> 			<strong>this</strong>.excludedDirMapperDirs = <a href="../../../../../../net/jawr/web/resource/bundle/factory/util/PathNormalizer.html">PathNormalizer</a>
 <a name="716" href="#716">716</a> 					.normalizePaths(exludedDirMapperDirs);
 <a name="717" href="#717">717</a> 	}

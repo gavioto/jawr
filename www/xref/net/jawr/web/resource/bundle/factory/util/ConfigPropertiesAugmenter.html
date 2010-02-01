@@ -120,7 +120,7 @@
 <a name="111" href="#111">111</a> 				configKey.endsWith(PropertiesBundleConstant.BUNDLE_FACTORY_CUSTOM_COMPOSITE_NAMES) || 	<em class="comment">// children of composites</em>
 <a name="112" href="#112">112</a> 				configKey.equals(PropertiesBundleConstant.CUSTOM_POSTPROCESSORS + 
 <a name="113" href="#113">113</a> 						PropertiesBundleConstant.CUSTOM_POSTPROCESSORS_NAMES) || 		<em class="comment">// Postprocessors definition</em>
-<a name="114" href="#114">114</a> 				configKey.equals(PropertiesBundleConstant.CUSTOM_GENERATORS));					<em class="comment">// Generators definition</em>
+<a name="114" href="#114">114</a> 				configKey.equals(PropertiesBundleConstant.PROPS_PREFIX+PropertiesBundleConstant.CUSTOM_GENERATORS));					<em class="comment">// Generators definition</em>
 <a name="115" href="#115">115</a> 		
 <a name="116" href="#116">116</a> 		rets = rets &amp;&amp; configProperties.containsKey(configKey);
 <a name="117" href="#117">117</a> 		<strong>return</strong> rets;

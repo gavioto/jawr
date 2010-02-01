@@ -15,6 +15,7 @@ net.jawr.web.resource.bundle.factory.util
 net.jawr.web.resource.bundle.generator
 net.jawr.web.resource.bundle.generator.classpath
 net.jawr.web.resource.bundle.generator.dwr
+net.jawr.web.resource.bundle.generator.img
 net.jawr.web.resource.bundle.generator.validator
 net.jawr.web.resource.bundle.global.preprocessor
 net.jawr.web.resource.bundle.global.preprocessor.css.smartsprites

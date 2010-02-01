@@ -90,35 +90,42 @@
 <a name="81" href="#81">81</a>  	<em>/**<em>* The servlet mapping property name */</em></em>
 <a name="82" href="#82">82</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String SERVLET_MAPPING_PROPERTY_NAME = <span class="string">"mapping"</span>;
 <a name="83" href="#83">83</a>  
-<a name="84" href="#84">84</a>  	<em>/**<em>* The file URI prefix */</em></em>
-<a name="85" href="#85">85</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String FILE_URI_PREFIX = <span class="string">"file://"</span>;
+<a name="84" href="#84">84</a>  	<em>/**<em>* The spring servlet mapping property name */</em></em>
+<a name="85" href="#85">85</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String SPRING_SERVLET_MAPPING_PROPERTY_NAME = <span class="string">"springServletMapping"</span>;
 <a name="86" href="#86">86</a>  
-<a name="87" href="#87">87</a>  	<em>/**<em>* The override key parameter name */</em></em>
-<a name="88" href="#88">88</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String OVERRIDE_KEY_PARAMETER_NAME = <span class="string">"overrideKey"</span>;
+<a name="87" href="#87">87</a>  	<em>/**<em>* The file URI prefix */</em></em>
+<a name="88" href="#88">88</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String FILE_URI_PREFIX = <span class="string">"file://"</span>;
 <a name="89" href="#89">89</a>  
-<a name="90" href="#90">90</a>  	<em>/**<em>* The property which enables the use of JMX */</em></em>
-<a name="91" href="#91">91</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String JMX_ENABLE_FLAG_SYSTEL_PROPERTY = <span class="string">"com.sun.management.jmxremote"</span>;
-<a name="92" href="#92">92</a>  	
-<a name="93" href="#93">93</a>  	<em>/**<em>* The servlet temp directory property name */</em></em>
-<a name="94" href="#94">94</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String SERVLET_CONTEXT_TEMPDIR = <span class="string">"javax.servlet.context.tempdir"</span>;
-<a name="95" href="#95">95</a>  
-<a name="96" href="#96">96</a>  	<em>/**<em>* The smartsprites temporary directory */</em></em>
-<a name="97" href="#97">97</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String CSS_SMARTSPRITES_TMP_DIR = <span class="string">"/cssSprites/src/"</span>;
+<a name="90" href="#90">90</a>  	<em>/**<em>* The override key parameter name */</em></em>
+<a name="91" href="#91">91</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String OVERRIDE_KEY_PARAMETER_NAME = <span class="string">"overrideKey"</span>;
+<a name="92" href="#92">92</a>  
+<a name="93" href="#93">93</a>  	<em>/**<em>* The property which enables the use of JMX */</em></em>
+<a name="94" href="#94">94</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String JMX_ENABLE_FLAG_SYSTEL_PROPERTY = <span class="string">"com.sun.management.jmxremote"</span>;
+<a name="95" href="#95">95</a>  	
+<a name="96" href="#96">96</a>  	<em>/**<em>* The servlet temp directory property name */</em></em>
+<a name="97" href="#97">97</a>  	<strong>public</strong> <strong>static</strong> <strong>final</strong> String SERVLET_CONTEXT_TEMPDIR = <span class="string">"javax.servlet.context.tempdir"</span>;
 <a name="98" href="#98">98</a>  
-<a name="99" href="#99">99</a>  	<em>/**<em>* The ID of the CSS sprite global preprocessor */</em></em>
-<a name="100" href="#100">100</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String GLOBAL_CSS_SMARTSPRITES_PREPROCESSOR_ID = <span class="string">"smartsprites"</span>;
+<a name="99" href="#99">99</a>  	<em>/**<em>* The smartsprites temporary directory */</em></em>
+<a name="100" href="#100">100</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String CSS_SMARTSPRITES_TMP_DIR = <span class="string">"/cssSprites/src/"</span>;
 <a name="101" href="#101">101</a> 
-<a name="102" href="#102">102</a> 	<em>/**<em>* The ID of the empty global preprocessor */</em></em>
-<a name="103" href="#103">103</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String EMPTY_GLOBAL_PREPROCESSOR_ID = <span class="string">"none"</span>;
-<a name="104" href="#104">104</a> 	
-<a name="105" href="#105">105</a> 	<em>/**<em>* The META-INF directory prefix */</em></em>
-<a name="106" href="#106">106</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String META_INF_DIR_PREFIX = <span class="string">"/META-INF/"</span>;
-<a name="107" href="#107">107</a> 
-<a name="108" href="#108">108</a> 	<em>/**<em>* The WEB-INF directory prefix */</em></em>
-<a name="109" href="#109">109</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String WEB_INF_DIR_PREFIX = <span class="string">"/WEB-INF/"</span>;
+<a name="102" href="#102">102</a> 	<em>/**<em>* The ID of the CSS sprite global preprocessor */</em></em>
+<a name="103" href="#103">103</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String GLOBAL_CSS_SMARTSPRITES_PREPROCESSOR_ID = <span class="string">"smartsprites"</span>;
+<a name="104" href="#104">104</a> 
+<a name="105" href="#105">105</a> 	<em>/**<em>* The ID of the empty global preprocessor */</em></em>
+<a name="106" href="#106">106</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String EMPTY_GLOBAL_PREPROCESSOR_ID = <span class="string">"none"</span>;
+<a name="107" href="#107">107</a> 	
+<a name="108" href="#108">108</a> 	<em>/**<em>* The META-INF directory prefix */</em></em>
+<a name="109" href="#109">109</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String META_INF_DIR_PREFIX = <span class="string">"/META-INF/"</span>;
 <a name="110" href="#110">110</a> 
-<a name="111" href="#111">111</a> 	
-<a name="112" href="#112">112</a> }
+<a name="111" href="#111">111</a> 	<em>/**<em>* The WEB-INF directory prefix */</em></em>
+<a name="112" href="#112">112</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String WEB_INF_DIR_PREFIX = <span class="string">"/WEB-INF/"</span>;
+<a name="113" href="#113">113</a> 
+<a name="114" href="#114">114</a> 	<em>/**<em>* The directory for CSS created by generators */</em></em>
+<a name="115" href="#115">115</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String SPRITE_GENERATED_CSS_DIR = <span class="string">"/generatedCss/"</span>;
+<a name="116" href="#116">116</a> 
+<a name="117" href="#117">117</a> 	<em>/**<em>* The directory for image created the sprite generator */</em></em>
+<a name="118" href="#118">118</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String SPRITE_GENERATED_IMG_DIR = <span class="string">"/generatedSpriteImg/"</span>;
+<a name="119" href="#119">119</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

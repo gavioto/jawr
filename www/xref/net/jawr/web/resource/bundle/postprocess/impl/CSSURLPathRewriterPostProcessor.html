@@ -230,7 +230,7 @@
 <a name="221" href="#221">221</a> 			String tempUrl = url;
 <a name="222" href="#222">222</a> 			
 <a name="223" href="#223">223</a> 			<em class="comment">// If it's a classpath CSS, the url of the CSS image is defined relatively to it.</em>
-<a name="224" href="#224">224</a> 			<strong>if</strong>(cssGeneratorIsHandleCssImage){
+<a name="224" href="#224">224</a> 			<strong>if</strong>(cssGeneratorIsHandleCssImage &amp;&amp; !generatedImg){
 <a name="225" href="#225">225</a> 				tempUrl = PathNormalizer.concatWebPath(rootPath, url);
 <a name="226" href="#226">226</a> 			}
 <a name="227" href="#227">227</a> 

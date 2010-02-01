@@ -355,6 +355,14 @@ Create an <b>/css</b> directory at the root of your web application and write a 
 </div>
 <p>Deploy your application to a server and open the JSP you created. Check the content of the CSS bundle which contains <b>test.css</b>, you must find references to a new &quot;../img/mysprite.png&quot;, where you had before references to <b>img1.png</b> and <b>img2.png</b>. </p>
 </div>
+<div class="section"><h3>Sprites for CSS created by generators</h3>
+<p>You can define sprites in a CSS created by a generator. But there is one constraint, which is that you need to define the sprite URL with a <b>sprite</b> prefix, and the URL must be absolute. Don't use relative path like 'sprite:../../mysprite.png'.</p>
+<p>For generated CSS, the smartsprites directive must looks like </p>
+<div class="source"><pre>/** sprite: mysprite; sprite-image: url('sprite:/img/mysprite.png'); sprite-layout: vertical */ 
+...
+...</pre>
+</div>
+</div>
 <div class="section"><h3>Page design issue after image sprite generation</h3>
 <p>It's possible that the design of your page may be altered after the use of sprite generation. <br />
 This is an issue which can happen while using smartsprites. Please check the <a href="http://csssprites.org/#faq" class="externalLink">FAQ section</a> of smartsprites for more information.</p>
@@ -368,15 +376,15 @@ This is an issue which can happen while using smartsprites. Please check the <a 
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2010
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 01/31/2010
+  &nbsp;| Version: 3.2.1
 </div>
       <div class="clear">
         <hr/>

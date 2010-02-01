@@ -286,7 +286,7 @@
 			}
 			#badges img  { border:0 !important;}
 		</style></head><div class="section"><h2><a></a></h2>
-<img src="./images/index/logo.png" /><div id="jawrlinks"><b>Latest version : 3.2</b><br />
+<img src="./images/index/logo.png" /><div id="jawrlinks"><b>Latest version : 3.2.1</b><br />
 <a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8543" class="externalLink"><img src="./images/index/download.png" /></a><a href="https://jawr.dev.java.net/tutorials/quickstart.html" class="externalLink"><img src="./images/index/get-started.png" /></a></div><div id="badges"><a href="http://www.furl.net/storeIt.jsp?t=JAWR%20-%20More%20than%20a%20javascript/css%20compressor&amp;u=https://jawr.dev.java.net" class="externalLink"><img src="/images/badges/furl.png" alt="add to furl" /></a><a href="http://del.icio.us/post?v=4&amp;noui&amp;jump=close&amp;url=https://jawr.dev.java.net&amp;title=JAWR%20-%20More%20than%20a%20javascript/css%20compressor" class="externalLink"><img src="/images/badges/delicious.png" alt="add to del.icio.us" /></a><a href="http://technorati.com/faves?add=https://jawr.dev.java.net" class="externalLink"><img src="/images/badges/technorati.png" alt="add to technorati" /></a><a href="http://www.blinklist.com/index.php?Action=Blink/addblink.php&amp;Url=https://jawr.dev.java.net&amp;Title=JAWR%20-%20More%20than%20a%20javascript/css%20compressor" class="externalLink"><img src="/images/badges/blinklist.png" alt="add to blinklist" /></a><a href="http://digg.com/submit?phase=2&amp;url=https://jawr.dev.java.net&amp;title=JAWR%20-%20More%20than%20a%20javascript/css%20compressor" class="externalLink"><img src="/images/badges/digg.png" alt="add to digg" /></a><a href="http://www.google.com/bookmarks/mark?op=edit&amp;output=popup&amp;bkmk=https://jawr.dev.java.net&amp;title=JAWR%20-%20More%20than%20a%20javascript/css%20compressor" class="externalLink"><img src="/images/badges/google.png" alt="add to google" /></a><a href="http://www.stumbleupon.com/submit?url=https://jawr.dev.java.net&amp;title=JAWR%20-%20More%20than%20a%20javascript/css%20compressor" class="externalLink"><img src="/images/badges/stumbleupon.png" alt="add to stumbleupon" /></a><a href="http://myweb.yahoo.com/myresults/bookmarklet?t=JAWR%20-%20More%20than%20a%20javascript/css%20compressor&amp;u=https://jawr.dev.java.net&amp;ei=UTF" class="externalLink"><img src="/images/badges/yahoo.png" alt="add to yahoo" /></a></div><div id="firstPara"><p>Jawr is a tunable packaging solution for Javascript and CSS which allows for rapid development of resources in separate module files. 
 	Developers can work with a large set of split javascript files in development mode, then Jawr bundles all together into one or several files 
 	in a configurable way. 
@@ -372,7 +372,51 @@ And don't forget to check the <a href="./tutorials/faq_howto.html">FAQ - Howto p
 <div class="section"><h3><a name="Announcements"></a>Announcements</h3>
 <p>Here are the latest announcements regarding Jawr. You can find older version announcements with all the features that have been 
       added over time at the <a href="./changes.html">change log.</a></p>
-<ul><li><strong>12/09/2009</strong>: Version 3.2 released:<br />
+<ul><li><strong>02/01/2009</strong>: Version 3.2.1 released:<br />
+
+	      	This version contains mainly bug fixes.<br />
+<br />
+<strong>New feature: </strong><ul><li>
+      		 For spring MVC projects, Jawr now allows you to use simultaneously <strong>configuration</strong> and <strong>configLocation</strong> properties.
+      		 The values found in the configuration file at <strong>configLocation</strong> will be overrided by the properties defined in <strong>configuration</strong>.<br />
+
+      		 The <strong>configuration</strong> property is no more deprecated.
+      		 Thanks to sfrancois99 and szeller for their feedbacks.<br />
+
+      		 Please check the documentation on the <a href="./integration/spring.html">Spring MVC integration</a> for more detail.
+      		 </li>
+</ul>
+<strong>Fixed issues: </strong><ul><li><strong>Issue #81 fixed:</strong><strong>jawr.[type].factory.dirmapper.excluded</strong> property doesn't work.      
+	      		 </li>
+<li><strong>Issue #113 fixed:</strong> In spring MVC, when using only configuration property an exception is thrown.      
+	      		 </li>
+<li><strong>Issue #115 fixed:</strong> Css image sprite generation doesn't work for generated CSS resource.      
+	      		 </li>
+<li><strong>Issue #118 fixed:</strong> Image Streaming throws exception if the browser closes the stream      
+	      		 </li>
+<li><strong>Issue #123 fixed:</strong> Images are not handled property with JawrSpringController.      
+	      		 </li>
+<li><strong>Issue #124 fixed:</strong> The property &quot;factory.use.orphans.mapper&quot; is never taken in account. To be compliant with the Jawr properties naming convention,
+	      		 	this property has been renamed to <strong>jawr.factory.use.orphans.mapper</strong>. Please check <a href="./docs/descriptor_syntax.html">descriptor syntax doc</a> for more detail.   
+	      		 </li>
+<li><strong>Issue #125 fixed:</strong> In Spring MVC, an exception is thrown when the controller mapping is defined while the Spring servlet mapping is set to &quot;/*&quot;.   
+	      		 </li>
+    
+	      		 Thanks to qxo, mahoney266 and Robin Sander for reporting issues.
+	      	</ul>
+<br />
+<br />
+<strong>Jawr ant task and maven plugin</strong> - Version 1.3 released:<br />
+
+		    This version contains only one bug fix.<br />
+<br />
+<strong>Fixed issue: </strong><ul><li><strong>Issue #116 fixed:</strong> Jawr bundle processing with the maven plugin or ant Task doesn't work with a spring MVC project. Please check the <a href="./docs/bundle_preprocessing.html">bundle preprocessing documentation</a> for more detail.      
+	      		 </li>
+      
+	      		 Thanks to acklenx for reporting the issue. 
+      	  	</ul>
+</li>
+<li><strong>12/09/2009</strong>: Version 3.2 released:<br />
 
 	      	A serious security issue has been found in Jawr when using the property <strong>jawr.debug.overrideKey</strong>, which allowed a user to access the content of the WEB-INF folder, and any file of your web application
 	      	if the user finds the value of the property <strong>jawr.debug.overrideKey</strong>, which is defined your configuration file. <br />
@@ -687,15 +731,15 @@ And don't forget to check the <a href="./tutorials/faq_howto.html">FAQ - Howto p
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2010
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 02/01/2010
+  &nbsp;| Version: 3.2.1
 </div>
       <div class="clear">
         <hr/>

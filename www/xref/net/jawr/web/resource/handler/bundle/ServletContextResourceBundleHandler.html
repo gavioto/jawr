@@ -67,7 +67,7 @@
 <a name="58" href="#58">58</a>  <em>	 * @param resourceType the resource type</em>
 <a name="59" href="#59">59</a>  <em>	 */</em>
 <a name="60" href="#60">60</a>  	<strong>public</strong> <a href="../../../../../../net/jawr/web/resource/handler/bundle/ServletContextResourceBundleHandler.html">ServletContextResourceBundleHandler</a>(ServletContext context, String workingDirectory, Charset charset,GeneratorRegistry generatorRegistry, String resourceType) {
-<a name="61" href="#61">61</a>  		<strong>super</strong>(workingDirectory,charset,generatorRegistry, resourceType, false);		
+<a name="61" href="#61">61</a>  		<strong>super</strong>(workingDirectory,charset,resourceType, false);		
 <a name="62" href="#62">62</a>  		<strong>this</strong>.context  = context;
 <a name="63" href="#63">63</a>  		<strong>this</strong>.charset = charset;
 <a name="64" href="#64">64</a>  	}

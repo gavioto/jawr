@@ -227,150 +227,149 @@
 <a name="218" href="#218">218</a> 			ReadableByteChannel chan = Channels.newChannel(is);
 <a name="219" href="#219">219</a> 			Reader r = Channels.newReader(chan,<span class="string">"utf-8"</span>);
 <a name="220" href="#220">220</a> 			StringWriter sw = <strong>new</strong> StringWriter();
-<a name="221" href="#221">221</a>             IOUtils.copy(r, sw);
-<a name="222" href="#222">222</a> 			r.close();
-<a name="223" href="#223">223</a>             sb = sw.getBuffer();
-<a name="224" href="#224">224</a> 			
-<a name="225" href="#225">225</a> 		} <strong>catch</strong> (FileNotFoundException e) {
-<a name="226" href="#226">226</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(e);
-<a name="227" href="#227">227</a> 		} <strong>catch</strong> (IOException e) {
-<a name="228" href="#228">228</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(e);
-<a name="229" href="#229">229</a> 		}
-<a name="230" href="#230">230</a> 		
-<a name="231" href="#231">231</a> 		<strong>return</strong> sb;
-<a name="232" href="#232">232</a> 	}
-<a name="233" href="#233">233</a> 	
-<a name="234" href="#234">234</a> 	<em>/**<em>*</em></em>
-<a name="235" href="#235">235</a> <em>	 * Returns a script with a specified DWR interface</em>
-<a name="236" href="#236">236</a> <em>	 * @param basePath</em>
-<a name="237" href="#237">237</a> <em>	 * @return</em>
-<a name="238" href="#238">238</a> <em>	 */</em>
-<a name="239" href="#239">239</a> 	<strong>private</strong> StringBuffer getInterfaceScript(String scriptName,ServletContext servletContext) {
-<a name="240" href="#240">240</a> 		StringBuffer sb = <strong>new</strong> StringBuffer(ENGINE_INIT);
-<a name="241" href="#241">241</a> 
-<a name="242" href="#242">242</a> 		<em class="comment">// List all containers to find all DWR interfaces</em>
-<a name="243" href="#243">243</a> 		List containers = ContainerUtil.getAllPublishedContainers(servletContext);
-<a name="244" href="#244">244</a> 		<strong>boolean</strong> found = false;
-<a name="245" href="#245">245</a> 		<strong>for</strong>(Iterator it = containers.iterator();it.hasNext() &amp;&amp; !found;) {
-<a name="246" href="#246">246</a> 			Container container = (Container) it.next();
-<a name="247" href="#247">247</a> 			
-<a name="248" href="#248">248</a> 			<em class="comment">// The creatormanager holds the list of beans</em>
-<a name="249" href="#249">249</a> 			CreatorManager ctManager = (CreatorManager) container.getBean(CreatorManager.<strong>class</strong>.getName());
-<a name="250" href="#250">250</a> 			<strong>if</strong>( <strong>null</strong> != ctManager ) {
-<a name="251" href="#251">251</a> 				<em class="comment">// The remoter builds interface scripts. </em>
-<a name="252" href="#252">252</a> 				Remoter remoter = (Remoter) container.getBean(Remoter.<strong>class</strong>.getName());
-<a name="253" href="#253">253</a> 				String path = getPathReplacementString(container);
-<a name="254" href="#254">254</a> 				<strong>try</strong> {
-<a name="255" href="#255">255</a> 					String script = remoter.generateInterfaceScript(scriptName, path);
-<a name="256" href="#256">256</a> 					found = <strong>true</strong>;
-<a name="257" href="#257">257</a> 					<em class="comment">// Must remove the engine init script to avoid unneeded duplication</em>
-<a name="258" href="#258">258</a> 					script = removeEngineInit(script);
-<a name="259" href="#259">259</a> 					sb.append(script);
-<a name="260" href="#260">260</a> 				}
-<a name="261" href="#261">261</a> 				<strong>catch</strong>(SecurityException ex){<strong>throw</strong> <strong>new</strong> RuntimeException(ex); }
-<a name="262" href="#262">262</a> 			}
-<a name="263" href="#263">263</a> 		}
-<a name="264" href="#264">264</a> 		<strong>if</strong>(!found)
-<a name="265" href="#265">265</a> 			<strong>throw</strong> <strong>new</strong> IllegalArgumentException(<span class="string">"The DWR bean named '"</span> + scriptName + <span class="string">"' was not found in any DWR configuration instance."</span>); 
-<a name="266" href="#266">266</a> 		
-<a name="267" href="#267">267</a> 		<strong>return</strong> sb;
-<a name="268" href="#268">268</a> 	}
+<a name="221" href="#221">221</a>             IOUtils.copy(r, sw, <strong>true</strong>);
+<a name="222" href="#222">222</a> 			sb = sw.getBuffer();
+<a name="223" href="#223">223</a> 			
+<a name="224" href="#224">224</a> 		} <strong>catch</strong> (FileNotFoundException e) {
+<a name="225" href="#225">225</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(e);
+<a name="226" href="#226">226</a> 		} <strong>catch</strong> (IOException e) {
+<a name="227" href="#227">227</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(e);
+<a name="228" href="#228">228</a> 		}
+<a name="229" href="#229">229</a> 		
+<a name="230" href="#230">230</a> 		<strong>return</strong> sb;
+<a name="231" href="#231">231</a> 	}
+<a name="232" href="#232">232</a> 	
+<a name="233" href="#233">233</a> 	<em>/**<em>*</em></em>
+<a name="234" href="#234">234</a> <em>	 * Returns a script with a specified DWR interface</em>
+<a name="235" href="#235">235</a> <em>	 * @param basePath</em>
+<a name="236" href="#236">236</a> <em>	 * @return</em>
+<a name="237" href="#237">237</a> <em>	 */</em>
+<a name="238" href="#238">238</a> 	<strong>private</strong> StringBuffer getInterfaceScript(String scriptName,ServletContext servletContext) {
+<a name="239" href="#239">239</a> 		StringBuffer sb = <strong>new</strong> StringBuffer(ENGINE_INIT);
+<a name="240" href="#240">240</a> 
+<a name="241" href="#241">241</a> 		<em class="comment">// List all containers to find all DWR interfaces</em>
+<a name="242" href="#242">242</a> 		List containers = ContainerUtil.getAllPublishedContainers(servletContext);
+<a name="243" href="#243">243</a> 		<strong>boolean</strong> found = false;
+<a name="244" href="#244">244</a> 		<strong>for</strong>(Iterator it = containers.iterator();it.hasNext() &amp;&amp; !found;) {
+<a name="245" href="#245">245</a> 			Container container = (Container) it.next();
+<a name="246" href="#246">246</a> 			
+<a name="247" href="#247">247</a> 			<em class="comment">// The creatormanager holds the list of beans</em>
+<a name="248" href="#248">248</a> 			CreatorManager ctManager = (CreatorManager) container.getBean(CreatorManager.<strong>class</strong>.getName());
+<a name="249" href="#249">249</a> 			<strong>if</strong>( <strong>null</strong> != ctManager ) {
+<a name="250" href="#250">250</a> 				<em class="comment">// The remoter builds interface scripts. </em>
+<a name="251" href="#251">251</a> 				Remoter remoter = (Remoter) container.getBean(Remoter.<strong>class</strong>.getName());
+<a name="252" href="#252">252</a> 				String path = getPathReplacementString(container);
+<a name="253" href="#253">253</a> 				<strong>try</strong> {
+<a name="254" href="#254">254</a> 					String script = remoter.generateInterfaceScript(scriptName, path);
+<a name="255" href="#255">255</a> 					found = <strong>true</strong>;
+<a name="256" href="#256">256</a> 					<em class="comment">// Must remove the engine init script to avoid unneeded duplication</em>
+<a name="257" href="#257">257</a> 					script = removeEngineInit(script);
+<a name="258" href="#258">258</a> 					sb.append(script);
+<a name="259" href="#259">259</a> 				}
+<a name="260" href="#260">260</a> 				<strong>catch</strong>(SecurityException ex){<strong>throw</strong> <strong>new</strong> RuntimeException(ex); }
+<a name="261" href="#261">261</a> 			}
+<a name="262" href="#262">262</a> 		}
+<a name="263" href="#263">263</a> 		<strong>if</strong>(!found)
+<a name="264" href="#264">264</a> 			<strong>throw</strong> <strong>new</strong> IllegalArgumentException(<span class="string">"The DWR bean named '"</span> + scriptName + <span class="string">"' was not found in any DWR configuration instance."</span>); 
+<a name="265" href="#265">265</a> 		
+<a name="266" href="#266">266</a> 		<strong>return</strong> sb;
+<a name="267" href="#267">267</a> 	}
+<a name="268" href="#268">268</a> 
 <a name="269" href="#269">269</a> 
 <a name="270" href="#270">270</a> 
-<a name="271" href="#271">271</a> 
-<a name="272" href="#272">272</a> 	<em>/**<em>*</em></em>
-<a name="273" href="#273">273</a> <em>	 * Gets the appropiate path replacement string for a DWR container</em>
-<a name="274" href="#274">274</a> <em>	 * @param container</em>
-<a name="275" href="#275">275</a> <em>	 * @return</em>
-<a name="276" href="#276">276</a> <em>	 */</em>
-<a name="277" href="#277">277</a> 	<strong>private</strong> String getPathReplacementString(Container container) {
-<a name="278" href="#278">278</a> 		String path = JS_PATH_REF;
-<a name="279" href="#279">279</a> 		<strong>if</strong>(<strong>null</strong> != container.getBean(DWR_OVERRIDEPATH_PARAM)) {
-<a name="280" href="#280">280</a> 			path = (String) container.getBean(DWR_OVERRIDEPATH_PARAM);
-<a name="281" href="#281">281</a> 		}
-<a name="282" href="#282">282</a> 		<strong>else</strong> <strong>if</strong>(<strong>null</strong> != container.getBean(DWR_MAPPING_PARAM)) {
-<a name="283" href="#283">283</a> 			path = JS_CTX_PATH + container.getBean(DWR_MAPPING_PARAM);
-<a name="284" href="#284">284</a> 		}
-<a name="285" href="#285">285</a> 		<strong>return</strong> path;
-<a name="286" href="#286">286</a> 	}
-<a name="287" href="#287">287</a> 	
-<a name="288" href="#288">288</a> 	<em>/**<em>*</em></em>
-<a name="289" href="#289">289</a> <em>	 * Returns a script with all the DWR interfaces available in the servletcontext</em>
-<a name="290" href="#290">290</a> <em>	 * @param basePath</em>
-<a name="291" href="#291">291</a> <em>	 * @return</em>
-<a name="292" href="#292">292</a> <em>	 */</em>
-<a name="293" href="#293">293</a> 	<strong>private</strong> StringBuffer getAllPublishedInterfaces(ServletContext servletContext) {
-<a name="294" href="#294">294</a> 		
-<a name="295" href="#295">295</a> 		StringBuffer sb = <strong>new</strong> StringBuffer();
-<a name="296" href="#296">296</a> 
-<a name="297" href="#297">297</a> 		<em class="comment">// List all containers to find all DWR interfaces</em>
-<a name="298" href="#298">298</a> 		List containers = ContainerUtil.getAllPublishedContainers(servletContext);
-<a name="299" href="#299">299</a> 		<strong>for</strong>(Iterator it = containers.iterator();it.hasNext();) {
-<a name="300" href="#300">300</a> 			Container container = (Container) it.next();
-<a name="301" href="#301">301</a> 			
-<a name="302" href="#302">302</a> 			<em class="comment">// The creatormanager holds the list of beans</em>
-<a name="303" href="#303">303</a> 			CreatorManager ctManager = (CreatorManager) container.getBean(CreatorManager.<strong>class</strong>.getName());
-<a name="304" href="#304">304</a> 			
-<a name="305" href="#305">305</a> 			<strong>if</strong>(<strong>null</strong> != ctManager) {
-<a name="306" href="#306">306</a> 				<em class="comment">// The remoter builds interface scripts. </em>
-<a name="307" href="#307">307</a> 				Remoter remoter = (Remoter) container.getBean(Remoter.<strong>class</strong>.getName());
-<a name="308" href="#308">308</a> 				
-<a name="309" href="#309">309</a> 				String path = getPathReplacementString(container);
-<a name="310" href="#310">310</a> 				<strong>boolean</strong> debugMode = ctManager.isDebug();
-<a name="311" href="#311">311</a> 				Collection creators = <strong>null</strong>;
-<a name="312" href="#312">312</a> 				<strong>if</strong>(!(ctManager instanceof DefaultCreatorManager)) {
-<a name="313" href="#313">313</a> 					<strong>if</strong>(!debugMode)
-<a name="314" href="#314">314</a> 						log.warn(<span class="string">"The current creatormanager is a custom implementation ["</span> 
-<a name="315" href="#315">315</a> 								+ ctManager.getClass().getName() 
-<a name="316" href="#316">316</a> 								+ <span class="string">"]. Debug mode is off, so the mapping dwr:_** is likely to trigger a SecurityException."</span> +
-<a name="317" href="#317">317</a> 								<span class="string">" Attempting to get all published creators..."</span> );
-<a name="318" href="#318">318</a> 					creators = ctManager.getCreatorNames();
-<a name="319" href="#319">319</a> 					
-<a name="320" href="#320">320</a> 				}
-<a name="321" href="#321">321</a> 				<strong>else</strong> {	
-<a name="322" href="#322">322</a> 					DefaultCreatorManager dfCreator = (DefaultCreatorManager) ctManager;					
-<a name="323" href="#323">323</a> 					<strong>try</strong> 
-<a name="324" href="#324">324</a> 					{
-<a name="325" href="#325">325</a> 						dfCreator.setDebug(<strong>true</strong>);
-<a name="326" href="#326">326</a> 						creators = ctManager.getCreatorNames();
-<a name="327" href="#327">327</a> 					}
-<a name="328" href="#328">328</a> 					<strong>finally</strong>{
-<a name="329" href="#329">329</a> 						<em class="comment">// restore debug mode no matter what</em>
-<a name="330" href="#330">330</a> 						dfCreator.setDebug(debugMode);
-<a name="331" href="#331">331</a> 					}
-<a name="332" href="#332">332</a> 				}
-<a name="333" href="#333">333</a> 				<strong>for</strong>(Iterator names = creators.iterator();names.hasNext();) {
-<a name="334" href="#334">334</a> 					String script = remoter.generateInterfaceScript((String)names.next(), path);
-<a name="335" href="#335">335</a> 					<em class="comment">// Must remove the engine init script to avoid unneeded duplication</em>
-<a name="336" href="#336">336</a> 					script = removeEngineInit(script);
-<a name="337" href="#337">337</a> 					sb.append(script);
-<a name="338" href="#338">338</a> 				}
-<a name="339" href="#339">339</a> 			}
-<a name="340" href="#340">340</a> 		}
-<a name="341" href="#341">341</a> 		<strong>return</strong> sb;
-<a name="342" href="#342">342</a> 	}
-<a name="343" href="#343">343</a> 	
-<a name="344" href="#344">344</a> 	<em>/**<em>*</em></em>
-<a name="345" href="#345">345</a> <em>	 * Removes the engine init script so that it is not repeated unnecesarily. </em>
-<a name="346" href="#346">346</a> <em>	 * @param script</em>
-<a name="347" href="#347">347</a> <em>	 * @return</em>
-<a name="348" href="#348">348</a> <em>	 */</em>
-<a name="349" href="#349">349</a> 	<strong>private</strong> String removeEngineInit(String script) {
-<a name="350" href="#350">350</a> 		<strong>int</strong> start = script.indexOf(ENGINE_INIT);
-<a name="351" href="#351">351</a> 		<strong>int</strong> end = start + ENGINE_INIT.length();
-<a name="352" href="#352">352</a> 		StringBuffer rets = <strong>new</strong> StringBuffer();
-<a name="353" href="#353">353</a> 		
-<a name="354" href="#354">354</a> 		<strong>if</strong>(start > 0) {
-<a name="355" href="#355">355</a> 			rets.append(script.substring(0, start)).append(<span class="string">"\n"</span>);
-<a name="356" href="#356">356</a> 		}
-<a name="357" href="#357">357</a> 		rets.append(script.substring(end));
+<a name="271" href="#271">271</a> 	<em>/**<em>*</em></em>
+<a name="272" href="#272">272</a> <em>	 * Gets the appropiate path replacement string for a DWR container</em>
+<a name="273" href="#273">273</a> <em>	 * @param container</em>
+<a name="274" href="#274">274</a> <em>	 * @return</em>
+<a name="275" href="#275">275</a> <em>	 */</em>
+<a name="276" href="#276">276</a> 	<strong>private</strong> String getPathReplacementString(Container container) {
+<a name="277" href="#277">277</a> 		String path = JS_PATH_REF;
+<a name="278" href="#278">278</a> 		<strong>if</strong>(<strong>null</strong> != container.getBean(DWR_OVERRIDEPATH_PARAM)) {
+<a name="279" href="#279">279</a> 			path = (String) container.getBean(DWR_OVERRIDEPATH_PARAM);
+<a name="280" href="#280">280</a> 		}
+<a name="281" href="#281">281</a> 		<strong>else</strong> <strong>if</strong>(<strong>null</strong> != container.getBean(DWR_MAPPING_PARAM)) {
+<a name="282" href="#282">282</a> 			path = JS_CTX_PATH + container.getBean(DWR_MAPPING_PARAM);
+<a name="283" href="#283">283</a> 		}
+<a name="284" href="#284">284</a> 		<strong>return</strong> path;
+<a name="285" href="#285">285</a> 	}
+<a name="286" href="#286">286</a> 	
+<a name="287" href="#287">287</a> 	<em>/**<em>*</em></em>
+<a name="288" href="#288">288</a> <em>	 * Returns a script with all the DWR interfaces available in the servletcontext</em>
+<a name="289" href="#289">289</a> <em>	 * @param basePath</em>
+<a name="290" href="#290">290</a> <em>	 * @return</em>
+<a name="291" href="#291">291</a> <em>	 */</em>
+<a name="292" href="#292">292</a> 	<strong>private</strong> StringBuffer getAllPublishedInterfaces(ServletContext servletContext) {
+<a name="293" href="#293">293</a> 		
+<a name="294" href="#294">294</a> 		StringBuffer sb = <strong>new</strong> StringBuffer();
+<a name="295" href="#295">295</a> 
+<a name="296" href="#296">296</a> 		<em class="comment">// List all containers to find all DWR interfaces</em>
+<a name="297" href="#297">297</a> 		List containers = ContainerUtil.getAllPublishedContainers(servletContext);
+<a name="298" href="#298">298</a> 		<strong>for</strong>(Iterator it = containers.iterator();it.hasNext();) {
+<a name="299" href="#299">299</a> 			Container container = (Container) it.next();
+<a name="300" href="#300">300</a> 			
+<a name="301" href="#301">301</a> 			<em class="comment">// The creatormanager holds the list of beans</em>
+<a name="302" href="#302">302</a> 			CreatorManager ctManager = (CreatorManager) container.getBean(CreatorManager.<strong>class</strong>.getName());
+<a name="303" href="#303">303</a> 			
+<a name="304" href="#304">304</a> 			<strong>if</strong>(<strong>null</strong> != ctManager) {
+<a name="305" href="#305">305</a> 				<em class="comment">// The remoter builds interface scripts. </em>
+<a name="306" href="#306">306</a> 				Remoter remoter = (Remoter) container.getBean(Remoter.<strong>class</strong>.getName());
+<a name="307" href="#307">307</a> 				
+<a name="308" href="#308">308</a> 				String path = getPathReplacementString(container);
+<a name="309" href="#309">309</a> 				<strong>boolean</strong> debugMode = ctManager.isDebug();
+<a name="310" href="#310">310</a> 				Collection creators = <strong>null</strong>;
+<a name="311" href="#311">311</a> 				<strong>if</strong>(!(ctManager instanceof DefaultCreatorManager)) {
+<a name="312" href="#312">312</a> 					<strong>if</strong>(!debugMode)
+<a name="313" href="#313">313</a> 						log.warn(<span class="string">"The current creatormanager is a custom implementation ["</span> 
+<a name="314" href="#314">314</a> 								+ ctManager.getClass().getName() 
+<a name="315" href="#315">315</a> 								+ <span class="string">"]. Debug mode is off, so the mapping dwr:_** is likely to trigger a SecurityException."</span> +
+<a name="316" href="#316">316</a> 								<span class="string">" Attempting to get all published creators..."</span> );
+<a name="317" href="#317">317</a> 					creators = ctManager.getCreatorNames();
+<a name="318" href="#318">318</a> 					
+<a name="319" href="#319">319</a> 				}
+<a name="320" href="#320">320</a> 				<strong>else</strong> {	
+<a name="321" href="#321">321</a> 					DefaultCreatorManager dfCreator = (DefaultCreatorManager) ctManager;					
+<a name="322" href="#322">322</a> 					<strong>try</strong> 
+<a name="323" href="#323">323</a> 					{
+<a name="324" href="#324">324</a> 						dfCreator.setDebug(<strong>true</strong>);
+<a name="325" href="#325">325</a> 						creators = ctManager.getCreatorNames();
+<a name="326" href="#326">326</a> 					}
+<a name="327" href="#327">327</a> 					<strong>finally</strong>{
+<a name="328" href="#328">328</a> 						<em class="comment">// restore debug mode no matter what</em>
+<a name="329" href="#329">329</a> 						dfCreator.setDebug(debugMode);
+<a name="330" href="#330">330</a> 					}
+<a name="331" href="#331">331</a> 				}
+<a name="332" href="#332">332</a> 				<strong>for</strong>(Iterator names = creators.iterator();names.hasNext();) {
+<a name="333" href="#333">333</a> 					String script = remoter.generateInterfaceScript((String)names.next(), path);
+<a name="334" href="#334">334</a> 					<em class="comment">// Must remove the engine init script to avoid unneeded duplication</em>
+<a name="335" href="#335">335</a> 					script = removeEngineInit(script);
+<a name="336" href="#336">336</a> 					sb.append(script);
+<a name="337" href="#337">337</a> 				}
+<a name="338" href="#338">338</a> 			}
+<a name="339" href="#339">339</a> 		}
+<a name="340" href="#340">340</a> 		<strong>return</strong> sb;
+<a name="341" href="#341">341</a> 	}
+<a name="342" href="#342">342</a> 	
+<a name="343" href="#343">343</a> 	<em>/**<em>*</em></em>
+<a name="344" href="#344">344</a> <em>	 * Removes the engine init script so that it is not repeated unnecesarily. </em>
+<a name="345" href="#345">345</a> <em>	 * @param script</em>
+<a name="346" href="#346">346</a> <em>	 * @return</em>
+<a name="347" href="#347">347</a> <em>	 */</em>
+<a name="348" href="#348">348</a> 	<strong>private</strong> String removeEngineInit(String script) {
+<a name="349" href="#349">349</a> 		<strong>int</strong> start = script.indexOf(ENGINE_INIT);
+<a name="350" href="#350">350</a> 		<strong>int</strong> end = start + ENGINE_INIT.length();
+<a name="351" href="#351">351</a> 		StringBuffer rets = <strong>new</strong> StringBuffer();
+<a name="352" href="#352">352</a> 		
+<a name="353" href="#353">353</a> 		<strong>if</strong>(start > 0) {
+<a name="354" href="#354">354</a> 			rets.append(script.substring(0, start)).append(<span class="string">"\n"</span>);
+<a name="355" href="#355">355</a> 		}
+<a name="356" href="#356">356</a> 		rets.append(script.substring(end));
+<a name="357" href="#357">357</a> 		
 <a name="358" href="#358">358</a> 		
-<a name="359" href="#359">359</a> 		
-<a name="360" href="#360">360</a> 		<strong>return</strong> rets.toString();
-<a name="361" href="#361">361</a> 	}
-<a name="362" href="#362">362</a> 	
-<a name="363" href="#363">363</a> 
-<a name="364" href="#364">364</a> }
+<a name="359" href="#359">359</a> 		<strong>return</strong> rets.toString();
+<a name="360" href="#360">360</a> 	}
+<a name="361" href="#361">361</a> 	
+<a name="362" href="#362">362</a> 
+<a name="363" href="#363">363</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
