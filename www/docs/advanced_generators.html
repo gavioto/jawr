@@ -108,6 +108,14 @@
         </li>
               
     <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/jmx_support.html">JMX Support</a>
         </li>
               
@@ -170,7 +178,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -292,12 +308,30 @@ This interface provides a method, which is called at the end of the generator in
 </ul>
 <p>So Jawr provides a mechanism to define a generator which can generate resources with locale specific variants.<br />
 You will find below the class diagram for the locale aware resource generator.</p>
-<img src="../images/generator/jawr_variantResourceGenerator.png" alt="Variant Resource Generator class diagram" /><ul><li><b>net.jawr.web.resource.bundle.generator.LocaleAwareResourceGenerator</b><br />
+<img src="../images/generator/jawr_variantResourceGenerator.png" alt="Locale Resource Generator class diagram" /><ul><li><b>net.jawr.web.resource.bundle.generator.LocaleAwareResourceGenerator</b><br />
 This interface provides a method, which is called to know what are the available locale variants for a path.<div class="source"><pre>        public List getAvailableLocales(String mapping);</pre>
 </div>
 <p>For example, if you have 3 differents locale variant for a CSS stylesheet like:<br />
 general.css, general_fr.css, general_en.css</p>
 <p>Your generator must return a list of String corresponding to the available locale variants, in our case : (&quot;&quot;, &quot;fr&quot;, &quot;en&quot;) </p>
+</li>
+</ul>
+</div>
+<div class="section"><h3>Variant Resource generator</h3>
+<p>Since the version 3.3, Jawr is able to generate variant bundle contents. Like for locale aware bundles, Jawr is able to generate different bundle depending on request header, attributes, parameters, cookies... <br />
+So Jawr is for example able to generate bundle depending on the browser.</p>
+<img src="../images/variants/variantBundleGenerator.jpg" alt="Variant Bundle generator class diagram" /><ul><li><b>net.jawr.web.resource.bundle.generator.variant.VariantResourceGenerator</b><br />
+This interface provides a method, which is called to know what are the available variants for a path.<div class="source"><pre>        /**
+         * Returns the map of available variant for a resource.
+         * The key of the map is the type of variant (for ex: locale, skin...)
+         * The values associated are the list of variant for the type. 
+         * @param resource the resource name
+         * @return the map of available variant for a resource 
+         */
+        Map getAvailableVariants(String resource);</pre>
+</div>
+<p>This method defines the map of variants available for a specific resource. For the returned map of variants, the key is the variant type, and the value is the VariantSet.</p>
+<p>For more information about variant bundle, please take a look at the <a href="./variant_bundle.html">documentation about variant bundle</a>.</p>
 </li>
 </ul>
 </div>
@@ -378,8 +412,8 @@ To define the path of a generated resource in debug mode, the generator must imp
 
   
   
-  &nbsp;| Last Published: 01/31/2010
-  &nbsp;| Version: 3.2.1
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
 </div>
       <div class="clear">
         <hr/>

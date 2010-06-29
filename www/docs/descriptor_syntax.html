@@ -108,6 +108,14 @@
         </li>
               
     <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/jmx_support.html">JMX Support</a>
         </li>
               
@@ -170,7 +178,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -324,6 +340,16 @@ Note that <b>all</b> your resources (js or css files) must use the encoding you 
 <td align="left">Name of a class implementing net.jawr.web.resource.bundle.locale.LocaleResolver. An instance of this class will be created and used to determine the Locale to use for a given request when using an <a href="./messages_gen.html">i18n messages generator</a>.</td>
 <td align="left">none</td>
 </tr>
+<tr class="a"><td align="left">jawr.browser.resolver</td>
+<td align="left">String</td>
+<td align="left">Name of a class implementing net.jawr.web.resource.bundle.variant.VariantResolver. An instance of this class will be created and used to determine the Browser type to use for a given request.</td>
+<td align="left">net.jawr.web.resource.bundle.variant.resolver.BrowserResolver</td>
+</tr>
+<tr class="b"><td align="left">jawr.url.connection.type.resolver</td>
+<td align="left">String</td>
+<td align="left">Name of a class implementing net.jawr.web.resource.bundle.variant.VariantResolver. An instance of this class will be created and used to determine the connection type (standard or ssl) of a given request.</td>
+<td align="left">net.jawr.web.resource.bundle.variant.resolver.ConnectionTypeResolver</td>
+</tr>
 <tr class="a"><td align="left">jawr.url.contextpath.override</td>
 <td align="left">URL (absolute or fragment) [<b>http://...</b>],[<b>//somepath</b> protocol relative],[<b>/somepath </b>] or [<b>/</b>] or [].</td>
 <td align="left">Override the use of the application's contextpath to prefix every generated URL.<br />
@@ -362,6 +388,56 @@ Using an empty value will cause Jawr to generate page relative urls ('001/bundle
 <td align="left">String</td>
 <td align="left">Value of the servlet-mapping that points to a DWR servlet instance. See <a href="../integration/dwr.html">DWR integration</a>.</td>
 <td align="left">none</td>
+</tr>
+<tr class="b"><td align="left">jawr.strict.mode</td>
+<td align="left">Boolean</td>
+<td align="left">Enable/disable strict mode for bundle request.</td>
+<td align="left">False</td>
+</tr>
+<tr class="a"><td align="left">jawr.illegal.bundle.request.handler</td>
+<td align="left">String</td>
+<td align="left">The class name of the handler for illegal bundle request.</td>
+<td align="left">net.jawr.web.servlet.IllegalBundleRequestHandlerImpl</td>
+</tr>
+<tr class="b"><td align="left">jawr.bundle.hashcode.generator</td>
+<td align="left">String</td>
+<td align="left">The class name of the hashcode bundle generator or MD5 if you want to use the MD5 algorithm for the hashcode.</td>
+<td align="left">none</td>
+</tr>
+<tr class="a"><td align="left">jawr.css.url.rewriter.context.path</td>
+<td align="left">String</td>
+<td align="left">The webapp context path. This property is used in the CSS URL rewriter to determine if an absolute path is in the web application or not.</td>
+<td align="left">none</td>
+</tr>
+<tr class="b"><td align="left">jawr.css.postprocessor.base64ImageEncoder.encode.by.default</td>
+<td align="left">Boolean</td>
+<td align="left">Enable/disable the base64 image encoding by default</td>
+<td align="left">true</td>
+</tr>
+<tr class="a"><td align="left">jawr.css.postprocessor.base64ImageEncoder.maxFileLength</td>
+<td align="left">Integer</td>
+<td align="left">The maximum size of the image to encode in base64 in bytes.</td>
+<td align="left">30000</td>
+</tr>
+<tr class="b"><td align="left">jawr.css.postprocessor.base64ImageEncoder.encode.sprite</td>
+<td align="left">Boolean</td>
+<td align="left">Enable/disable the base64 image encode on generated sprite image.</td>
+<td align="left">False</td>
+</tr>
+<tr class="a"><td align="left">jawr.css.skin.type.mapping</td>
+<td align="left">String</td>
+<td align="left">The type of mapping for the skin directory structure. The acceptable values are : <i>skin_locale</i> and <i>locale_skin</i>.</td>
+<td align="left">skin_locale</td>
+</tr>
+<tr class="b"><td align="left">jawr.css.skin.default.root.dirs</td>
+<td align="left">String</td>
+<td align="left">The comma separated list of skin base directory.</td>
+<td align="left">none</td>
+</tr>
+<tr class="a"><td align="left">jawr.css.skin.cookie</td>
+<td align="left">String</td>
+<td align="left">The name of the cookie where the current user CSS skin name is store.</td>
+<td align="left">jawrSkin</td>
 </tr>
 </tbody>
 </table>
@@ -402,6 +478,18 @@ jawr.css.bundle.factory.bundlepostprocessors</td>
 jawr.css.bundle.factory.filepostprocessors</td>
 <td align="left">Comma separated list.</td>
 <td align="left">List of postprocessors to apply to every resource before including it in a bundle. Check the <a href="./postprocessors.html">postprocessors manual</a> for more info.</td>
+<td align="left">None</td>
+</tr>
+<tr class="b"><td align="left">jawr.js.bundle.factory.composite.bundlepostprocessors<br />
+jawr.css.bundle.factory.composite.bundlepostprocessors</td>
+<td align="left">Comma separated list.</td>
+<td align="left">List of postprocessors to apply to every composite bundle. Check the <a href="./postprocessors.html">postprocessors manual</a> for more info.</td>
+<td align="left">None</td>
+</tr>
+<tr class="a"><td align="left">jawr.js.bundle.factory.composite.filepostprocessors<br />
+jawr.css.bundle.factory.composite.filepostprocessors</td>
+<td align="left">Comma separated list.</td>
+<td align="left">List of postprocessors to apply to every resource before including it in a composite bundle. Check the <a href="./postprocessors.html">postprocessors manual</a> for more info.</td>
 <td align="left">None</td>
 </tr>
 <tr class="b"><td align="left">jawr.js.factory.use.singlebundle<br />
@@ -565,6 +653,20 @@ jawr.css.factory.dirmapper.excluded</td>
 </tbody>
 </table>
 </div>
+<div class="section"><h3>JS/CSS custom resolvers definition properties</h3>
+<table class="bodyTable"><tbody><tr class="b"><td align="left"><b>Property name</b></td>
+<td align="left"><b>Type</b></td>
+<td align="left"><b>Purpose</b></td>
+<td align="left"><b>Default value</b></td>
+</tr>
+<tr class="a"><td align="left">jawr.custom.resolvers</td>
+<td align="left">Comma separated list.</td>
+<td align="left">List of all the VariantResolver implementations you want to use.</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section"><h3>Deprecated properties</h3>
 <p>These properties are no longer used in the current version of Jawr. </p>
 <table class="bodyTable"><tbody><tr class="b"><td align="left"><b>Property name</b></td>
@@ -644,8 +746,8 @@ jawr.css.bundle.names</td>
 
   
   
-  &nbsp;| Last Published: 01/31/2010
-  &nbsp;| Version: 3.2.1
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
 </div>
       <div class="clear">
         <hr/>

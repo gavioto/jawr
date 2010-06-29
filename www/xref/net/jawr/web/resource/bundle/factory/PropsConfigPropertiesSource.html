@@ -24,10 +24,10 @@
 <a name="15" href="#15">15</a>  
 <a name="16" href="#16">16</a>  <strong>import</strong> java.util.Properties;
 <a name="17" href="#17">17</a>  
-<a name="18" href="#18">18</a>  <strong>import</strong> org.apache.log4j.Logger;
-<a name="19" href="#19">19</a>  
-<a name="20" href="#20">20</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.ConfigPropertiesSource;
-<a name="21" href="#21">21</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.PropsFilePropertiesSource;
+<a name="18" href="#18">18</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.ConfigPropertiesSource;
+<a name="19" href="#19">19</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.PropsFilePropertiesSource;
+<a name="20" href="#20">20</a>  
+<a name="21" href="#21">21</a>  <strong>import</strong> org.apache.log4j.Logger;
 <a name="22" href="#22">22</a>  
 <a name="23" href="#23">23</a>  <em>/**<em>*</em></em>
 <a name="24" href="#24">24</a>  <em> * ConfigPropertiesSource implementation that reads its values from a Properties object.</em>
@@ -37,7 +37,7 @@
 <a name="28" href="#28">28</a>  <strong>public</strong> <strong>class</strong> <a href="../../../../../../net/jawr/web/resource/bundle/factory/PropsConfigPropertiesSource.html">PropsConfigPropertiesSource</a> implements <a href="../../../../../../net/jawr/web/resource/bundle/factory/util/ConfigPropertiesSource.html">ConfigPropertiesSource</a> {
 <a name="29" href="#29">29</a>  
 <a name="30" href="#30">30</a>  	<em>/**<em>* The logger */</em></em>
-<a name="31" href="#31">31</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger log = Logger.getLogger(PropsFilePropertiesSource.<strong>class</strong>.getName());
+<a name="31" href="#31">31</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger LOGGER = Logger.getLogger(PropsFilePropertiesSource.<strong>class</strong>.getName());
 <a name="32" href="#32">32</a>  	
 <a name="33" href="#33">33</a>  	<em>/**<em>* The configuration properties */</em></em>
 <a name="34" href="#34">34</a>  	<strong>private</strong> Properties configProps;
@@ -60,8 +60,8 @@
 <a name="51" href="#51">51</a>  		<strong>int</strong> currentConfigHash = <strong>this</strong>.configProps.hashCode();
 <a name="52" href="#52">52</a>  		<strong>boolean</strong> configChanged = <strong>this</strong>.propsHashCode != currentConfigHash;
 <a name="53" href="#53">53</a>  		
-<a name="54" href="#54">54</a>  		<strong>if</strong>(configChanged &amp;&amp; log.isDebugEnabled())
-<a name="55" href="#55">55</a>  			log.debug(<span class="string">"Changes in configuration properties file detected."</span>);
+<a name="54" href="#54">54</a>  		<strong>if</strong>(configChanged &amp;&amp; LOGGER.isDebugEnabled())
+<a name="55" href="#55">55</a>  			LOGGER.debug(<span class="string">"Changes in configuration properties file detected."</span>);
 <a name="56" href="#56">56</a>  			
 <a name="57" href="#57">57</a>  		<strong>this</strong>.propsHashCode = currentConfigHash;
 <a name="58" href="#58">58</a>  		

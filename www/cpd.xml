@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
 <duplication lines="75" tokens="361">
-<file line="721" path="E:\Prog\eclipseData\workspace3.5\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="1135" path="E:\Prog\eclipseData\workspace3.5\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<file line="749" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="1164" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
             setOndblclick(string);
@@ -83,13 +83,41 @@
 ]]>
 </codefragment>
 </duplication>
-<duplication lines="25" tokens="121">
-<file line="655" path="E:\Prog\eclipseData\workspace3.5\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="1068" path="E:\Prog\eclipseData\workspace3.5\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<duplication lines="53" tokens="192">
+<file line="655" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="1069" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
-        String string = null;
+        setWidthExpr(null);
+    }
 
+    /**
+     * Process the start tag.
+     *
+     * @throws JspException if a JSP exception has occurred
+     */
+    public int doStartTag() throws JspException {
+        evaluateExpressions();
+
+        return (super.doStartTag());
+    }
+
+    /**
+     * Processes all attribute values which use the JSTL expression evaluation
+     * engine to determine their values.
+     *
+     * @throws JspException if a JSP exception has occurred
+     */
+    private void evaluateExpressions()
+        throws JspException {
+        String string = null;
+        Boolean bool = null;
+		if ((bool =
+	            EvalHelper.evalBoolean("base64", getBase64Expr(), this,
+	                pageContext)) != null) {
+	        setBase64(bool.booleanValue());
+	    }
+		
         if ((string =
                 EvalHelper.evalString("align", getAlignExpr(), this, pageContext)) != null) {
             setAlign(string);
@@ -117,8 +145,8 @@
 </codefragment>
 </duplication>
 <duplication lines="71" tokens="115">
-<file line="480" path="E:\Prog\eclipseData\workspace3.5\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="780" path="E:\Prog\eclipseData\workspace3.5\jawr-core-3.x-dev\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<file line="502" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="802" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
     }

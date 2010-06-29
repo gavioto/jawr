@@ -63,665 +63,779 @@
 <a name="54" href="#54">54</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.PropsFilePropertiesSource;
 <a name="55" href="#55">55</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.ServletContextAware;
 <a name="56" href="#56">56</a>  <strong>import</strong> net.jawr.web.resource.bundle.generator.GeneratorRegistry;
-<a name="57" href="#57">57</a>  <strong>import</strong> net.jawr.web.resource.bundle.generator.ResourceGenerator;
-<a name="58" href="#58">58</a>  <strong>import</strong> net.jawr.web.resource.bundle.handler.ClientSideHandlerScriptRequestHandler;
-<a name="59" href="#59">59</a>  <strong>import</strong> net.jawr.web.resource.bundle.handler.ResourceBundlesHandler;
-<a name="60" href="#60">60</a>  <strong>import</strong> net.jawr.web.resource.bundle.renderer.BundleRenderer;
-<a name="61" href="#61">61</a>  <strong>import</strong> net.jawr.web.resource.handler.bundle.ResourceBundleHandler;
-<a name="62" href="#62">62</a>  <strong>import</strong> net.jawr.web.resource.handler.bundle.ServletContextResourceBundleHandler;
-<a name="63" href="#63">63</a>  <strong>import</strong> net.jawr.web.resource.handler.reader.ResourceReaderHandler;
-<a name="64" href="#64">64</a>  <strong>import</strong> net.jawr.web.resource.handler.reader.ServletContextResourceReaderHandler;
-<a name="65" href="#65">65</a>  <strong>import</strong> net.jawr.web.servlet.util.MIMETypesSupport;
-<a name="66" href="#66">66</a>  <strong>import</strong> net.jawr.web.util.StringUtils;
-<a name="67" href="#67">67</a>  
-<a name="68" href="#68">68</a>  <strong>import</strong> org.apache.log4j.Logger;
-<a name="69" href="#69">69</a>  
-<a name="70" href="#70">70</a>  <em>/**<em>*</em></em>
-<a name="71" href="#71">71</a>  <em> * Request handling class. Any jawr enabled servlet delegates to this class to handle requests.</em>
-<a name="72" href="#72">72</a>  <em> * </em>
-<a name="73" href="#73">73</a>  <em> * @author Jordi Hernández Sellés</em>
-<a name="74" href="#74">74</a>  <em> * @author Ibrahim Chaehoi</em>
-<a name="75" href="#75">75</a>  <em> */</em>
-<a name="76" href="#76">76</a>  <strong>public</strong> <strong>class</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a> implements ConfigChangeListener, Serializable {
-<a name="77" href="#77">77</a>  
-<a name="78" href="#78">78</a>  	<em>/**<em>* The serial version UID */</em></em>
-<a name="79" href="#79">79</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> <strong>long</strong> serialVersionUID = 5762937687546882131L;
-<a name="80" href="#80">80</a>  
-<a name="81" href="#81">81</a>  	<em>/**<em>* The logger */</em></em>
-<a name="82" href="#82">82</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger log = Logger.getLogger(JawrRequestHandler.<strong>class</strong>);
-<a name="83" href="#83">83</a>  
-<a name="84" href="#84">84</a>  	<em>/**<em>* The cache control header parameter name */</em></em>
-<a name="85" href="#85">85</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String CACHE_CONTROL_HEADER = <span class="string">"Cache-Control"</span>;
-<a name="86" href="#86">86</a>  	
-<a name="87" href="#87">87</a>  	<em>/**<em>* The cache control parameter value */</em></em>
-<a name="88" href="#88">88</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String CACHE_CONTROL_VALUE = <span class="string">"public, max-age=315360000, post-check=315360000, pre-check=315360000"</span>;
-<a name="89" href="#89">89</a>  	
-<a name="90" href="#90">90</a>  	<em>/**<em>* The last-modified header parameter name */</em></em>
-<a name="91" href="#91">91</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String LAST_MODIFIED_HEADER = <span class="string">"Last-Modified"</span>;
-<a name="92" href="#92">92</a>  	
-<a name="93" href="#93">93</a>  	<em>/**<em>* The If-modified-since header parameter name */</em></em>
-<a name="94" href="#94">94</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String IF_MODIFIED_SINCE_HEADER = <span class="string">"If-Modified-Since"</span>;
-<a name="95" href="#95">95</a>  	
-<a name="96" href="#96">96</a>  	<em>/**<em>* The If-non-match-since header parameter name */</em></em>
-<a name="97" href="#97">97</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String IF_NONE_MATCH_HEADER = <span class="string">"If-None-Match"</span>;
-<a name="98" href="#98">98</a>  	
-<a name="99" href="#99">99</a>  	<em>/**<em>* The last-modified value */</em></em>
-<a name="100" href="#100">100</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String LAST_MODIFIED_VALUE = <span class="string">"Sun, 06 Nov 2005 12:00:00 GMT"</span>;
-<a name="101" href="#101">101</a> 	
-<a name="102" href="#102">102</a> 	<em>/**<em>* The ETag header parameter name */</em></em>
-<a name="103" href="#103">103</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String ETAG_HEADER = <span class="string">"ETag"</span>;
-<a name="104" href="#104">104</a> 	
-<a name="105" href="#105">105</a> 	<em>/**<em>* The ETag parameter value */</em></em>
-<a name="106" href="#106">106</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String ETAG_VALUE = <span class="string">"2740050219"</span>;
-<a name="107" href="#107">107</a> 	
-<a name="108" href="#108">108</a> 	<em>/**<em>* The expires header parameter name */</em></em>
-<a name="109" href="#109">109</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String EXPIRES_HEADER = <span class="string">"Expires"</span>;
-<a name="110" href="#110">110</a> 
-<a name="111" href="#111">111</a> 	<em>/**<em>* The configuration property name for the reload interval */</em></em>
-<a name="112" href="#112">112</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String CONFIG_RELOAD_INTERVAL = <span class="string">"jawr.config.reload.interval"</span>;
-<a name="113" href="#113">113</a> 	
-<a name="114" href="#114">114</a> 	<em>/**<em>* The generation parameter */</em></em>
-<a name="115" href="#115">115</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String GENERATION_PARAM = <span class="string">"generationConfigParam"</span>;
-<a name="116" href="#116">116</a> 	
-<a name="117" href="#117">117</a> 	<em>/**<em>* The client side request handler */</em></em>
-<a name="118" href="#118">118</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String CLIENTSIDE_HANDLER_REQ_PATH = <span class="string">"/jawr_loader.js"</span>;
-<a name="119" href="#119">119</a> 
-<a name="120" href="#120">120</a> 	<em>/**<em>* The generated image pattern */</em></em>
-<a name="121" href="#121">121</a> 	<strong>private</strong> <strong>static</strong> <strong>final</strong> Pattern GENERATED_IMG_PATTERN = Pattern.compile(<span class="string">"(url&#47;&#47;(([\&quot;' ]*))(([a-zA-Z]+)(?! (http|data)):(/)?)([^&#47;&#47;)\&quot;']*)([\&quot;']?&#47;&#47;))"</span>);
-<a name="122" href="#122">122</a> 
-<a name="123" href="#123">123</a> 	<em>/**<em>* The URL separator pattern */</em></em>
-<a name="124" href="#124">124</a> 	<strong>private</strong> <strong>static</strong> <strong>final</strong> Pattern URL_SEPARATOR_PATTERN = Pattern.compile(<span class="string">"([^/]*)/"</span>);
-<a name="125" href="#125">125</a> 
-<a name="126" href="#126">126</a> 	<em>/**<em>* The pattern to go to the root */</em></em>
-<a name="127" href="#127">127</a> 	<strong>private</strong> <strong>static</strong> <strong>final</strong> String ROOT_REPLACE_PATTERN = <span class="string">"../"</span>;
-<a name="128" href="#128">128</a> 
-<a name="129" href="#129">129</a> 	<em>/**<em>* The resource bundles handler */</em></em>
-<a name="130" href="#130">130</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/handler/ResourceBundlesHandler.html">ResourceBundlesHandler</a> bundlesHandler;
-<a name="131" href="#131">131</a> 	
-<a name="132" href="#132">132</a> 	<em>/**<em>* The resource reader handler*/</em></em>
-<a name="133" href="#133">133</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/handler/reader/ResourceReaderHandler.html">ResourceReaderHandler</a> rsReaderHandler;
-<a name="134" href="#134">134</a> 	
-<a name="135" href="#135">135</a> 	<em>/**<em>* The content type */</em></em>
-<a name="136" href="#136">136</a> 	<strong>protected</strong> String contentType;
-<a name="137" href="#137">137</a> 	
-<a name="138" href="#138">138</a> 	<em>/**<em>* The resource type */</em></em>
-<a name="139" href="#139">139</a> 	<strong>protected</strong> String resourceType;
-<a name="140" href="#140">140</a> 	
-<a name="141" href="#141">141</a> 	<em>/**<em>* The servlet context */</em></em>
-<a name="142" href="#142">142</a> 	<strong>protected</strong> ServletContext servletContext;
-<a name="143" href="#143">143</a> 	
-<a name="144" href="#144">144</a> 	<em>/**<em>* The maps for the init-parameters */</em></em>
-<a name="145" href="#145">145</a> 	<strong>protected</strong> Map initParameters;
-<a name="146" href="#146">146</a> 	
-<a name="147" href="#147">147</a> 	<em>/**<em>* The Thread which listen the configuration changes */</em></em>
-<a name="148" href="#148">148</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/util/ConfigChangeListenerThread.html">ConfigChangeListenerThread</a> configChangeListenerThread;
-<a name="149" href="#149">149</a> 	
-<a name="150" href="#150">150</a> 	<em>/**<em>* The generator registry */</em></em>
-<a name="151" href="#151">151</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/generator/GeneratorRegistry.html">GeneratorRegistry</a> generatorRegistry;
-<a name="152" href="#152">152</a> 	
-<a name="153" href="#153">153</a> 	<em>/**<em>* The jawr config */</em></em>
-<a name="154" href="#154">154</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> jawrConfig;
-<a name="155" href="#155">155</a> 	
-<a name="156" href="#156">156</a> 	<em>/**<em>* The configuration properties source */</em></em>
-<a name="157" href="#157">157</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/util/ConfigPropertiesSource.html">ConfigPropertiesSource</a> propertiesSource;
-<a name="158" href="#158">158</a> 	
-<a name="159" href="#159">159</a> 	<em>/**<em>* The configuration properties which overrides the one defined with the propertiesSource  */</em></em>
-<a name="160" href="#160">160</a> 	<strong>protected</strong> Properties overrideProperties;
-<a name="161" href="#161">161</a> 	
-<a name="162" href="#162">162</a> 	<em>/**<em>* The client-side script request handler */</em></em>
-<a name="163" href="#163">163</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/handler/ClientSideHandlerScriptRequestHandler.html">ClientSideHandlerScriptRequestHandler</a> clientSideScriptRequestHandler;
-<a name="164" href="#164">164</a> 
-<a name="165" href="#165">165</a> 	<em>/**<em>* The image MIME map, associating the image extension to their MIME type */</em></em>
-<a name="166" href="#166">166</a> 	<strong>protected</strong> Map imgMimeMap;
-<a name="167" href="#167">167</a> 	
-<a name="168" href="#168">168</a> 	<em>/**<em>*</em></em>
-<a name="169" href="#169">169</a> <em>	 * Reads the properties file and initializes all configuration using the ServletConfig object. If applicable, a ConfigChangeListenerThread will be</em>
-<a name="170" href="#170">170</a> <em>	 * started to listen to changes in the properties configuration.</em>
-<a name="171" href="#171">171</a> <em>	 * </em>
-<a name="172" href="#172">172</a> <em>	 * @param servletContext ServletContext</em>
-<a name="173" href="#173">173</a> <em>	 * @param servletConfig ServletConfig</em>
-<a name="174" href="#174">174</a> <em>	 * @throws ServletException if an exception occurs</em>
-<a name="175" href="#175">175</a> <em>	 */</em>
-<a name="176" href="#176">176</a> 	<strong>public</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a>(ServletContext context, ServletConfig config) throws ServletException {
-<a name="177" href="#177">177</a> 		<strong>this</strong>.initParameters = <strong>new</strong> HashMap();
-<a name="178" href="#178">178</a> 		Enumeration params = config.getInitParameterNames();
-<a name="179" href="#179">179</a> 		<strong>while</strong> (params.hasMoreElements()) {
-<a name="180" href="#180">180</a> 			String param = (String) params.nextElement();
-<a name="181" href="#181">181</a> 			initParameters.put(param, config.getInitParameter(param));
-<a name="182" href="#182">182</a> 		}
-<a name="183" href="#183">183</a> 		initParameters.put(<span class="string">"handlerName"</span>, config.getServletName());
-<a name="184" href="#184">184</a> 
-<a name="185" href="#185">185</a> 		<strong>if</strong> (log.isInfoEnabled())
-<a name="186" href="#186">186</a> 			log.info(<span class="string">"Initializing jawr config for servlet named "</span> + config.getServletName());
-<a name="187" href="#187">187</a> 		
-<a name="188" href="#188">188</a> 		initRequestHandler(context, <strong>null</strong>);
-<a name="189" href="#189">189</a> 
-<a name="190" href="#190">190</a> 	}
-<a name="191" href="#191">191</a> 
-<a name="192" href="#192">192</a> 	<em>/**<em>*</em></em>
-<a name="193" href="#193">193</a> <em>	 * Alternate constructor that does not need a ServletConfig object. Parameters normally read from it are read from the initParams Map, and the</em>
-<a name="194" href="#194">194</a> <em>	 * configProps are used instead of reading a .properties file.</em>
-<a name="195" href="#195">195</a> <em>	 * </em>
-<a name="196" href="#196">196</a> <em>	 * @param servletContext ServletContext</em>
-<a name="197" href="#197">197</a> <em>	 * @param servletConfig ServletConfig</em>
-<a name="198" href="#198">198</a> <em>	 * @throws ServletException if an exception occurs</em>
-<a name="199" href="#199">199</a> <em>	 */</em>
-<a name="200" href="#200">200</a> 	<strong>public</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a>(ServletContext context, Map initParams, Properties configProps) throws ServletException {
-<a name="201" href="#201">201</a> 
-<a name="202" href="#202">202</a> 		<strong>this</strong>.imgMimeMap = MIMETypesSupport.getSupportedProperties(<strong>this</strong>);
-<a name="203" href="#203">203</a> 		<strong>this</strong>.initParameters = initParams;
-<a name="204" href="#204">204</a> 		initRequestHandler(context, configProps);
-<a name="205" href="#205">205</a> 	}
-<a name="206" href="#206">206</a> 	
-<a name="207" href="#207">207</a> 	<em>/**<em>*</em></em>
-<a name="208" href="#208">208</a> <em>	 * Initialize the request handler</em>
-<a name="209" href="#209">209</a> <em>	 * @param context the servlet context</em>
-<a name="210" href="#210">210</a> <em>	 * @param configProps the configuration properties</em>
-<a name="211" href="#211">211</a> <em>	 * @throws ServletException if an exception occurs</em>
-<a name="212" href="#212">212</a> <em>	 */</em>
-<a name="213" href="#213">213</a> 	<strong>private</strong> <strong>void</strong> initRequestHandler(ServletContext context, Properties configProps) throws ServletException {
-<a name="214" href="#214">214</a> 		
-<a name="215" href="#215">215</a> 		<strong>long</strong> initialTime = System.currentTimeMillis();
-<a name="216" href="#216">216</a> 		<strong>if</strong> (log.isInfoEnabled())
-<a name="217" href="#217">217</a> 			log.info(<span class="string">"Initializing jawr config for request handler named "</span> + getInitParameter(<span class="string">"handlerName"</span>));
-<a name="218" href="#218">218</a> 
-<a name="219" href="#219">219</a> 		<strong>this</strong>.imgMimeMap = MIMETypesSupport.getSupportedProperties(<strong>this</strong>);
-<a name="220" href="#220">220</a> 		<strong>this</strong>.servletContext = context;
-<a name="221" href="#221">221</a> 		<strong>this</strong>.overrideProperties = configProps;
-<a name="222" href="#222">222</a> 		resourceType = getInitParameter(<span class="string">"type"</span>);
-<a name="223" href="#223">223</a> 		resourceType = <strong>null</strong> == resourceType ? <span class="string">"js"</span> : resourceType;
-<a name="224" href="#224">224</a> 
-<a name="225" href="#225">225</a> 		String configLocation = getInitParameter(<span class="string">"configLocation"</span>);
-<a name="226" href="#226">226</a> 		String configPropsSourceClass = getInitParameter(<span class="string">"configPropertiesSourceClass"</span>);
-<a name="227" href="#227">227</a> 		<strong>if</strong> (<strong>null</strong> == configProps &amp;&amp; <strong>null</strong> == configLocation &amp;&amp; <strong>null</strong> == configPropsSourceClass)
-<a name="228" href="#228">228</a> 			<strong>throw</strong> <strong>new</strong> ServletException(<span class="string">"Neither configLocation nor configPropertiesSourceClass init params were set."</span>
-<a name="229" href="#229">229</a> 					+ <span class="string">" You must set at least the configLocation param. Please check your web.xml file"</span>);
-<a name="230" href="#230">230</a> 
-<a name="231" href="#231">231</a> 		<em class="comment">// Initialize the config properties source that will provide with all configuration options.</em>
-<a name="232" href="#232">232</a> 		ConfigPropertiesSource propsSrc;
-<a name="233" href="#233">233</a> 
-<a name="234" href="#234">234</a> 		<em class="comment">// Load a custom class to set config properties</em>
-<a name="235" href="#235">235</a> 		<strong>if</strong> (<strong>null</strong> != configPropsSourceClass) {
-<a name="236" href="#236">236</a> 			propsSrc = (ConfigPropertiesSource) ClassLoaderResourceUtils.buildObjectInstance(configPropsSourceClass);
-<a name="237" href="#237">237</a> 			<strong>if</strong> (propsSrc instanceof ServletContextAware) {
-<a name="238" href="#238">238</a> 				((ServletContextAware) propsSrc).setServletContext(context);
-<a name="239" href="#239">239</a> 			}
-<a name="240" href="#240">240</a> 		} <strong>else</strong> <strong>if</strong>(configLocation == <strong>null</strong> &amp;&amp; configProps != <strong>null</strong>){
-<a name="241" href="#241">241</a> 			
-<a name="242" href="#242">242</a> 			<em class="comment">// configuration retrieved from the in memory configuration properties</em>
-<a name="243" href="#243">243</a> 			propsSrc = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/PropsConfigPropertiesSource.html">PropsConfigPropertiesSource</a>(configProps);
-<a name="244" href="#244">244</a> 			
-<a name="245" href="#245">245</a> 		}<strong>else</strong>{
-<a name="246" href="#246">246</a> 			<em class="comment">// Default config properties source, reads from a .properties file in the classpath.</em>
-<a name="247" href="#247">247</a> 			propsSrc = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/util/PropsFilePropertiesSource.html">PropsFilePropertiesSource</a>();
-<a name="248" href="#248">248</a> 		}
-<a name="249" href="#249">249</a> 
-<a name="250" href="#250">250</a> 		<em class="comment">// If a custom properties source is a subclass of PropsFilePropertiesSource, we hand it the configLocation param.</em>
-<a name="251" href="#251">251</a> 		<em class="comment">// This affects the standard one as well.</em>
-<a name="252" href="#252">252</a> 		<strong>if</strong> (propsSrc instanceof PropsFilePropertiesSource)
-<a name="253" href="#253">253</a> 			((PropsFilePropertiesSource) propsSrc).setConfigLocation(configLocation);
-<a name="254" href="#254">254</a> 
-<a name="255" href="#255">255</a> 		<em class="comment">// Read properties from properties source</em>
-<a name="256" href="#256">256</a> 		Properties props = propsSrc.getConfigProperties();
-<a name="257" href="#257">257</a> 		<em class="comment">// override the properties if needed</em>
-<a name="258" href="#258">258</a> 		<strong>if</strong>(<strong>this</strong>.overrideProperties != <strong>null</strong>){
-<a name="259" href="#259">259</a> 			props.putAll(overrideProperties);
-<a name="260" href="#260">260</a> 		}
-<a name="261" href="#261">261</a> 		
-<a name="262" href="#262">262</a> 		<em class="comment">// init registry</em>
-<a name="263" href="#263">263</a> 		generatorRegistry = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/generator/GeneratorRegistry.html">GeneratorRegistry</a>(resourceType);
-<a name="264" href="#264">264</a> 
-<a name="265" href="#265">265</a> 		<em class="comment">// hang onto the propertiesSource for manual reloads</em>
-<a name="266" href="#266">266</a> 		<strong>this</strong>.propertiesSource = propsSrc;
-<a name="267" href="#267">267</a> 
-<a name="268" href="#268">268</a> 		<em class="comment">// Initialize config</em>
-<a name="269" href="#269">269</a> 		initializeJawrConfig(props);
-<a name="270" href="#270">270</a> 
-<a name="271" href="#271">271</a> 		<em class="comment">// Initialize the properties reloading checker daemon if specified</em>
-<a name="272" href="#272">272</a> 		<strong>if</strong>(!ThreadLocalJawrContext.isBundleProcessingAtBuildTime() &amp;&amp; <strong>null</strong> != props.getProperty(CONFIG_RELOAD_INTERVAL)) {
-<a name="273" href="#273">273</a> 			<strong>int</strong> <strong>int</strong>erval = Integer.valueOf(props.getProperty(CONFIG_RELOAD_INTERVAL)).<strong>int</strong>Value();
-<a name="274" href="#274">274</a> 			log.warn(<span class="string">"Jawr started with configuration auto reloading on. "</span>
-<a name="275" href="#275">275</a> 					+ <span class="string">"Be aware that a daemon thread will be checking for changes to configuration every "</span> + interval + <span class="string">" seconds."</span>);
-<a name="276" href="#276">276</a> 
-<a name="277" href="#277">277</a> 			<strong>this</strong>.configChangeListenerThread = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/util/ConfigChangeListenerThread.html">ConfigChangeListenerThread</a>(propsSrc, <strong>this</strong>.overrideProperties, 
-<a name="278" href="#278">278</a> 					<strong>this</strong>, interval);
-<a name="279" href="#279">279</a> 			configChangeListenerThread.start();
-<a name="280" href="#280">280</a> 		}
-<a name="281" href="#281">281</a> 
-<a name="282" href="#282">282</a> 		<em class="comment">// initialize the jmx Bean</em>
-<a name="283" href="#283">283</a> 		<strong>if</strong>(isJmxEnabled()){
-<a name="284" href="#284">284</a> 				JmxUtils.initJMXBean(<strong>this</strong>, servletContext, resourceType, jawrConfig.getConfigProperties());
-<a name="285" href="#285">285</a> 		}
-<a name="286" href="#286">286</a> 		
-<a name="287" href="#287">287</a> 		<strong>if</strong> (log.isInfoEnabled()) {
-<a name="288" href="#288">288</a> 			<strong>long</strong> totaltime = System.currentTimeMillis() - initialTime;
-<a name="289" href="#289">289</a> 			log.info(<span class="string">"Init method succesful. jawr started in "</span> + (totaltime / 1000) + <span class="string">" seconds...."</span>);
-<a name="290" href="#290">290</a> 		}
-<a name="291" href="#291">291</a> 	}
-<a name="292" href="#292">292</a> 
-<a name="293" href="#293">293</a> 	<em>/**<em>*</em></em>
-<a name="294" href="#294">294</a> <em>	 * Returns the init parameter value from the parameter name</em>
-<a name="295" href="#295">295</a> <em>	 * @param paramName the parameter name</em>
-<a name="296" href="#296">296</a> <em>	 * @return the init parameter value</em>
-<a name="297" href="#297">297</a> <em>	 */</em>
-<a name="298" href="#298">298</a> 	<strong>private</strong> String getInitParameter(String paramName){
-<a name="299" href="#299">299</a> 		<strong>return</strong> (String) initParameters.get(paramName);
-<a name="300" href="#300">300</a> 	}
-<a name="301" href="#301">301</a> 	
-<a name="302" href="#302">302</a> 	<em>/**<em>*</em></em>
-<a name="303" href="#303">303</a> <em>	 * Returns true if JMX is enabled for the applcation</em>
-<a name="304" href="#304">304</a> <em>	 * @return true if JMX is enabled for the applcation</em>
-<a name="305" href="#305">305</a> <em>	 */</em>
-<a name="306" href="#306">306</a> 	<strong>private</strong> <strong>boolean</strong> isJmxEnabled() {
-<a name="307" href="#307">307</a> 		<strong>return</strong> System.getProperty(JawrConstant.JMX_ENABLE_FLAG_SYSTEL_PROPERTY) != <strong>null</strong>;
-<a name="308" href="#308">308</a> 	}
-<a name="309" href="#309">309</a> 
-<a name="310" href="#310">310</a> 	<em>/**<em>*</em></em>
-<a name="311" href="#311">311</a> <em>	 * Initialize the Jawr config</em>
-<a name="312" href="#312">312</a> <em>	 * </em>
-<a name="313" href="#313">313</a> <em>	 * @param props the properties</em>
-<a name="314" href="#314">314</a> <em>	 * @throws ServletException if an exception occurs</em>
-<a name="315" href="#315">315</a> <em>	 */</em>
-<a name="316" href="#316">316</a> 	<strong>protected</strong> <strong>void</strong> initializeJawrConfig(Properties props) throws ServletException {
-<a name="317" href="#317">317</a> 		<em class="comment">// Initialize config</em>
-<a name="318" href="#318">318</a> 		<strong>if</strong> (<strong>null</strong> != jawrConfig)
-<a name="319" href="#319">319</a> 			jawrConfig.invalidate();
+<a name="57" href="#57">57</a>  <strong>import</strong> net.jawr.web.resource.bundle.handler.ClientSideHandlerScriptRequestHandler;
+<a name="58" href="#58">58</a>  <strong>import</strong> net.jawr.web.resource.bundle.handler.ResourceBundlesHandler;
+<a name="59" href="#59">59</a>  <strong>import</strong> net.jawr.web.resource.bundle.renderer.BundleRenderer;
+<a name="60" href="#60">60</a>  <strong>import</strong> net.jawr.web.resource.handler.bundle.ResourceBundleHandler;
+<a name="61" href="#61">61</a>  <strong>import</strong> net.jawr.web.resource.handler.bundle.ServletContextResourceBundleHandler;
+<a name="62" href="#62">62</a>  <strong>import</strong> net.jawr.web.resource.handler.reader.ResourceReaderHandler;
+<a name="63" href="#63">63</a>  <strong>import</strong> net.jawr.web.resource.handler.reader.ServletContextResourceReaderHandler;
+<a name="64" href="#64">64</a>  <strong>import</strong> net.jawr.web.servlet.util.MIMETypesSupport;
+<a name="65" href="#65">65</a>  <strong>import</strong> net.jawr.web.util.StringUtils;
+<a name="66" href="#66">66</a>  
+<a name="67" href="#67">67</a>  <strong>import</strong> org.apache.log4j.Logger;
+<a name="68" href="#68">68</a>  
+<a name="69" href="#69">69</a>  <em>/**<em>*</em></em>
+<a name="70" href="#70">70</a>  <em> * Request handling class. Any jawr enabled servlet delegates to this class to handle requests.</em>
+<a name="71" href="#71">71</a>  <em> * </em>
+<a name="72" href="#72">72</a>  <em> * @author Jordi Hernández Sellés</em>
+<a name="73" href="#73">73</a>  <em> * @author Ibrahim Chaehoi</em>
+<a name="74" href="#74">74</a>  <em> */</em>
+<a name="75" href="#75">75</a>  <strong>public</strong> <strong>class</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a> implements ConfigChangeListener, Serializable {
+<a name="76" href="#76">76</a>  
+<a name="77" href="#77">77</a>  	<em>/**<em>* The serial version UID */</em></em>
+<a name="78" href="#78">78</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> <strong>long</strong> serialVersionUID = 5762937687546882131L;
+<a name="79" href="#79">79</a>  
+<a name="80" href="#80">80</a>  	<em>/**<em>* The logger */</em></em>
+<a name="81" href="#81">81</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger LOGGER = Logger.getLogger(JawrRequestHandler.<strong>class</strong>);
+<a name="82" href="#82">82</a>  
+<a name="83" href="#83">83</a>  	<em>/**<em>* The cache control header parameter name */</em></em>
+<a name="84" href="#84">84</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String CACHE_CONTROL_HEADER = <span class="string">"Cache-Control"</span>;
+<a name="85" href="#85">85</a>  	
+<a name="86" href="#86">86</a>  	<em>/**<em>* The cache control parameter value */</em></em>
+<a name="87" href="#87">87</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String CACHE_CONTROL_VALUE = <span class="string">"public, max-age=315360000, post-check=315360000, pre-check=315360000"</span>;
+<a name="88" href="#88">88</a>  	
+<a name="89" href="#89">89</a>  	<em>/**<em>* The last-modified header parameter name */</em></em>
+<a name="90" href="#90">90</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String LAST_MODIFIED_HEADER = <span class="string">"Last-Modified"</span>;
+<a name="91" href="#91">91</a>  	
+<a name="92" href="#92">92</a>  	<em>/**<em>* The If-modified-since header parameter name */</em></em>
+<a name="93" href="#93">93</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String IF_MODIFIED_SINCE_HEADER = <span class="string">"If-Modified-Since"</span>;
+<a name="94" href="#94">94</a>  	
+<a name="95" href="#95">95</a>  	<em>/**<em>* The If-non-match-since header parameter name */</em></em>
+<a name="96" href="#96">96</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String IF_NONE_MATCH_HEADER = <span class="string">"If-None-Match"</span>;
+<a name="97" href="#97">97</a>  	
+<a name="98" href="#98">98</a>  	<em>/**<em>* The last-modified value */</em></em>
+<a name="99" href="#99">99</a>  	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String LAST_MODIFIED_VALUE = <span class="string">"Sun, 06 Nov 2005 12:00:00 GMT"</span>;
+<a name="100" href="#100">100</a> 	
+<a name="101" href="#101">101</a> 	<em>/**<em>* The ETag header parameter name */</em></em>
+<a name="102" href="#102">102</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String ETAG_HEADER = <span class="string">"ETag"</span>;
+<a name="103" href="#103">103</a> 	
+<a name="104" href="#104">104</a> 	<em>/**<em>* The ETag parameter value */</em></em>
+<a name="105" href="#105">105</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String ETAG_VALUE = <span class="string">"2740050219"</span>;
+<a name="106" href="#106">106</a> 	
+<a name="107" href="#107">107</a> 	<em>/**<em>* The expires header parameter name */</em></em>
+<a name="108" href="#108">108</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String EXPIRES_HEADER = <span class="string">"Expires"</span>;
+<a name="109" href="#109">109</a> 
+<a name="110" href="#110">110</a> 	<em>/**<em>* The configuration property name for the reload interval */</em></em>
+<a name="111" href="#111">111</a> 	<strong>protected</strong> <strong>static</strong> <strong>final</strong> String CONFIG_RELOAD_INTERVAL = <span class="string">"jawr.config.reload.interval"</span>;
+<a name="112" href="#112">112</a> 	
+<a name="113" href="#113">113</a> 	<em>/**<em>* The generation parameter */</em></em>
+<a name="114" href="#114">114</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String GENERATION_PARAM = <span class="string">"generationConfigParam"</span>;
+<a name="115" href="#115">115</a> 	
+<a name="116" href="#116">116</a> 	<em>/**<em>* The client side request handler */</em></em>
+<a name="117" href="#117">117</a> 	<strong>public</strong> <strong>static</strong> <strong>final</strong> String CLIENTSIDE_HANDLER_REQ_PATH = <span class="string">"/jawr_loader.js"</span>;
+<a name="118" href="#118">118</a> 
+<a name="119" href="#119">119</a> 	<em>/**<em>* The generated image pattern */</em></em>
+<a name="120" href="#120">120</a> 	<strong>private</strong> <strong>static</strong> <strong>final</strong> Pattern GENERATED_IMG_PATTERN = Pattern.compile(<span class="string">"(url&#47;&#47;(([\&quot;' ]*))(([a-zA-Z]+)(?! (http|data)):(/)?)([^&#47;&#47;)\&quot;']*)([\&quot;']?&#47;&#47;))"</span>);
+<a name="121" href="#121">121</a> 
+<a name="122" href="#122">122</a> 	<em>/**<em>* The resource bundles handler */</em></em>
+<a name="123" href="#123">123</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/handler/ResourceBundlesHandler.html">ResourceBundlesHandler</a> bundlesHandler;
+<a name="124" href="#124">124</a> 	
+<a name="125" href="#125">125</a> 	<em>/**<em>* The resource reader handler*/</em></em>
+<a name="126" href="#126">126</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/handler/reader/ResourceReaderHandler.html">ResourceReaderHandler</a> rsReaderHandler;
+<a name="127" href="#127">127</a> 	
+<a name="128" href="#128">128</a> 	<em>/**<em>* The content type */</em></em>
+<a name="129" href="#129">129</a> 	<strong>protected</strong> String contentType;
+<a name="130" href="#130">130</a> 	
+<a name="131" href="#131">131</a> 	<em>/**<em>* The resource type */</em></em>
+<a name="132" href="#132">132</a> 	<strong>protected</strong> String resourceType;
+<a name="133" href="#133">133</a> 	
+<a name="134" href="#134">134</a> 	<em>/**<em>* The servlet context */</em></em>
+<a name="135" href="#135">135</a> 	<strong>protected</strong> ServletContext servletContext;
+<a name="136" href="#136">136</a> 	
+<a name="137" href="#137">137</a> 	<em>/**<em>* The maps for the init-parameters */</em></em>
+<a name="138" href="#138">138</a> 	<strong>protected</strong> Map initParameters;
+<a name="139" href="#139">139</a> 	
+<a name="140" href="#140">140</a> 	<em>/**<em>* The Thread which listen the configuration changes */</em></em>
+<a name="141" href="#141">141</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/util/ConfigChangeListenerThread.html">ConfigChangeListenerThread</a> configChangeListenerThread;
+<a name="142" href="#142">142</a> 	
+<a name="143" href="#143">143</a> 	<em>/**<em>* The generator registry */</em></em>
+<a name="144" href="#144">144</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/generator/GeneratorRegistry.html">GeneratorRegistry</a> generatorRegistry;
+<a name="145" href="#145">145</a> 	
+<a name="146" href="#146">146</a> 	<em>/**<em>* The jawr config */</em></em>
+<a name="147" href="#147">147</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> jawrConfig;
+<a name="148" href="#148">148</a> 	
+<a name="149" href="#149">149</a> 	<em>/**<em>* The configuration properties source */</em></em>
+<a name="150" href="#150">150</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/util/ConfigPropertiesSource.html">ConfigPropertiesSource</a> propertiesSource;
+<a name="151" href="#151">151</a> 	
+<a name="152" href="#152">152</a> 	<em>/**<em>* The configuration properties which overrides the one defined with the propertiesSource  */</em></em>
+<a name="153" href="#153">153</a> 	<strong>protected</strong> Properties overrideProperties;
+<a name="154" href="#154">154</a> 	
+<a name="155" href="#155">155</a> 	<em>/**<em>* The client-side script request handler */</em></em>
+<a name="156" href="#156">156</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/bundle/handler/ClientSideHandlerScriptRequestHandler.html">ClientSideHandlerScriptRequestHandler</a> clientSideScriptRequestHandler;
+<a name="157" href="#157">157</a> 
+<a name="158" href="#158">158</a> 	<em>/**<em>* The image MIME map, associating the image extension to their MIME type */</em></em>
+<a name="159" href="#159">159</a> 	<strong>protected</strong> Map imgMimeMap;
+<a name="160" href="#160">160</a> 	
+<a name="161" href="#161">161</a> 	<em>/**<em>* The handler for the illegal bundle request */</em></em>
+<a name="162" href="#162">162</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/servlet/IllegalBundleRequestHandler.html">IllegalBundleRequestHandler</a> illegalBundleRequestHandler;
+<a name="163" href="#163">163</a> 	
+<a name="164" href="#164">164</a> 	<em>/**<em>*</em></em>
+<a name="165" href="#165">165</a> <em>	 * Reads the properties file and initializes all configuration using the ServletConfig object. If applicable, a ConfigChangeListenerThread will be</em>
+<a name="166" href="#166">166</a> <em>	 * started to listen to changes in the properties configuration.</em>
+<a name="167" href="#167">167</a> <em>	 * </em>
+<a name="168" href="#168">168</a> <em>	 * @param servletContext ServletContext</em>
+<a name="169" href="#169">169</a> <em>	 * @param servletConfig ServletConfig</em>
+<a name="170" href="#170">170</a> <em>	 * @throws ServletException if an exception occurs</em>
+<a name="171" href="#171">171</a> <em>	 */</em>
+<a name="172" href="#172">172</a> 	<strong>public</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a>(ServletContext context, ServletConfig config) throws ServletException {
+<a name="173" href="#173">173</a> 		<strong>this</strong>.initParameters = <strong>new</strong> HashMap();
+<a name="174" href="#174">174</a> 		Enumeration params = config.getInitParameterNames();
+<a name="175" href="#175">175</a> 		<strong>while</strong> (params.hasMoreElements()) {
+<a name="176" href="#176">176</a> 			String param = (String) params.nextElement();
+<a name="177" href="#177">177</a> 			initParameters.put(param, config.getInitParameter(param));
+<a name="178" href="#178">178</a> 		}
+<a name="179" href="#179">179</a> 		initParameters.put(<span class="string">"handlerName"</span>, config.getServletName());
+<a name="180" href="#180">180</a> 
+<a name="181" href="#181">181</a> 		<strong>if</strong> (LOGGER.isInfoEnabled())
+<a name="182" href="#182">182</a> 			LOGGER.info(<span class="string">"Initializing jawr config for servlet named "</span> + config.getServletName());
+<a name="183" href="#183">183</a> 		
+<a name="184" href="#184">184</a> 		initRequestHandler(context, <strong>null</strong>);
+<a name="185" href="#185">185</a> 
+<a name="186" href="#186">186</a> 	}
+<a name="187" href="#187">187</a> 
+<a name="188" href="#188">188</a> 	<em>/**<em>*</em></em>
+<a name="189" href="#189">189</a> <em>	 * Alternate constructor that does not need a ServletConfig object. Parameters normally read from it are read from the initParams Map, and the</em>
+<a name="190" href="#190">190</a> <em>	 * configProps are used instead of reading a .properties file.</em>
+<a name="191" href="#191">191</a> <em>	 * </em>
+<a name="192" href="#192">192</a> <em>	 * @param servletContext ServletContext</em>
+<a name="193" href="#193">193</a> <em>	 * @param servletConfig ServletConfig</em>
+<a name="194" href="#194">194</a> <em>	 * @throws ServletException if an exception occurs</em>
+<a name="195" href="#195">195</a> <em>	 */</em>
+<a name="196" href="#196">196</a> 	<strong>public</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a>(ServletContext context, Map initParams, Properties configProps) throws ServletException {
+<a name="197" href="#197">197</a> 
+<a name="198" href="#198">198</a> 		<strong>this</strong>.imgMimeMap = MIMETypesSupport.getSupportedProperties(<strong>this</strong>);
+<a name="199" href="#199">199</a> 		<strong>this</strong>.initParameters = initParams;
+<a name="200" href="#200">200</a> 		initRequestHandler(context, configProps);
+<a name="201" href="#201">201</a> 	}
+<a name="202" href="#202">202</a> 	
+<a name="203" href="#203">203</a> 	<em>/**<em>*</em></em>
+<a name="204" href="#204">204</a> <em>	 * Initialize the request handler</em>
+<a name="205" href="#205">205</a> <em>	 * @param context the servlet context</em>
+<a name="206" href="#206">206</a> <em>	 * @param configProps the configuration properties</em>
+<a name="207" href="#207">207</a> <em>	 * @throws ServletException if an exception occurs</em>
+<a name="208" href="#208">208</a> <em>	 */</em>
+<a name="209" href="#209">209</a> 	<strong>private</strong> <strong>void</strong> initRequestHandler(ServletContext context, Properties configProps) throws ServletException {
+<a name="210" href="#210">210</a> 		
+<a name="211" href="#211">211</a> 		<strong>long</strong> initialTime = System.currentTimeMillis();
+<a name="212" href="#212">212</a> 		<strong>if</strong> (LOGGER.isInfoEnabled())
+<a name="213" href="#213">213</a> 			LOGGER.info(<span class="string">"Initializing jawr config for request handler named "</span> + getInitParameter(<span class="string">"handlerName"</span>));
+<a name="214" href="#214">214</a> 
+<a name="215" href="#215">215</a> 		<strong>this</strong>.imgMimeMap = MIMETypesSupport.getSupportedProperties(<strong>this</strong>);
+<a name="216" href="#216">216</a> 		<strong>this</strong>.servletContext = context;
+<a name="217" href="#217">217</a> 		<strong>this</strong>.overrideProperties = configProps;
+<a name="218" href="#218">218</a> 		resourceType = getInitParameter(<span class="string">"type"</span>);
+<a name="219" href="#219">219</a> 		resourceType = <strong>null</strong> == resourceType ? <span class="string">"js"</span> : resourceType;
+<a name="220" href="#220">220</a> 
+<a name="221" href="#221">221</a> 		String configLocation = getInitParameter(<span class="string">"configLocation"</span>);
+<a name="222" href="#222">222</a> 		String configPropsSourceClass = getInitParameter(<span class="string">"configPropertiesSourceClass"</span>);
+<a name="223" href="#223">223</a> 		<strong>if</strong> (<strong>null</strong> == configProps &amp;&amp; <strong>null</strong> == configLocation &amp;&amp; <strong>null</strong> == configPropsSourceClass)
+<a name="224" href="#224">224</a> 			<strong>throw</strong> <strong>new</strong> ServletException(<span class="string">"Neither configLocation nor configPropertiesSourceClass init params were set."</span>
+<a name="225" href="#225">225</a> 					+ <span class="string">" You must set at least the configLocation param. Please check your web.xml file"</span>);
+<a name="226" href="#226">226</a> 
+<a name="227" href="#227">227</a> 		<em class="comment">// Initialize the config properties source that will provide with all configuration options.</em>
+<a name="228" href="#228">228</a> 		ConfigPropertiesSource propsSrc;
+<a name="229" href="#229">229</a> 
+<a name="230" href="#230">230</a> 		<em class="comment">// Load a custom class to set config properties</em>
+<a name="231" href="#231">231</a> 		<strong>if</strong> (<strong>null</strong> != configPropsSourceClass) {
+<a name="232" href="#232">232</a> 			propsSrc = (ConfigPropertiesSource) ClassLoaderResourceUtils.buildObjectInstance(configPropsSourceClass);
+<a name="233" href="#233">233</a> 			<strong>if</strong> (propsSrc instanceof ServletContextAware) {
+<a name="234" href="#234">234</a> 				((ServletContextAware) propsSrc).setServletContext(context);
+<a name="235" href="#235">235</a> 			}
+<a name="236" href="#236">236</a> 		} <strong>else</strong> <strong>if</strong>(configLocation == <strong>null</strong> &amp;&amp; configProps != <strong>null</strong>){
+<a name="237" href="#237">237</a> 			
+<a name="238" href="#238">238</a> 			<em class="comment">// configuration retrieved from the in memory configuration properties</em>
+<a name="239" href="#239">239</a> 			propsSrc = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/PropsConfigPropertiesSource.html">PropsConfigPropertiesSource</a>(configProps);
+<a name="240" href="#240">240</a> 			
+<a name="241" href="#241">241</a> 		}<strong>else</strong>{
+<a name="242" href="#242">242</a> 			<em class="comment">// Default config properties source, reads from a .properties file in the classpath.</em>
+<a name="243" href="#243">243</a> 			propsSrc = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/util/PropsFilePropertiesSource.html">PropsFilePropertiesSource</a>();
+<a name="244" href="#244">244</a> 		}
+<a name="245" href="#245">245</a> 
+<a name="246" href="#246">246</a> 		<em class="comment">// If a custom properties source is a subclass of PropsFilePropertiesSource, we hand it the configLocation param.</em>
+<a name="247" href="#247">247</a> 		<em class="comment">// This affects the standard one as well.</em>
+<a name="248" href="#248">248</a> 		<strong>if</strong> (propsSrc instanceof PropsFilePropertiesSource)
+<a name="249" href="#249">249</a> 			((PropsFilePropertiesSource) propsSrc).setConfigLocation(configLocation);
+<a name="250" href="#250">250</a> 
+<a name="251" href="#251">251</a> 		<em class="comment">// Read properties from properties source</em>
+<a name="252" href="#252">252</a> 		Properties props = propsSrc.getConfigProperties();
+<a name="253" href="#253">253</a> 		<em class="comment">// override the properties if needed</em>
+<a name="254" href="#254">254</a> 		<strong>if</strong>(<strong>this</strong>.overrideProperties != <strong>null</strong>){
+<a name="255" href="#255">255</a> 			props.putAll(overrideProperties);
+<a name="256" href="#256">256</a> 		}
+<a name="257" href="#257">257</a> 		
+<a name="258" href="#258">258</a> 		<em class="comment">// hang onto the propertiesSource for manual reloads</em>
+<a name="259" href="#259">259</a> 		<strong>this</strong>.propertiesSource = propsSrc;
+<a name="260" href="#260">260</a> 
+<a name="261" href="#261">261</a> 		<em class="comment">// Initialize config</em>
+<a name="262" href="#262">262</a> 		initializeJawrConfig(props);
+<a name="263" href="#263">263</a> 
+<a name="264" href="#264">264</a> 		<em class="comment">// Initialize the properties reloading checker daemon if specified</em>
+<a name="265" href="#265">265</a> 		<strong>if</strong>(!ThreadLocalJawrContext.isBundleProcessingAtBuildTime() &amp;&amp; <strong>null</strong> != props.getProperty(CONFIG_RELOAD_INTERVAL)) {
+<a name="266" href="#266">266</a> 			<strong>int</strong> <strong>int</strong>erval = Integer.valueOf(props.getProperty(CONFIG_RELOAD_INTERVAL)).<strong>int</strong>Value();
+<a name="267" href="#267">267</a> 			LOGGER.warn(<span class="string">"Jawr started with configuration auto reloading on. "</span>
+<a name="268" href="#268">268</a> 					+ <span class="string">"Be aware that a daemon thread will be checking for changes to configuration every "</span> + interval + <span class="string">" seconds."</span>);
+<a name="269" href="#269">269</a> 
+<a name="270" href="#270">270</a> 			<strong>this</strong>.configChangeListenerThread = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/util/ConfigChangeListenerThread.html">ConfigChangeListenerThread</a>(propsSrc, <strong>this</strong>.overrideProperties, 
+<a name="271" href="#271">271</a> 					<strong>this</strong>, interval);
+<a name="272" href="#272">272</a> 			configChangeListenerThread.start();
+<a name="273" href="#273">273</a> 		}
+<a name="274" href="#274">274</a> 
+<a name="275" href="#275">275</a> 		<em class="comment">// initialize the jmx Bean</em>
+<a name="276" href="#276">276</a> 		<strong>if</strong>(JmxUtils.isJmxEnabled()){
+<a name="277" href="#277">277</a> 				JmxUtils.initJMXBean(<strong>this</strong>, servletContext, resourceType, jawrConfig.getConfigProperties());
+<a name="278" href="#278">278</a> 		}
+<a name="279" href="#279">279</a> 		
+<a name="280" href="#280">280</a> 		<strong>if</strong> (LOGGER.isInfoEnabled()) {
+<a name="281" href="#281">281</a> 			<strong>long</strong> totaltime = System.currentTimeMillis() - initialTime;
+<a name="282" href="#282">282</a> 			LOGGER.info(<span class="string">"Init method succesful. jawr started in "</span> + (totaltime / 1000) + <span class="string">" seconds...."</span>);
+<a name="283" href="#283">283</a> 		}
+<a name="284" href="#284">284</a> 	}
+<a name="285" href="#285">285</a> 
+<a name="286" href="#286">286</a> 	<em>/**<em>*</em></em>
+<a name="287" href="#287">287</a> <em>	 * Returns the init parameter value from the parameter name</em>
+<a name="288" href="#288">288</a> <em>	 * @param paramName the parameter name</em>
+<a name="289" href="#289">289</a> <em>	 * @return the init parameter value</em>
+<a name="290" href="#290">290</a> <em>	 */</em>
+<a name="291" href="#291">291</a> 	<strong>private</strong> String getInitParameter(String paramName){
+<a name="292" href="#292">292</a> 		<strong>return</strong> (String) initParameters.get(paramName);
+<a name="293" href="#293">293</a> 	}
+<a name="294" href="#294">294</a> 	
+<a name="295" href="#295">295</a> 	<em>/**<em>*</em></em>
+<a name="296" href="#296">296</a> <em>	 * Initialize the Jawr config</em>
+<a name="297" href="#297">297</a> <em>	 * </em>
+<a name="298" href="#298">298</a> <em>	 * @param props the properties</em>
+<a name="299" href="#299">299</a> <em>	 * @throws ServletException if an exception occurs</em>
+<a name="300" href="#300">300</a> <em>	 */</em>
+<a name="301" href="#301">301</a> 	<strong>protected</strong> <strong>void</strong> initializeJawrConfig(Properties props) throws ServletException {
+<a name="302" href="#302">302</a> 		
+<a name="303" href="#303">303</a> 		<em class="comment">// init registry</em>
+<a name="304" href="#304">304</a> 		generatorRegistry = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/generator/GeneratorRegistry.html">GeneratorRegistry</a>(resourceType);
+<a name="305" href="#305">305</a> 
+<a name="306" href="#306">306</a> 		<em class="comment">// Initialize config</em>
+<a name="307" href="#307">307</a> 		<strong>if</strong> (<strong>null</strong> != jawrConfig){
+<a name="308" href="#308">308</a> 			jawrConfig.invalidate();
+<a name="309" href="#309">309</a> 		}
+<a name="310" href="#310">310</a> 		
+<a name="311" href="#311">311</a> 		createJawrConfig(props);
+<a name="312" href="#312">312</a> 		
+<a name="313" href="#313">313</a> 		jawrConfig.setContext(servletContext);
+<a name="314" href="#314">314</a> 		jawrConfig.setGeneratorRegistry(generatorRegistry);
+<a name="315" href="#315">315</a> 
+<a name="316" href="#316">316</a> 		<em class="comment">// Set the content type to be used for every request.</em>
+<a name="317" href="#317">317</a> 		contentType = <span class="string">"text/"</span>;
+<a name="318" href="#318">318</a> 		contentType += <span class="string">"js"</span>.equals(resourceType) ? <span class="string">"javascript"</span> : <span class="string">"css"</span>;
+<a name="319" href="#319">319</a> 		contentType += <span class="string">"; charset="</span> + jawrConfig.getResourceCharset().name();
 <a name="320" href="#320">320</a> 
-<a name="321" href="#321">321</a> 		createJawrConfig(props);
-<a name="322" href="#322">322</a> 		
-<a name="323" href="#323">323</a> 		jawrConfig.setContext(servletContext);
-<a name="324" href="#324">324</a> 		jawrConfig.setGeneratorRegistry(generatorRegistry);
+<a name="321" href="#321">321</a> 		<em class="comment">// Set mapping, to be used by the tag lib to define URLs that point to this servlet.</em>
+<a name="322" href="#322">322</a> 		String mapping = (String) initParameters.get(<span class="string">"mapping"</span>);
+<a name="323" href="#323">323</a> 		<strong>if</strong> (<strong>null</strong> != mapping)
+<a name="324" href="#324">324</a> 			jawrConfig.setServletMapping(mapping);
 <a name="325" href="#325">325</a> 
-<a name="326" href="#326">326</a> 		<em class="comment">// Set the content type to be used for every request.</em>
-<a name="327" href="#327">327</a> 		contentType = <span class="string">"text/"</span>;
-<a name="328" href="#328">328</a> 		contentType += <span class="string">"js"</span>.equals(resourceType) ? <span class="string">"javascript"</span> : <span class="string">"css"</span>;
-<a name="329" href="#329">329</a> 		contentType += <span class="string">"; charset="</span> + jawrConfig.getResourceCharset().name();
-<a name="330" href="#330">330</a> 
-<a name="331" href="#331">331</a> 		<em class="comment">// Set mapping, to be used by the tag lib to define URLs that point to this servlet.</em>
-<a name="332" href="#332">332</a> 		String mapping = (String) initParameters.get(<span class="string">"mapping"</span>);
-<a name="333" href="#333">333</a> 		<strong>if</strong> (<strong>null</strong> != mapping)
-<a name="334" href="#334">334</a> 			jawrConfig.setServletMapping(mapping);
-<a name="335" href="#335">335</a> 
-<a name="336" href="#336">336</a> 		<strong>if</strong> (jawrConfig.isCssClasspathImageHandledByClasspathCss() &amp;&amp; resourceType.equals(<span class="string">"css"</span>)) {
-<a name="337" href="#337">337</a> 			ImageResourcesHandler imgRsHandler = (ImageResourcesHandler) servletContext.getAttribute(JawrConstant.IMG_CONTEXT_ATTRIBUTE);
-<a name="338" href="#338">338</a> 			<strong>if</strong> (imgRsHandler == <strong>null</strong>) {
-<a name="339" href="#339">339</a> 				log.error(<span class="string">"You are using the CSS classpath image feature, but the JAWR Image servlet is yet initialized.\n"</span>
-<a name="340" href="#340">340</a> 						+ <span class="string">"The JAWR Image servlet must be initialized before the JAWR CSS servlet.\n"</span>
-<a name="341" href="#341">341</a> 						+ <span class="string">"Please check you web application configuration."</span>);
-<a name="342" href="#342">342</a> 			}
-<a name="343" href="#343">343</a> 		}
-<a name="344" href="#344">344</a> 
-<a name="345" href="#345">345</a> 		<strong>if</strong> (log.isDebugEnabled()) {
-<a name="346" href="#346">346</a> 			log.debug(<span class="string">"Configuration read. Current config:"</span>);
-<a name="347" href="#347">347</a> 			log.debug(jawrConfig);
-<a name="348" href="#348">348</a> 		}
-<a name="349" href="#349">349</a> 
-<a name="350" href="#350">350</a> 		<em class="comment">// Create a resource handler to read files from the WAR archive or exploded dir.</em>
-<a name="351" href="#351">351</a> 		rsReaderHandler = initResourceReaderHandler();
-<a name="352" href="#352">352</a> 		ResourceBundleHandler rsBundleHandler = initResourceBundleHandler();
-<a name="353" href="#353">353</a> 		PropertiesBasedBundlesHandlerFactory factory = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/PropertiesBasedBundlesHandlerFactory.html">PropertiesBasedBundlesHandlerFactory</a>(props, resourceType, rsReaderHandler, rsBundleHandler, jawrConfig
-<a name="354" href="#354">354</a> 				.getGeneratorRegistry());
-<a name="355" href="#355">355</a> 		<strong>try</strong> {
-<a name="356" href="#356">356</a> 			bundlesHandler = factory.buildResourceBundlesHandler(jawrConfig);
-<a name="357" href="#357">357</a> 		} <strong>catch</strong> (DuplicateBundlePathException e) {
-<a name="358" href="#358">358</a> 			<strong>throw</strong> <strong>new</strong> ServletException(e);
-<a name="359" href="#359">359</a> 		} <strong>catch</strong> (BundleDependencyException e) {
-<a name="360" href="#360">360</a> 			<strong>throw</strong> <strong>new</strong> ServletException(e);
-<a name="361" href="#361">361</a> 		}
+<a name="326" href="#326">326</a> 		<strong>if</strong> (jawrConfig.isCssClasspathImageHandledByClasspathCss() &amp;&amp; resourceType.equals(<span class="string">"css"</span>)) {
+<a name="327" href="#327">327</a> 			ImageResourcesHandler imgRsHandler = (ImageResourcesHandler) servletContext.getAttribute(JawrConstant.IMG_CONTEXT_ATTRIBUTE);
+<a name="328" href="#328">328</a> 			<strong>if</strong> (imgRsHandler == <strong>null</strong>) {
+<a name="329" href="#329">329</a> 				LOGGER.error(<span class="string">"You are using the CSS classpath image feature, but the JAWR Image servlet is yet initialized.\n"</span>
+<a name="330" href="#330">330</a> 						+ <span class="string">"The JAWR Image servlet must be initialized before the JAWR CSS servlet.\n"</span>
+<a name="331" href="#331">331</a> 						+ <span class="string">"Please check you web application configuration."</span>);
+<a name="332" href="#332">332</a> 			}
+<a name="333" href="#333">333</a> 		}
+<a name="334" href="#334">334</a> 
+<a name="335" href="#335">335</a> 		<strong>if</strong> (LOGGER.isDebugEnabled()) {
+<a name="336" href="#336">336</a> 			LOGGER.debug(<span class="string">"Configuration read. Current config:"</span>);
+<a name="337" href="#337">337</a> 			LOGGER.debug(jawrConfig);
+<a name="338" href="#338">338</a> 		}
+<a name="339" href="#339">339</a> 
+<a name="340" href="#340">340</a> 		<em class="comment">// Initialize the IllegalBundleRequest handler</em>
+<a name="341" href="#341">341</a> 		initIllegalBundleRequestHandler();
+<a name="342" href="#342">342</a> 		
+<a name="343" href="#343">343</a> 		<em class="comment">// Create a resource handler to read files from the WAR archive or exploded dir.</em>
+<a name="344" href="#344">344</a> 		rsReaderHandler = initResourceReaderHandler();
+<a name="345" href="#345">345</a> 		ResourceBundleHandler rsBundleHandler = initResourceBundleHandler();
+<a name="346" href="#346">346</a> 		PropertiesBasedBundlesHandlerFactory factory = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/factory/PropertiesBasedBundlesHandlerFactory.html">PropertiesBasedBundlesHandlerFactory</a>(props, resourceType, rsReaderHandler, rsBundleHandler, jawrConfig
+<a name="347" href="#347">347</a> 				.getGeneratorRegistry());
+<a name="348" href="#348">348</a> 		<strong>try</strong> {
+<a name="349" href="#349">349</a> 			bundlesHandler = factory.buildResourceBundlesHandler(jawrConfig);
+<a name="350" href="#350">350</a> 		} <strong>catch</strong> (DuplicateBundlePathException e) {
+<a name="351" href="#351">351</a> 			<strong>throw</strong> <strong>new</strong> ServletException(e);
+<a name="352" href="#352">352</a> 		} <strong>catch</strong> (BundleDependencyException e) {
+<a name="353" href="#353">353</a> 			<strong>throw</strong> <strong>new</strong> ServletException(e);
+<a name="354" href="#354">354</a> 		}
+<a name="355" href="#355">355</a> 
+<a name="356" href="#356">356</a> 		<strong>if</strong> (resourceType.equals(JawrConstant.JS_TYPE))
+<a name="357" href="#357">357</a> 			servletContext.setAttribute(JawrConstant.JS_CONTEXT_ATTRIBUTE, bundlesHandler);
+<a name="358" href="#358">358</a> 		<strong>else</strong>
+<a name="359" href="#359">359</a> 			servletContext.setAttribute(JawrConstant.CSS_CONTEXT_ATTRIBUTE, bundlesHandler);
+<a name="360" href="#360">360</a> 
+<a name="361" href="#361">361</a> 		<strong>this</strong>.clientSideScriptRequestHandler = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/handler/ClientSideHandlerScriptRequestHandler.html">ClientSideHandlerScriptRequestHandler</a>(bundlesHandler, jawrConfig);
 <a name="362" href="#362">362</a> 
-<a name="363" href="#363">363</a> 		<strong>if</strong> (resourceType.equals(JawrConstant.JS_TYPE))
-<a name="364" href="#364">364</a> 			servletContext.setAttribute(JawrConstant.JS_CONTEXT_ATTRIBUTE, bundlesHandler);
-<a name="365" href="#365">365</a> 		<strong>else</strong>
-<a name="366" href="#366">366</a> 			servletContext.setAttribute(JawrConstant.CSS_CONTEXT_ATTRIBUTE, bundlesHandler);
-<a name="367" href="#367">367</a> 
-<a name="368" href="#368">368</a> 		<strong>this</strong>.clientSideScriptRequestHandler = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/handler/ClientSideHandlerScriptRequestHandler.html">ClientSideHandlerScriptRequestHandler</a>(bundlesHandler, jawrConfig);
-<a name="369" href="#369">369</a> 
-<a name="370" href="#370">370</a> 		<strong>if</strong> (log.isDebugEnabled()) {
-<a name="371" href="#371">371</a> 			log.debug(<span class="string">"content type set to: "</span> + contentType);
-<a name="372" href="#372">372</a> 		}
-<a name="373" href="#373">373</a> 
-<a name="374" href="#374">374</a> 		<em class="comment">// Warn when in debug mode</em>
-<a name="375" href="#375">375</a> 		<strong>if</strong> (jawrConfig.isDebugModeOn()) {
-<a name="376" href="#376">376</a> 			log.warn(<span class="string">"Jawr initialized in DEVELOPMENT MODE. Do NOT use this mode in production or integration servers. "</span>);
-<a name="377" href="#377">377</a> 		}
-<a name="378" href="#378">378</a> 	}
-<a name="379" href="#379">379</a> 
-<a name="380" href="#380">380</a> 	<em>/**<em>*</em></em>
-<a name="381" href="#381">381</a> <em>	 * Initialize the resource reader handler</em>
-<a name="382" href="#382">382</a> <em>	 * @return the resource reader handler</em>
-<a name="383" href="#383">383</a> <em>	 */</em>
-<a name="384" href="#384">384</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/handler/reader/ResourceReaderHandler.html">ResourceReaderHandler</a> initResourceReaderHandler() {
-<a name="385" href="#385">385</a> 		ResourceReaderHandler rsHandler = <strong>null</strong>;
-<a name="386" href="#386">386</a> 		<strong>if</strong>(servletContext != <strong>null</strong>){
-<a name="387" href="#387">387</a> 			<strong>try</strong> {
-<a name="388" href="#388">388</a> 				rsHandler = <strong>new</strong> <a href="../../../../net/jawr/web/resource/handler/reader/ServletContextResourceReaderHandler.html">ServletContextResourceReaderHandler</a>(servletContext, jawrConfig, generatorRegistry);
-<a name="389" href="#389">389</a> 			} <strong>catch</strong> (IOException e) {
-<a name="390" href="#390">390</a> 				<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(e);
-<a name="391" href="#391">391</a> 			}
-<a name="392" href="#392">392</a> 		}
-<a name="393" href="#393">393</a> 		
-<a name="394" href="#394">394</a> 		<strong>return</strong> rsHandler;
-<a name="395" href="#395">395</a> 	}
-<a name="396" href="#396">396</a> 	
-<a name="397" href="#397">397</a> 	<em>/**<em>*</em></em>
-<a name="398" href="#398">398</a> <em>	 * Initialize the resource bundle handler</em>
-<a name="399" href="#399">399</a> <em>	 * @return the resource bundle handler</em>
-<a name="400" href="#400">400</a> <em>	 */</em>
-<a name="401" href="#401">401</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/handler/bundle/ResourceBundleHandler.html">ResourceBundleHandler</a> initResourceBundleHandler() {
-<a name="402" href="#402">402</a> 		ResourceBundleHandler rsHandler = <strong>null</strong>;
-<a name="403" href="#403">403</a> 		<strong>if</strong>(jawrConfig.getUseBundleMapping() &amp;&amp; StringUtils.isNotEmpty(jawrConfig.getJawrWorkingDirectory())){
-<a name="404" href="#404">404</a> 			rsHandler = <strong>new</strong> <a href="../../../../net/jawr/web/resource/handler/bundle/ServletContextResourceBundleHandler.html">ServletContextResourceBundleHandler</a>(servletContext, jawrConfig.getJawrWorkingDirectory(), jawrConfig.getResourceCharset(), jawrConfig.getGeneratorRegistry(), resourceType);
-<a name="405" href="#405">405</a> 		}<strong>else</strong>{
-<a name="406" href="#406">406</a> 			rsHandler = <strong>new</strong> <a href="../../../../net/jawr/web/resource/handler/bundle/ServletContextResourceBundleHandler.html">ServletContextResourceBundleHandler</a>(servletContext, jawrConfig.getResourceCharset(), jawrConfig.getGeneratorRegistry(), resourceType);
-<a name="407" href="#407">407</a> 		}
-<a name="408" href="#408">408</a> 		<strong>return</strong> rsHandler;
-<a name="409" href="#409">409</a> 	}
-<a name="410" href="#410">410</a> 
-<a name="411" href="#411">411</a> 	<em>/**<em>*</em></em>
-<a name="412" href="#412">412</a> <em>	 * Create the Jawr config from the properties</em>
-<a name="413" href="#413">413</a> <em>	 * @param props the properties</em>
-<a name="414" href="#414">414</a> <em>	 */</em>
-<a name="415" href="#415">415</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> createJawrConfig(Properties props) {
-<a name="416" href="#416">416</a> 		jawrConfig = <strong>new</strong> <a href="../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a>(props);
-<a name="417" href="#417">417</a> 		
-<a name="418" href="#418">418</a> 		<em class="comment">// Override properties which are incompatible with the build time bundle processing</em>
-<a name="419" href="#419">419</a> 		<strong>if</strong>(ThreadLocalJawrContext.isBundleProcessingAtBuildTime()){
-<a name="420" href="#420">420</a> 			jawrConfig.setUseBundleMapping(<strong>true</strong>);
-<a name="421" href="#421">421</a> 			
-<a name="422" href="#422">422</a> 			<em class="comment">// Use the standard working directory</em>
-<a name="423" href="#423">423</a> 			jawrConfig.setJawrWorkingDirectory(<strong>null</strong>);
-<a name="424" href="#424">424</a> 		}
-<a name="425" href="#425">425</a> 		
-<a name="426" href="#426">426</a> 		<strong>return</strong> jawrConfig;
-<a name="427" href="#427">427</a> 	}
-<a name="428" href="#428">428</a> 
-<a name="429" href="#429">429</a> 	<em>/**<em>*</em></em>
-<a name="430" href="#430">430</a> <em>	 * Handles a resource request by getting the requested path from the request object and invoking processRequest.</em>
-<a name="431" href="#431">431</a> <em>	 * </em>
-<a name="432" href="#432">432</a> <em>	 * @param request the request</em>
-<a name="433" href="#433">433</a> <em>	 * @param response the response</em>
-<a name="434" href="#434">434</a> <em>	 * @throws ServletException if a servlet exception occurs</em>
-<a name="435" href="#435">435</a> <em>	 * @throws IOException if an IO exception occurs.</em>
-<a name="436" href="#436">436</a> <em>	 */</em>
-<a name="437" href="#437">437</a> 	<strong>public</strong> <strong>void</strong> doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<a name="438" href="#438">438</a> 		
-<a name="439" href="#439">439</a> 		<strong>try</strong>{
-<a name="440" href="#440">440</a> 			<em class="comment">// Initialize the Thread local for the Jawr context</em>
-<a name="441" href="#441">441</a> 			<strong>if</strong>(isJmxEnabled()){
-<a name="442" href="#442">442</a> 				ThreadLocalJawrContext.setJawrConfigMgrObjectName(JmxUtils.getMBeanObjectName(request.getContextPath(), resourceType));
-<a name="443" href="#443">443</a> 			}
-<a name="444" href="#444">444</a> 			
-<a name="445" href="#445">445</a> 			RendererRequestUtils.setRequestDebuggable(request, jawrConfig);
-<a name="446" href="#446">446</a> 			
-<a name="447" href="#447">447</a> 			String requestedPath = <span class="string">""</span>.equals(jawrConfig.getServletMapping()) ? request.getServletPath() : request.getPathInfo();
-<a name="448" href="#448">448</a> 			processRequest(requestedPath, request, response);
-<a name="449" href="#449">449</a> 			
-<a name="450" href="#450">450</a> 		} <strong>catch</strong> (Exception e) {
-<a name="451" href="#451">451</a> 			
-<a name="452" href="#452">452</a> 			<strong>if</strong> (log.isDebugEnabled()){
-<a name="453" href="#453">453</a> 				log.debug(<span class="string">"ServletException : "</span>, e);
-<a name="454" href="#454">454</a> 			}
-<a name="455" href="#455">455</a> 			
-<a name="456" href="#456">456</a> 			<strong>throw</strong> <strong>new</strong> ServletException(e);
-<a name="457" href="#457">457</a> 		}<strong>finally</strong>{
-<a name="458" href="#458">458</a> 			
-<a name="459" href="#459">459</a> 			<em class="comment">// Reset the Thread local for the Jawr context</em>
-<a name="460" href="#460">460</a> 			ThreadLocalJawrContext.reset();
-<a name="461" href="#461">461</a> 		}
-<a name="462" href="#462">462</a> 		
-<a name="463" href="#463">463</a> 	}
-<a name="464" href="#464">464</a> 
-<a name="465" href="#465">465</a> 	<em>/**<em>*</em></em>
-<a name="466" href="#466">466</a> <em>	 * Handles a resource request.</em>
-<a name="467" href="#467">467</a> <em>	 * &lt;ul></em>
-<a name="468" href="#468">468</a> <em>	 * &lt;li>If the request contains an If-Modified-Since header, the 304 status is set and no data is written to the response&lt;/li></em>
-<a name="469" href="#469">469</a> <em>	 * &lt;li>If the requested path begins with the gzip prefix, a gzipped version of the resource is served, with the corresponding content-encoding</em>
-<a name="470" href="#470">470</a> <em>	 * header.&lt;/li></em>
-<a name="471" href="#471">471</a> <em>	 * &lt;li>Otherwise, the resource is written as text to the response.&lt;/li></em>
-<a name="472" href="#472">472</a> <em>	 * &lt;li>If the resource is not found, the response satus is set to 404 and no response is written.&lt;/li></em>
-<a name="473" href="#473">473</a> <em>	 * &lt;/ul></em>
-<a name="474" href="#474">474</a> <em>	 * </em>
-<a name="475" href="#475">475</a> <em>	 * @param requestedPath the requested path</em>
-<a name="476" href="#476">476</a> <em>	 * @param request the request</em>
-<a name="477" href="#477">477</a> <em>	 * @param response the response</em>
-<a name="478" href="#478">478</a> <em>	 * @throws ServletException if a servlet exception occurs</em>
-<a name="479" href="#479">479</a> <em>	 * @throws IOException if an IO exception occurs</em>
-<a name="480" href="#480">480</a> <em>	 */</em>
-<a name="481" href="#481">481</a> 	<strong>public</strong> <strong>void</strong> processRequest(String requestedPath, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-<a name="482" href="#482">482</a> 
-<a name="483" href="#483">483</a> 		<em class="comment">// manual reload request</em>
-<a name="484" href="#484">484</a> 		<strong>if</strong> (<strong>this</strong>.jawrConfig.getRefreshKey().length() > 0 &amp;&amp; <strong>null</strong> != request.getParameter(<span class="string">"refreshKey"</span>)
-<a name="485" href="#485">485</a> 				&amp;&amp; <strong>this</strong>.jawrConfig.getRefreshKey().equals(request.getParameter(<span class="string">"refreshKey"</span>))) {
-<a name="486" href="#486">486</a> 			<strong>this</strong>.configChanged(propertiesSource.getConfigProperties());
-<a name="487" href="#487">487</a> 		}
-<a name="488" href="#488">488</a> 
-<a name="489" href="#489">489</a> 		<strong>if</strong> (log.isDebugEnabled())
-<a name="490" href="#490">490</a> 			log.debug(<span class="string">"Request received for path:"</span> + requestedPath);
-<a name="491" href="#491">491</a> 
-<a name="492" href="#492">492</a> 		<strong>if</strong> (CLIENTSIDE_HANDLER_REQ_PATH.equals(requestedPath)) {
-<a name="493" href="#493">493</a> 			<strong>this</strong>.clientSideScriptRequestHandler.handleClientSideHandlerRequest(request, response);
-<a name="494" href="#494">494</a> 			<strong>return</strong>;
-<a name="495" href="#495">495</a> 		}
-<a name="496" href="#496">496</a> 
-<a name="497" href="#497">497</a> 		<em class="comment">// CSS images would be requested through this handler in case servletMapping is used</em>
-<a name="498" href="#498">498</a> 		<em class="comment">// if( this.jawrConfig.isDebugModeOn() &amp;&amp; !("".equals(this.jawrConfig.getServletMapping())) &amp;&amp; null == request.getParameter(GENERATION_PARAM)) {</em>
-<a name="499" href="#499">499</a> 		<strong>if</strong> (JawrConstant.CSS_TYPE.equals(resourceType) &amp;&amp; 
-<a name="500" href="#500">500</a> 				!JawrConstant.CSS_TYPE.equals(getExtension(requestedPath)) &amp;&amp;
-<a name="501" href="#501">501</a> 				<strong>this</strong>.imgMimeMap.containsKey(getExtension(requestedPath))) {
-<a name="502" href="#502">502</a> 
-<a name="503" href="#503">503</a> 			<strong>if</strong> (<strong>null</strong> == bundlesHandler.resolveBundleForPath(requestedPath)) {
-<a name="504" href="#504">504</a> 				<strong>if</strong> (log.isDebugEnabled())
-<a name="505" href="#505">505</a> 					log.debug(<span class="string">"Path '"</span> + requestedPath + <span class="string">"' does not belong to a bundle. Forwarding request to the server. "</span>);
-<a name="506" href="#506">506</a> 				request.getRequestDispatcher(requestedPath).forward(request, response);
-<a name="507" href="#507">507</a> 				<strong>return</strong>;
-<a name="508" href="#508">508</a> 			}
+<a name="363" href="#363">363</a> 		<strong>if</strong> (LOGGER.isDebugEnabled()) {
+<a name="364" href="#364">364</a> 			LOGGER.debug(<span class="string">"content type set to: "</span> + contentType);
+<a name="365" href="#365">365</a> 		}
+<a name="366" href="#366">366</a> 
+<a name="367" href="#367">367</a> 		<em class="comment">// Warn when in debug mode</em>
+<a name="368" href="#368">368</a> 		<strong>if</strong> (jawrConfig.isDebugModeOn()) {
+<a name="369" href="#369">369</a> 			LOGGER.warn(<span class="string">"Jawr initialized in DEVELOPMENT MODE. Do NOT use this mode in production or integration servers. "</span>);
+<a name="370" href="#370">370</a> 		}
+<a name="371" href="#371">371</a> 	}
+<a name="372" href="#372">372</a> 
+<a name="373" href="#373">373</a> 	<em>/**<em>*</em></em>
+<a name="374" href="#374">374</a> <em>	 * Initialize the illegal bundle request handler  </em>
+<a name="375" href="#375">375</a> <em>	 */</em>
+<a name="376" href="#376">376</a> 	<strong>protected</strong> <strong>void</strong> initIllegalBundleRequestHandler() {
+<a name="377" href="#377">377</a> 		String illegalBundleRequestandlerClassName = jawrConfig.getProperty(JawrConstant.ILLEGAL_BUNDLE_REQUEST_HANDLER);
+<a name="378" href="#378">378</a> 		<strong>if</strong>(illegalBundleRequestandlerClassName != <strong>null</strong>){
+<a name="379" href="#379">379</a> 			illegalBundleRequestHandler = (IllegalBundleRequestHandler) ClassLoaderResourceUtils.buildObjectInstance(illegalBundleRequestandlerClassName);
+<a name="380" href="#380">380</a> 		}<strong>else</strong>{
+<a name="381" href="#381">381</a> 			illegalBundleRequestHandler = <strong>new</strong> <a href="../../../../net/jawr/web/servlet/IllegalBundleRequestHandlerImpl.html">IllegalBundleRequestHandlerImpl</a>();
+<a name="382" href="#382">382</a> 		}
+<a name="383" href="#383">383</a> 	}
+<a name="384" href="#384">384</a> 
+<a name="385" href="#385">385</a> 	<em>/**<em>*</em></em>
+<a name="386" href="#386">386</a> <em>	 * Initialize the resource reader handler</em>
+<a name="387" href="#387">387</a> <em>	 * @return the resource reader handler</em>
+<a name="388" href="#388">388</a> <em>	 */</em>
+<a name="389" href="#389">389</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/handler/reader/ResourceReaderHandler.html">ResourceReaderHandler</a> initResourceReaderHandler() {
+<a name="390" href="#390">390</a> 		ResourceReaderHandler rsHandler = <strong>null</strong>;
+<a name="391" href="#391">391</a> 		<strong>if</strong>(servletContext != <strong>null</strong>){
+<a name="392" href="#392">392</a> 			<strong>try</strong> {
+<a name="393" href="#393">393</a> 				rsHandler = <strong>new</strong> <a href="../../../../net/jawr/web/resource/handler/reader/ServletContextResourceReaderHandler.html">ServletContextResourceReaderHandler</a>(servletContext, jawrConfig, generatorRegistry);
+<a name="394" href="#394">394</a> 			} <strong>catch</strong> (IOException e) {
+<a name="395" href="#395">395</a> 				<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(e);
+<a name="396" href="#396">396</a> 			}
+<a name="397" href="#397">397</a> 		}
+<a name="398" href="#398">398</a> 		
+<a name="399" href="#399">399</a> 		<strong>return</strong> rsHandler;
+<a name="400" href="#400">400</a> 	}
+<a name="401" href="#401">401</a> 	
+<a name="402" href="#402">402</a> 	<em>/**<em>*</em></em>
+<a name="403" href="#403">403</a> <em>	 * Initialize the resource bundle handler</em>
+<a name="404" href="#404">404</a> <em>	 * @return the resource bundle handler</em>
+<a name="405" href="#405">405</a> <em>	 */</em>
+<a name="406" href="#406">406</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/resource/handler/bundle/ResourceBundleHandler.html">ResourceBundleHandler</a> initResourceBundleHandler() {
+<a name="407" href="#407">407</a> 		ResourceBundleHandler rsHandler = <strong>null</strong>;
+<a name="408" href="#408">408</a> 		<strong>if</strong>(jawrConfig.getUseBundleMapping() &amp;&amp; StringUtils.isNotEmpty(jawrConfig.getJawrWorkingDirectory())){
+<a name="409" href="#409">409</a> 			rsHandler = <strong>new</strong> <a href="../../../../net/jawr/web/resource/handler/bundle/ServletContextResourceBundleHandler.html">ServletContextResourceBundleHandler</a>(servletContext, jawrConfig.getJawrWorkingDirectory(), jawrConfig.getResourceCharset(), jawrConfig.getGeneratorRegistry(), resourceType);
+<a name="410" href="#410">410</a> 		}<strong>else</strong>{
+<a name="411" href="#411">411</a> 			rsHandler = <strong>new</strong> <a href="../../../../net/jawr/web/resource/handler/bundle/ServletContextResourceBundleHandler.html">ServletContextResourceBundleHandler</a>(servletContext, jawrConfig.getResourceCharset(), jawrConfig.getGeneratorRegistry(), resourceType);
+<a name="412" href="#412">412</a> 		}
+<a name="413" href="#413">413</a> 		<strong>return</strong> rsHandler;
+<a name="414" href="#414">414</a> 	}
+<a name="415" href="#415">415</a> 
+<a name="416" href="#416">416</a> 	<em>/**<em>*</em></em>
+<a name="417" href="#417">417</a> <em>	 * Create the Jawr config from the properties</em>
+<a name="418" href="#418">418</a> <em>	 * @param props the properties</em>
+<a name="419" href="#419">419</a> <em>	 */</em>
+<a name="420" href="#420">420</a> 	<strong>protected</strong> <a href="../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a> createJawrConfig(Properties props) {
+<a name="421" href="#421">421</a> 		jawrConfig = <strong>new</strong> <a href="../../../../net/jawr/web/config/JawrConfig.html">JawrConfig</a>(props);
+<a name="422" href="#422">422</a> 		
+<a name="423" href="#423">423</a> 		<em class="comment">// Override properties which are incompatible with the build time bundle processing</em>
+<a name="424" href="#424">424</a> 		<strong>if</strong>(ThreadLocalJawrContext.isBundleProcessingAtBuildTime()){
+<a name="425" href="#425">425</a> 			jawrConfig.setUseBundleMapping(<strong>true</strong>);
+<a name="426" href="#426">426</a> 			
+<a name="427" href="#427">427</a> 			<em class="comment">// Use the standard working directory</em>
+<a name="428" href="#428">428</a> 			jawrConfig.setJawrWorkingDirectory(<strong>null</strong>);
+<a name="429" href="#429">429</a> 		}
+<a name="430" href="#430">430</a> 		
+<a name="431" href="#431">431</a> 		<strong>return</strong> jawrConfig;
+<a name="432" href="#432">432</a> 	}
+<a name="433" href="#433">433</a> 
+<a name="434" href="#434">434</a> 	<em>/**<em>*</em></em>
+<a name="435" href="#435">435</a> <em>	 * Handles a resource request by getting the requested path from the request object and invoking processRequest.</em>
+<a name="436" href="#436">436</a> <em>	 * </em>
+<a name="437" href="#437">437</a> <em>	 * @param request the request</em>
+<a name="438" href="#438">438</a> <em>	 * @param response the response</em>
+<a name="439" href="#439">439</a> <em>	 * @throws ServletException if a servlet exception occurs</em>
+<a name="440" href="#440">440</a> <em>	 * @throws IOException if an IO exception occurs.</em>
+<a name="441" href="#441">441</a> <em>	 */</em>
+<a name="442" href="#442">442</a> 	<strong>public</strong> <strong>void</strong> doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<a name="443" href="#443">443</a> 		
+<a name="444" href="#444">444</a> 		<strong>try</strong>{
+<a name="445" href="#445">445</a> 			
+<a name="446" href="#446">446</a> 			String requestedPath = <span class="string">""</span>.equals(jawrConfig.getServletMapping()) ? request.getServletPath() : request.getPathInfo();
+<a name="447" href="#447">447</a> 			processRequest(requestedPath, request, response);
+<a name="448" href="#448">448</a> 			
+<a name="449" href="#449">449</a> 		} <strong>catch</strong> (Exception e) {
+<a name="450" href="#450">450</a> 			
+<a name="451" href="#451">451</a> 			<strong>if</strong> (LOGGER.isDebugEnabled()){
+<a name="452" href="#452">452</a> 				LOGGER.debug(<span class="string">"ServletException : "</span>, e);
+<a name="453" href="#453">453</a> 			}
+<a name="454" href="#454">454</a> 			
+<a name="455" href="#455">455</a> 			<strong>throw</strong> <strong>new</strong> ServletException(e);
+<a name="456" href="#456">456</a> 		}
+<a name="457" href="#457">457</a> 	}
+<a name="458" href="#458">458</a> 
+<a name="459" href="#459">459</a> 	<em>/**<em>*</em></em>
+<a name="460" href="#460">460</a> <em>	 * Handles a resource request.</em>
+<a name="461" href="#461">461</a> <em>	 * &lt;ul></em>
+<a name="462" href="#462">462</a> <em>	 * &lt;li>If the request contains an If-Modified-Since header, the 304 status is set and no data is written to the response&lt;/li></em>
+<a name="463" href="#463">463</a> <em>	 * &lt;li>If the requested path begins with the gzip prefix, a gzipped version of the resource is served, with the corresponding content-encoding</em>
+<a name="464" href="#464">464</a> <em>	 * header.&lt;/li></em>
+<a name="465" href="#465">465</a> <em>	 * &lt;li>Otherwise, the resource is written as text to the response.&lt;/li></em>
+<a name="466" href="#466">466</a> <em>	 * &lt;li>If the resource is not found, the response satus is set to 404 and no response is written.&lt;/li></em>
+<a name="467" href="#467">467</a> <em>	 * &lt;/ul></em>
+<a name="468" href="#468">468</a> <em>	 * </em>
+<a name="469" href="#469">469</a> <em>	 * @param requestedPath the requested path</em>
+<a name="470" href="#470">470</a> <em>	 * @param request the request</em>
+<a name="471" href="#471">471</a> <em>	 * @param response the response</em>
+<a name="472" href="#472">472</a> <em>	 * @throws ServletException if a servlet exception occurs</em>
+<a name="473" href="#473">473</a> <em>	 * @throws IOException if an IO exception occurs</em>
+<a name="474" href="#474">474</a> <em>	 */</em>
+<a name="475" href="#475">475</a> 	<strong>public</strong> <strong>void</strong> processRequest(String requestedPath, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<a name="476" href="#476">476</a> 
+<a name="477" href="#477">477</a> 		<strong>try</strong>{
+<a name="478" href="#478">478</a> 			<em class="comment">// Initialize the Thread local for the Jawr context</em>
+<a name="479" href="#479">479</a> 			<strong>if</strong>(JmxUtils.isJmxEnabled()){
+<a name="480" href="#480">480</a> 				ThreadLocalJawrContext.setJawrConfigMgrObjectName(JmxUtils.getMBeanObjectName(request.getContextPath(), resourceType));
+<a name="481" href="#481">481</a> 			}
+<a name="482" href="#482">482</a> 			
+<a name="483" href="#483">483</a> 			ThreadLocalJawrContext.setRequest(request.getRequestURL().toString());
+<a name="484" href="#484">484</a> 			
+<a name="485" href="#485">485</a> 			RendererRequestUtils.setRequestDebuggable(request, jawrConfig);
+<a name="486" href="#486">486</a> 			
+<a name="487" href="#487">487</a> 			<em class="comment">// manual reload request</em>
+<a name="488" href="#488">488</a> 			<strong>if</strong> (<strong>this</strong>.jawrConfig.getRefreshKey().length() > 0 &amp;&amp; <strong>null</strong> != request.getParameter(<span class="string">"refreshKey"</span>)
+<a name="489" href="#489">489</a> 					&amp;&amp; <strong>this</strong>.jawrConfig.getRefreshKey().equals(request.getParameter(<span class="string">"refreshKey"</span>))) {
+<a name="490" href="#490">490</a> 				<strong>this</strong>.configChanged(propertiesSource.getConfigProperties());
+<a name="491" href="#491">491</a> 			}
+<a name="492" href="#492">492</a> 	
+<a name="493" href="#493">493</a> 			<strong>if</strong> (LOGGER.isDebugEnabled())
+<a name="494" href="#494">494</a> 				LOGGER.debug(<span class="string">"Request received for path:"</span> + requestedPath);
+<a name="495" href="#495">495</a> 	
+<a name="496" href="#496">496</a> 			String contentType = getContentType(requestedPath, request);
+<a name="497" href="#497">497</a> 			
+<a name="498" href="#498">498</a> 			<strong>if</strong>(handleSpec<strong>if</strong>icRequest(requestedPath, contentType, request, response)){
+<a name="499" href="#499">499</a> 				<strong>return</strong>;
+<a name="500" href="#500">500</a> 			}
+<a name="501" href="#501">501</a> 	
+<a name="502" href="#502">502</a> 			<em class="comment">// Handle the strict mode</em>
+<a name="503" href="#503">503</a> 			<strong>boolean</strong> validBundle = isValidBundle(requestedPath);
+<a name="504" href="#504">504</a> 			processRequest(requestedPath, request, response, contentType, validBundle);
+<a name="505" href="#505">505</a> 		}<strong>finally</strong>{
+<a name="506" href="#506">506</a> 			
+<a name="507" href="#507">507</a> 			<em class="comment">// Reset the Thread local for the Jawr context</em>
+<a name="508" href="#508">508</a> 			ThreadLocalJawrContext.reset();
 <a name="509" href="#509">509</a> 		}
-<a name="510" href="#510">510</a> 
-<a name="511" href="#511">511</a> 		<em class="comment">// If debug mode is off, check for If-Modified-Since and If-none-match headers and set response caching headers.</em>
-<a name="512" href="#512">512</a> 		<strong>if</strong> (!<strong>this</strong>.jawrConfig.isDebugModeOn()) {
-<a name="513" href="#513">513</a> 			<em class="comment">// If a browser checks for changes, always respond 'no changes'.</em>
-<a name="514" href="#514">514</a> 			<strong>if</strong> (<strong>null</strong> != request.getHeader(IF_MODIFIED_SINCE_HEADER) || <strong>null</strong> != request.getHeader(IF_NONE_MATCH_HEADER)) {
-<a name="515" href="#515">515</a> 				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
-<a name="516" href="#516">516</a> 				<strong>if</strong> (log.isDebugEnabled())
-<a name="517" href="#517">517</a> 					log.debug(<span class="string">"Returning 'not modified' header. "</span>);
-<a name="518" href="#518">518</a> 				<strong>return</strong>;
-<a name="519" href="#519">519</a> 			}
-<a name="520" href="#520">520</a> 
-<a name="521" href="#521">521</a> 			<em class="comment">// Add caching headers</em>
-<a name="522" href="#522">522</a> 			setResponseHeaders(response);
-<a name="523" href="#523">523</a> 		} <strong>else</strong> <strong>if</strong> (<strong>null</strong> != request.getParameter(GENERATION_PARAM))
-<a name="524" href="#524">524</a> 			requestedPath = request.getParameter(GENERATION_PARAM);
-<a name="525" href="#525">525</a> 
-<a name="526" href="#526">526</a> 		<em class="comment">// By setting content type, the response writer will use appropiate encoding</em>
-<a name="527" href="#527">527</a> 		response.setContentType(contentType);
-<a name="528" href="#528">528</a> 
-<a name="529" href="#529">529</a> 		<strong>try</strong> {
-<a name="530" href="#530">530</a> 			<em class="comment">// Send gzipped resource if user agent supports it.</em>
-<a name="531" href="#531">531</a> 			<strong>if</strong> (requestedPath.startsWith(BundleRenderer.GZIP_PATH_PREFIX)) {
-<a name="532" href="#532">532</a> 				requestedPath = <span class="string">"/"</span> + requestedPath.substring(BundleRenderer.GZIP_PATH_PREFIX.length(), requestedPath.length());
-<a name="533" href="#533">533</a> 				response.setHeader(<span class="string">"Content-Encoding"</span>, <span class="string">"gzip"</span>);
-<a name="534" href="#534">534</a> 				bundlesHandler.streamBundleTo(requestedPath, response.getOutputStream());
-<a name="535" href="#535">535</a> 			} <strong>else</strong> {
-<a name="536" href="#536">536</a> 
-<a name="537" href="#537">537</a> 				<em class="comment">// In debug mode, we take in account the image generated from a StreamGenerator like classpath Image generator</em>
-<a name="538" href="#538">538</a> 				<em class="comment">// The following code will rewrite the URL path for the generated images,</em>
-<a name="539" href="#539">539</a> 				<em class="comment">// because in debug mode, we are retrieving the CSS ressources directly from the webapp</em>
-<a name="540" href="#540">540</a> 				<em class="comment">// and if the CSS contains generated images, we should rewrite the URL.</em>
-<a name="541" href="#541">541</a> 				ImageResourcesHandler imgRsHandler = (ImageResourcesHandler) servletContext.getAttribute(JawrConstant.IMG_CONTEXT_ATTRIBUTE);
-<a name="542" href="#542">542</a> 				<strong>if</strong> (imgRsHandler != <strong>null</strong> &amp;&amp; <strong>this</strong>.jawrConfig.isDebugModeOn() &amp;&amp; resourceType.equals(JawrConstant.CSS_TYPE)) {
-<a name="543" href="#543">543</a> 
-<a name="544" href="#544">544</a> 					<em class="comment">// Write the content of the CSS in the Stringwriter</em>
-<a name="545" href="#545">545</a> 					Writer writer = <strong>new</strong> StringWriter();
-<a name="546" href="#546">546</a> 					Reader rd = rsReaderHandler.getResource(requestedPath);
-<a name="547" href="#547">547</a> 					<strong>if</strong>(rd == <strong>null</strong>){
-<a name="548" href="#548">548</a> 						<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a>(requestedPath);
-<a name="549" href="#549">549</a> 					}
-<a name="550" href="#550">550</a> 					IOUtils.copy(rd, writer);
-<a name="551" href="#551">551</a> 					String content = writer.toString();
-<a name="552" href="#552">552</a> 
-<a name="553" href="#553">553</a> 					String imageServletMapping = imgRsHandler.getJawrConfig().getServletMapping();
-<a name="554" href="#554">554</a> 					
-<a name="555" href="#555">555</a> 					<strong>if</strong> (imageServletMapping == <strong>null</strong>) {
-<a name="556" href="#556">556</a> 						imageServletMapping = <span class="string">""</span>;
-<a name="557" href="#557">557</a> 					}
-<a name="558" href="#558">558</a> 
-<a name="559" href="#559">559</a> 					<em class="comment">// Define the replacement pattern for the generated image (like jar:img/myImg.png)</em>
-<a name="560" href="#560">560</a> 					String relativeRootUrlPath = getRootRelativeCssUrlPath(request, requestedPath);
-<a name="561" href="#561">561</a> 					String replacementPattern = PathNormalizer.normalizePath(<span class="string">"$1"</span> + relativeRootUrlPath + imageServletMapping + <span class="string">"/$4_cbDebug/$7$8"</span>);
-<a name="562" href="#562">562</a> 					
-<a name="563" href="#563">563</a> 					Matcher matcher = GENERATED_IMG_PATTERN.matcher(content);
-<a name="564" href="#564">564</a> 
-<a name="565" href="#565">565</a> 					<em class="comment">// Rewrite the images define in the classpath, to point to the image servlet</em>
-<a name="566" href="#566">566</a> 					StringBuffer result = <strong>new</strong> StringBuffer();
-<a name="567" href="#567">567</a> 					<strong>while</strong> (matcher.find()) {
-<a name="568" href="#568">568</a> 						matcher.appendReplacement(result, replacementPattern);
-<a name="569" href="#569">569</a> 					}
-<a name="570" href="#570">570</a> 					matcher.appendTail(result);
-<a name="571" href="#571">571</a> 					Writer out = response.getWriter();
-<a name="572" href="#572">572</a> 					out.write(result.toString());
-<a name="573" href="#573">573</a> 				} <strong>else</strong> {
-<a name="574" href="#574">574</a> 
-<a name="575" href="#575">575</a> 					<strong>if</strong>(isValidRequestedPath(requestedPath)){
-<a name="576" href="#576">576</a> 						Writer out = response.getWriter();
-<a name="577" href="#577">577</a> 						bundlesHandler.writeBundleTo(requestedPath, out);	
-<a name="578" href="#578">578</a> 					}<strong>else</strong>{
-<a name="579" href="#579">579</a> 						<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a>(requestedPath);
-<a name="580" href="#580">580</a> 					}
-<a name="581" href="#581">581</a> 				}
-<a name="582" href="#582">582</a> 			}
-<a name="583" href="#583">583</a> 		} <strong>catch</strong> (EOFException eofex) {
-<a name="584" href="#584">584</a> 			log.debug(<span class="string">"Browser cut off response"</span>, eofex);
-<a name="585" href="#585">585</a> 		} <strong>catch</strong> (ResourceNotFoundException e) {
-<a name="586" href="#586">586</a> 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-<a name="587" href="#587">587</a> 			<strong>if</strong> (log.isInfoEnabled())
-<a name="588" href="#588">588</a> 				log.info(<span class="string">"Received a request for a non existing bundle: "</span> + requestedPath);
-<a name="589" href="#589">589</a> 			<strong>return</strong>;
-<a name="590" href="#590">590</a> 		}
-<a name="591" href="#591">591</a> 
-<a name="592" href="#592">592</a> 		<strong>if</strong> (log.isDebugEnabled())
-<a name="593" href="#593">593</a> 			log.debug(<span class="string">"request succesfully attended"</span>);
-<a name="594" href="#594">594</a> 	}
-<a name="595" href="#595">595</a> 
-<a name="596" href="#596">596</a> 	<em>/**<em>*</em></em>
-<a name="597" href="#597">597</a> <em>	 * Checks if the path is valid and can be accessed.</em>
-<a name="598" href="#598">598</a> <em>	 * @param requestedPath the requested path</em>
-<a name="599" href="#599">599</a> <em>	 * @return true if the path is valid and can be accessed.</em>
-<a name="600" href="#600">600</a> <em>	 */</em>
-<a name="601" href="#601">601</a> 	<strong>protected</strong> <strong>boolean</strong> isValidRequestedPath(String requestedPath) {
+<a name="510" href="#510">510</a> 	}
+<a name="511" href="#511">511</a> 
+<a name="512" href="#512">512</a> 	<em>/**<em>*</em></em>
+<a name="513" href="#513">513</a> <em>	 * Handle the specific requests </em>
+<a name="514" href="#514">514</a> <em>	 * @param requestedPath the requested path</em>
+<a name="515" href="#515">515</a> <em>	 * @param contentType the content type</em>
+<a name="516" href="#516">516</a> <em>	 * @param request the request</em>
+<a name="517" href="#517">517</a> <em>	 * @param response the response</em>
+<a name="518" href="#518">518</a> <em>	 * @return true if the request has been processed</em>
+<a name="519" href="#519">519</a> <em>	 * @throws ServletException if a servlet exception occurs </em>
+<a name="520" href="#520">520</a> <em>	 * @throws IOException if a IO exception occurs </em>
+<a name="521" href="#521">521</a> <em>	 */</em>
+<a name="522" href="#522">522</a> 	<strong>protected</strong> <strong>boolean</strong> handleSpecificRequest(String requestedPath, String contentType,
+<a name="523" href="#523">523</a> 			HttpServletRequest request, HttpServletResponse response)
+<a name="524" href="#524">524</a> 			throws ServletException, IOException {
+<a name="525" href="#525">525</a> 		
+<a name="526" href="#526">526</a> 		<strong>boolean</strong> processed = false;
+<a name="527" href="#527">527</a> 		<strong>if</strong> (CLIENTSIDE_HANDLER_REQ_PATH.equals(requestedPath)) {
+<a name="528" href="#528">528</a> 			<strong>this</strong>.clientSideScriptRequestHandler.handleClientSideHandlerRequest(request, response);
+<a name="529" href="#529">529</a> 			processed = <strong>true</strong>;
+<a name="530" href="#530">530</a> 		}<strong>else</strong>{
+<a name="531" href="#531">531</a> 			
+<a name="532" href="#532">532</a> 			<em class="comment">// CSS images would be requested through this handler in case servletMapping is used</em>
+<a name="533" href="#533">533</a> 			<em class="comment">// if( this.jawrConfig.isDebugModeOn() &amp;&amp; !("".equals(this.jawrConfig.getServletMapping())) &amp;&amp; null == request.getParameter(GENERATION_PARAM)) {</em>
+<a name="534" href="#534">534</a> 			<strong>if</strong> (JawrConstant.CSS_TYPE.equals(resourceType) &amp;&amp; 
+<a name="535" href="#535">535</a> 					!JawrConstant.CSS_TYPE.equals(getExtension(requestedPath)) &amp;&amp;
+<a name="536" href="#536">536</a> 					<strong>this</strong>.imgMimeMap.containsKey(getExtension(requestedPath))) {
+<a name="537" href="#537">537</a> 
+<a name="538" href="#538">538</a> 				<strong>if</strong> (<strong>null</strong> == bundlesHandler.resolveBundleForPath(requestedPath)) {
+<a name="539" href="#539">539</a> 					<strong>if</strong> (LOGGER.isDebugEnabled())
+<a name="540" href="#540">540</a> 						LOGGER.debug(<span class="string">"Path '"</span> + requestedPath + <span class="string">"' does not belong to a bundle. Forwarding request to the server. "</span>);
+<a name="541" href="#541">541</a> 					request.getRequestDispatcher(requestedPath).forward(request, response);
+<a name="542" href="#542">542</a> 					processed = <strong>true</strong>;
+<a name="543" href="#543">543</a> 				}
+<a name="544" href="#544">544</a> 			}
+<a name="545" href="#545">545</a> 		}
+<a name="546" href="#546">546</a> 
+<a name="547" href="#547">547</a> 		<strong>return</strong> processed;
+<a name="548" href="#548">548</a> 	}
+<a name="549" href="#549">549</a> 
+<a name="550" href="#550">550</a> 	<em>/**<em>*</em></em>
+<a name="551" href="#551">551</a> <em>	 * Returns true if the bundle is a valid bundle</em>
+<a name="552" href="#552">552</a> <em>	 * @param requestedPath the requested path</em>
+<a name="553" href="#553">553</a> <em>	 * @return true if the bundle is a valid bundle</em>
+<a name="554" href="#554">554</a> <em>	 */</em>
+<a name="555" href="#555">555</a> 	<strong>protected</strong> <strong>boolean</strong> isValidBundle(String requestedPath) {
+<a name="556" href="#556">556</a> 		<strong>boolean</strong> validBundle = <strong>true</strong>;
+<a name="557" href="#557">557</a> 		<strong>if</strong>(!jawrConfig.isDebugModeOn() &amp;&amp; jawrConfig.isStrictMode()){
+<a name="558" href="#558">558</a> 			validBundle = bundlesHandler.containsValidBundleHashcode(requestedPath);
+<a name="559" href="#559">559</a> 		}
+<a name="560" href="#560">560</a> 		<strong>return</strong> validBundle;
+<a name="561" href="#561">561</a> 	}
+<a name="562" href="#562">562</a> 
+<a name="563" href="#563">563</a> 	<em>/**<em>*</em></em>
+<a name="564" href="#564">564</a> <em>	 * Process the request</em>
+<a name="565" href="#565">565</a> <em>	 * @param requestedPath the requested path</em>
+<a name="566" href="#566">566</a> <em>	 * @param request the request</em>
+<a name="567" href="#567">567</a> <em>	 * @param response the response</em>
+<a name="568" href="#568">568</a> <em>	 * @param validBundle the flag indicating if the requested bundle is a valid bundle</em>
+<a name="569" href="#569">569</a> <em>	 * @throws IOException if an IOException occurs</em>
+<a name="570" href="#570">570</a> <em>	 */</em>
+<a name="571" href="#571">571</a> 	<strong>protected</strong> <strong>void</strong> processRequest(String requestedPath,
+<a name="572" href="#572">572</a> 			HttpServletRequest request, HttpServletResponse response,
+<a name="573" href="#573">573</a> 			String contentType, <strong>boolean</strong> validBundle) throws IOException {
+<a name="574" href="#574">574</a> 		
+<a name="575" href="#575">575</a> 		<strong>boolean</strong> writeResponseHeader = false;
+<a name="576" href="#576">576</a> 		
+<a name="577" href="#577">577</a> 		<strong>if</strong> (<strong>this</strong>.jawrConfig.isDebugModeOn() &amp;&amp; <strong>null</strong> != request.getParameter(GENERATION_PARAM))
+<a name="578" href="#578">578</a> 			requestedPath = request.getParameter(GENERATION_PARAM);
+<a name="579" href="#579">579</a> 		
+<a name="580" href="#580">580</a> 		<em class="comment">// If debug mode is off, check for If-Modified-Since and If-none-match headers and set response caching headers.</em>
+<a name="581" href="#581">581</a> 		<strong>if</strong> (!<strong>this</strong>.jawrConfig.isDebugModeOn()) {
+<a name="582" href="#582">582</a> 			<em class="comment">// If a browser checks for changes, always respond 'no changes'.</em>
+<a name="583" href="#583">583</a> 			<strong>if</strong> (validBundle &amp;&amp; (<strong>null</strong> != request.getHeader(IF_MODIFIED_SINCE_HEADER) || <strong>null</strong> != request.getHeader(IF_NONE_MATCH_HEADER))) {
+<a name="584" href="#584">584</a> 				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+<a name="585" href="#585">585</a> 				<strong>if</strong> (LOGGER.isDebugEnabled())
+<a name="586" href="#586">586</a> 					LOGGER.debug(<span class="string">"Returning 'not modified' header. "</span>);
+<a name="587" href="#587">587</a> 				<strong>return</strong>;
+<a name="588" href="#588">588</a> 			}
+<a name="589" href="#589">589</a> 
+<a name="590" href="#590">590</a> 			<strong>if</strong>(validBundle){
+<a name="591" href="#591">591</a> 				<em class="comment">// Add caching headers</em>
+<a name="592" href="#592">592</a> 				setResponseHeaders(response);
+<a name="593" href="#593">593</a> 			}<strong>else</strong>{
+<a name="594" href="#594">594</a> 				
+<a name="595" href="#595">595</a> 				writeResponseHeader = illegalBundleRequestHandler.writeResponseHeader(requestedPath, request, response);
+<a name="596" href="#596">596</a> 				<strong>if</strong>(!writeResponseHeader){
+<a name="597" href="#597">597</a> 					<em class="comment">// Add caching headers</em>
+<a name="598" href="#598">598</a> 					setResponseHeaders(response);
+<a name="599" href="#599">599</a> 				}
+<a name="600" href="#600">600</a> 			}
+<a name="601" href="#601">601</a> 		}
 <a name="602" href="#602">602</a> 		
-<a name="603" href="#603">603</a> 		<strong>boolean</strong> result = <strong>true</strong>;
-<a name="604" href="#604">604</a> 		<strong>if</strong>(requestedPath.startsWith(JawrConstant.WEB_INF_DIR_PREFIX) || requestedPath.startsWith(JawrConstant.META_INF_DIR_PREFIX)){
-<a name="605" href="#605">605</a> 			result = false;
-<a name="606" href="#606">606</a> 		}<strong>else</strong>{
-<a name="607" href="#607">607</a> 			<em class="comment">// If it's not a generated path check the extension file </em>
-<a name="608" href="#608">608</a> 			<strong>if</strong>(!generatorRegistry.isPathGenerated(requestedPath)){
-<a name="609" href="#609">609</a> 				String extension = FileNameUtils.getExtension(requestedPath);
-<a name="610" href="#610">610</a> 				<strong>if</strong>(!extension.toLowerCase().equals(resourceType)){
-<a name="611" href="#611">611</a> 					result = false;
-<a name="612" href="#612">612</a> 				}
-<a name="613" href="#613">613</a> 			}
-<a name="614" href="#614">614</a> 		}
-<a name="615" href="#615">615</a> 		
-<a name="616" href="#616">616</a> 		<strong>return</strong> result;
-<a name="617" href="#617">617</a> 	}
-<a name="618" href="#618">618</a> 	
-<a name="619" href="#619">619</a> 	<em>/**<em>*</em></em>
-<a name="620" href="#620">620</a> <em>	 * Returns the extension for the requested path</em>
-<a name="621" href="#621">621</a> <em>	 * @param requestedPath the requested path</em>
-<a name="622" href="#622">622</a> <em>	 * @return the extension for the requested path</em>
-<a name="623" href="#623">623</a> <em>	 */</em>
-<a name="624" href="#624">624</a> 	<strong>protected</strong> String getExtension(String requestedPath) {
-<a name="625" href="#625">625</a> 		
-<a name="626" href="#626">626</a> 		<strong>return</strong> FileNameUtils.getExtension(requestedPath);
-<a name="627" href="#627">627</a> 	}
-<a name="628" href="#628">628</a> 
-<a name="629" href="#629">629</a> 	<em>/**<em>*</em></em>
-<a name="630" href="#630">630</a> <em>	 * Returns the relative path of an url to go back to the root.</em>
-<a name="631" href="#631">631</a> <em>	 * For example : if the url path is defined as "/cssServletPath/css/myStyle.css" -> "../../"</em>
-<a name="632" href="#632">632</a> <em>	 * </em>
-<a name="633" href="#633">633</a> <em>	 * @param request the request</em>
-<a name="634" href="#634">634</a> <em>	 * @param url the requested url</em>
-<a name="635" href="#635">635</a> <em>	 * @return the relative path of an url to go back to the root.</em>
-<a name="636" href="#636">636</a> <em>	 */</em>
-<a name="637" href="#637">637</a> 	<strong>private</strong> String getRootRelativeCssUrlPath(HttpServletRequest request, String url) {
-<a name="638" href="#638">638</a> 
-<a name="639" href="#639">639</a> 		String finalUrl = url;
-<a name="640" href="#640">640</a> 		String servletPath = <span class="string">""</span>.equals(jawrConfig.getServletMapping()) ? <span class="string">""</span> : request.getServletPath();
-<a name="641" href="#641">641</a> 		String originalRequestPath = <span class="string">""</span>.equals(jawrConfig.getServletMapping()) ? request.getServletPath() : request.getPathInfo();
-<a name="642" href="#642">642</a> 		<em class="comment">// Deals with Jawr generated resource path containing /jawr_generator.css</em>
-<a name="643" href="#643">643</a> 		<strong>if</strong>(originalRequestPath.startsWith(ResourceGenerator.CSS_DEBUGPATH)){
-<a name="644" href="#644">644</a> 			finalUrl = ResourceGenerator.CSS_DEBUGPATH;
-<a name="645" href="#645">645</a> 		}
-<a name="646" href="#646">646</a> 
-<a name="647" href="#647">647</a> 		finalUrl = PathNormalizer.asPath(servletPath + finalUrl);
-<a name="648" href="#648">648</a> 		
-<a name="649" href="#649">649</a> 		Matcher matcher = URL_SEPARATOR_PATTERN.matcher(finalUrl);
-<a name="650" href="#650">650</a> 		StringBuffer result = <strong>new</strong> StringBuffer();
-<a name="651" href="#651">651</a> 		<strong>boolean</strong> first = <strong>true</strong>;
-<a name="652" href="#652">652</a> 		<strong>while</strong> (matcher.find()) {
-<a name="653" href="#653">653</a> 			<strong>if</strong> (first) {
-<a name="654" href="#654">654</a> 				matcher.appendReplacement(result, <span class="string">""</span>);
-<a name="655" href="#655">655</a> 				first = false;
-<a name="656" href="#656">656</a> 			} <strong>else</strong> {
-<a name="657" href="#657">657</a> 				matcher.appendReplacement(result, ROOT_REPLACE_PATTERN);
-<a name="658" href="#658">658</a> 			}
-<a name="659" href="#659">659</a> 
-<a name="660" href="#660">660</a> 		}
+<a name="603" href="#603">603</a> 		<strong>try</strong> {
+<a name="604" href="#604">604</a> 			<strong>if</strong>(validBundle || illegalBundleRequestHandler.canWriteContent(requestedPath, request)){
+<a name="605" href="#605">605</a> 				<em class="comment">// By setting content type, the response writer will use appropriate encoding</em>
+<a name="606" href="#606">606</a> 				response.setContentType(contentType);
+<a name="607" href="#607">607</a> 				writeContent(requestedPath, request, response);
+<a name="608" href="#608">608</a> 				<strong>if</strong> (LOGGER.isDebugEnabled())
+<a name="609" href="#609">609</a> 					LOGGER.debug(<span class="string">"request succesfully attended"</span>);
+<a name="610" href="#610">610</a> 			}<strong>else</strong>{
+<a name="611" href="#611">611</a> 				<strong>if</strong>(!writeResponseHeader){
+<a name="612" href="#612">612</a> 					logBundleNotFound(requestedPath);
+<a name="613" href="#613">613</a> 					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+<a name="614" href="#614">614</a> 				}
+<a name="615" href="#615">615</a> 			}
+<a name="616" href="#616">616</a> 		} <strong>catch</strong> (EOFException eofex) {
+<a name="617" href="#617">617</a> 			LOGGER.debug(<span class="string">"Browser cut off response"</span>, eofex);
+<a name="618" href="#618">618</a> 		} <strong>catch</strong> (ResourceNotFoundException e) {
+<a name="619" href="#619">619</a> 			logBundleNotFound(requestedPath);
+<a name="620" href="#620">620</a> 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+<a name="621" href="#621">621</a> 			<strong>return</strong>;
+<a name="622" href="#622">622</a> 		}
+<a name="623" href="#623">623</a> 	}
+<a name="624" href="#624">624</a> 
+<a name="625" href="#625">625</a> 	<em>/**<em>*</em></em>
+<a name="626" href="#626">626</a> <em>	 * Logs that the requested bundle was not found</em>
+<a name="627" href="#627">627</a> <em>	 * @param requestedPath</em>
+<a name="628" href="#628">628</a> <em>	 */</em>
+<a name="629" href="#629">629</a> 	<strong>private</strong> <strong>void</strong> logBundleNotFound(String requestedPath) {
+<a name="630" href="#630">630</a> 		<strong>if</strong> (LOGGER.isInfoEnabled())
+<a name="631" href="#631">631</a> 			LOGGER.info(<span class="string">"Received a request for a non existing bundle: "</span> + requestedPath);
+<a name="632" href="#632">632</a> 	}
+<a name="633" href="#633">633</a> 
+<a name="634" href="#634">634</a> 	<em>/**<em>*</em></em>
+<a name="635" href="#635">635</a> <em>	 * Returns the content type of the requested path</em>
+<a name="636" href="#636">636</a> <em>	 * @param requestedPath the requested path</em>
+<a name="637" href="#637">637</a> <em>	 * @param request the request</em>
+<a name="638" href="#638">638</a> <em>	 * @return the content type of the requested path</em>
+<a name="639" href="#639">639</a> <em>	 */</em>
+<a name="640" href="#640">640</a> 	<strong>protected</strong> String getContentType(String requestedPath, HttpServletRequest request) {
+<a name="641" href="#641">641</a> 		<strong>return</strong> contentType;
+<a name="642" href="#642">642</a> 	}
+<a name="643" href="#643">643</a> 
+<a name="644" href="#644">644</a> 	<em>/**<em>*</em></em>
+<a name="645" href="#645">645</a> <em>	 * Writes the content to the ouput stream</em>
+<a name="646" href="#646">646</a> <em>	 * @param requestedPath the requested path</em>
+<a name="647" href="#647">647</a> <em>	 * @param request the request</em>
+<a name="648" href="#648">648</a> <em>	 * @param response the response</em>
+<a name="649" href="#649">649</a> <em>	 * @throws IOException if an IOException occurs</em>
+<a name="650" href="#650">650</a> <em>	 * @throws ResourceNotFoundException if the resource is not found</em>
+<a name="651" href="#651">651</a> <em>	 */</em>
+<a name="652" href="#652">652</a> 	<strong>protected</strong> <strong>void</strong> writeContent(String requestedPath, HttpServletRequest request,
+<a name="653" href="#653">653</a> 			HttpServletResponse response) throws IOException, ResourceNotFoundException {
+<a name="654" href="#654">654</a> 		
+<a name="655" href="#655">655</a> 		<em class="comment">// Send gzipped resource if user agent supports it.</em>
+<a name="656" href="#656">656</a> 		<strong>if</strong> (requestedPath.startsWith(BundleRenderer.GZIP_PATH_PREFIX)) {
+<a name="657" href="#657">657</a> 			requestedPath = <span class="string">"/"</span> + requestedPath.substring(BundleRenderer.GZIP_PATH_PREFIX.length(), requestedPath.length());
+<a name="658" href="#658">658</a> 			response.setHeader(<span class="string">"Content-Encoding"</span>, <span class="string">"gzip"</span>);
+<a name="659" href="#659">659</a> 			bundlesHandler.streamBundleTo(requestedPath, response.getOutputStream());
+<a name="660" href="#660">660</a> 		} <strong>else</strong> {
 <a name="661" href="#661">661</a> 
-<a name="662" href="#662">662</a> 		<strong>return</strong> result.toString();
-<a name="663" href="#663">663</a> 	}
-<a name="664" href="#664">664</a> 
-<a name="665" href="#665">665</a> 	<em>/**<em>*</em></em>
-<a name="666" href="#666">666</a> <em>	 * Adds aggresive caching headers to the response in order to prevent browsers requesting the same file twice.</em>
-<a name="667" href="#667">667</a> <em>	 * </em>
-<a name="668" href="#668">668</a> <em>	 * @param resp the response</em>
-<a name="669" href="#669">669</a> <em>	 */</em>
-<a name="670" href="#670">670</a> 	<strong>protected</strong> <strong>void</strong> setResponseHeaders(HttpServletResponse resp) {
-<a name="671" href="#671">671</a> 		<em class="comment">// Force resource caching as best as possible</em>
-<a name="672" href="#672">672</a> 		resp.setHeader(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE);
-<a name="673" href="#673">673</a> 		resp.setHeader(LAST_MODIFIED_HEADER, LAST_MODIFIED_VALUE);
-<a name="674" href="#674">674</a> 		resp.setHeader(ETAG_HEADER, ETAG_VALUE);
-<a name="675" href="#675">675</a> 		Calendar cal = Calendar.getInstance();
-<a name="676" href="#676">676</a> 		cal.roll(Calendar.YEAR, 10);
-<a name="677" href="#677">677</a> 		resp.setDateHeader(EXPIRES_HEADER, cal.getTimeInMillis());
-<a name="678" href="#678">678</a> 	}
-<a name="679" href="#679">679</a> 
-<a name="680" href="#680">680</a> 	<em>/**<em>*</em></em>
-<a name="681" href="#681">681</a> <em>	 * Analog to Servlet.destroy(), should be invoked whenever the app is redeployed.</em>
-<a name="682" href="#682">682</a> <em>	 */</em>
-<a name="683" href="#683">683</a> 	<strong>public</strong> <strong>void</strong> destroy() {
-<a name="684" href="#684">684</a> 		<em class="comment">// Stop the config change listener.</em>
-<a name="685" href="#685">685</a> 		<strong>if</strong> (<strong>null</strong> != <strong>this</strong>.configChangeListenerThread)
-<a name="686" href="#686">686</a> 			configChangeListenerThread.stopPolling();
-<a name="687" href="#687">687</a> 	}
-<a name="688" href="#688">688</a> 
-<a name="689" href="#689">689</a> 	<em class="comment">/*</em>
-<a name="690" href="#690">690</a> <em class="comment">	 * (non-Javadoc)</em>
-<a name="691" href="#691">691</a> <em class="comment">	 * </em>
-<a name="692" href="#692">692</a> <em class="comment">	 * @see net.jawr.web.resource.bundle.factory.util.ConfigChangeListener#configChanged(java.util.Properties)</em>
-<a name="693" href="#693">693</a> <em class="comment">	 */</em>
-<a name="694" href="#694">694</a> 	<strong>public</strong> <strong>synchronized</strong> <strong>void</strong> configChanged(Properties newConfig) {
-<a name="695" href="#695">695</a> 		<strong>if</strong> (log.isDebugEnabled())
-<a name="696" href="#696">696</a> 			log.debug(<span class="string">"Reloading Jawr configuration"</span>);
-<a name="697" href="#697">697</a> 		<strong>try</strong> {
-<a name="698" href="#698">698</a> 			<em class="comment">// Initialize the Thread local for the Jawr context</em>
-<a name="699" href="#699">699</a> 			<strong>if</strong>(isJmxEnabled()){
-<a name="700" href="#700">700</a> 				ThreadLocalJawrContext.setJawrConfigMgrObjectName(JmxUtils.getMBeanObjectName(servletContext, resourceType));
-<a name="701" href="#701">701</a> 			}
-<a name="702" href="#702">702</a> 			
-<a name="703" href="#703">703</a> 			initializeJawrConfig(newConfig);
-<a name="704" href="#704">704</a> 		} <strong>catch</strong> (Exception e) {
-<a name="705" href="#705">705</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(<span class="string">"Error reloading Jawr config: "</span> + e.getMessage(), e);
-<a name="706" href="#706">706</a> 		}<strong>finally</strong>{
-<a name="707" href="#707">707</a> 			
-<a name="708" href="#708">708</a> 			<em class="comment">// Reset the Thread local for the Jawr context</em>
-<a name="709" href="#709">709</a> 			ThreadLocalJawrContext.reset();
-<a name="710" href="#710">710</a> 		}
-<a name="711" href="#711">711</a> 		
-<a name="712" href="#712">712</a> 		<strong>if</strong> (log.isDebugEnabled())
-<a name="713" href="#713">713</a> 			log.debug(<span class="string">"Jawr configuration succesfully reloaded. "</span>);
-<a name="714" href="#714">714</a> 	}
-<a name="715" href="#715">715</a> }
+<a name="662" href="#662">662</a> 			<em class="comment">// In debug mode, we take in account the image generated from a StreamGenerator like classpath Image generator</em>
+<a name="663" href="#663">663</a> 			<em class="comment">// The following code will rewrite the URL path for the generated images,</em>
+<a name="664" href="#664">664</a> 			<em class="comment">// because in debug mode, we are retrieving the CSS ressources directly from the webapp</em>
+<a name="665" href="#665">665</a> 			<em class="comment">// and if the CSS contains generated images, we should rewrite the URL.</em>
+<a name="666" href="#666">666</a> 			ImageResourcesHandler imgRsHandler = (ImageResourcesHandler) servletContext.getAttribute(JawrConstant.IMG_CONTEXT_ATTRIBUTE);
+<a name="667" href="#667">667</a> 			<strong>if</strong> (imgRsHandler != <strong>null</strong> &amp;&amp; <strong>this</strong>.jawrConfig.isDebugModeOn() &amp;&amp; resourceType.equals(JawrConstant.CSS_TYPE)) {
+<a name="668" href="#668">668</a> 
+<a name="669" href="#669">669</a> 				handleGeneratedCssInDebugMode(requestedPath, request,
+<a name="670" href="#670">670</a> 						response, imgRsHandler);
+<a name="671" href="#671">671</a> 			} <strong>else</strong> {
+<a name="672" href="#672">672</a> 
+<a name="673" href="#673">673</a> 				<strong>if</strong>(isValidRequestedPath(requestedPath)){
+<a name="674" href="#674">674</a> 					Writer out = response.getWriter();
+<a name="675" href="#675">675</a> 					bundlesHandler.writeBundleTo(requestedPath, out);	
+<a name="676" href="#676">676</a> 				}<strong>else</strong>{
+<a name="677" href="#677">677</a> 					<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a>(requestedPath);
+<a name="678" href="#678">678</a> 				}
+<a name="679" href="#679">679</a> 			}
+<a name="680" href="#680">680</a> 		}
+<a name="681" href="#681">681</a> 		
+<a name="682" href="#682">682</a> 	}
+<a name="683" href="#683">683</a> 
+<a name="684" href="#684">684</a> 	<em>/**<em>*</em></em>
+<a name="685" href="#685">685</a> <em>	 * Handle the generated CSS content in debug mode.</em>
+<a name="686" href="#686">686</a> <em>	 * @param requestedPath the request path</em>
+<a name="687" href="#687">687</a> <em>	 * @param request the request</em>
+<a name="688" href="#688">688</a> <em>	 * @param response the response</em>
+<a name="689" href="#689">689</a> <em>	 * @param imgRsHandler the image resource handler</em>
+<a name="690" href="#690">690</a> <em>	 * @throws ResourceNotFoundException if the resource is not found</em>
+<a name="691" href="#691">691</a> <em>	 * @throws IOException if an IO exception occurs</em>
+<a name="692" href="#692">692</a> <em>	 */</em>
+<a name="693" href="#693">693</a> 	<strong>private</strong> <strong>void</strong> handleGeneratedCssInDebugMode(String requestedPath,
+<a name="694" href="#694">694</a> 			HttpServletRequest request, HttpServletResponse response,
+<a name="695" href="#695">695</a> 			ImageResourcesHandler imgRsHandler)
+<a name="696" href="#696">696</a> 			throws ResourceNotFoundException, IOException {
+<a name="697" href="#697">697</a> 		
+<a name="698" href="#698">698</a> 		<em class="comment">// Write the content of the CSS in the Stringwriter</em>
+<a name="699" href="#699">699</a> 		Writer writer = <strong>new</strong> StringWriter();
+<a name="700" href="#700">700</a> 		Reader rd = rsReaderHandler.getResource(requestedPath);
+<a name="701" href="#701">701</a> 		<strong>if</strong>(rd == <strong>null</strong>){
+<a name="702" href="#702">702</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/ResourceNotFoundException.html">ResourceNotFoundException</a>(requestedPath);
+<a name="703" href="#703">703</a> 		}
+<a name="704" href="#704">704</a> 		IOUtils.copy(rd, writer);
+<a name="705" href="#705">705</a> 		String content = writer.toString();
+<a name="706" href="#706">706</a> 
+<a name="707" href="#707">707</a> 		String imageServletMapping = imgRsHandler.getJawrConfig().getServletMapping();
+<a name="708" href="#708">708</a> 		
+<a name="709" href="#709">709</a> 		<strong>if</strong> (imageServletMapping == <strong>null</strong>) {
+<a name="710" href="#710">710</a> 			imageServletMapping = <span class="string">""</span>;
+<a name="711" href="#711">711</a> 		}
+<a name="712" href="#712">712</a> 
+<a name="713" href="#713">713</a> 		<em class="comment">// Define the replacement pattern for the generated image (like jar:img/myImg.png)</em>
+<a name="714" href="#714">714</a> 		String relativeRootUrlPath = PathNormalizer.getRootRelativePath(getRequestPath(request));
+<a name="715" href="#715">715</a> 		String replacementPattern = PathNormalizer.normalizePath(<span class="string">"$1"</span> + relativeRootUrlPath + imageServletMapping + <span class="string">"/$4_cbDebug/$7$8"</span>);
+<a name="716" href="#716">716</a> 		
+<a name="717" href="#717">717</a> 		Matcher matcher = GENERATED_IMG_PATTERN.matcher(content);
+<a name="718" href="#718">718</a> 
+<a name="719" href="#719">719</a> 		<em class="comment">// Rewrite the images define in the classpath, to point to the image servlet</em>
+<a name="720" href="#720">720</a> 		StringBuffer result = <strong>new</strong> StringBuffer();
+<a name="721" href="#721">721</a> 		<strong>while</strong> (matcher.find()) {
+<a name="722" href="#722">722</a> 			matcher.appendReplacement(result, replacementPattern);
+<a name="723" href="#723">723</a> 		}
+<a name="724" href="#724">724</a> 		matcher.appendTail(result);
+<a name="725" href="#725">725</a> 		Writer out = response.getWriter();
+<a name="726" href="#726">726</a> 		out.write(result.toString());
+<a name="727" href="#727">727</a> 	}
+<a name="728" href="#728">728</a> 
+<a name="729" href="#729">729</a> 	<em>/**<em>*</em></em>
+<a name="730" href="#730">730</a> <em>	 * Checks if the path is valid and can be accessed.</em>
+<a name="731" href="#731">731</a> <em>	 * @param requestedPath the requested path</em>
+<a name="732" href="#732">732</a> <em>	 * @return true if the path is valid and can be accessed.</em>
+<a name="733" href="#733">733</a> <em>	 */</em>
+<a name="734" href="#734">734</a> 	<strong>protected</strong> <strong>boolean</strong> isValidRequestedPath(String requestedPath) {
+<a name="735" href="#735">735</a> 		
+<a name="736" href="#736">736</a> 		<strong>boolean</strong> result = <strong>true</strong>;
+<a name="737" href="#737">737</a> 		<strong>if</strong>(requestedPath.startsWith(JawrConstant.WEB_INF_DIR_PREFIX) || requestedPath.startsWith(JawrConstant.META_INF_DIR_PREFIX)){
+<a name="738" href="#738">738</a> 			result = false;
+<a name="739" href="#739">739</a> 		}<strong>else</strong>{
+<a name="740" href="#740">740</a> 			<em class="comment">// If it's not a generated path check the extension file </em>
+<a name="741" href="#741">741</a> 			<strong>if</strong>(!generatorRegistry.isPathGenerated(requestedPath)){
+<a name="742" href="#742">742</a> 				String extension = FileNameUtils.getExtension(requestedPath);
+<a name="743" href="#743">743</a> 				<strong>if</strong>(!extension.toLowerCase().equals(resourceType)){
+<a name="744" href="#744">744</a> 					result = false;
+<a name="745" href="#745">745</a> 				}
+<a name="746" href="#746">746</a> 			}
+<a name="747" href="#747">747</a> 		}
+<a name="748" href="#748">748</a> 		
+<a name="749" href="#749">749</a> 		<strong>return</strong> result;
+<a name="750" href="#750">750</a> 	}
+<a name="751" href="#751">751</a> 	
+<a name="752" href="#752">752</a> 	<em>/**<em>*</em></em>
+<a name="753" href="#753">753</a> <em>	 * Returns the extension for the requested path</em>
+<a name="754" href="#754">754</a> <em>	 * @param requestedPath the requested path</em>
+<a name="755" href="#755">755</a> <em>	 * @return the extension for the requested path</em>
+<a name="756" href="#756">756</a> <em>	 */</em>
+<a name="757" href="#757">757</a> 	<strong>protected</strong> String getExtension(String requestedPath) {
+<a name="758" href="#758">758</a> 		
+<a name="759" href="#759">759</a> 		<strong>return</strong> FileNameUtils.getExtension(requestedPath);
+<a name="760" href="#760">760</a> 	}
+<a name="761" href="#761">761</a> 
+<a name="762" href="#762">762</a> 	<em>/**<em>*</em></em>
+<a name="763" href="#763">763</a> <em>	 * Returns the request path</em>
+<a name="764" href="#764">764</a> <em>	 * @param request the request</em>
+<a name="765" href="#765">765</a> <em>	 * @return the request path</em>
+<a name="766" href="#766">766</a> <em>	 */</em>
+<a name="767" href="#767">767</a> 	<strong>private</strong> String getRequestPath(HttpServletRequest request) {
+<a name="768" href="#768">768</a> 		
+<a name="769" href="#769">769</a> 		String finalUrl = <strong>null</strong>;
+<a name="770" href="#770">770</a> 		String servletPath = request.getServletPath();
+<a name="771" href="#771">771</a> 		<strong>if</strong>(<span class="string">""</span>.equals(jawrConfig.getServletMapping())){
+<a name="772" href="#772">772</a> 			finalUrl = PathNormalizer.asPath(servletPath);
+<a name="773" href="#773">773</a> 		}<strong>else</strong>{
+<a name="774" href="#774">774</a> 			finalUrl = PathNormalizer.asPath(servletPath + request.getPathInfo());
+<a name="775" href="#775">775</a> 		}
+<a name="776" href="#776">776</a> 		<strong>return</strong> finalUrl;
+<a name="777" href="#777">777</a> 	}
+<a name="778" href="#778">778</a> 
+<a name="779" href="#779">779</a> 	<em>/**<em>*</em></em>
+<a name="780" href="#780">780</a> <em>	 * Adds aggresive caching headers to the response in order to prevent browsers requesting the same file twice.</em>
+<a name="781" href="#781">781</a> <em>	 * </em>
+<a name="782" href="#782">782</a> <em>	 * @param resp the response</em>
+<a name="783" href="#783">783</a> <em>	 */</em>
+<a name="784" href="#784">784</a> 	<strong>protected</strong> <strong>void</strong> setResponseHeaders(HttpServletResponse resp) {
+<a name="785" href="#785">785</a> 		<em class="comment">// Force resource caching as best as possible</em>
+<a name="786" href="#786">786</a> 		resp.setHeader(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE);
+<a name="787" href="#787">787</a> 		resp.setHeader(LAST_MODIFIED_HEADER, LAST_MODIFIED_VALUE);
+<a name="788" href="#788">788</a> 		resp.setHeader(ETAG_HEADER, ETAG_VALUE);
+<a name="789" href="#789">789</a> 		Calendar cal = Calendar.getInstance();
+<a name="790" href="#790">790</a> 		cal.roll(Calendar.YEAR, 10);
+<a name="791" href="#791">791</a> 		resp.setDateHeader(EXPIRES_HEADER, cal.getTimeInMillis());
+<a name="792" href="#792">792</a> 	}
+<a name="793" href="#793">793</a> 
+<a name="794" href="#794">794</a> 	<em>/**<em>*</em></em>
+<a name="795" href="#795">795</a> <em>	 * Analog to Servlet.destroy(), should be invoked whenever the app is redeployed.</em>
+<a name="796" href="#796">796</a> <em>	 */</em>
+<a name="797" href="#797">797</a> 	<strong>public</strong> <strong>void</strong> destroy() {
+<a name="798" href="#798">798</a> 		<em class="comment">// Stop the config change listener.</em>
+<a name="799" href="#799">799</a> 		<strong>if</strong> (<strong>null</strong> != <strong>this</strong>.configChangeListenerThread)
+<a name="800" href="#800">800</a> 			configChangeListenerThread.stopPolling();
+<a name="801" href="#801">801</a> 	}
+<a name="802" href="#802">802</a> 
+<a name="803" href="#803">803</a> 	<em class="comment">/*</em>
+<a name="804" href="#804">804</a> <em class="comment">	 * (non-Javadoc)</em>
+<a name="805" href="#805">805</a> <em class="comment">	 * </em>
+<a name="806" href="#806">806</a> <em class="comment">	 * @see net.jawr.web.resource.bundle.factory.util.ConfigChangeListener#configChanged(java.util.Properties)</em>
+<a name="807" href="#807">807</a> <em class="comment">	 */</em>
+<a name="808" href="#808">808</a> 	<strong>public</strong> <strong>synchronized</strong> <strong>void</strong> configChanged(Properties newConfig) {
+<a name="809" href="#809">809</a> 		<strong>if</strong> (LOGGER.isDebugEnabled())
+<a name="810" href="#810">810</a> 			LOGGER.debug(<span class="string">"Reloading Jawr configuration"</span>);
+<a name="811" href="#811">811</a> 		<strong>try</strong> {
+<a name="812" href="#812">812</a> 			<em class="comment">// Initialize the Thread local for the Jawr context</em>
+<a name="813" href="#813">813</a> 			<strong>if</strong>(JmxUtils.isJmxEnabled()){
+<a name="814" href="#814">814</a> 				ThreadLocalJawrContext.setJawrConfigMgrObjectName(JmxUtils.getMBeanObjectName(servletContext, resourceType));
+<a name="815" href="#815">815</a> 			}
+<a name="816" href="#816">816</a> 			
+<a name="817" href="#817">817</a> 			initializeJawrConfig(newConfig);
+<a name="818" href="#818">818</a> 		} <strong>catch</strong> (Exception e) {
+<a name="819" href="#819">819</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(<span class="string">"Error reloading Jawr config: "</span> + e.getMessage(), e);
+<a name="820" href="#820">820</a> 		}<strong>finally</strong>{
+<a name="821" href="#821">821</a> 			
+<a name="822" href="#822">822</a> 			<em class="comment">// Reset the Thread local for the Jawr context</em>
+<a name="823" href="#823">823</a> 			ThreadLocalJawrContext.reset();
+<a name="824" href="#824">824</a> 		}
+<a name="825" href="#825">825</a> 		
+<a name="826" href="#826">826</a> 		<strong>if</strong> (LOGGER.isDebugEnabled())
+<a name="827" href="#827">827</a> 			LOGGER.debug(<span class="string">"Jawr configuration succesfully reloaded. "</span>);
+<a name="828" href="#828">828</a> 	}
+<a name="829" href="#829">829</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

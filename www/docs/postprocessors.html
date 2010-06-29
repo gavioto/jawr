@@ -108,6 +108,14 @@
         </li>
               
     <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/jmx_support.html">JMX Support</a>
         </li>
               
@@ -170,7 +178,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -280,6 +296,10 @@
         </pre>
 </div>
 <p>In this example, the bundle postprocessor for the <i>foo</i> bundle is set to <i>license</i>, meaning no minification will occur. And for the file-by-file postprocessor, it is specified that none will be used. </p>
+<p>Jawr allows you to define the postprocessors for composite bundles. The format of the postprocessor properties is :</p>
+<ul><li>jawr.<i>resourceType</i>.bundle.<i>bundleName</i>.composite.bundlepostprocessors</li>
+<li>jawr.<i>resourceType</i>.bundle.<i>bundleName</i>.composite.filepostprocessors</li>
+</ul>
 <div class="section"><h3>Custom postprocessors</h3>
 <p>You can also implement your own postprocessor components (for js, css, or both) to perform any functionality not offered by the included ones. To do that, you must create a class with a no-params constructor that implements the interface <i>net.jawr.web.resource.bundle.postprocess.ResourceBundlePostProcessor</i>. This interface defines a single method: </p>
 <div class="source"><pre>        /**
@@ -318,6 +338,16 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 <p>Grails users will unfortunately need to pack their classes in a jar and add it to the lib folder of their application. The reason for this is a known flaw in the Grails classloading strategy that keeps plugins from accessing application classes.</p>
 <hr />
 </div>
+<div class="section"><h3>Custom postprocessors for composite bundle</h3>
+<p>For a composite bundle, you can define the child bundle associated to it using the <b>child.names</b> property like follow.</p>
+<div class="source"><pre>jawr.css.bundle.myCompositeBundle.child.names=child_1,child_2</pre>
+</div>
+<p>When you define a filepostprocessor on a composite bundle, this postprocessor will be applied on the child bundle content. The child bundle content will be treated as a single file. If you define a bundle postprocessor on a composite bundle, the postprocessor will be applied on the whole bundle. </p>
+<p>To disable postprocessing on the composite bundle, you just need to configure you composite bundle as such :</p>
+<div class="source"><pre>jawr.css.bundle.myCompositeBundle.fileprocessors=none
+jawr.css.bundle.myCompositeBundle.bundlepostprocessors=none</pre>
+</div>
+</div>
 <div class="section"><h3>Jawr included postprocessors reference</h3>
 </div>
 <div class="section"><h3>All-around postprocessors</h3>
@@ -336,7 +366,7 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 <ul><li><b>Type</b>: Bundle</li>
 <li><b>Properties Key</b>: YUI, YUIobf</li>
 </ul>
-<p>This processor uses <a href="http://developer.yahoo.com/yui/compressor/" class="externalLink"> Julien Lecomte's YUI compressor</a>. This is a javascript and CSS minification tool that can also perform code obfuscation in the case of javascript bundles. If you want obfuscation, you should use the <b>YUIobf</b> key when defining postprocessors, but remember that this is only valid for javascript bundles. The YUI compressor has an advantage over JSMin and Jawr's custom CSS compressor in that it will achieve better minification (although in the case of CSS the difference is minimal). On the other hand it will add a dependency to the YUI compressor and Rhino libraries. You can get YUI <a href="http://www.julienlecomte.net/yuicompressor/" class="externalLink"> here</a>, and rhino <a href="http://www.mozilla.org/rhino/download.html" class="externalLink"> here</a>. Maven users can get both by adding a single dependency, like this: </p>
+<p>This processor uses <a class="externalLink" href="http://developer.yahoo.com/yui/compressor/"> Julien Lecomte's YUI compressor</a>. This is a javascript and CSS minification tool that can also perform code obfuscation in the case of javascript bundles. If you want obfuscation, you should use the <b>YUIobf</b> key when defining postprocessors, but remember that this is only valid for javascript bundles. The YUI compressor has an advantage over JSMin and Jawr's custom CSS compressor in that it will achieve better minification (although in the case of CSS the difference is minimal). On the other hand it will add a dependency to the YUI compressor and Rhino libraries. You can get YUI <a class="externalLink" href="http://www.julienlecomte.net/yuicompressor/"> here</a>, and rhino <a class="externalLink" href="http://www.mozilla.org/rhino/download.html"> here</a>. Maven users can get both by adding a single dependency, like this: </p>
 <div class="source"><pre>        &lt;dependency&gt;
             &lt;groupId&gt;com.yahoo.platform.yui&lt;/groupId&gt;
             &lt;artifactId&gt;yuicompressor&lt;/artifactId&gt;
@@ -351,7 +381,7 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 <ul><li><b>Type</b>: Bundle</li>
 <li><b>Properties Key</b>: JSMin</li>
 </ul>
-<p>This processor uses <a href="http://www.crockford.com/javascript/jsmin.html" class="externalLink">Douglas Crockford's JSMin</a> minificator. It will remove any comments in code and unnecesary whitespace in a very safe manner. </p>
+<p>This processor uses <a class="externalLink" href="http://www.crockford.com/javascript/jsmin.html">Douglas Crockford's JSMin</a> minificator. It will remove any comments in code and unnecesary whitespace in a very safe manner. </p>
 <div class="section"><h3>CSS-specific postprocessors</h3>
 </div>
 </div>
@@ -360,6 +390,25 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 <li><b>Properties Key</b>: cssminify</li>
 </ul>
 <p>This processor removes comments and unneeded whitespace using search and replace with regular expressions. It is on by default and is almost as efficient as the YUI compressor. </p>
+</div>
+<div class="section"><h2><b>CSS combine Media</b></h2>
+<ul><li><b>Type</b>: Bundle</li>
+<li><b>Properties Key</b>: cssCombineMedia</li>
+</ul>
+<p>This processor will wrap the content of the bundle with the &quot;media&quot; value defined in the Jawr configuration file associated to this bundle.<br />
+Jawr will search for th value associated to : jawr.css.bundle.<b>bundleName</b>.media to find the media value to set. If no media value is found, Jawr will set the media to <b>screen</b>.</p>
+<p>For example, if your bundle is define like this :</p>
+<div class="source"><pre>        jawr.css.bundle.combine_print.id=/bundles/combine_print.css
+        jawr.css.bundle.combine_print.mappings=/resources/css/combine/print_1.css,/resources/css/combine/print_2.css
+        jawr.css.bundle.combine_print.bundlepostprocessors=cssCombineMedia
+        jawr.css.bundle.combine_print.media=print</pre>
+</div>
+<p>The content of the bundle will be wrap around a media rule declaration set to &quot;print&quot;.</p>
+<div class="source"><pre>@media print {
+
+        ... /* Content of the bundle goes here */
+}        </pre>
+</div>
 </div>
 <div class="section"><h2><b>CSS Path rewriter</b></h2>
 <ul><li><b>Type</b>: File</li>
@@ -371,13 +420,19 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 <ul><li><b>Type</b>: File</li>
 <li><b>Properties Key</b>: cssimport</li>
 </ul>
-<p>This processor import the CSS resources referenced by <b>@import url(...)</b> statement. These resources are included in the generated CSS bundle. </p>
+<p>This processor imports the CSS resources referenced by <b>@import url(...)</b> statement. These resources are included in the generated CSS bundle. </p>
+</div>
+<div class="section"><h2><b>CSS base64 postprocessor</b></h2>
+<ul><li><b>Type</b>: Bundle</li>
+<li><b>Properties Key</b>: base64ImageEncoder</li>
+</ul>
+<p>This processor encodes the CSS images in base64 except for the images which has as annotation<b> /** jawr:base64-skip */ </b> statement. This postprocessor should not be used with the <b>csspathrewriter</b>, because they are doing the same job rewriting the image URL. <b>WARNING :</b> You should not use this postprocessor as a <b>filepostprocessor</b> but only as <b>bundlepostprocessor</b>.</p>
 <div class="section"><h3>User submitted postprocessors</h3>
 <p>Some users are so kind as to submit their own custom postprocessors. If you have one that you think may be useful to others, please post it at the support forum and they will be shared among the Jawr community of users. To use any of these, download the source file and add it to your project source. Then declare the class and a mapping key as described at the <i>custom postprocessors</i> section above and you are ready to go. You can even go ahead and customize the class to suit your own needs. </p>
 </div>
 </div>
 <div class="section"><h2><b>Console Log Statement Remover</b></h2>
-<ul><li><b>Submitted by</b>: Ryan Wilson (<a href="http://blog.augmentedfragments.com" class="externalLink">http://blog.augmentedfragments.com</a>)</li>
+<ul><li><b>Submitted by</b>: Ryan Wilson (<a class="externalLink" href="http://blog.augmentedfragments.com">http://blog.augmentedfragments.com</a>)</li>
 <li><b>Source</b>: <a href="../java/ConsolePostProcessor.java">ConsolePostProcessor.java</a></li>
 <li><b>Type</b>: Bundle</li>
 </ul>
@@ -399,8 +454,8 @@ jawr.js.bundle.foo.bundlepostprocessors=license=func,license</pre>
 
   
   
-  &nbsp;| Last Published: 01/31/2010
-  &nbsp;| Version: 3.2.1
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
 </div>
       <div class="clear">
         <hr/>

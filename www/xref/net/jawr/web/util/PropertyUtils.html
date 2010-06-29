@@ -42,7 +42,7 @@
 <a name="33" href="#33">33</a>  <strong>public</strong> <strong>class</strong> <a href="../../../../net/jawr/web/util/PropertyUtils.html">PropertyUtils</a> {
 <a name="34" href="#34">34</a>  
 <a name="35" href="#35">35</a>  	<em>/**<em>* The logger */</em></em>
-<a name="36" href="#36">36</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger log = Logger.getLogger(PropertyUtils.<strong>class</strong>);
+<a name="36" href="#36">36</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger LOGGER = Logger.getLogger(PropertyUtils.<strong>class</strong>);
 <a name="37" href="#37">37</a>  
 <a name="38" href="#38">38</a>  	<em>/**<em>*</em></em>
 <a name="39" href="#39">39</a>  <em>     * Return the value of the specified simple property of the specified</em>
@@ -237,7 +237,7 @@
 <a name="228" href="#228">228</a>         
 <a name="229" href="#229">229</a>         } <strong>catch</strong> (IllegalArgumentException e) {
 <a name="230" href="#230">230</a>             
-<a name="231" href="#231">231</a>             log.error(<span class="string">"Method invocation failed."</span>, e);
+<a name="231" href="#231">231</a>             LOGGER.error(<span class="string">"Method invocation failed."</span>, e);
 <a name="232" href="#232">232</a>             <strong>throw</strong> <strong>new</strong> IllegalArgumentException(
 <a name="233" href="#233">233</a>                 <span class="string">"Cannot invoke "</span> + method.getDeclaringClass().getName() + <span class="string">"."</span> 
 <a name="234" href="#234">234</a>                 + method.getName() + <span class="string">" - "</span> + e.getMessage());

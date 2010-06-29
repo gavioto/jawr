@@ -34,11 +34,11 @@
 <a name="25" href="#25">25</a>  <strong>import</strong> java.nio.channels.FileChannel;
 <a name="26" href="#26">26</a>  
 <a name="27" href="#27">27</a>  <strong>import</strong> net.jawr.web.JawrConstant;
-<a name="28" href="#28">28</a>  <strong>import</strong> net.jawr.web.resource.FileNameUtils;
-<a name="29" href="#29">29</a>  <strong>import</strong> net.jawr.web.resource.bundle.IOUtils;
-<a name="30" href="#30">30</a>  <strong>import</strong> net.jawr.web.resource.bundle.JoinableResourceBundle;
-<a name="31" href="#31">31</a>  <strong>import</strong> net.jawr.web.resource.bundle.JoinableResourceBundleImpl;
-<a name="32" href="#32">32</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.PathNormalizer;
+<a name="28" href="#28">28</a>  <strong>import</strong> net.jawr.web.exception.BundlingProcessException;
+<a name="29" href="#29">29</a>  <strong>import</strong> net.jawr.web.resource.FileNameUtils;
+<a name="30" href="#30">30</a>  <strong>import</strong> net.jawr.web.resource.bundle.IOUtils;
+<a name="31" href="#31">31</a>  <strong>import</strong> net.jawr.web.resource.bundle.JoinableResourceBundle;
+<a name="32" href="#32">32</a>  <strong>import</strong> net.jawr.web.resource.bundle.JoinableResourceBundleImpl;
 <a name="33" href="#33">33</a>  <strong>import</strong> net.jawr.web.resource.bundle.generator.AbstractCSSGenerator;
 <a name="34" href="#34">34</a>  <strong>import</strong> net.jawr.web.resource.bundle.generator.GeneratorContext;
 <a name="35" href="#35">35</a>  <strong>import</strong> net.jawr.web.resource.bundle.generator.GeneratorRegistry;
@@ -115,7 +115,7 @@
 <a name="106" href="#106">106</a> 				<strong>try</strong> {
 <a name="107" href="#107">107</a> 					fis = <strong>new</strong> FileInputStream(<strong>new</strong> File(workingDir+<span class="string">"/"</span>+TEMP_CSS_CLASSPATH_SUBDIR, context.getPath()));
 <a name="108" href="#108">108</a> 				} <strong>catch</strong> (FileNotFoundException e) {
-<a name="109" href="#109">109</a> 					<strong>throw</strong> <strong>new</strong> RuntimeException(<span class="string">"An error occured while creating temporary resource for "</span>+context.getPath(), e);
+<a name="109" href="#109">109</a> 					<strong>throw</strong> <strong>new</strong> <a href="../../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(<span class="string">"An error occured while creating temporary resource for "</span>+context.getPath(), e);
 <a name="110" href="#110">110</a> 				}
 <a name="111" href="#111">111</a> 		        <strong>if</strong>(fis != <strong>null</strong>){
 <a name="112" href="#112">112</a> 		        	FileChannel inchannel = fis.getChannel();
@@ -150,40 +150,39 @@
 <a name="141" href="#141">141</a> 		
 <a name="142" href="#142">142</a> 		<em class="comment">// Here we create a new context where the bundle name is the Jawr generator CSS path</em>
 <a name="143" href="#143">143</a> 		<em class="comment">// The version of the CSS classpath for debug mode will be different compare to the standard one</em>
-<a name="144" href="#144">144</a> 		String bundlePath = PathNormalizer.concatWebPath(generatorContext.getConfig().getServletMapping(), ResourceGenerator.CSS_DEBUGPATH);
-<a name="145" href="#145">145</a> 		JoinableResourceBundle tempBundle = <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleImpl.html">JoinableResourceBundleImpl</a>(bundlePath, <strong>null</strong>, <strong>null</strong>, <strong>null</strong>, <strong>null</strong>);
-<a name="146" href="#146">146</a> 		BundleProcessingStatus tempStatus = <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/postprocess/BundleProcessingStatus.html">BundleProcessingStatus</a>(tempBundle, generatorContext.getResourceReaderHandler(), generatorContext.getConfig());
-<a name="147" href="#147">147</a> 		
-<a name="148" href="#148">148</a> 		CSSURLPathRewriterPostProcessor postProcessor = <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/postprocess/impl/CSSURLPathRewriterPostProcessor.html">CSSURLPathRewriterPostProcessor</a>();
-<a name="149" href="#149">149</a> 		String resourcePath = generatorContext.getPath();
-<a name="150" href="#150">150</a> 		tempStatus.setLastPathAdded(JawrConstant.CLASSPATH_RESOURCE_PREFIX+resourcePath);
-<a name="151" href="#151">151</a> 		FileWriter fWriter = <strong>null</strong>;
-<a name="152" href="#152">152</a> 		<strong>try</strong> {
-<a name="153" href="#153">153</a> 			StringWriter writer = <strong>new</strong> StringWriter();
-<a name="154" href="#154">154</a> 			IOUtils.copy(rd, writer, <strong>true</strong>);
-<a name="155" href="#155">155</a> 			result = <strong>new</strong> StringReader(writer.getBuffer().toString());
-<a name="156" href="#156">156</a> 			StringBuffer resourceData = postProcessor.postProcessBundle(tempStatus, writer.getBuffer());
-<a name="157" href="#157">157</a> 			
-<a name="158" href="#158">158</a> 			String tempCssClasspathDir = workingDir+<span class="string">"/"</span>+TEMP_CSS_CLASSPATH_SUBDIR;
-<a name="159" href="#159">159</a> 			File cssTempFile = <strong>new</strong> File(tempCssClasspathDir, resourcePath);
-<a name="160" href="#160">160</a> 			File tempCssDir = cssTempFile.getParentFile(); 
-<a name="161" href="#161">161</a> 			<strong>if</strong>(!tempCssDir.exists()){
-<a name="162" href="#162">162</a> 				<strong>if</strong>(!tempCssDir.mkdirs()){
-<a name="163" href="#163">163</a> 					<strong>throw</strong> <strong>new</strong> RuntimeException(<span class="string">"An error occured while creating temporary resource for "</span>+resourcePath+<span class="string">".\n"</span> +
-<a name="164" href="#164">164</a> 							<span class="string">"Enable to create temporary directory '"</span>+tempCssClasspathDir+<span class="string">"'"</span>);
-<a name="165" href="#165">165</a> 				}
-<a name="166" href="#166">166</a> 			}
-<a name="167" href="#167">167</a> 			
-<a name="168" href="#168">168</a> 			fWriter = <strong>new</strong> FileWriter(cssTempFile);
-<a name="169" href="#169">169</a> 			IOUtils.copy(<strong>new</strong> StringReader(resourceData.toString()), fWriter, <strong>true</strong>);
-<a name="170" href="#170">170</a> 		} <strong>catch</strong> (IOException e) {
-<a name="171" href="#171">171</a> 			<strong>throw</strong> <strong>new</strong> RuntimeException(<span class="string">"An error occured while creating temporary resource for "</span>+resourcePath, e);
-<a name="172" href="#172">172</a> 		}
-<a name="173" href="#173">173</a> 		
-<a name="174" href="#174">174</a> 		<strong>return</strong> result;
-<a name="175" href="#175">175</a> 	}
-<a name="176" href="#176">176</a> 
-<a name="177" href="#177">177</a> }
+<a name="144" href="#144">144</a> 		JoinableResourceBundle tempBundle = <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundleImpl.html">JoinableResourceBundleImpl</a>(ResourceGenerator.CSS_DEBUGPATH, <strong>null</strong>, <strong>null</strong>, <strong>null</strong>, <strong>null</strong>, <strong>null</strong>);
+<a name="145" href="#145">145</a> 		BundleProcessingStatus tempStatus = <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/postprocess/BundleProcessingStatus.html">BundleProcessingStatus</a>(BundleProcessingStatus.FILE_PROCESSING_TYPE, tempBundle, generatorContext.getResourceReaderHandler(), generatorContext.getConfig());
+<a name="146" href="#146">146</a> 		
+<a name="147" href="#147">147</a> 		CSSURLPathRewriterPostProcessor postProcessor = <strong>new</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/postprocess/impl/CSSURLPathRewriterPostProcessor.html">CSSURLPathRewriterPostProcessor</a>();
+<a name="148" href="#148">148</a> 		String resourcePath = generatorContext.getPath();
+<a name="149" href="#149">149</a> 		tempStatus.setLastPathAdded(JawrConstant.CLASSPATH_RESOURCE_PREFIX+resourcePath);
+<a name="150" href="#150">150</a> 		FileWriter fWriter = <strong>null</strong>;
+<a name="151" href="#151">151</a> 		<strong>try</strong> {
+<a name="152" href="#152">152</a> 			StringWriter writer = <strong>new</strong> StringWriter();
+<a name="153" href="#153">153</a> 			IOUtils.copy(rd, writer, <strong>true</strong>);
+<a name="154" href="#154">154</a> 			result = <strong>new</strong> StringReader(writer.getBuffer().toString());
+<a name="155" href="#155">155</a> 			StringBuffer resourceData = postProcessor.postProcessBundle(tempStatus, writer.getBuffer());
+<a name="156" href="#156">156</a> 			
+<a name="157" href="#157">157</a> 			String tempCssClasspathDir = workingDir+<span class="string">"/"</span>+TEMP_CSS_CLASSPATH_SUBDIR;
+<a name="158" href="#158">158</a> 			File cssTempFile = <strong>new</strong> File(tempCssClasspathDir, resourcePath);
+<a name="159" href="#159">159</a> 			File tempCssDir = cssTempFile.getParentFile(); 
+<a name="160" href="#160">160</a> 			<strong>if</strong>(!tempCssDir.exists()){
+<a name="161" href="#161">161</a> 				<strong>if</strong>(!tempCssDir.mkdirs()){
+<a name="162" href="#162">162</a> 					<strong>throw</strong> <strong>new</strong> <a href="../../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(<span class="string">"An error occured while creating temporary resource for "</span>+resourcePath+<span class="string">".\n"</span> +
+<a name="163" href="#163">163</a> 							<span class="string">"Enable to create temporary directory '"</span>+tempCssClasspathDir+<span class="string">"'"</span>);
+<a name="164" href="#164">164</a> 				}
+<a name="165" href="#165">165</a> 			}
+<a name="166" href="#166">166</a> 			
+<a name="167" href="#167">167</a> 			fWriter = <strong>new</strong> FileWriter(cssTempFile);
+<a name="168" href="#168">168</a> 			IOUtils.copy(<strong>new</strong> StringReader(resourceData.toString()), fWriter, <strong>true</strong>);
+<a name="169" href="#169">169</a> 		} <strong>catch</strong> (IOException e) {
+<a name="170" href="#170">170</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(<span class="string">"An error occured while creating temporary resource for "</span>+resourcePath, e);
+<a name="171" href="#171">171</a> 		}
+<a name="172" href="#172">172</a> 		
+<a name="173" href="#173">173</a> 		<strong>return</strong> result;
+<a name="174" href="#174">174</a> 	}
+<a name="175" href="#175">175</a> 
+<a name="176" href="#176">176</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

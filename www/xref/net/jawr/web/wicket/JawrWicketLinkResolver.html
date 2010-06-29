@@ -60,7 +60,7 @@
 <a name="51" href="#51">51</a>  			WebMarkupContainer jawrTag = <strong>null</strong>;
 <a name="52" href="#52">52</a>  			<strong>final</strong> String id = tag.getId()+ container.getPage().getAutoIndex();
 <a name="53" href="#53">53</a>  			<strong>if</strong>(tagName.equalsIgnoreCase(IMG_TAG_NAME)){
-<a name="54" href="#54">54</a>  				jawrTag = <strong>new</strong> <a href="../../../../net/jawr/web/wicket/JawrHtmlImageReference.html">JawrHtmlImageReference</a>(id);
+<a name="54" href="#54">54</a>  				jawrTag = <strong>new</strong> <a href="../../../../net/jawr/web/wicket/JawrImageReference.html">JawrImageReference</a>(id);
 <a name="55" href="#55">55</a>  			}<strong>else</strong> <strong>if</strong>(tagName.equalsIgnoreCase(<span class="string">"input"</span>) &amp;&amp; tag.getAttribute(<span class="string">"type"</span>).equals(IMAGE_TAG_NAME)){
 <a name="56" href="#56">56</a>  				jawrTag = <strong>new</strong> <a href="../../../../net/jawr/web/wicket/JawrHtmlImageReference.html">JawrHtmlImageReference</a>(id);
 <a name="57" href="#57">57</a>  			}<strong>else</strong> <strong>if</strong>(tagName.equalsIgnoreCase(<span class="string">"script"</span>)){

@@ -108,6 +108,14 @@
         </li>
               
     <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/jmx_support.html">JMX Support</a>
         </li>
               
@@ -170,7 +178,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -315,7 +331,7 @@
 </ul>
 <p>The caveat here is very clear: never forget to switch off development mode in production or the results might be catastrophic for your bandwidth. As stated before, it's a good idea to use the JVM param <b>-Dnet.jawr.debug.on=false</b> within the startup script of your production server to be safe against this kind of mistake. Also, it is recommended that you have at least one integration step previous to production where you don't use development mode. &#160;</p>
 <p>To further protect you from this kind of problem, a warning is written to the log anytime you start Jawr in development mode. </p>
-<p><b>Warning</b>: Internet explorer has a <a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;262161" class="externalLink">30 stylesheet limit</a>. This means that in debug mode you might hit this limit if you have bundles that join over 30 stylesheets, since after the 30th IE will no longer parse and execute further stylesheets. Keep this in mind when developing your CSS files. </p>
+<p><b>Warning</b>: Internet explorer has a <a class="externalLink" href="http://support.microsoft.com/default.aspx?scid=kb;en-us;262161">30 stylesheet limit</a>. This means that in debug mode you might hit this limit if you have bundles that join over 30 stylesheets, since after the 30th IE will no longer parse and execute further stylesheets. Keep this in mind when developing your CSS files. </p>
 </div>
 
       </div>
@@ -332,8 +348,8 @@
 
   
   
-  &nbsp;| Last Published: 01/31/2010
-  &nbsp;| Version: 3.2.1
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
 </div>
       <div class="clear">
         <hr/>

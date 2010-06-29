@@ -154,62 +154,64 @@
 <a name="145" href="#145">145</a> <em>	 * @param controllerMapping the controllerMapping to set</em>
 <a name="146" href="#146">146</a> <em>	 */</em>
 <a name="147" href="#147">147</a> 	<strong>public</strong> <strong>void</strong> setControllerMapping(String controllerMapping) {
-<a name="148" href="#148">148</a> 		<strong>if</strong>(controllerMapping.endsWith(<span class="string">"/"</span>))
-<a name="149" href="#149">149</a> 			controllerMapping = controllerMapping.substring(0,controllerMapping.length()-1);
-<a name="150" href="#150">150</a> 		<strong>this</strong>.controllerMapping = controllerMapping;
-<a name="151" href="#151">151</a> 	}
-<a name="152" href="#152">152</a> 	
-<a name="153" href="#153">153</a> 	<em class="comment">/*<em class="comment"> (non-Javadoc)</em></em>
-<a name="154" href="#154">154</a> <em class="comment">	 * @see org.springframework.web.servlet.mvc.Controller#handleRequest(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)</em>
-<a name="155" href="#155">155</a> <em class="comment">	 */</em>
-<a name="156" href="#156">156</a> 	<strong>public</strong> ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-<a name="157" href="#157">157</a> 		
-<a name="158" href="#158">158</a> 		String requestedPath = (StringUtils.isEmpty(mapping)) ? helper.getPathWithinApplication(request) : 
-<a name="159" href="#159">159</a> 												 helper.getPathWithinServletMapping(request);
-<a name="160" href="#160">160</a> 		
-<a name="161" href="#161">161</a> 		<strong>if</strong>(StringUtils.isNotEmpty(controllerMapping)){
-<a name="162" href="#162">162</a> 			requestedPath = requestedPath.substring(controllerMapping.length());
-<a name="163" href="#163">163</a> 		}
-<a name="164" href="#164">164</a> 		
-<a name="165" href="#165">165</a> 		requestHandler.processRequest(requestedPath, request, response);
-<a name="166" href="#166">166</a> 		<strong>return</strong> <strong>null</strong>;
-<a name="167" href="#167">167</a> 	}
-<a name="168" href="#168">168</a> 
-<a name="169" href="#169">169</a> 	<em class="comment">/*<em class="comment"> (non-Javadoc)</em></em>
-<a name="170" href="#170">170</a> <em class="comment">	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()</em>
-<a name="171" href="#171">171</a> <em class="comment">	 */</em>
-<a name="172" href="#172">172</a> 	<strong>public</strong> <strong>void</strong> afterPropertiesSet() throws Exception {
-<a name="173" href="#173">173</a> 		initParams = <strong>new</strong> HashMap(3);
-<a name="174" href="#174">174</a> 		initParams.put(<span class="string">"type"</span>,type);
-<a name="175" href="#175">175</a> 		initParams.put(<span class="string">"configPropertiesSourceClass"</span>,configPropertiesSourceClass);
-<a name="176" href="#176">176</a> 		initParams.put(<span class="string">"configLocation"</span>, configLocation);
-<a name="177" href="#177">177</a> 		
-<a name="178" href="#178">178</a> 		<strong>if</strong> (<strong>null</strong> == configuration &amp;&amp; <strong>null</strong> == configLocation &amp;&amp; <strong>null</strong> == configPropertiesSourceClass)
-<a name="179" href="#179">179</a> 			<strong>throw</strong> <strong>new</strong> ServletException(<span class="string">"Neither configuration nor configLocation nor configPropertiesSourceClass init params were set."</span>
-<a name="180" href="#180">180</a> 					+ <span class="string">" You must set at least the configuration or the configLocation param. Please check your web.xml file"</span>);
-<a name="181" href="#181">181</a> 
-<a name="182" href="#182">182</a> 		String fullMapping = <span class="string">""</span>;
-<a name="183" href="#183">183</a> 		<strong>if</strong>(StringUtils.isNotEmpty(mapping))
-<a name="184" href="#184">184</a> 			fullMapping = mapping;
-<a name="185" href="#185">185</a> 		
-<a name="186" href="#186">186</a> 		<strong>if</strong>(StringUtils.isNotEmpty(controllerMapping))
-<a name="187" href="#187">187</a> 			fullMapping = PathNormalizer.joinPaths(fullMapping, controllerMapping);
-<a name="188" href="#188">188</a> 		
-<a name="189" href="#189">189</a> 		initParams.put(JawrConstant.SERVLET_MAPPING_PROPERTY_NAME,fullMapping);
-<a name="190" href="#190">190</a> 		<strong>if</strong>(mapping != <strong>null</strong>){
-<a name="191" href="#191">191</a> 			initParams.put(JawrConstant.SPRING_SERVLET_MAPPING_PROPERTY_NAME, PathNormalizer.asDirPath(mapping));
-<a name="192" href="#192">192</a> 		}
-<a name="193" href="#193">193</a> 		
-<a name="194" href="#194">194</a> 		<strong>if</strong>(LOGGER.isDebugEnabled())
-<a name="195" href="#195">195</a> 			LOGGER.debug(<span class="string">"Initializing Jawr Controller's JawrRequestHandler"</span>);
-<a name="196" href="#196">196</a> 		
-<a name="197" href="#197">197</a> 		<strong>if</strong>(JawrConstant.IMG_TYPE.equals(type)){
-<a name="198" href="#198">198</a> 			requestHandler = <strong>new</strong> <a href="../../../../net/jawr/web/servlet/JawrImageRequestHandler.html">JawrImageRequestHandler</a>(context,initParams, configuration);
-<a name="199" href="#199">199</a> 		}<strong>else</strong>{
-<a name="200" href="#200">200</a> 			requestHandler = <strong>new</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a>(context,initParams, configuration);
-<a name="201" href="#201">201</a> 		}
-<a name="202" href="#202">202</a> 	}
-<a name="203" href="#203">203</a> }
+<a name="148" href="#148">148</a> 		<strong>if</strong>(controllerMapping.endsWith(<span class="string">"/"</span>)){
+<a name="149" href="#149">149</a> 			<strong>this</strong>.controllerMapping = controllerMapping.substring(0,controllerMapping.length()-1);
+<a name="150" href="#150">150</a> 		}<strong>else</strong>{
+<a name="151" href="#151">151</a> 			<strong>this</strong>.controllerMapping = controllerMapping;
+<a name="152" href="#152">152</a> 		}
+<a name="153" href="#153">153</a> 	}
+<a name="154" href="#154">154</a> 	
+<a name="155" href="#155">155</a> 	<em class="comment">/*<em class="comment"> (non-Javadoc)</em></em>
+<a name="156" href="#156">156</a> <em class="comment">	 * @see org.springframework.web.servlet.mvc.Controller#handleRequest(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)</em>
+<a name="157" href="#157">157</a> <em class="comment">	 */</em>
+<a name="158" href="#158">158</a> 	<strong>public</strong> ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+<a name="159" href="#159">159</a> 		
+<a name="160" href="#160">160</a> 		String requestedPath = (StringUtils.isEmpty(mapping)) ? helper.getPathWithinApplication(request) : 
+<a name="161" href="#161">161</a> 												 helper.getPathWithinServletMapping(request);
+<a name="162" href="#162">162</a> 		
+<a name="163" href="#163">163</a> 		<strong>if</strong>(StringUtils.isNotEmpty(controllerMapping)){
+<a name="164" href="#164">164</a> 			requestedPath = requestedPath.substring(controllerMapping.length());
+<a name="165" href="#165">165</a> 		}
+<a name="166" href="#166">166</a> 		
+<a name="167" href="#167">167</a> 		requestHandler.processRequest(requestedPath, request, response);
+<a name="168" href="#168">168</a> 		<strong>return</strong> <strong>null</strong>;
+<a name="169" href="#169">169</a> 	}
+<a name="170" href="#170">170</a> 
+<a name="171" href="#171">171</a> 	<em class="comment">/*<em class="comment"> (non-Javadoc)</em></em>
+<a name="172" href="#172">172</a> <em class="comment">	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()</em>
+<a name="173" href="#173">173</a> <em class="comment">	 */</em>
+<a name="174" href="#174">174</a> 	<strong>public</strong> <strong>void</strong> afterPropertiesSet() throws Exception {
+<a name="175" href="#175">175</a> 		initParams = <strong>new</strong> HashMap(3);
+<a name="176" href="#176">176</a> 		initParams.put(<span class="string">"type"</span>,type);
+<a name="177" href="#177">177</a> 		initParams.put(<span class="string">"configPropertiesSourceClass"</span>,configPropertiesSourceClass);
+<a name="178" href="#178">178</a> 		initParams.put(<span class="string">"configLocation"</span>, configLocation);
+<a name="179" href="#179">179</a> 		
+<a name="180" href="#180">180</a> 		<strong>if</strong> (<strong>null</strong> == configuration &amp;&amp; <strong>null</strong> == configLocation &amp;&amp; <strong>null</strong> == configPropertiesSourceClass)
+<a name="181" href="#181">181</a> 			<strong>throw</strong> <strong>new</strong> ServletException(<span class="string">"Neither configuration nor configLocation nor configPropertiesSourceClass init params were set."</span>
+<a name="182" href="#182">182</a> 					+ <span class="string">" You must set at least the configuration or the configLocation param. Please check your web.xml file"</span>);
+<a name="183" href="#183">183</a> 
+<a name="184" href="#184">184</a> 		String fullMapping = <span class="string">""</span>;
+<a name="185" href="#185">185</a> 		<strong>if</strong>(StringUtils.isNotEmpty(mapping))
+<a name="186" href="#186">186</a> 			fullMapping = mapping;
+<a name="187" href="#187">187</a> 		
+<a name="188" href="#188">188</a> 		<strong>if</strong>(StringUtils.isNotEmpty(controllerMapping))
+<a name="189" href="#189">189</a> 			fullMapping = PathNormalizer.joinPaths(fullMapping, controllerMapping);
+<a name="190" href="#190">190</a> 		
+<a name="191" href="#191">191</a> 		initParams.put(JawrConstant.SERVLET_MAPPING_PROPERTY_NAME,fullMapping);
+<a name="192" href="#192">192</a> 		<strong>if</strong>(mapping != <strong>null</strong>){
+<a name="193" href="#193">193</a> 			initParams.put(JawrConstant.SPRING_SERVLET_MAPPING_PROPERTY_NAME, PathNormalizer.asDirPath(mapping));
+<a name="194" href="#194">194</a> 		}
+<a name="195" href="#195">195</a> 		
+<a name="196" href="#196">196</a> 		<strong>if</strong>(LOGGER.isDebugEnabled())
+<a name="197" href="#197">197</a> 			LOGGER.debug(<span class="string">"Initializing Jawr Controller's JawrRequestHandler"</span>);
+<a name="198" href="#198">198</a> 		
+<a name="199" href="#199">199</a> 		<strong>if</strong>(JawrConstant.IMG_TYPE.equals(type)){
+<a name="200" href="#200">200</a> 			requestHandler = <strong>new</strong> <a href="../../../../net/jawr/web/servlet/JawrImageRequestHandler.html">JawrImageRequestHandler</a>(context,initParams, configuration);
+<a name="201" href="#201">201</a> 		}<strong>else</strong>{
+<a name="202" href="#202">202</a> 			requestHandler = <strong>new</strong> <a href="../../../../net/jawr/web/servlet/JawrRequestHandler.html">JawrRequestHandler</a>(context,initParams, configuration);
+<a name="203" href="#203">203</a> 		}
+<a name="204" href="#204">204</a> 	}
+<a name="205" href="#205">205</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

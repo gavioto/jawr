@@ -45,7 +45,7 @@
 <a name="36" href="#36">36</a>  <strong>public</strong> <strong>class</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/factory/mapper/ResourceBundleDirMapper.html">ResourceBundleDirMapper</a> <strong>extends</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/factory/mapper/AbstractResourceMapper.html">AbstractResourceMapper</a>{
 <a name="37" href="#37">37</a>  	
 <a name="38" href="#38">38</a>  	<em>/**<em>* The logger */</em></em>
-<a name="39" href="#39">39</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger log = Logger.getLogger(ResourceBundleDirMapper.<strong>class</strong>);
+<a name="39" href="#39">39</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger LOGGER = Logger.getLogger(ResourceBundleDirMapper.<strong>class</strong>);
 <a name="40" href="#40">40</a>  	
 <a name="41" href="#41">41</a>  	<em>/**<em>* The Set of path to exclude */</em></em>
 <a name="42" href="#42">42</a>  	<strong>private</strong> Set excludedPaths;
@@ -94,8 +94,8 @@
 <a name="85" href="#85">85</a>  			<strong>if</strong>( !excludedPaths.contains(path)  &amp;&amp; rsHandler.isDirectory(path)) {	
 <a name="86" href="#86">86</a>  				String bundleKey =  path + resourceExtension;			
 <a name="87" href="#87">87</a>  				addBundleToMap(bundleKey, path + <span class="string">"/**"</span>);
-<a name="88" href="#88">88</a>  				<strong>if</strong>(log.isDebugEnabled())
-<a name="89" href="#89">89</a>  					log.debug(<span class="string">"Added ["</span> + bundleKey
+<a name="88" href="#88">88</a>  				<strong>if</strong>(LOGGER.isDebugEnabled())
+<a name="89" href="#89">89</a>  					LOGGER.debug(<span class="string">"Added ["</span> + bundleKey
 <a name="90" href="#90">90</a>  							+ <span class="string">"] with value ["</span> + path  + <span class="string">"/**] to a generated path list"</span>);
 <a name="91" href="#91">91</a>  			}
 <a name="92" href="#92">92</a>  		}
