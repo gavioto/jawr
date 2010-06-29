@@ -436,120 +436,121 @@
 <a name="427" href="#427">427</a> 		storeBundle(bundleName, bundleContent, <strong>true</strong>, gzipDirPath);
 <a name="428" href="#428">428</a> 
 <a name="429" href="#429">429</a> 		<em class="comment">// Store Css classpath debug files</em>
-<a name="430" href="#430">430</a> 		Map cssClasspathDebugContentMap = bundleResourcesContent
-<a name="431" href="#431">431</a> 				.getCssClasspathDebugContentMap();
-<a name="432" href="#432">432</a> 		Iterator entryIterator = cssClasspathDebugContentMap.entrySet().iterator();
-<a name="433" href="#433">433</a> 		<strong>while</strong> (entryIterator.hasNext()) {
-<a name="434" href="#434">434</a> 			Entry entry =  (Entry) entryIterator.next();
-<a name="435" href="#435">435</a> 			String filePath = (String) entry.getKey();
-<a name="436" href="#436">436</a> 			storeBundle(filePath, (String) entry
-<a name="437" href="#437">437</a> 					.getValue(), false, cssClasspathDirPath);
-<a name="438" href="#438">438</a> 		}
-<a name="439" href="#439">439</a> 	}
-<a name="440" href="#440">440</a> 
-<a name="441" href="#441">441</a> 	<em>/**<em>*</em></em>
-<a name="442" href="#442">442</a> <em>	 * Stores a resource bundle either in text or binary gzipped format.</em>
-<a name="443" href="#443">443</a> <em>	 * </em>
-<a name="444" href="#444">444</a> <em>	 * @param bundleName the bundle name</em>
-<a name="445" href="#445">445</a> <em>	 * @param bundledResources the bundledRessources</em>
-<a name="446" href="#446">446</a> <em>	 * @param gzipFile a fag defining if the file is gzipped or not</em>
-<a name="447" href="#447">447</a> <em>	 * @param rootDir the root directory</em>
-<a name="448" href="#448">448</a> <em>	 */</em>
-<a name="449" href="#449">449</a> 	<strong>private</strong> <strong>void</strong> storeBundle(String bundleName, String bundledResources,
-<a name="450" href="#450">450</a> 			<strong>boolean</strong> gzipFile, String rootdir) {
-<a name="451" href="#451">451</a> 		<strong>if</strong> (LOGGER.isDebugEnabled()) {
-<a name="452" href="#452">452</a> 			String msg = <span class="string">"Storing a generated "</span>
-<a name="453" href="#453">453</a> 					+ (gzipFile ? <span class="string">"and gzipped"</span> : <span class="string">""</span>)
-<a name="454" href="#454">454</a> 					+ <span class="string">" bundle with an id of:"</span> + bundleName;
-<a name="455" href="#455">455</a> 			LOGGER.debug(msg);
-<a name="456" href="#456">456</a> 		}
-<a name="457" href="#457">457</a> 
-<a name="458" href="#458">458</a> 		<strong>try</strong> {
-<a name="459" href="#459">459</a> 			<em class="comment">// Create subdirs if needed</em>
-<a name="460" href="#460">460</a> 			<strong>if</strong> (bundleName.indexOf('/') != -1) {
-<a name="461" href="#461">461</a> 				StringTokenizer tk = <strong>new</strong> StringTokenizer(bundleName, <span class="string">"/"</span>);
-<a name="462" href="#462">462</a> 				StringBuffer pathName = <strong>new</strong> StringBuffer(rootdir);
-<a name="463" href="#463">463</a> 				<strong>while</strong> (tk.hasMoreTokens()) {
-<a name="464" href="#464">464</a> 					String name = tk.nextToken();
-<a name="465" href="#465">465</a> 					<strong>if</strong> (tk.hasMoreTokens()) {
-<a name="466" href="#466">466</a> 						pathName.append(File.separator+name);
-<a name="467" href="#467">467</a> 						createDir(pathName.toString());
-<a name="468" href="#468">468</a> 					}
-<a name="469" href="#469">469</a> 				}
-<a name="470" href="#470">470</a> 				bundleName = bundleName.replace('/', File.separatorChar);
-<a name="471" href="#471">471</a> 			}
-<a name="472" href="#472">472</a> 
-<a name="473" href="#473">473</a> 			File store = createNewFile(rootdir + File.separator + bundleName);
-<a name="474" href="#474">474</a> 
-<a name="475" href="#475">475</a> 			<strong>if</strong> (gzipFile) {
-<a name="476" href="#476">476</a> 				FileOutputStream fos = <strong>new</strong> FileOutputStream(store);
-<a name="477" href="#477">477</a> 				GZIPOutputStream gzOut = <strong>new</strong> GZIPOutputStream(fos);
-<a name="478" href="#478">478</a> 				byte[] data = bundledResources.toString().getBytes(
-<a name="479" href="#479">479</a> 						charset.name());
-<a name="480" href="#480">480</a> 				gzOut.write(data, 0, data.length);
-<a name="481" href="#481">481</a> 				gzOut.close();
-<a name="482" href="#482">482</a> 			} <strong>else</strong> {
-<a name="483" href="#483">483</a> 				FileOutputStream fos = <strong>new</strong> FileOutputStream(store);
-<a name="484" href="#484">484</a> 				FileChannel channel = fos.getChannel();
-<a name="485" href="#485">485</a> 				Writer wr = Channels.newWriter(channel, charset.newEncoder(),
-<a name="486" href="#486">486</a> 						-1);
-<a name="487" href="#487">487</a> 				wr.write(bundledResources.toString());
-<a name="488" href="#488">488</a> 				wr.close();
-<a name="489" href="#489">489</a> 			}
-<a name="490" href="#490">490</a> 		} <strong>catch</strong> (IOException e) {
-<a name="491" href="#491">491</a> 			e.printStackTrace();
-<a name="492" href="#492">492</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(
-<a name="493" href="#493">493</a> 					<span class="string">"Unexpected IOException creating temporary jawr file"</span>, e);
-<a name="494" href="#494">494</a> 		}
-<a name="495" href="#495">495</a> 	}
-<a name="496" href="#496">496</a> 
-<a name="497" href="#497">497</a> 	<em>/**<em>*</em></em>
-<a name="498" href="#498">498</a> <em>	 * Creates a directory. If dir is note created for some reason a runtimeexception is thrown.</em>
-<a name="499" href="#499">499</a> <em>	 * </em>
-<a name="500" href="#500">500</a> <em>	 * @param dir</em>
-<a name="501" href="#501">501</a> <em>	 * @throws IOException</em>
-<a name="502" href="#502">502</a> <em>	 */</em>
-<a name="503" href="#503">503</a> 	<strong>private</strong> File createDir(String path) throws IOException {
-<a name="504" href="#504">504</a> 		<em class="comment">// In windows, pathnames with spaces are returned as %20</em>
-<a name="505" href="#505">505</a> 		<strong>if</strong> (path.indexOf(<span class="string">"%20"</span>) != -1)
-<a name="506" href="#506">506</a> 			path = path.replaceAll(<span class="string">"%20"</span>, <span class="string">" "</span>);
-<a name="507" href="#507">507</a> 		File dir = <strong>new</strong> File(path);
-<a name="508" href="#508">508</a> 		<strong>if</strong> (!dir.exists() &amp;&amp; !dir.mkdirs())
-<a name="509" href="#509">509</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(
-<a name="510" href="#510">510</a> 					<span class="string">"Error creating temporary jawr directory with path:"</span>
-<a name="511" href="#511">511</a> 							+ dir.getPath());
-<a name="512" href="#512">512</a> 
-<a name="513" href="#513">513</a> 		<strong>if</strong> (LOGGER.isDebugEnabled()){
-<a name="514" href="#514">514</a> 			LOGGER.debug(<span class="string">"Created dir: "</span> + dir.getCanonicalPath());
-<a name="515" href="#515">515</a> 		}
-<a name="516" href="#516">516</a> 		<strong>return</strong> dir;
-<a name="517" href="#517">517</a> 	}
-<a name="518" href="#518">518</a> 
-<a name="519" href="#519">519</a> 	<em>/**<em>*</em></em>
-<a name="520" href="#520">520</a> <em>	 * Creates a file. If dir is note created for some reson a runtimeexception is thrown.</em>
-<a name="521" href="#521">521</a> <em>	 * </em>
-<a name="522" href="#522">522</a> <em>	 * @param path</em>
-<a name="523" href="#523">523</a> <em>	 * @return</em>
-<a name="524" href="#524">524</a> <em>	 * @throws IOException</em>
-<a name="525" href="#525">525</a> <em>	 */</em>
-<a name="526" href="#526">526</a> 	<strong>private</strong> File createNewFile(String path) throws IOException {
-<a name="527" href="#527">527</a> 
-<a name="528" href="#528">528</a> 		<em class="comment">// In windows, pathnames with spaces are returned as %20</em>
-<a name="529" href="#529">529</a> 		<strong>if</strong> (path.indexOf(<span class="string">"%20"</span>) != -1)
-<a name="530" href="#530">530</a> 			path = path.replaceAll(<span class="string">"%20"</span>, <span class="string">" "</span>);
-<a name="531" href="#531">531</a> 		File <strong>new</strong>File = <strong>new</strong> File(path);
-<a name="532" href="#532">532</a> 
-<a name="533" href="#533">533</a> 		<strong>if</strong> (!newFile.exists() &amp;&amp; !newFile.createNewFile()){
-<a name="534" href="#534">534</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(<span class="string">"Unable to create a temporary file at "</span>
-<a name="535" href="#535">535</a> 					+ path);
-<a name="536" href="#536">536</a> 		}
-<a name="537" href="#537">537</a> 		
-<a name="538" href="#538">538</a> 		<strong>if</strong> (LOGGER.isDebugEnabled())
-<a name="539" href="#539">539</a> 			LOGGER.debug(<span class="string">"Created file: "</span> + newFile.getCanonicalPath());
-<a name="540" href="#540">540</a> 		<strong>return</strong> newFile;
-<a name="541" href="#541">541</a> 	}
-<a name="542" href="#542">542</a> 
-<a name="543" href="#543">543</a> }
+<a name="430" href="#430">430</a> 		<em class="comment">// TODO check if it still necessary</em>
+<a name="431" href="#431">431</a> 		Map cssClasspathDebugContentMap = bundleResourcesContent
+<a name="432" href="#432">432</a> 				.getCssClasspathDebugContentMap();
+<a name="433" href="#433">433</a> 		Iterator entryIterator = cssClasspathDebugContentMap.entrySet().iterator();
+<a name="434" href="#434">434</a> 		<strong>while</strong> (entryIterator.hasNext()) {
+<a name="435" href="#435">435</a> 			Entry entry =  (Entry) entryIterator.next();
+<a name="436" href="#436">436</a> 			String filePath = (String) entry.getKey();
+<a name="437" href="#437">437</a> 			storeBundle(filePath, (String) entry
+<a name="438" href="#438">438</a> 					.getValue(), false, cssClasspathDirPath);
+<a name="439" href="#439">439</a> 		}
+<a name="440" href="#440">440</a> 	}
+<a name="441" href="#441">441</a> 
+<a name="442" href="#442">442</a> 	<em>/**<em>*</em></em>
+<a name="443" href="#443">443</a> <em>	 * Stores a resource bundle either in text or binary gzipped format.</em>
+<a name="444" href="#444">444</a> <em>	 * </em>
+<a name="445" href="#445">445</a> <em>	 * @param bundleName the bundle name</em>
+<a name="446" href="#446">446</a> <em>	 * @param bundledResources the bundledRessources</em>
+<a name="447" href="#447">447</a> <em>	 * @param gzipFile a fag defining if the file is gzipped or not</em>
+<a name="448" href="#448">448</a> <em>	 * @param rootDir the root directory</em>
+<a name="449" href="#449">449</a> <em>	 */</em>
+<a name="450" href="#450">450</a> 	<strong>private</strong> <strong>void</strong> storeBundle(String bundleName, String bundledResources,
+<a name="451" href="#451">451</a> 			<strong>boolean</strong> gzipFile, String rootdir) {
+<a name="452" href="#452">452</a> 		<strong>if</strong> (LOGGER.isDebugEnabled()) {
+<a name="453" href="#453">453</a> 			String msg = <span class="string">"Storing a generated "</span>
+<a name="454" href="#454">454</a> 					+ (gzipFile ? <span class="string">"and gzipped"</span> : <span class="string">""</span>)
+<a name="455" href="#455">455</a> 					+ <span class="string">" bundle with an id of:"</span> + bundleName;
+<a name="456" href="#456">456</a> 			LOGGER.debug(msg);
+<a name="457" href="#457">457</a> 		}
+<a name="458" href="#458">458</a> 
+<a name="459" href="#459">459</a> 		<strong>try</strong> {
+<a name="460" href="#460">460</a> 			<em class="comment">// Create subdirs if needed</em>
+<a name="461" href="#461">461</a> 			<strong>if</strong> (bundleName.indexOf('/') != -1) {
+<a name="462" href="#462">462</a> 				StringTokenizer tk = <strong>new</strong> StringTokenizer(bundleName, <span class="string">"/"</span>);
+<a name="463" href="#463">463</a> 				StringBuffer pathName = <strong>new</strong> StringBuffer(rootdir);
+<a name="464" href="#464">464</a> 				<strong>while</strong> (tk.hasMoreTokens()) {
+<a name="465" href="#465">465</a> 					String name = tk.nextToken();
+<a name="466" href="#466">466</a> 					<strong>if</strong> (tk.hasMoreTokens()) {
+<a name="467" href="#467">467</a> 						pathName.append(File.separator+name);
+<a name="468" href="#468">468</a> 						createDir(pathName.toString());
+<a name="469" href="#469">469</a> 					}
+<a name="470" href="#470">470</a> 				}
+<a name="471" href="#471">471</a> 				bundleName = bundleName.replace('/', File.separatorChar);
+<a name="472" href="#472">472</a> 			}
+<a name="473" href="#473">473</a> 
+<a name="474" href="#474">474</a> 			File store = createNewFile(rootdir + File.separator + bundleName);
+<a name="475" href="#475">475</a> 
+<a name="476" href="#476">476</a> 			<strong>if</strong> (gzipFile) {
+<a name="477" href="#477">477</a> 				FileOutputStream fos = <strong>new</strong> FileOutputStream(store);
+<a name="478" href="#478">478</a> 				GZIPOutputStream gzOut = <strong>new</strong> GZIPOutputStream(fos);
+<a name="479" href="#479">479</a> 				byte[] data = bundledResources.toString().getBytes(
+<a name="480" href="#480">480</a> 						charset.name());
+<a name="481" href="#481">481</a> 				gzOut.write(data, 0, data.length);
+<a name="482" href="#482">482</a> 				gzOut.close();
+<a name="483" href="#483">483</a> 			} <strong>else</strong> {
+<a name="484" href="#484">484</a> 				FileOutputStream fos = <strong>new</strong> FileOutputStream(store);
+<a name="485" href="#485">485</a> 				FileChannel channel = fos.getChannel();
+<a name="486" href="#486">486</a> 				Writer wr = Channels.newWriter(channel, charset.newEncoder(),
+<a name="487" href="#487">487</a> 						-1);
+<a name="488" href="#488">488</a> 				wr.write(bundledResources.toString());
+<a name="489" href="#489">489</a> 				wr.close();
+<a name="490" href="#490">490</a> 			}
+<a name="491" href="#491">491</a> 		} <strong>catch</strong> (IOException e) {
+<a name="492" href="#492">492</a> 			e.printStackTrace();
+<a name="493" href="#493">493</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(
+<a name="494" href="#494">494</a> 					<span class="string">"Unexpected IOException creating temporary jawr file"</span>, e);
+<a name="495" href="#495">495</a> 		}
+<a name="496" href="#496">496</a> 	}
+<a name="497" href="#497">497</a> 
+<a name="498" href="#498">498</a> 	<em>/**<em>*</em></em>
+<a name="499" href="#499">499</a> <em>	 * Creates a directory. If dir is note created for some reason a runtimeexception is thrown.</em>
+<a name="500" href="#500">500</a> <em>	 * </em>
+<a name="501" href="#501">501</a> <em>	 * @param dir</em>
+<a name="502" href="#502">502</a> <em>	 * @throws IOException</em>
+<a name="503" href="#503">503</a> <em>	 */</em>
+<a name="504" href="#504">504</a> 	<strong>private</strong> File createDir(String path) throws IOException {
+<a name="505" href="#505">505</a> 		<em class="comment">// In windows, pathnames with spaces are returned as %20</em>
+<a name="506" href="#506">506</a> 		<strong>if</strong> (path.indexOf(<span class="string">"%20"</span>) != -1)
+<a name="507" href="#507">507</a> 			path = path.replaceAll(<span class="string">"%20"</span>, <span class="string">" "</span>);
+<a name="508" href="#508">508</a> 		File dir = <strong>new</strong> File(path);
+<a name="509" href="#509">509</a> 		<strong>if</strong> (!dir.exists() &amp;&amp; !dir.mkdirs())
+<a name="510" href="#510">510</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(
+<a name="511" href="#511">511</a> 					<span class="string">"Error creating temporary jawr directory with path:"</span>
+<a name="512" href="#512">512</a> 							+ dir.getPath());
+<a name="513" href="#513">513</a> 
+<a name="514" href="#514">514</a> 		<strong>if</strong> (LOGGER.isDebugEnabled()){
+<a name="515" href="#515">515</a> 			LOGGER.debug(<span class="string">"Created dir: "</span> + dir.getCanonicalPath());
+<a name="516" href="#516">516</a> 		}
+<a name="517" href="#517">517</a> 		<strong>return</strong> dir;
+<a name="518" href="#518">518</a> 	}
+<a name="519" href="#519">519</a> 
+<a name="520" href="#520">520</a> 	<em>/**<em>*</em></em>
+<a name="521" href="#521">521</a> <em>	 * Creates a file. If dir is note created for some reson a runtimeexception is thrown.</em>
+<a name="522" href="#522">522</a> <em>	 * </em>
+<a name="523" href="#523">523</a> <em>	 * @param path</em>
+<a name="524" href="#524">524</a> <em>	 * @return</em>
+<a name="525" href="#525">525</a> <em>	 * @throws IOException</em>
+<a name="526" href="#526">526</a> <em>	 */</em>
+<a name="527" href="#527">527</a> 	<strong>private</strong> File createNewFile(String path) throws IOException {
+<a name="528" href="#528">528</a> 
+<a name="529" href="#529">529</a> 		<em class="comment">// In windows, pathnames with spaces are returned as %20</em>
+<a name="530" href="#530">530</a> 		<strong>if</strong> (path.indexOf(<span class="string">"%20"</span>) != -1)
+<a name="531" href="#531">531</a> 			path = path.replaceAll(<span class="string">"%20"</span>, <span class="string">" "</span>);
+<a name="532" href="#532">532</a> 		File <strong>new</strong>File = <strong>new</strong> File(path);
+<a name="533" href="#533">533</a> 
+<a name="534" href="#534">534</a> 		<strong>if</strong> (!newFile.exists() &amp;&amp; !newFile.createNewFile()){
+<a name="535" href="#535">535</a> 			<strong>throw</strong> <strong>new</strong> <a href="../../../../../../net/jawr/web/exception/BundlingProcessException.html">BundlingProcessException</a>(<span class="string">"Unable to create a temporary file at "</span>
+<a name="536" href="#536">536</a> 					+ path);
+<a name="537" href="#537">537</a> 		}
+<a name="538" href="#538">538</a> 		
+<a name="539" href="#539">539</a> 		<strong>if</strong> (LOGGER.isDebugEnabled())
+<a name="540" href="#540">540</a> 			LOGGER.debug(<span class="string">"Created file: "</span> + newFile.getCanonicalPath());
+<a name="541" href="#541">541</a> 		<strong>return</strong> newFile;
+<a name="542" href="#542">542</a> 	}
+<a name="543" href="#543">543</a> 
+<a name="544" href="#544">544</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

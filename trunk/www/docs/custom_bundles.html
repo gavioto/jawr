@@ -108,6 +108,14 @@
         </li>
               
     <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/jmx_support.html">JMX Support</a>
         </li>
               
@@ -170,7 +178,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -295,6 +311,8 @@
 <li>By directory, non-recurring: add the path to a directory and every resource under it will be added to the bundle, as in: '/js/'. </li>
 <li>By directory, recurring: same as before but adding '**' at the end. This will add every resource under the specified directory <b>and</b> any directory below it. For example: '/js/**'. </li>
 </ul>
+<p><b>Note :</b> <br />
+If you use a mapping like &quot;/js/lib/&quot; or &quot;/js/lib/**&quot;, by default Jawr will sort the resources in the directory by alphabetical order.\</p>
 <p>You can add any combination of the three types of mapping to your bundles. for instance, let's add another bundle to the previous example. We will name this bundle /bundles/bazBundle.js. It will contain every file under /js/baz/ and any of its subdirs, a script located at /js/someScript.js, and every file directly under /js/someSubdir/. </p>
 <div class="source"><pre>        jawr.js.bundle.foo.id=/bundles/fooBundle.js
         jawr.js.bundle.foo.mappings=/js/foo.js, /js/bar.js
@@ -483,8 +501,8 @@ if it's the case, we will try to resolve its dependencies, and include them befo
 
   
   
-  &nbsp;| Last Published: 01/31/2010
-  &nbsp;| Version: 3.2.1
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
 </div>
       <div class="clear">
         <hr/>

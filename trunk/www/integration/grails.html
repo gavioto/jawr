@@ -108,6 +108,14 @@
         </li>
               
     <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/jmx_support.html">JMX Support</a>
         </li>
               
@@ -170,7 +178,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -268,7 +284,7 @@
 <div class="section"><h3>Installing the plugin</h3>
 <p>Just execute following from your application directory:</p>
 <p>grails install-plugin Jawr</p>
-<p>If above method does not work for some reason you can download the plugin distribution from <a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8991" class="externalLink">this page</a> and install it with:</p>
+<p>If above method does not work for some reason you can download the plugin distribution from <a class="externalLink" href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8991">this page</a> and install it with:</p>
 <p>grails install-plugin /path/to/downloaded/plugin.zip</p>
 </div>
 <div class="section"><h3>Configuration</h3>
@@ -279,6 +295,8 @@
 </ul>
 <p>Using this syntax, you will be able to define bundles as specified in the relevant documentation pages. Note that you are not forced to use Jawr for both js and css files. If you add none of the jawr.css.* parameters, for instance, Jawr will do no effort to serve CSS files. </p>
 <p>Jawr uses log4j to log messages, so you can configure its tracing level along with the rest of your application. All jawr packages start with net.jawr.*, so you can use that as a key for an appender. </p>
+<p>The configuration will indicate to the plugin which Jawr servlet to start.</p>
+<p>So if you configure only JS bundle, the plugin will start only the Jawr JS servlet. So to enable the JS or the CSS servlet, you must at least define a bundle of the specified type. To enable the Jawr Image servlet, you need to define one of the following property : * jawr.img.mapping * jawr.css.image.classpath.use.servlet * jawr.img.* (Any property which starts with jawr.img) * jawr.image.* (Any property which starts with jawr.image)</p>
 <div class="section"><h4>URL mapping</h4>
 <p>There are two ways to map Jawr to requests: </p>
 <ul><li>You can have Jawr respond to all requests ending in .js and .css, thus letting Jawr control all requests to your resources. This is the default behavior, and you don't need to configure anything at all for it to work, simply omit the jawr.js.mapping/jawr.css.mapping properties from your config and you are ready to go. <ul><li>This is the usual approach, but you may want to bundle only part of your code and serve the rest normally. This is specially useful if you are adding Jawr to an existing application and you do not want to change every existing script tag. Note that Jawr handles individual files (you don't need to explicitly define a bundle for every file you want to compress and serve standalone), so that should not keep you from using this mapping method.</li>
@@ -289,6 +307,11 @@ jawr.css.mapping = '/style/'</pre>
 </div>
 <p>Note that the value for these properties <b>must</b> be a url-mapping string without the wildcard (i.e. with no asterisk). </p>
 <p>With either method, once you have filled out the properties, you will be ready to start adding Jawr tags to your pages. </p>
+</li>
+<li>Image URL mapping<p>By default, Jawr will handle the following image types : .png, .jpeg, .jpg, .gif, .ico.</p>
+<p>You can configure the image mapping by settings the <b>jawr.img.mappings</b>. If you want to define a set of extension file to handle, you need to list the extension with a smi colon separator, like this :</p>
+<div class="source"><pre>jawr.img.mapping='*.png; *.jpg; *.gif'</pre>
+</div>
 </li>
 </ul>
 </div>
@@ -304,6 +327,7 @@ jawr.css.mapping = '/style/'</pre>
  &lt;/head&gt;
  &lt;body&gt;
         ...
+        &lt;jawr:img src=&quot;/images/logo.png&quot; /&gt;
  &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -325,8 +349,8 @@ jawr.css.mapping = '/style/'</pre>
 
   
   
-  &nbsp;| Last Published: 01/31/2010
-  &nbsp;| Version: 3.2.1
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
 </div>
       <div class="clear">
         <hr/>

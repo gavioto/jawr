@@ -119,40 +119,42 @@
 <a name="110" href="#110">110</a> 
 <a name="111" href="#111">111</a> 		AbstractChainedGlobalPreprocessor toAdd;
 <a name="112" href="#112">112</a> 
-<a name="113" href="#113">113</a> 		<strong>if</strong> (<strong>null</strong> != customPreprocessors.get(key)) {
-<a name="114" href="#114">114</a> 			toAdd = (AbstractChainedGlobalPreprocessor) customPreprocessors
-<a name="115" href="#115">115</a> 					.get(key);
-<a name="116" href="#116">116</a> 		} <strong>else</strong>
-<a name="117" href="#117">117</a> 			toAdd = buildProcessorByKey(key);
-<a name="118" href="#118">118</a> 
-<a name="119" href="#119">119</a> 		<strong>if</strong> (<strong>null</strong> == chain) {
-<a name="120" href="#120">120</a> 			chain = toAdd;
-<a name="121" href="#121">121</a> 		} <strong>else</strong> {
-<a name="122" href="#122">122</a> 
-<a name="123" href="#123">123</a> 			chain.addNextProcessor(toAdd);
-<a name="124" href="#124">124</a> 		}
-<a name="125" href="#125">125</a> 
-<a name="126" href="#126">126</a> 		<strong>return</strong> chain;
-<a name="127" href="#127">127</a> 	}
-<a name="128" href="#128">128</a> 
-<a name="129" href="#129">129</a> 	<em>/**<em>*</em></em>
-<a name="130" href="#130">130</a> <em>	 * Build the global preprocessor from the ID given in parameter</em>
-<a name="131" href="#131">131</a> <em>	 * </em>
-<a name="132" href="#132">132</a> <em>	 * @param key the ID of the preprocessor</em>
-<a name="133" href="#133">133</a> <em>	 * @return a global preprocessor</em>
-<a name="134" href="#134">134</a> <em>	 */</em>
-<a name="135" href="#135">135</a> 	<strong>private</strong> <a href="../../../../../../../../net/jawr/web/resource/bundle/global/preprocessor/AbstractChainedGlobalPreprocessor.html">AbstractChainedGlobalPreprocessor</a> buildProcessorByKey(String key) {
-<a name="136" href="#136">136</a> 
-<a name="137" href="#137">137</a> 		AbstractChainedGlobalPreprocessor processor = <strong>null</strong>;
+<a name="113" href="#113">113</a> 		<strong>if</strong> (customPreprocessors.get(key) == <strong>null</strong>) {
+<a name="114" href="#114">114</a> 			toAdd = buildProcessorByKey(key);
+<a name="115" href="#115">115</a> 		} <strong>else</strong>{
+<a name="116" href="#116">116</a> 			toAdd = (AbstractChainedGlobalPreprocessor) customPreprocessors
+<a name="117" href="#117">117</a> 				.get(key);
+<a name="118" href="#118">118</a> 		}
+<a name="119" href="#119">119</a> 		
+<a name="120" href="#120">120</a> 		AbstractChainedGlobalPreprocessor newChainResult = <strong>null</strong>;
+<a name="121" href="#121">121</a> 		<strong>if</strong> (chain == <strong>null</strong>) {
+<a name="122" href="#122">122</a> 			newChainResult = toAdd;
+<a name="123" href="#123">123</a> 		}<strong>else</strong>{
+<a name="124" href="#124">124</a> 			chain.addNextProcessor(toAdd);
+<a name="125" href="#125">125</a> 			newChainResult = chain;
+<a name="126" href="#126">126</a> 		}
+<a name="127" href="#127">127</a> 
+<a name="128" href="#128">128</a> 		<strong>return</strong> newChainResult;
+<a name="129" href="#129">129</a> 	}
+<a name="130" href="#130">130</a> 
+<a name="131" href="#131">131</a> 	<em>/**<em>*</em></em>
+<a name="132" href="#132">132</a> <em>	 * Build the global preprocessor from the ID given in parameter</em>
+<a name="133" href="#133">133</a> <em>	 * </em>
+<a name="134" href="#134">134</a> <em>	 * @param key the ID of the preprocessor</em>
+<a name="135" href="#135">135</a> <em>	 * @return a global preprocessor</em>
+<a name="136" href="#136">136</a> <em>	 */</em>
+<a name="137" href="#137">137</a> 	<strong>private</strong> <a href="../../../../../../../../net/jawr/web/resource/bundle/global/preprocessor/AbstractChainedGlobalPreprocessor.html">AbstractChainedGlobalPreprocessor</a> buildProcessorByKey(String key) {
 <a name="138" href="#138">138</a> 
-<a name="139" href="#139">139</a> 		<strong>if</strong> (key.equals(JawrConstant.GLOBAL_CSS_SMARTSPRITES_PREPROCESSOR_ID)) {
-<a name="140" href="#140">140</a> 			processor = <strong>new</strong> <a href="../../../../../../../../net/jawr/web/resource/bundle/global/preprocessor/css/smartsprites/CssSmartSpritesGlobalPreprocessor.html">CssSmartSpritesGlobalPreprocessor</a>();
-<a name="141" href="#141">141</a> 		}
-<a name="142" href="#142">142</a> 
-<a name="143" href="#143">143</a> 		<strong>return</strong> processor;
-<a name="144" href="#144">144</a> 	}
-<a name="145" href="#145">145</a> 
-<a name="146" href="#146">146</a> }
+<a name="139" href="#139">139</a> 		AbstractChainedGlobalPreprocessor processor = <strong>null</strong>;
+<a name="140" href="#140">140</a> 
+<a name="141" href="#141">141</a> 		<strong>if</strong> (key.equals(JawrConstant.GLOBAL_CSS_SMARTSPRITES_PREPROCESSOR_ID)) {
+<a name="142" href="#142">142</a> 			processor = <strong>new</strong> <a href="../../../../../../../../net/jawr/web/resource/bundle/global/preprocessor/css/smartsprites/CssSmartSpritesGlobalPreprocessor.html">CssSmartSpritesGlobalPreprocessor</a>();
+<a name="143" href="#143">143</a> 		}
+<a name="144" href="#144">144</a> 
+<a name="145" href="#145">145</a> 		<strong>return</strong> processor;
+<a name="146" href="#146">146</a> 	}
+<a name="147" href="#147">147</a> 
+<a name="148" href="#148">148</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

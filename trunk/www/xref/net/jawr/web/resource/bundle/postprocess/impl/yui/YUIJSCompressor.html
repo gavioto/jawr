@@ -45,7 +45,7 @@
 <a name="36" href="#36">36</a>  <strong>public</strong> <strong>class</strong> <a href="../../../../../../../../net/jawr/web/resource/bundle/postprocess/impl/yui/YUIJSCompressor.html">YUIJSCompressor</a> <strong>extends</strong> <a href="../../../../../../../../net/jawr/web/resource/bundle/postprocess/AbstractChainedResourceBundlePostProcessor.html">AbstractChainedResourceBundlePostProcessor</a> {
 <a name="37" href="#37">37</a>  	
 <a name="38" href="#38">38</a>  	<em>/**<em>* The logger */</em></em>
-<a name="39" href="#39">39</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger log = Logger.getLogger(YUIJSCompressor.<strong>class</strong>);
+<a name="39" href="#39">39</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger LOGGER = Logger.getLogger(YUIJSCompressor.<strong>class</strong>);
 <a name="40" href="#40">40</a>  	
 <a name="41" href="#41">41</a>  	<em>/**<em>* The flag indicating if the content should be obfuscated or not */</em></em>
 <a name="42" href="#42">42</a>  	<strong>private</strong> <strong>boolean</strong> obfuscate;
@@ -80,7 +80,7 @@
 <a name="71" href="#71">71</a>  <em class="comment">		 * Params for this call: Writer: the StringWriter. int linebreak: always -1... boolean munge: obfuscated or not. boolean verbose: logging</em>
 <a name="72" href="#72">72</a>  <em class="comment">		 * level boolean preserveAllSemiColons: leave to false. boolean disableOptimizations: leave to true. *</em>
 <a name="73" href="#73">73</a>  <em class="comment">		 */</em>
-<a name="74" href="#74">74</a>  		compressor.compress(wr, -1, obfuscate, log.isDebugEnabled(), false,
+<a name="74" href="#74">74</a>  		compressor.compress(wr, -1, obfuscate, LOGGER.isDebugEnabled(), false,
 <a name="75" href="#75">75</a>  				false);
 <a name="76" href="#76">76</a>  
 <a name="77" href="#77">77</a>  		<strong>return</strong> wr.getBuffer();

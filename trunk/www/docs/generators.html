@@ -108,6 +108,14 @@
         </li>
               
     <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/jmx_support.html">JMX Support</a>
         </li>
               
@@ -170,7 +178,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -278,11 +294,29 @@
 </div>
 <div class="section"><h3>Jawr generators</h3>
 <p>Jawr comes with several generators, each accomplishing a special kind of task. The currently provided generators are: </p>
-<ul><li><b>i18n messages script generator</b>: generates javascript code with locale specific variants which are loaded depending on the user's specific language. Full documentation is <a href="./messages_gen.html">here</a>. </li>
-<li><b>DWR scripts generator</b>: allows you to bundle and compress together DWR generated interfaces, plus all the utility scripts required by them. Full documentation is <a href="../integration/dwr.html">here</a>. </li>
-<li><b>Commons Validator generator</b>: this one will let you generate compressed and cacheable versions of the validation scripts generated in Struts by the Apache Commons Validator taglib. Full docs <a href="../integration/validator.html">here</a>. </li>
+</div>
+<div class="section"><h3>All-around generators</h3>
+</div>
+</div>
+<div class="section"><h2><b>i18n messages script generator</b></h2>
+<ul><li><b>Prefix</b>: message</li>
 </ul>
-<p>Also available is the <b>classpath resource generator</b>. It allows you to include resources present within jar files or simply located anywhere in the application classpath. You will need to use different prefixes if you are generating js or css files. To add javascript resources from the classpath you use <b>jar:</b> as the prefix, followed by the path to the resource using / as separator: </p>
+<p>This generator generates javascript code with locale specific variants which are loaded depending on the user's specific language. Full documentation is <a href="./messages_gen.html">here</a>. </p>
+</div>
+<div class="section"><h2><b>DWR scripts generator</b>: </h2>
+<ul><li><b>Prefix</b>: dwr</li>
+</ul>
+<p>This generator allows you to bundle and compress together DWR generated interfaces, plus all the utility scripts required by them. Full documentation is <a href="../integration/dwr.html">here</a>. </p>
+</div>
+<div class="section"><h2><b>Commons Validator generator</b></h2>
+<ul><li><b>Prefix</b>: acv</li>
+</ul>
+<p>This one will let you generate compressed and cacheable versions of the validation scripts generated in Struts by the Apache Commons Validator taglib. Full docs <a href="../integration/validator.html">here</a>. </p>
+</div>
+<div class="section"><h2><b>classpath resource generator</b></h2>
+<ul><li><b>Prefix</b>: jar</li>
+</ul>
+<p>It allows you to include resources present within jar files or simply located anywhere in the application classpath. You will need to use different prefixes if you are generating js or css files. To add javascript resources from the classpath you use <b>jar:</b> as the prefix, followed by the path to the resource using / as separator: </p>
 <div class="source"><pre>        
         jawr.js.bundle.foo.id=/bundles/fooBundle.js
         # Map to a script in the com.mycompany.myapp package and to another from the WAR 
@@ -296,6 +330,25 @@
 <p>CSS files loaded from the classpath may refer to images which will normally be available from the classpath as well. Since version 2.8 Jawr can serve such image files by defining an extra instance of the servlet with its init param <b>type</b> set to <b>img</b>. You can find details on how to set it up at the <a href="./servlet.html">servlet configuration page.</a></p>
 <p>Unlike the normal mapping, this way of referring to resources does not yet allow wildcards (i.e.: <i>jar:/com/mycompany/myapp/**</i> would not work). </p>
 </div>
+<div class="section"><h2><b>Skin generator</b></h2>
+<ul><li><b>Prefix</b>: skin</li>
+</ul>
+<p>This one will help you to define CSS skin in your bundles. Full docs <a href="../tutorials/howToUseJawrCssSkin.html">here</a>.</p>
+</div>
+<div class="section"><h2><b>Skin swicther generator</b> </h2>
+<ul><li><b>Prefix</b>: skinSwitcher</li>
+</ul>
+<p>This one will generates the JS content for CSS skin switcher. &#160; To use it you must configure your Jawr configuration file like this :</p>
+<div class="source"><pre>jawr.js.bundle.common.id=/js/common.js
+jawr.js.bundle.common.mappings=skinSwitcher:switcher.js</pre>
+</div>
+<p>When you use the Jawr style tag for a bundle containing different CSS skin, you can force Jawr to render the links to the alternate CSS skin by using the <b>displayAlternate</b> property.</p>
+<div class="source"><pre>        &lt;jwr:style src=&quot;/css/skinnedBundle.css&quot; displayAlternate=&quot;true&quot; media=&quot;all&quot; /&gt;</pre>
+</div>
+<p>This will force Jawr to render the links to all the skin associated to <b>/css/skinnedBundle.css</b>. This generator will generates the script to switch from a skin to another by calling the following JS function and passing as parameter the name of the style to switch to:</p>
+<div class="source"><pre>        JAWR.skin.switchToStyle(newStyle);</pre>
+</div>
+<p>You can find an example of it's use in the basic webapplication sample. For more information about CSS skin, you can take a look to the following <a href="../tutorials/howToUseJawrCssSkin.html">documentation</a>. </p>
 <div class="section"><h3>Implementing a generator</h3>
 <p>You will find below the class diagram for generators.</p>
 <img src="../images/generator/jawr_generator.png" alt="Generator class diagram" /><p>The root interface for resource generator is :</p>
@@ -392,8 +445,8 @@
 
   
   
-  &nbsp;| Last Published: 01/31/2010
-  &nbsp;| Version: 3.2.1
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
 </div>
       <div class="clear">
         <hr/>

@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+<html>
+  <head>
+    <title>Jawr - Illegal Bundle Request Handler</title>
+    <style type="text/css" media="all">
+      @import url("../css/maven-base.css");
+      @import url("../css/maven-theme.css");
+      @import url("../css/site.css");
+    </style>
+    <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <!-- TODO: move this into JavaScript to patch the skin
+      <div class="xright">  </div>
+    -->
+    <div id="leftColumn">
+      <div id="navcolumn">
+             <dl class=navgroup>
+        <dt>About</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../servlets/ProjectHome">Home</a>
+        </li>
+              
+    <li class="none">
+              <a href="../introduction.html">Introduction</a>
+        </li>
+              
+    <li class="none">
+              <a href="../features.html">Features</a>
+        </li>
+              
+    <li class="none">
+              <a href="../changes.html">Change history</a>
+        </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Documentation</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../docs/servlet.html">The Jawr servlet</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/descriptor_syntax.html">Descriptor syntax</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/custom_bundles.html">Bundle definition</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/postprocessors.html">Postprocessors</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/license_files.html">Licenses in resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/taglibs.html">JSP Tag library</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/plain_html.html">Use in HTML pages</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/modes.html">Debug and production modes</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <strong>Jawr strict mode - Illegal bundle request handler</strong>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jmx_support.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/bundle_preprocessing.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_maven_plugin.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_ant_task.html">Jawr Ant task</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Integration</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../integration/augmenter.html">Add Jawr to your framework</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/spring.html">Spring MVC</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/facelets.html">Facelets Tag library</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/grails.html">Grails plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/dwr.html">DWR</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/validator.html">Commons Validator - Struts</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Tutorials</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/faq_howto.html">FAQ-Howto</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/libraries.html">Using popular libraries</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>API and sources</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../nonav/apidocs/index.html">JavaDocs</a>
+        </li>
+              
+    <li class="none">
+              <a href="../nonav/xref/index.html">Source XREF</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Project tools</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../servlets/ProjectHome">Project home</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectMemberList">Membership</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectNewsList">Announcements</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectForumView">Discussion forums</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectMailingListList">Mailing lists</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectDocumentList">Documents & files</a>
+        </li>
+              
+    <li class="none">
+              <a href="../source/browse/jawr/">Subversion</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectIssues">Issue tracker</a>
+        </li>
+          </ul></dd>
+    </dl>
+        </div>
+      <script>
+        // replace the java.net project tools with the navigation bar from Maven.
+        // also get rid of "Get Involved" thingie too, while we are at it
+        var pt = document.getElementById("projecttools");
+        var nv = document.getElementById("navcolumn");
+        
+        while(pt.previousSibling!=null)
+          pt.parentNode.removeChild(pt.previousSibling);
+        
+        pt.parentNode.insertBefore(nv,pt);
+        pt.parentNode.removeChild(pt);
+      </script>
+      <script>
+        // kill "description" h3 bar
+        var ld = document.getElementById("longdescription");
+        if(ld!=null) {
+          for( n=ld.firstChild; n!=null; n=n.nextSibling ) {
+            if(n.nodeType==1 && n.innerHTML=="Description" ) {
+              n.parentNode.removeChild(n);
+              break;
+            }
+          }
+        }
+      </script>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>Jawr illegal bundle request handler </h2>
+<p>Since the version 3.3, Jawr introduced a new configuration setting which is the <b>strict mode</b>.<br />
+This <b>strict mode</b> refers to the way how Jawr handles the bundle request where the bundle exist in Jawr but the identifier of the bundle (hashcode) doesn't match the existing one.</p>
+<p>This case can happen when you have an application which runs on 2 servers, and that you're deploying a new version of your application on one server, while the other is still running.<br />
+It can happen that the user retrieve the content of the page from one server, and try to retrieve the bundle resources from the other. If the requested bundle has different between the 2 servers, Jawr will receive a request for a bundle which exists but where the hashcode is incorrect.<br />
+If you set the strict mode property in your Jawr configuration file to true, Jawr allows you to define the handler for such request. Here are the properties which you can use to handle the strict mode : </p>
+<table class="bodyTable"><tbody><tr class="a"><td align="left"><b>Property name</b></td>
+<td align="left"><b>Type</b></td>
+<td align="left"><b>Purpose</b></td>
+<td align="left"><b>Default value</b></td>
+</tr>
+<tr class="b"><td align="left">jawr.strict.mode</td>
+<td align="left">Boolean</td>
+<td align="left">Enable/disable strict mode for bundle request.</td>
+<td align="left">False</td>
+</tr>
+<tr class="a"><td align="left">jawr.illegal.bundle.request.handler</td>
+<td align="left">String</td>
+<td align="left">The class name of the handler for illegal bundle request.</td>
+<td align="left">net.jawr.web.servlet.IllegalBundleRequestHandlerImpl</td>
+</tr>
+</tbody>
+</table>
+<img src="../images/illegalBundleRequestHandler/illegalBundleRequestHandler.jpg" alt="Illegal bundle request handler class diagram." /><p>The IllegalBundleRequestHandler defines the following methods :</p>
+<div class="source"><pre>        /**
+         * This method can update the response header and 
+         * returns true if the header has been written 
+         * and false if Jawr must write the response header.
+         * @param requestedPath the requested path
+         * @param request the request
+         * @param response the response
+         * @return true if the header has been written 
+         * and false if Jawr must write the response header.
+         * @throws IOException if an IOException occurs
+         */
+        boolean writeResponseHeader(String requestedPath, HttpServletRequest request, HttpServletResponse response) throws IOException;
+        
+        /**
+         * This method should return true if Jawr should send back the content of the bundle.
+         * @param requestedPath the requested path
+         * @param request the request
+         * @return true if if Jawr should send back the content of the bundle.
+         */
+        boolean canWriteContent(String requestedPath, HttpServletRequest request);
+        </pre>
+</div>
+<ul><li><b>boolean writeResponseHeader(String requestedPath, HttpServletRequest request, HttpServletResponse response)</b><br />
+This method is used to update the response header is needed. It must returns true if the response header has been written and false to let Jawr handles the response header like for correct bundle. </li>
+<li><b>boolean canWriteContent(String requestedPath, HttpServletRequest request)</b><br />
+This method is used to determine if Jawr should send back the matching bundle content or not.</li>
+</ul>
+<div class="section"><h3>Jawr default IllegalBundleRequestHandler implementation</h3>
+<p>Jawr provides a default implementation of the IllegalBundleRequestHandler, which returns a 404 if the bundle hashcode doesn't match. </p>
+<div class="source"><pre>        /* (non-Javadoc)
+         * @see net.jawr.web.servlet.IllegalBundleRequestHandler#writeResponseHeader(java.lang.String, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+         */
+        public boolean writeResponseHeader(String requestedPath,
+                        HttpServletRequest request, HttpServletResponse response) throws IOException {
+                
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return true;
+        }
+
+        /* (non-Javadoc)
+         * @see net.jawr.web.servlet.IllegalBundleRequestHandler#canWriteContent(java.lang.String, javax.servlet.http.HttpServletRequest)
+         */
+        public boolean canWriteContent(String requestedPath,
+                        HttpServletRequest request) {
+                return false;
+        }</pre>
+</div>
+</div>
+<div class="section"><h3>Custom IllegalBundleRequestHandler implementation</h3>
+<p>To create your own IllegalBundleRequestHandler, you must create a class which implements IllegalBundleRequestHandler.</p>
+<p>Then in the Jawr configuration file you should add the following setting:</p>
+<div class="source"><pre>jawr.strict.mode=true
+jawr.illegal.bundle.request.handler=com.mycomp.jawr.MyIllegalBundleRequestHandler       </pre>
+</div>
+<p>Here <b>com.mycomp.jawr.MyIllegalBundleRequestHandler</b> is the class name of your IllegalBundleRequestHandler</p>
+</div>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2010
+    
+          
+  
+
+  
+  
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
+</div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>

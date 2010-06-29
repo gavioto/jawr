@@ -46,7 +46,7 @@
 <a name="37" href="#37">37</a>  <strong>public</strong> <strong>abstract</strong> <strong>class</strong> <a href="../../../../../../../net/jawr/web/resource/bundle/factory/mapper/AbstractResourceMapper.html">AbstractResourceMapper</a> {
 <a name="38" href="#38">38</a>  
 <a name="39" href="#39">39</a>  	<em>/**<em>* The logger */</em></em>
-<a name="40" href="#40">40</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger log = Logger
+<a name="40" href="#40">40</a>  	<strong>private</strong> <strong>static</strong> <strong>final</strong> Logger LOGGER = Logger
 <a name="41" href="#41">41</a>  			.getLogger(AbstractResourceMapper.<strong>class</strong>);
 <a name="42" href="#42">42</a>  
 <a name="43" href="#43">43</a>  	<em>/**<em>* The base directory */</em></em>
@@ -111,7 +111,7 @@
 <a name="102" href="#102">102</a> 			JoinableResourceBundle bundle = (JoinableResourceBundle) it.next();
 <a name="103" href="#103">103</a> 			<strong>if</strong> (bundleId.equals(bundle.getId())
 <a name="104" href="#104">104</a> 					|| <strong>this</strong>.bundleMapping.containsKey(bundleId)) {
-<a name="105" href="#105">105</a> 				log.fatal(<span class="string">"Duplicate bundle id resulted from mapping:"</span>
+<a name="105" href="#105">105</a> 				LOGGER.fatal(<span class="string">"Duplicate bundle id resulted from mapping:"</span>
 <a name="106" href="#106">106</a> 						+ bundleId);
 <a name="107" href="#107">107</a> 				<strong>throw</strong> <strong>new</strong> <a href="../../../../../../../net/jawr/web/exception/DuplicateBundlePathException.html">DuplicateBundlePathException</a>(bundleId);
 <a name="108" href="#108">108</a> 			}

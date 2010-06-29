@@ -108,6 +108,14 @@
         </li>
               
     <li class="none">
+              <a href="docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
               <a href="docs/jmx_support.html">JMX Support</a>
         </li>
               
@@ -170,7 +178,15 @@
         </li>
               
     <li class="none">
+              <a href="tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -261,17 +277,17 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section"><h2>CPD Results</h2>
-<p>The following document contains the results of PMD's  <a href="http://pmd.sourceforge.net/cpd.html" class="externalLink">CPD</a> 4.2.2.</p>
+<p>The following document contains the results of PMD's  <a class="externalLink" href="http://pmd.sourceforge.net/cpd.html">CPD</a> 4.2.2.</p>
 </div>
 <div class="section"><h2>Duplications</h2>
 <p><table class="bodyTable"><tr class="a"><th>File</th>
 <th>Line</th>
 </tr>
 <tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#721">721</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#749">749</a></td>
 </tr>
 <tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1135">1135</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1164">1164</a></td>
 </tr>
 <tr class="b"><td colspan='2'><div class="source"><pre>            setOndblclick(string);
         }
@@ -358,10 +374,38 @@
 <td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#655">655</a></td>
 </tr>
 <tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1068">1068</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1069">1069</a></td>
 </tr>
-<tr class="b"><td colspan='2'><div class="source"><pre>        String string = null;
+<tr class="b"><td colspan='2'><div class="source"><pre>        setWidthExpr(null);
+    }
 
+    /**
+     * Process the start tag.
+     *
+     * @throws JspException if a JSP exception has occurred
+     */
+    public int doStartTag() throws JspException {
+        evaluateExpressions();
+
+        return (super.doStartTag());
+    }
+
+    /**
+     * Processes all attribute values which use the JSTL expression evaluation
+     * engine to determine their values.
+     *
+     * @throws JspException if a JSP exception has occurred
+     */
+    private void evaluateExpressions()
+        throws JspException {
+        String string = null;
+        Boolean bool = null;
+		if ((bool =
+	            EvalHelper.evalBoolean(&quot;base64&quot;, getBase64Expr(), this,
+	                pageContext)) != null) {
+	        setBase64(bool.booleanValue());
+	    }
+		
         if ((string =
                 EvalHelper.evalString(&quot;align&quot;, getAlignExpr(), this, pageContext)) != null) {
             setAlign(string);
@@ -392,10 +436,10 @@
 <th>Line</th>
 </tr>
 <tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#480">480</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#502">502</a></td>
 </tr>
 <tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
-<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#780">780</a></td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#802">802</a></td>
 </tr>
 <tr class="b"><td colspan='2'><div class="source"><pre>    }
 
@@ -487,8 +531,8 @@
 
   
   
-  &nbsp;| Last Published: 02/01/2010
-  &nbsp;| Version: 3.2.1
+  &nbsp;| Last Published: 06/28/2010
+  &nbsp;| Version: 3.3
 </div>
       <div class="clear">
         <hr/>
