@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
 <duplication lines="75" tokens="361">
-<file line="749" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="1164" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<file line="749" path="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="1164" path="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
             setOndblclick(string);
@@ -84,8 +84,8 @@
 </codefragment>
 </duplication>
 <duplication lines="53" tokens="192">
-<file line="655" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="1069" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<file line="655" path="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="1069" path="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
         setWidthExpr(null);
@@ -145,8 +145,8 @@
 </codefragment>
 </duplication>
 <duplication lines="71" tokens="115">
-<file line="502" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
-<file line="802" path="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
+<file line="502" path="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImageInputTag.java"/>
+<file line="802" path="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTag.java"/>
 <codefragment>
 <![CDATA[
     }

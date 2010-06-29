@@ -501,7 +501,7 @@ You need to add the skinSwitcher to a JS bundle and then you will be able to use
 </ul>
 </div>
 <div class="section"><h3>EL Expressions</h3>
-<p>The taglibs accept EL expressions out of the box on servers that support it. If you run on a servlet container of version 2.3, however, you will need some tweaking to use EL with Jawr tags. Note that even if you use a 2.4 or greater container, you still need to declare the proper web application version in web.xml. There is a very good explanation of this at <a class="externalLink" href="http://www.mularien.com/blog/2008/04/24/how-to-reference-and-use-jstl-in-your-web-application/">this page</a>. </p>
+<p>The taglibs accept EL expressions out of the box on servers that support it. If you run on a servlet container of version 2.3, however, you will need some tweaking to use EL with Jawr tags. Note that even if you use a 2.4 or greater container, you still need to declare the proper web application version in web.xml. There is a very good explanation of this at <a href="http://www.mularien.com/blog/2008/04/24/how-to-reference-and-use-jstl-in-your-web-application/" class="externalLink">this page</a>. </p>
 <p>So what do you need to use EL on an older container? The first thing you need is to add an additional dependency on the Apache standard taglib implementation. If you use Maven, just add this to your POM: </p>
 <div class="source"><pre>    &lt;dependency&gt;
       &lt;groupId&gt;taglibs&lt;/groupId&gt;
@@ -510,7 +510,7 @@ You need to add the skinSwitcher to a JS bundle and then you will be able to use
     &lt;/dependency&gt;
 </pre>
 </div>
-<p>If you are not using Maven, then head to the <a class="externalLink" href="http://jakarta.apache.org/taglibs/doc/standard-doc/intro.html"> apache taglib project page</a> and download the jar from there. </p>
+<p>If you are not using Maven, then head to the <a href="http://jakarta.apache.org/taglibs/doc/standard-doc/intro.html" class="externalLink"> apache taglib project page</a> and download the jar from there. </p>
 <p>The other thing you need to do is to change the taglib import in JSP pages, to use a special version that supports EL using the Apache STL implementation. The proper import declaration would be: </p>
 <div class="source"><pre>
         &lt;%@ taglib uri=&quot;http://jawr.net/tags-el&quot; prefix=&quot;jwr&quot; %&gt;
@@ -534,8 +534,8 @@ You need to add the skinSwitcher to a JS bundle and then you will be able to use
 
   
   
-  &nbsp;| Last Published: 06/28/2010
-  &nbsp;| Version: 3.3
+  &nbsp;| Last Published: 06/30/2010
+  &nbsp;| Version: 3.3.1
 </div>
       <div class="clear">
         <hr/>

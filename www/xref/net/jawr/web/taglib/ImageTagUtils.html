@@ -22,28 +22,28 @@
 <a name="13" href="#13">13</a>  <em> */</em>
 <a name="14" href="#14">14</a>  <strong>package</strong> net.jawr.web.taglib;
 <a name="15" href="#15">15</a>  
-<a name="16" href="#16">16</a>  <strong>import</strong> java.io.IOException;
-<a name="17" href="#17">17</a>  <strong>import</strong> java.io.InputStream;
-<a name="18" href="#18">18</a>  
-<a name="19" href="#19">19</a>  <strong>import</strong> javax.servlet.http.HttpServletRequest;
-<a name="20" href="#20">20</a>  <strong>import</strong> javax.servlet.http.HttpServletResponse;
-<a name="21" href="#21">21</a>  <strong>import</strong> javax.servlet.jsp.JspException;
-<a name="22" href="#22">22</a>  <strong>import</strong> javax.servlet.jsp.PageContext;
-<a name="23" href="#23">23</a>  
-<a name="24" href="#24">24</a>  <strong>import</strong> net.jawr.web.JawrConstant;
-<a name="25" href="#25">25</a>  <strong>import</strong> net.jawr.web.config.JawrConfig;
-<a name="26" href="#26">26</a>  <strong>import</strong> net.jawr.web.exception.JawrLinkRenderingException;
-<a name="27" href="#27">27</a>  <strong>import</strong> net.jawr.web.exception.ResourceNotFoundException;
-<a name="28" href="#28">28</a>  <strong>import</strong> net.jawr.web.resource.FileNameUtils;
-<a name="29" href="#29">29</a>  <strong>import</strong> net.jawr.web.resource.ImageResourcesHandler;
-<a name="30" href="#30">30</a>  <strong>import</strong> net.jawr.web.resource.bundle.CheckSumUtils;
-<a name="31" href="#31">31</a>  <strong>import</strong> net.jawr.web.resource.bundle.IOUtils;
-<a name="32" href="#32">32</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.PathNormalizer;
-<a name="33" href="#33">33</a>  <strong>import</strong> net.jawr.web.servlet.RendererRequestUtils;
-<a name="34" href="#34">34</a>  <strong>import</strong> net.jawr.web.servlet.util.MIMETypesSupport;
-<a name="35" href="#35">35</a>  <strong>import</strong> net.jawr.web.util.Base64Encoder;
-<a name="36" href="#36">36</a>  
-<a name="37" href="#37">37</a>  <strong>import</strong> org.apache.commons.io.output.ByteArrayOutputStream;
+<a name="16" href="#16">16</a>  <strong>import</strong> java.io.ByteArrayOutputStream;
+<a name="17" href="#17">17</a>  <strong>import</strong> java.io.IOException;
+<a name="18" href="#18">18</a>  <strong>import</strong> java.io.InputStream;
+<a name="19" href="#19">19</a>  
+<a name="20" href="#20">20</a>  <strong>import</strong> javax.servlet.http.HttpServletRequest;
+<a name="21" href="#21">21</a>  <strong>import</strong> javax.servlet.http.HttpServletResponse;
+<a name="22" href="#22">22</a>  <strong>import</strong> javax.servlet.jsp.JspException;
+<a name="23" href="#23">23</a>  <strong>import</strong> javax.servlet.jsp.PageContext;
+<a name="24" href="#24">24</a>  
+<a name="25" href="#25">25</a>  <strong>import</strong> net.jawr.web.JawrConstant;
+<a name="26" href="#26">26</a>  <strong>import</strong> net.jawr.web.config.JawrConfig;
+<a name="27" href="#27">27</a>  <strong>import</strong> net.jawr.web.exception.JawrLinkRenderingException;
+<a name="28" href="#28">28</a>  <strong>import</strong> net.jawr.web.exception.ResourceNotFoundException;
+<a name="29" href="#29">29</a>  <strong>import</strong> net.jawr.web.resource.FileNameUtils;
+<a name="30" href="#30">30</a>  <strong>import</strong> net.jawr.web.resource.ImageResourcesHandler;
+<a name="31" href="#31">31</a>  <strong>import</strong> net.jawr.web.resource.bundle.CheckSumUtils;
+<a name="32" href="#32">32</a>  <strong>import</strong> net.jawr.web.resource.bundle.IOUtils;
+<a name="33" href="#33">33</a>  <strong>import</strong> net.jawr.web.resource.bundle.factory.util.PathNormalizer;
+<a name="34" href="#34">34</a>  <strong>import</strong> net.jawr.web.servlet.RendererRequestUtils;
+<a name="35" href="#35">35</a>  <strong>import</strong> net.jawr.web.servlet.util.MIMETypesSupport;
+<a name="36" href="#36">36</a>  <strong>import</strong> net.jawr.web.util.Base64Encoder;
+<a name="37" href="#37">37</a>  
 <a name="38" href="#38">38</a>  <strong>import</strong> org.apache.log4j.Logger;
 <a name="39" href="#39">39</a>  
 <a name="40" href="#40">40</a>  <em>/**<em>*</em></em>

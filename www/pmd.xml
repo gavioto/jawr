@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2010-06-28T20:48:38.686">
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\CheckSumUtils.java">
+<pmd version="4.2.2" timestamp="2010-06-30T00:58:55.446">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\CheckSumUtils.java">
 <violation beginline="171" endline="173" begincolumn="55" endcolumn="25" rule="EmptyWhileStmt" ruleset="Basic Rules" package="net.jawr.web.resource.bundle" class="CheckSumUtils" method="getMD5Checksum" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyWhileStmt" priority="3">
 Avoid empty while statements
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\IOUtils.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\IOUtils.java">
 <violation beginline="161" endline="163" begincolumn="27" endcolumn="25" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.bundle" class="IOUtils" method="close" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -22,7 +22,7 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\factory\util\ClassLoaderResourceUtils.java">
 <violation beginline="76" endline="94" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.factory.util" class="ClassLoaderResourceUtils" method="getResourceAsStream" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
@@ -30,7 +30,7 @@ These nested if statements could be combined
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\factory\util\PathNormalizer.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\factory\util\PathNormalizer.java">
 <violation beginline="208" endline="219" begincolumn="29" endcolumn="9" rule="UnnecessaryFinalModifier" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.factory.util" class="PathNormalizer" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryFinalModifier" priority="3">
 Unnecessary final modifier in final class
 </violation>
@@ -59,40 +59,40 @@ Unnecessary final modifier in final class
 Unnecessary final modifier in final class
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\generator\GeneratorRegistry.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\generator\GeneratorRegistry.java">
 <violation beginline="210" endline="212" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.generator" class="GeneratorRegistry" method="updateRegistries" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\generator\classpath\ClassPathCSSGenerator.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\generator\classpath\ClassPathCSSGenerator.java">
 <violation beginline="161" endline="164" begincolumn="33" endcolumn="33" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.generator.classpath" class="ClassPathCSSGenerator" method="createTempResource" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\generator\variant\css\CssSkinGenerator.java">
-<violation beginline="551" endline="553" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.generator.variant.css" class="CssSkinGenerator" method="getResourceReader" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\generator\variant\css\CssSkinGenerator.java">
+<violation beginline="550" endline="552" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.generator.variant.css" class="CssSkinGenerator" method="getResourceReader" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
-<violation beginline="578" endline="580" begincolumn="27" endcolumn="25" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.generator.variant.css" class="CssSkinGenerator" method="createResourceAsStream" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
+<violation beginline="577" endline="579" begincolumn="27" endcolumn="25" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.generator.variant.css" class="CssSkinGenerator" method="createResourceAsStream" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\global\preprocessor\css\smartsprites\SmartSpritesResourceHandler.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\global\preprocessor\css\smartsprites\SmartSpritesResourceHandler.java">
 <violation beginline="152" endline="155" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.global.preprocessor.css.smartsprites" class="SmartSpritesResourceHandler" method="getResourceAsOutputStream" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\handler\ClientSideHandlerScriptRequestHandler.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\handler\ClientSideHandlerScriptRequestHandler.java">
 <violation beginline="157" endline="157" begincolumn="9" endcolumn="37" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.handler" class="ClientSideHandlerScriptRequestHandler" method="useNotModifiedHeader" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\iterator\DebugModePathsIteratorImpl.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\iterator\DebugModePathsIteratorImpl.java">
 <violation beginline="82" endline="83" begincolumn="25" endcolumn="81" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.iterator" class="DebugModePathsIteratorImpl" method="hasNext" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\locale\LocaleUtils.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\locale\LocaleUtils.java">
 <violation beginline="176" endline="178" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.locale" class="LocaleUtils" method="addSuffixIfAvailable" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -100,32 +100,32 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\bundle\postprocess\impl\JSMinPostProcessor.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\bundle\postprocess\impl\JSMinPostProcessor.java">
 <violation beginline="147" endline="149" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.bundle.postprocess.impl" class="JSMinPostProcessor" method="formatAndThrowJSLintError" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\handler\bundle\AbstractResourceBundleHandler.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\handler\bundle\AbstractResourceBundleHandler.java">
 <violation beginline="270" endline="272" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.handler.bundle" class="AbstractResourceBundleHandler" method="getBundleMappingStream" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\resource\handler\reader\FileSystemResourceReader.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\resource\handler\reader\FileSystemResourceReader.java">
 <violation beginline="96" endline="98" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.resource.handler.reader" class="FileSystemResourceReader" method="getResourceAsStream" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\servlet\JawrImageRequestHandler.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\servlet\JawrImageRequestHandler.java">
 <violation beginline="575" endline="577" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.servlet" class="JawrImageRequestHandler" method="writeContent" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\servlet\JawrRequestHandler.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\servlet\JawrRequestHandler.java">
 <violation beginline="538" endline="543" begincolumn="33" endcolumn="33" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.servlet" class="JawrRequestHandler" method="handleSpecificRequest" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELCSSBundleTagBeanInfo.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELCSSBundleTagBeanInfo.java">
 <violation beginline="42" endline="43" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.taglib.el" class="ELCSSBundleTagBeanInfo" method="getPropertyDescriptors" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -145,7 +145,7 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImageInputTagBeanInfo.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImageInputTagBeanInfo.java">
 <violation beginline="39" endline="40" begincolumn="11" endcolumn="9" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.taglib.el" class="ELImageInputTagBeanInfo" method="getPropertyDescriptors" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -228,7 +228,7 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImagePathTagBeanInfo.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImagePathTagBeanInfo.java">
 <violation beginline="39" endline="40" begincolumn="11" endcolumn="9" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.taglib.el" class="ELImagePathTagBeanInfo" method="getPropertyDescriptors" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -236,7 +236,7 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTagBeanInfo.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELImgHtmlTagBeanInfo.java">
 <violation beginline="39" endline="40" begincolumn="11" endcolumn="9" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.taglib.el" class="ELImgHtmlTagBeanInfo" method="getPropertyDescriptors" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -322,7 +322,7 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\taglib\el\ELJavascriptBundleTagBeanInfo.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\taglib\el\ELJavascriptBundleTagBeanInfo.java">
 <violation beginline="42" endline="43" begincolumn="19" endcolumn="17" rule="EmptyCatchBlock" ruleset="Basic Rules" package="net.jawr.web.taglib.el" class="ELJavascriptBundleTagBeanInfo" method="getPropertyDescriptors" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#EmptyCatchBlock" priority="3">
 Avoid empty catch blocks
 </violation>
@@ -330,27 +330,27 @@ Avoid empty catch blocks
 Avoid empty catch blocks
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\util\FileUtils.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\util\FileUtils.java">
 <violation beginline="180" endline="182" begincolumn="13" endcolumn="13" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.util" class="FileUtils" method="copyFile" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\util\StringUtils.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\util\StringUtils.java">
 <violation beginline="197" endline="199" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.util" class="StringUtils" method="chop" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\wicket\JawrWicketLinkResolver.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\wicket\JawrWicketLinkResolver.java">
 <violation beginline="72" endline="91" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.wicket" class="JawrWicketLinkResolver" method="resolve" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\wicket\JawrWicketLinkTagHandler.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\wicket\JawrWicketLinkTagHandler.java">
 <violation beginline="102" endline="105" begincolumn="25" endcolumn="25" rule="CollapsibleIfStatements" ruleset="Basic Rules" package="net.jawr.web.wicket" class="JawrWicketLinkTagHandler" method="analyzeAutolinkCondition" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#CollapsibleIfStatements" priority="3">
 These nested if statements could be combined
 </violation>
 </file>
-<file name="E:\Prog\eclipseData\springSourceWrkSpace\jawr-core-3.x\src\main\java\net\jawr\web\wicket\RedirectWriter.java">
+<file name="E:\Prog\release\3.x_development\core\src\main\java\net\jawr\web\wicket\RedirectWriter.java">
 <violation beginline="52" endline="52" begincolumn="9" endcolumn="15" rule="UnnecessaryReturn" ruleset="Basic Rules" package="net.jawr.web.wicket" class="RedirectWriter" method="write" externalInfoUrl="http://pmd.sourceforge.net/rules/basic.html#UnnecessaryReturn" priority="3">
 Avoid unnecessary return statements
 </violation>
