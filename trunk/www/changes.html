@@ -277,7 +277,29 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section"><h2><a name="Announcementes_and_change_log"></a>Announcementes and change log</h2>
-<ul><li><strong>07/20/2009</strong>: Version 3.3.2 released:<br />
+<ul><li><strong>08/15/2009</strong>: Version 3.3.3 released:<br />
+
+	      	This version contains 2 bug fixes including a major one. It is highly recommended to upgrade to this version.<br />
+<br />
+
+	      	There was an issue in the hashcode generation, which causes the bundle to be reloaded even if the bundle content didn't change.
+	      	This implies some performance penalties.<br />
+
+	      	The hashcode was based on the Java object ID instead of the bundle content.<br />
+
+	      	The consequences are :
+	      		<ul><li>If you restart your application server, for the same application, Jawr could generate different hashcodes for the same bundle.</li>
+<li>If you are using load balancing and run the same application on 2 servers, they could generate different hashcodes for the same bundle.</li>
+</ul>
+<strong>Fixed issues: </strong><ul><li><strong>Issue #160 fixed:</strong> An exception is thrown, when using JMX on an application whose the context path is empty     
+	      		 </li>
+<li><strong>Issue #163 fixed:</strong> Issue with bundle hashcode generation which must be based on bundle content      
+	      		 </li>
+
+	      		 Thanks to the users which reports these issues through the discussion forum.
+	      	</ul>
+</li>
+<li><strong>07/20/2009</strong>: Version 3.3.2 released:<br />
 
 	      	This version contains only bug fixes.<br />
 <br />
@@ -420,7 +442,7 @@
 		    We are sorry for the inconvenience made to the Grails users, which where not able to use Jawr.
 		    We hope that you will enjoy this new version with all the latest features of Jawr.<br />
 
-		    The Grails plugin 3.3.1 is available <a href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8991" class="externalLink">here</a>. <br />
+		    The Grails plugin 3.3.1 is available <a class="externalLink" href="https://jawr.dev.java.net/servlets/ProjectDocumentList?folderID=8991">here</a>. <br />
 
 		    It will be soon available at the grails plugin repository. 
 		    <br />
@@ -525,7 +547,7 @@
 	      	For those, who have created their own resource generator, we recommend them to look at the security issue section of the <a href="./docs/generators.html">generator documentation</a><br />
 <br />
 <strong>New features/ fixed issues: </strong><ul><li>
-      		 Jawr supports the generation of CSS image sprites. Jawr uses <a href="http://csssprites.org/" class="externalLink">smartsprites</a> for the sprite generation.
+      		 Jawr supports the generation of CSS image sprites. Jawr uses <a class="externalLink" href="http://csssprites.org/">smartsprites</a> for the sprite generation.
       		 Thanks to Stanislaw Osinski, smartsprites creator, for his help on the integration of Jawr with smartsprites.<br />
 
       		 Please check the tutorial on the <a href="./tutorials/jawrSpriteImage.html">image sprite generation with Jawr</a> for more detail.
@@ -915,8 +937,8 @@ Other than that, mostly internal changes and bugfixes. The internal changes incl
 
   
   
-  &nbsp;| Last Published: 07/19/2010
-  &nbsp;| Version: 3.3.2
+  &nbsp;| Last Published: 08/15/2010
+  &nbsp;| Version: 3.3.3
 </div>
       <div class="clear">
         <hr/>

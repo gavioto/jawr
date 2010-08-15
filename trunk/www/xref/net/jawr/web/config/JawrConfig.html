@@ -35,7 +35,7 @@
 <a name="26" href="#26">26</a>  <strong>import</strong> net.jawr.web.resource.bundle.generator.GeneratorRegistry;
 <a name="27" href="#27">27</a>  <strong>import</strong> net.jawr.web.resource.bundle.hashcode.BundleHashcodeGenerator;
 <a name="28" href="#28">28</a>  <strong>import</strong> net.jawr.web.resource.bundle.hashcode.BundleStringHashcodeGenerator;
-<a name="29" href="#29">29</a>  <strong>import</strong> net.jawr.web.resource.bundle.hashcode.MD5BundleHascodeGenerator;
+<a name="29" href="#29">29</a>  <strong>import</strong> net.jawr.web.resource.bundle.hashcode.MD5BundleHashcodeGenerator;
 <a name="30" href="#30">30</a>  <strong>import</strong> net.jawr.web.resource.bundle.locale.DefaultLocaleResolver;
 <a name="31" href="#31">31</a>  <strong>import</strong> net.jawr.web.resource.bundle.locale.LocaleResolver;
 <a name="32" href="#32">32</a>  <strong>import</strong> net.jawr.web.resource.bundle.locale.LocaleVariantResolverWrapper;
@@ -387,7 +387,7 @@
 <a name="378" href="#378">378</a> 		<strong>if</strong>(bundleHashCodeGenerator.length() == 0 || JawrConstant.DEFAULT.equalsIgnoreCase(bundleHashCodeGenerator)){
 <a name="379" href="#379">379</a> 			bundleHashcodeGenerator = <strong>new</strong> <a href="../../../../net/jawr/web/resource/bundle/hashcode/BundleStringHashcodeGenerator.html">BundleStringHashcodeGenerator</a>();
 <a name="380" href="#380">380</a> 		}<strong>else</strong> <strong>if</strong>(JawrConstant.MD5_ALGORITHM.equalsIgnoreCase(bundleHashCodeGenerator)){
-<a name="381" href="#381">381</a> 			bundleHashcodeGenerator = <strong>new</strong> MD5BundleHascodeGenerator();
+<a name="381" href="#381">381</a> 			bundleHashcodeGenerator = <strong>new</strong> MD5BundleHashcodeGenerator();
 <a name="382" href="#382">382</a> 		}<strong>else</strong>{
 <a name="383" href="#383">383</a> 			bundleHashcodeGenerator = (BundleHashcodeGenerator) ClassLoaderResourceUtils.buildObjectInstance(bundleHashCodeGenerator);
 <a name="384" href="#384">384</a> 		}
