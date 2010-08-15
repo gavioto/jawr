@@ -323,6 +323,7 @@
 <li><b>springConfigFiles</b> the comma separated list of spring configuration files, which will be used to initialize the Jawr spring controller. This property accepts any spring resource location definition like classpath:..., file:..., etc</li>
 <li><b>servletsToInitialize</b> the list of comma separated names of servlets to initialize</li>
 <li><b>generateCdnFiles</b> the flag indicating if we should generate the CDN files or not</li>
+<li><b>keepUrlMapping</b> The flag indicating if we want to keep the jawr URL mapping or if we rewrite it to remove resource hashcode.</li>
 </ul>
 <div class="section"><h4>Limitations</h4>
 <p>As we have seen, the bundle preprocessing has almost the same behaviour as the standard bundle processing. To implement this feature, we have decided to simulate the server startup. By default we will only initialize the Jawr servlets. You could add in the <b>servletsToInitialize</b> the list of servlets to initialize.</p>
@@ -397,8 +398,8 @@
 
   
   
-  &nbsp;| Last Published: 06/30/2010
-  &nbsp;| Version: 3.3.1
+  &nbsp;| Last Published: 08/15/2010
+  &nbsp;| Version: 3.3.3
 </div>
       <div class="clear">
         <hr/>
