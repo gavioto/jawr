@@ -726,7 +726,7 @@
 <a name="717" href="#717">717</a> 	<strong>private</strong> <strong>void</strong> initBundleDataHashcode(<a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> bundle,
 <a name="718" href="#718">718</a> 			JoinableResourceBundleContent store, String variant) {
 <a name="719" href="#719">719</a> 		
-<a name="720" href="#720">720</a> 		String bundleHashcode = bundleHashcodeGenerator.generateHashCode(config, store.toString());
+<a name="720" href="#720">720</a> 		String bundleHashcode = bundleHashcodeGenerator.generateHashCode(config, store.getContent().toString());
 <a name="721" href="#721">721</a> 		bundle.setBundleDataHashCode(variant, bundleHashcode);
 <a name="722" href="#722">722</a> 	}
 <a name="723" href="#723">723</a> 
