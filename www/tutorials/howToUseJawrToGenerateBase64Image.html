@@ -406,12 +406,13 @@ You should be aware that there is a limitation in IE8, which is not able to hand
 <p>In our example, we will define our bundle like this :</p>
 <div class="source"><pre>        jawr.css.bundle.base64Bundle.id=/css/base64Bundle.css
         jawr.css.bundle.skinnedBundle.mappings=/css/one.css
-        jawr.css.bundle.base64Bundle.bundlepostprocessors=cssminify,base64ImageEncoder</pre>
+        jawr.css.bundle.base64Bundle.bundlepostprocessors=cssminify,base64ImageEncoder
+        jawr.css.bundle.base64Bundle.filepostprocessors=base64ImageEncoder</pre>
 </div>
 <p><b>Warning:</b><br />
 You should noticed that we have set the <b>CSS minifier</b> before our <b>base64ImageEncoder</b>. We use this configuration because the CSS minifier would have removed the MHTML part which in comment.</p>
-<p>It is also important to set the base64ImageEncoder as a <b>bundle post processor</b>, because this post processor needs to prepend the MHTML part to the bundle and not for each file. <br />
-So <b>never</b> use this post processor as a file post processor.</p>
+<p>It is also important to set the base64ImageEncoder as a <b>bundle post processor</b> AND as a <b>file post processor</b>, because this post processor needs to prepend the MHTML part to the bundle and also to rewrite the URLs in each file. <br />
+So <b>never</b> use this post processor only as a bundle post processor or only as a file post processor.</p>
 </div>
 <div class="section"><h3>Test the base64 image encoding</h3>
 <p>Create an <b>/img</b> directory at the root of your web application and copy 2 <b>png</b> images in it and rename them to <b>img1.png</b> and <b>img2.png</b> . </p>
