@@ -24,11 +24,9 @@ title: "Jawr"
 <div id="nav2">
 <div class="vAccordion">
 <div class="bucket">
-<dl id="projecttools" class="navgroup" style="text-align: left;">
- <dt id="current-zone" class="depth0">
- <a href="http://jawr.java.net/">Jawr</a>
- </dt>
- <dd class="depth0 parent parent" id="menubar">
+<!-- dl id="projecttools" class="navgroup" style="text-align: left;">
+ 
+ <dd class="depth0 parent parent" id="menubar" -->
 <!--
 DD contains single UL which generates the whole menu. UL/LI can have a nested structure
 to create submenus.
@@ -254,7 +252,7 @@ under a single navigation item.
     </ul>
     </li>
     </ul>
-   </dd>
+   <!-- /dd -->
           
     <script>
 var info = {
@@ -264,7 +262,7 @@ title: "Jawr"
 }
     </script>
    <!--</dd>
-</dl>
+<!-- /dl -->
 </div>
 </div>
 </div>
