@@ -22,5 +22,5 @@
 	    width: 16em;
 	}
 	
-	#nav2 { width : 179 px; }
+	#nav2 { width : 179px; }
 <style>			
