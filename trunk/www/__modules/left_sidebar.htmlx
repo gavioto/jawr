@@ -46,19 +46,19 @@ page even if you are in sub.html. This is useful for grouping a large number of 
 under a single navigation item.
 -->
          <li class="none">
-              <a href="introduction.html">Introduction</a>
+              <a href="/introduction.html">Introduction</a>
         </li>
               
     <li class="none">
-              <strong>Features</strong>
+              <a href="/features.html">Features</a>
         </li>
               
     <li class="none">
-              <a href="changes.html">Change history</a>
+              <a href="/changes.html">Change history</a>
         </li>
               
     <li class="none">
-              <a href="team.html">The team</a>
+              <a href="/team.html">The team</a>
         </li>
           </ul></dd>
     </dl>
@@ -67,79 +67,79 @@ under a single navigation item.
         <dd><ul>
               
     <li class="none">
-              <a href="docs/servlet.html">The Jawr servlet</a>
+              <a href="/docs/servlet.html">The Jawr servlet</a>
         </li>
               
     <li class="none">
-              <a href="docs/descriptor_syntax.html">Descriptor syntax</a>
+              <a href="/docs/descriptor_syntax.html">Descriptor syntax</a>
         </li>
               
     <li class="none">
-              <a href="docs/custom_bundles.html">Bundle definition</a>
+              <a href="/docs/custom_bundles.html">Bundle definition</a>
         </li>
               
     <li class="none">
-              <a href="docs/source_ordering.html">Source order in bundles</a>
+              <a href="/docs/source_ordering.html">Source order in bundles</a>
         </li>
               
     <li class="none">
-              <a href="docs/global_preprocessors.html">Global preprocessors</a>
+              <a href="/docs/global_preprocessors.html">Global preprocessors</a>
         </li>
               
     <li class="none">
-              <a href="docs/postprocessors.html">Postprocessors</a>
+              <a href="/docs/postprocessors.html">Postprocessors</a>
         </li>
               
     <li class="none">
-              <a href="docs/generators.html">Generators</a>
+              <a href="/docs/generators.html">Generators</a>
         </li>
               
     <li class="none">
-              <a href="docs/advanced_generators.html">Advanced generators</a>
+              <a href="/docs/advanced_generators.html">Advanced generators</a>
         </li>
               
     <li class="none">
-              <a href="docs/license_files.html">Licenses in resources</a>
+              <a href="/docs/license_files.html">Licenses in resources</a>
         </li>
               
     <li class="none">
-              <a href="docs/taglibs.html">JSP Tag library</a>
+              <a href="/docs/taglibs.html">JSP Tag library</a>
         </li>
               
     <li class="none">
-              <a href="docs/plain_html.html">Use in HTML pages</a>
+              <a href="/docs/plain_html.html">Use in HTML pages</a>
         </li>
               
     <li class="none">
-              <a href="docs/modes.html">Debug and production modes</a>
+              <a href="/docs/modes.html">Debug and production modes</a>
         </li>
               
     <li class="none">
-              <a href="docs/messages_gen.html">i18n message generator</a>
+              <a href="/docs/messages_gen.html">i18n message generator</a>
         </li>
               
     <li class="none">
-              <a href="docs/variant_bundle.html">Variant bundles</a>
+              <a href="/docs/variant_bundle.html">Variant bundles</a>
         </li>
               
     <li class="none">
-              <a href="docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+              <a href="/docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
         </li>
               
     <li class="none">
-              <a href="docs/jmx_support.html">JMX Support</a>
+              <a href="/docs/jmx_support.html">JMX Support</a>
         </li>
               
     <li class="none">
-              <a href="docs/bundle_preprocessing.html">Bundle preprocessing</a>
+              <a href="/docs/bundle_preprocessing.html">Bundle preprocessing</a>
         </li>
               
     <li class="none">
-              <a href="docs/jawr_maven_plugin.html">Jawr Maven plugin</a>
+              <a href="/docs/jawr_maven_plugin.html">Jawr Maven plugin</a>
         </li>
               
     <li class="none">
-              <a href="docs/jawr_ant_task.html">Jawr Ant task</a>
+              <a href="/docs/jawr_ant_task.html">Jawr Ant task</a>
         </li>
           </ul></dd>
     </dl>
@@ -148,31 +148,31 @@ under a single navigation item.
         <dd><ul>
               
     <li class="none">
-              <a href="integration/augmenter.html">Add Jawr to your framework</a>
+              <a href="/integration/augmenter.html">Add Jawr to your framework</a>
         </li>
               
     <li class="none">
-              <a href="integration/spring.html">Spring MVC</a>
+              <a href="/integration/spring.html">Spring MVC</a>
         </li>
               
     <li class="none">
-              <a href="integration/facelets.html">Facelets Tag library</a>
+              <a href="/integration/facelets.html">Facelets Tag library</a>
         </li>
               
     <li class="none">
-              <a href="integration/wicket.html">Wicket</a>
+              <a href="/integration/wicket.html">Wicket</a>
         </li>
               
     <li class="none">
-              <a href="integration/grails.html">Grails plugin</a>
+              <a href="/integration/grails.html">Grails plugin</a>
         </li>
               
     <li class="none">
-              <a href="integration/dwr.html">DWR</a>
+              <a href="/integration/dwr.html">DWR</a>
         </li>
               
     <li class="none">
-              <a href="integration/validator.html">Commons Validator - Struts</a>
+              <a href="/integration/validator.html">Commons Validator - Struts</a>
         </li>
           </ul></dd>
     </dl>
@@ -181,31 +181,31 @@ under a single navigation item.
         <dd><ul>
               
     <li class="none">
-              <a href="tutorials/quickstart.html">Quick start</a>
+              <a href="/tutorials/quickstart.html">Quick start</a>
         </li>
               
     <li class="none">
-              <a href="tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+              <a href="/tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
         </li>
               
     <li class="none">
-              <a href="tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+              <a href="/tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
         </li>
               
     <li class="none">
-              <a href="tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+              <a href="/tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
-              <a href="tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
+              <a href="/tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
-              <a href="tutorials/faq_howto.html">FAQ-Howto</a>
+              <a href="/tutorials/faq_howto.html">FAQ-Howto</a>
         </li>
               
     <li class="none">
-              <a href="tutorials/libraries.html">Using popular libraries</a>
+              <a href="/tutorials/libraries.html">Using popular libraries</a>
         </li>
           </ul></dd>
     </dl>
@@ -214,11 +214,11 @@ under a single navigation item.
         <dd><ul>
               
     <li class="none">
-              <a href="nonav/apidocs/index.html">JavaDocs</a>
+              <a href="/nonav/apidocs/index.html">JavaDocs</a>
         </li>
               
     <li class="none">
-              <a href="nonav/xref/index.html">Source XREF</a>
+              <a href="/nonav/xref/index.html">Source XREF</a>
         </li>
           </ul></dd>
     </dl>
@@ -227,35 +227,35 @@ under a single navigation item.
         <dd><ul>
               
     <li class="none">
-              <a href="servlets/ProjectHome">Project home</a>
+              <a href="/servlets/ProjectHome">Project home</a>
         </li>
               
     <li class="none">
-              <a href="servlets/ProjectMemberList">Membership</a>
+              <a href="/servlets/ProjectMemberList">Membership</a>
         </li>
               
     <li class="none">
-              <a href="servlets/ProjectNewsList">Announcements</a>
+              <a href="/servlets/ProjectNewsList">Announcements</a>
         </li>
               
     <li class="none">
-              <a href="servlets/ProjectForumView">Discussion forums</a>
+              <a href="/servlets/ProjectForumView">Discussion forums</a>
         </li>
               
     <li class="none">
-              <a href="servlets/ProjectMailingListList">Mailing lists</a>
+              <a href="/servlets/ProjectMailingListList">Mailing lists</a>
         </li>
               
     <li class="none">
-              <a href="servlets/ProjectDocumentList">Documents & files</a>
+              <a href="/servlets/ProjectDocumentList">Documents & files</a>
         </li>
               
     <li class="none">
-              <a href="source/browse/jawr/">Subversion</a>
+              <a href="/source/browse/jawr/">Subversion</a>
         </li>
               
     <li class="none">
-              <a href="servlets/ProjectIssues">Issue tracker</a>
+              <a href="/servlets/ProjectIssues">Issue tracker</a>
         </li>
           </ul>
           </dd>
@@ -264,7 +264,7 @@ under a single navigation item.
 var info = {
 title: "Jawr"
 //,
-//logo: "http://shoal.java.net/Shoal_244_179_0.JPG"
+//logo: "http://jawr.java.et.logo.png"
 }
     </script>
    <!--</dd>
