@@ -1,13 +1,3 @@
-<!-- <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-  <script>document.getElementById("main").parentNode.style.display="none";</script>
-  <style type="text/css">
-@import url(http://www.google.com/cse/api/overlay.css);
-  </style>
-  <title></title>
-</head>
-<body> -->
 <!-- hide the contents while the theme engine kicks in and does the work --><!--
 This is where your menu starts. id='menubar' is mandatory.
 Notice that there's no closing tag for this <dd>, and there's extra </dd> at the
@@ -24,9 +14,7 @@ title: "Jawr"
 <div id="nav2">
 <div class="vAccordion">
 <div class="bucket">
-<!-- dl id="projecttools" class="navgroup" style="text-align: left;">
- 
- <dd class="depth0 parent parent" id="menubar" -->
+
 <!--
 DD contains single UL which generates the whole menu. UL/LI can have a nested structure
 to create submenus.
@@ -252,7 +240,6 @@ under a single navigation item.
     </ul>
     </li>
     </ul>
-   <!-- /dd -->
           
     <script>
 var info = {
@@ -261,11 +248,8 @@ title: "Jawr"
 //logo: "http://jawr.java.et.logo.png"
 }
     </script>
-   <!--</dd>
-<!-- /dl -->
+   
 </div>
 </div>
 </div>
 
-</body>
-</html>-->
