@@ -21,4 +21,6 @@
 	#sideColumn {
 	    width: 16em;
 	}
+	
+	#nav2 { width : 179 px; }
 <style>			
