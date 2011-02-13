@@ -13,4 +13,12 @@
 		clear:right;
 	}
 	#badges img  { border:0 !important;}
+	#firstPara{
+		clear:right;
+		margin-top:100px
+	}
+	
+	#sideColumn {
+	    width: 16em;
+	}
 <style>			
