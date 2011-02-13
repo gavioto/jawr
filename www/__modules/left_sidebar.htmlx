@@ -21,7 +21,9 @@ title: "Jawr"
 }
 </script>
 
-<div id="navcol">
+<div id="nav2">
+<div class="vAccordion">
+<div class="bucket">
 <dl id="projecttools" class="navgroup" style="text-align: left;">
  <dt id="current-zone" class="depth0">
  <a href="http://jawr.java.net/">Jawr</a>
@@ -264,5 +266,8 @@ title: "Jawr"
    <!--</dd>
 </dl>
 </div>
+</div>
+</div>
+
 </body>
 </html>-->
