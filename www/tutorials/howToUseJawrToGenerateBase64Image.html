@@ -279,7 +279,7 @@
         <div class="section"><h2>How to set up Jawr to generate base64 encoded images</h2>
 <ul><li>Overview<p>The goal of this tutorial is to explain how to set up Jawr to generate base64 encoded images in the CSS bundles.<br />
 As you know, one of the main rules to increase performance in your web application is to reduce the number of HTTP requests.<br />
-One of the way to achieve this is to create image sprites, which combines multiple images in a single image. Jawr already provides a way to handle this case. Please take a look at the <a href="https://jawr.dev.java.net/tutorials/jawrSpriteImage.html" class="externalLink"> Jawr sprite documentation</a>.<br />
+One of the way to achieve this is to create image sprites, which combines multiple images in a single image. Jawr already provides a way to handle this case. Please take a look at the <a href="http://jawr.java.net/tutorials/jawrSpriteImage.html" class="externalLink"> Jawr sprite documentation</a>.<br />
 So, with sprite all the reference of the images defined in your CSS will point to one or a few sprites, which will reduce the number of HTTP requests.<br />
 There is another way to reduce the number of HTTP requests by encoding the content of the images in base64.<br />
 It means that in you generated bundle, the URL references to the image will be replaced by the content of your images.<br />
