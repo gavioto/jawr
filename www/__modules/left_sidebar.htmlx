@@ -62,7 +62,7 @@ under a single navigation item.
               <a href="/team.html">The team</a>
     </li>
     <li>
-      <a href="#"><strong>Documentation</strong></a>
+      <strong>Documentation</strong>
       <ul>
         <li class="none">
               <a href="/docs/servlet.html">>> The Jawr servlet</a>
@@ -141,7 +141,7 @@ under a single navigation item.
     </ul>
     </li>
     <li>
-    	<a href="#"><strong>Integration</strong></a>
+    	<strong>Integration</strong>
     	<ul>
               
     <li class="none">
@@ -174,7 +174,7 @@ under a single navigation item.
           </ul>
 	</li>
 	<li>
-      <a href="#"><strong>Tutorials</strong></a>
+      <strong>Tutorials</strong>
       <ul>
       <li class="none">
               <a href="/tutorials/quickstart.html">>> Quick start</a>
@@ -206,7 +206,7 @@ under a single navigation item.
       </ul>
       </li>
       <li>
-	      <a href="#"><strong>API and sources</strong></a>
+	      <strong>API and sources</strong>
           <ul>
           <li class="none">
               <a href="/nonav/apidocs/index.html">>> JavaDocs</a>
@@ -218,7 +218,7 @@ under a single navigation item.
           </ul>
       </li>
       <li>
-	    <a href="#"><strong>Project tools</strong></a>
+	    <strong>Project tools</strong>
         <ul>
         <li class="none">
               <a href="http://java.net/projects/jawr/">>> Project home</a>
