@@ -31,10 +31,9 @@ title: "Jawr"
 DD contains single UL which generates the whole menu. UL/LI can have a nested structure
 to create submenus.
 -->
-<!--    <ul>  -->
 <!-- menubar for the main site -->
       <ul id="main-menubar">
-        <li><!--
+        <!--
 This HTML is injected in all the pages within your project, so all the hyperlinks
 must be either absolute or start with '/'.
 The current page in the navigation bar is shown highlighted to let users know where
@@ -59,18 +58,14 @@ under a single navigation item.
               
     <li class="none">
               <a href="/team.html">The team</a>
-        </li>
-          </ul></dd>
-    </dl>
-      <dl class=navgroup>
-        <dt>Documentation</dt>
-        <dd><ul>
-              
-    <li class="none">
+    </li>
+    <li>
+      <a href="#">Documentation</a>
+      <ul>
+        <li class="none">
               <a href="/docs/servlet.html">The Jawr servlet</a>
         </li>
-              
-    <li class="none">
+        <li class="none">
               <a href="/docs/descriptor_syntax.html">Descriptor syntax</a>
         </li>
               
@@ -141,11 +136,11 @@ under a single navigation item.
     <li class="none">
               <a href="/docs/jawr_ant_task.html">Jawr Ant task</a>
         </li>
-          </ul></dd>
-    </dl>
-      <dl class=navgroup>
-        <dt>Integration</dt>
-        <dd><ul>
+    </ul>
+    </li>
+    <li>
+    	<a href="#">Integration</a>
+    	<ul>
               
     <li class="none">
               <a href="/integration/augmenter.html">Add Jawr to your framework</a>
@@ -174,13 +169,12 @@ under a single navigation item.
     <li class="none">
               <a href="/integration/validator.html">Commons Validator - Struts</a>
         </li>
-          </ul></dd>
-    </dl>
-      <dl class=navgroup>
-        <dt>Tutorials</dt>
-        <dd><ul>
-              
-    <li class="none">
+          </ul>
+	</li>
+	<li>
+      <a href="#">Tutorials</a>
+      <ul>
+      <li class="none">
               <a href="/tutorials/quickstart.html">Quick start</a>
         </li>
               
@@ -207,58 +201,58 @@ under a single navigation item.
     <li class="none">
               <a href="/tutorials/libraries.html">Using popular libraries</a>
         </li>
-          </ul></dd>
-    </dl>
-      <dl class=navgroup>
-        <dt>API and sources</dt>
-        <dd><ul>
-              
-    <li class="none">
+      </ul>
+      </li>
+      <li>
+	      <a href="#">API and sources</a>
+          <ul>
+          <li class="none">
               <a href="/nonav/apidocs/index.html">JavaDocs</a>
         </li>
               
     <li class="none">
               <a href="/nonav/xref/index.html">Source XREF</a>
         </li>
-          </ul></dd>
-    </dl>
-      <dl class=navgroup>
-        <dt>Project tools</dt>
-        <dd><ul>
-              
-    <li class="none">
-              <a href="/servlets/ProjectHome">Project home</a>
+          </ul>
+      </li>
+      <li>
+	    <a href="#">Project tools</a>
+        <ul>
+        <li class="none">
+              <a href="http://java.net/projects/jawr/">Project home</a>
         </li>
               
-    <li class="none">
+    <!-- li class="none">
               <a href="/servlets/ProjectMemberList">Membership</a>
         </li>
               
     <li class="none">
               <a href="/servlets/ProjectNewsList">Announcements</a>
+        </li -->
+              
+    <li class="none">
+              <a href="http://java.net/projects/jawr/forums">Discussion forums</a>
         </li>
               
     <li class="none">
-              <a href="/servlets/ProjectForumView">Discussion forums</a>
+              <a href="http://java.net/projects/jawr/lists">Mailing lists</a>
         </li>
               
     <li class="none">
-              <a href="/servlets/ProjectMailingListList">Mailing lists</a>
+              <a href="http://java.net/projects/jawr/sources">Documents & files</a>
         </li>
               
     <li class="none">
-              <a href="/servlets/ProjectDocumentList">Documents & files</a>
+              <a href="http://java.net/projects/jawr/sources">Subversion</a>
         </li>
               
     <li class="none">
-              <a href="/source/browse/jawr/">Subversion</a>
+              <a href="http://java.net/jira/browse/JAWR">Issue tracker</a>
         </li>
-              
-    <li class="none">
-              <a href="/servlets/ProjectIssues">Issue tracker</a>
-        </li>
-          </ul>
-          </dd>
+    </ul>
+    </li>
+    </ul>
+   </dd>
           
     <script>
 var info = {
