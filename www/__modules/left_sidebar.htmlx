@@ -242,6 +242,7 @@ under a single navigation item.
     </ul>
           
     <script>
+    window.document.title = "Jawr";
 var info = {
 title: "Jawr"
 //,
