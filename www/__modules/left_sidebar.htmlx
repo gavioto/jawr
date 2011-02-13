@@ -33,96 +33,96 @@ page even if you are in sub.html. This is useful for grouping a large number of 
 under a single navigation item.
 -->
          <li class="none">
-              <a href="/introduction.html">Introduction</a>
+              <a href="http://jawr.java.net/introduction.html">Introduction</a>
         </li>
               
     <li class="none">
-              <a href="/features.html">Features</a>
+              <a href="http://jawr.java.net/features.html">Features</a>
         </li>
               
     <li class="none">
-              <a href="/changes.html">Change history</a>
+              <a href="http://jawr.java.net/changes.html">Change history</a>
         </li>
               
     <li class="none">
-              <a href="/team.html">The team</a>
+              <a href="http://jawr.java.net/team.html">The team</a>
     </li>
     <li>
       <strong>Documentation</strong>
       <ul>
         <li class="none">
-              <a href="/docs/servlet.html"><span class="bullet">»</span> The Jawr servlet</a>
+              <a href="http://jawr.java.net/docs/servlet.html"><span class="bullet">»</span> The Jawr servlet</a>
         </li>
         <li class="none">
-              <a href="/docs/descriptor_syntax.html"><span class="bullet">»</span> Descriptor syntax</a>
+              <a href="http://jawr.java.net/docs/descriptor_syntax.html"><span class="bullet">»</span> Descriptor syntax</a>
         </li>
               
     <li class="none">
-              <a href="/docs/custom_bundles.html"><span class="bullet">»</span> Bundle definition</a>
+              <a href="http://jawr.java.net/docs/custom_bundles.html"><span class="bullet">»</span> Bundle definition</a>
         </li>
               
     <li class="none">
-              <a href="/docs/source_ordering.html"><span class="bullet">»</span> Source order in bundles</a>
+              <a href="http://jawr.java.net/docs/source_ordering.html"><span class="bullet">»</span> Source order in bundles</a>
         </li>
               
     <li class="none">
-              <a href="/docs/global_preprocessors.html"><span class="bullet">»</span> Global preprocessors</a>
+              <a href="http://jawr.java.net/docs/global_preprocessors.html"><span class="bullet">»</span> Global preprocessors</a>
         </li>
               
     <li class="none">
-              <a href="/docs/postprocessors.html"><span class="bullet">»</span> Postprocessors</a>
+              <a href="http://jawr.java.net/docs/postprocessors.html"><span class="bullet">»</span> Postprocessors</a>
         </li>
               
     <li class="none">
-              <a href="/docs/generators.html"><span class="bullet">»</span> Generators</a>
+              <a href="http://jawr.java.net/docs/generators.html"><span class="bullet">»</span> Generators</a>
         </li>
               
     <li class="none">
-              <a href="/docs/advanced_generators.html"><span class="bullet">»</span> Advanced generators</a>
+              <a href="http://jawr.java.net/docs/advanced_generators.html"><span class="bullet">»</span> Advanced generators</a>
         </li>
               
     <li class="none">
-              <a href="/docs/license_files.html"><span class="bullet">»</span> Licenses in resources</a>
+              <a href="http://jawr.java.net/docs/license_files.html"><span class="bullet">»</span> Licenses in resources</a>
         </li>
               
     <li class="none">
-              <a href="/docs/taglibs.html"><span class="bullet">»</span> JSP Tag library</a>
+              <a href="http://jawr.java.net/docs/taglibs.html"><span class="bullet">»</span> JSP Tag library</a>
         </li>
               
     <li class="none">
-              <a href="/docs/plain_html.html"><span class="bullet">»</span> Use in HTML pages</a>
+              <a href="http://jawr.java.net/docs/plain_html.html"><span class="bullet">»</span> Use in HTML pages</a>
         </li>
               
     <li class="none">
-              <a href="/docs/modes.html"><span class="bullet">»</span> Debug and production modes</a>
+              <a href="http://jawr.java.net/docs/modes.html"><span class="bullet">»</span> Debug and production modes</a>
         </li>
               
     <li class="none">
-              <a href="/docs/messages_gen.html"><span class="bullet">»</span> i18n message generator</a>
+              <a href="http://jawr.java.net/docs/messages_gen.html"><span class="bullet">»</span> i18n message generator</a>
         </li>
               
     <li class="none">
-              <a href="/docs/variant_bundle.html"><span class="bullet">»</span> Variant bundles</a>
+              <a href="http://jawr.java.net/docs/variant_bundle.html"><span class="bullet">»</span> Variant bundles</a>
         </li>
               
     <li class="none">
-              <a href="/docs/illegalBundleRequestHander.html"><span class="bullet">»</span> Jawr strict mode - Illegal bundle request handler</a>
+              <a href="http://jawr.java.net/docs/illegalBundleRequestHander.html"><span class="bullet">»</span> Jawr strict mode - Illegal bundle request handler</a>
         </li>
               
     <li class="none">
-              <a href="/docs/jmx_support.html"><span class="bullet">»</span> JMX Support</a>
+              <a href="http://jawr.java.net/docs/jmx_support.html"><span class="bullet">»</span> JMX Support</a>
         </li>
               
     <li class="none">
-              <a href="/docs/bundle_preprocessing.html"><span class="bullet">»</span> Bundle preprocessing</a>
+              <a href="http://jawr.java.net/docs/bundle_preprocessing.html"><span class="bullet">»</span> Bundle preprocessing</a>
         </li>
               
     <li class="none">
-              <a href="/docs/jawr_maven_plugin.html"><span class="bullet">»</span> Jawr Maven plugin</a>
+              <a href="http://jawr.java.net/docs/jawr_maven_plugin.html"><span class="bullet">»</span> Jawr Maven plugin</a>
         </li>
               
     <li class="none">
-              <a href="/docs/jawr_ant_task.html"><span class="bullet">»</span> Jawr Ant task</a>
+              <a href="http://jawr.java.net/docs/jawr_ant_task.html"><span class="bullet">»</span> Jawr Ant task</a>
         </li>
     </ul>
     </li>
@@ -131,31 +131,31 @@ under a single navigation item.
     	<ul>
               
     <li class="none">
-              <a href="/integration/augmenter.html"><span class="bullet">»</span> Add Jawr to your framework</a>
+              <a href="http://jawr.java.net/integration/augmenter.html"><span class="bullet">»</span> Add Jawr to your framework</a>
         </li>
               
     <li class="none">
-              <a href="/integration/spring.html"><span class="bullet">»</span> Spring MVC</a>
+              <a href="http://jawr.java.net/integration/spring.html"><span class="bullet">»</span> Spring MVC</a>
         </li>
               
     <li class="none">
-              <a href="/integration/facelets.html"><span class="bullet">»</span> Facelets Tag library</a>
+              <a href="http://jawr.java.net/integration/facelets.html"><span class="bullet">»</span> Facelets Tag library</a>
         </li>
               
     <li class="none">
-              <a href="/integration/wicket.html"><span class="bullet">»</span> Wicket</a>
+              <a href="http://jawr.java.net/integration/wicket.html"><span class="bullet">»</span> Wicket</a>
         </li>
               
     <li class="none">
-              <a href="/integration/grails.html"><span class="bullet">»</span> Grails plugin</a>
+              <a href="http://jawr.java.net/integration/grails.html"><span class="bullet">»</span> Grails plugin</a>
         </li>
               
     <li class="none">
-              <a href="/integration/dwr.html"><span class="bullet">»</span> DWR</a>
+              <a href="http://jawr.java.net/integration/dwr.html"><span class="bullet">»</span> DWR</a>
         </li>
               
     <li class="none">
-              <a href="/integration/validator.html"><span class="bullet">»</span> Commons Validator - Struts</a>
+              <a href="http://jawr.java.net/integration/validator.html"><span class="bullet">»</span> Commons Validator - Struts</a>
         </li>
           </ul>
 	</li>
@@ -163,31 +163,31 @@ under a single navigation item.
       <strong>Tutorials</strong>
       <ul>
       <li class="none">
-              <a href="/tutorials/quickstart.html"><span class="bullet">»</span> Quick start</a>
+              <a href="http://jawr.java.net/tutorials/quickstart.html"><span class="bullet">»</span> Quick start</a>
         </li>
               
     <li class="none">
-              <a href="/tutorials/howToUseJawrToServeImage.html"><span class="bullet">»</span> How to use Jawr to serve image resources</a>
+              <a href="http://jawr.java.net/tutorials/howToUseJawrToServeImage.html"><span class="bullet">»</span> How to use Jawr to serve image resources</a>
         </li>
               
     <li class="none">
-              <a href="/tutorials/howToUseJawrCssSkin.html"><span class="bullet">»</span> How to use Jawr to generate CSS skin</a>
+              <a href="http://jawr.java.net/tutorials/howToUseJawrCssSkin.html"><span class="bullet">»</span> How to use Jawr to generate CSS skin</a>
         </li>
               
     <li class="none">
-              <a href="/tutorials/jawrSpriteImage.html"><span class="bullet">»</span> How to generate Image sprites with Jawr</a>
+              <a href="http://jawr.java.net/tutorials/jawrSpriteImage.html"><span class="bullet">»</span> How to generate Image sprites with Jawr</a>
         </li>
               
     <li class="none">
-              <a href="/tutorials/howToUseJawrToGenerateBase64Image.html"><span class="bullet">»</span> How to generate base64 images in CSS with Jawr</a>
+              <a href="http://jawr.java.net/tutorials/howToUseJawrToGenerateBase64Image.html"><span class="bullet">»</span> How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
-              <a href="/tutorials/faq_howto.html"><span class="bullet">»</span> FAQ-Howto</a>
+              <a href="http://jawr.java.net/tutorials/faq_howto.html"><span class="bullet">»</span> FAQ-Howto</a>
         </li>
               
     <li class="none">
-              <a href="/tutorials/libraries.html"><span class="bullet">»</span> Using popular libraries</a>
+              <a href="http://jawr.java.net/tutorials/libraries.html"><span class="bullet">»</span> Using popular libraries</a>
         </li>
       </ul>
       </li>
@@ -195,11 +195,11 @@ under a single navigation item.
 	      <strong>API and sources</strong>
           <ul>
           <li class="none">
-              <a href="/nonav/apidocs/index.html"><span class="bullet">»</span> JavaDocs</a>
+              <a href="http://jawr.java.net/nonav/apidocs/index.html"><span class="bullet">»</span> JavaDocs</a>
         </li>
               
     <li class="none">
-              <a href="/nonav/xref/index.html"><span class="bullet">»</span> Source XREF</a>
+              <a href="http://jawr.java.net/nonav/xref/index.html"><span class="bullet">»</span> Source XREF</a>
         </li>
           </ul>
       </li>
