@@ -47,7 +47,7 @@ public class BasicBundleRenderer extends AbstractBundleLinkRenderer {
 	 * @param useRandomParam the flag indicating if we should use the random parameter
      */
 	public BasicBundleRenderer(ResourceBundlesHandler bundler, String resourceType) {
-		this(bundler, resourceType, false);
+		this(bundler, resourceType, Boolean.FALSE);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class BasicBundleRenderer extends AbstractBundleLinkRenderer {
 	 * @param bundler the resource bundles handler
 	 * @param useRandomParam the flag indicating if we should use teh random parameter
      */
-	public BasicBundleRenderer(ResourceBundlesHandler bundler, String resourceType, boolean useRandomParam) {
+	public BasicBundleRenderer(ResourceBundlesHandler bundler, String resourceType, Boolean useRandomParam) {
 		super(bundler, useRandomParam);
 		this.resourceType = resourceType;
 	}
