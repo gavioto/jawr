@@ -237,7 +237,8 @@ public class BundleProcessor {
 
 		if (generateCdnFiles) {
 			// Process the Jawr servlet to generate the bundles
-			processJawrServlets(destDirPath, jawrServletDefinitions,
+			String cdnDestDirPath = destDirPath + CDN_DIR_NAME;
+			processJawrServlets(cdnDestDirPath, jawrServletDefinitions,
 					keepUrlMapping);
 		}
 
@@ -528,8 +529,6 @@ public class BundleProcessor {
 		String cssServletMapping = "";
 		String imgServletMapping = "";
 
-		String cdnDestDirPath = destDirPath + CDN_DIR_NAME;
-
 		for (Iterator iterator = jawrServletDefinitions.iterator(); iterator
 				.hasNext();) {
 
@@ -594,15 +593,15 @@ public class BundleProcessor {
 
 			if (bundleHandler != null) {
 				createBundles(servletDef.getServlet(), bundleHandler,
-						cdnDestDirPath, servletMapping, keepUrlMapping);
+						destDirPath, servletMapping, keepUrlMapping);
 			} else if (imgRsHandler != null) {
 				createImageBundle(servletDef.getServlet(), imgRsHandler,
-						cdnDestDirPath, servletConfig, keepUrlMapping);
+						destDirPath, servletConfig, keepUrlMapping);
 			}
 		}
 
 		// Create the apache rewrite config file.
-		createApacheRewriteConfigFile(cdnDestDirPath, appRootDir,
+		createApacheRewriteConfigFile(destDirPath, appRootDir,
 				jsServletMapping, cssServletMapping, imgServletMapping);
 
 	}
