@@ -21,36 +21,36 @@ public class LocalUtilsTestCase extends TestCase {
 		
 		List<String> result = LocaleUtils.getAvailableLocaleSuffixesForBundle("bundleLocale.messages");
 		Assert.assertEquals(3, result.size());
-		Assert.assertEquals("",result.get(0));
-		Assert.assertEquals("es",result.get(1));
-		Assert.assertEquals("fr",result.get(2));
+		Assert.assertTrue(result.contains(""));
+		Assert.assertTrue(result.contains("es"));
+		Assert.assertTrue(result.contains("fr"));
 	}
 	
 	public void testGetLocaleAvailablePrefixesWithNamespace(){
 		
 		List<String> result = LocaleUtils.getAvailableLocaleSuffixesForBundle("bundleLocale.messages(mynamespace)");
 		Assert.assertEquals(3, result.size());
-		Assert.assertEquals("",result.get(0));
-		Assert.assertEquals("es",result.get(1));
-		Assert.assertEquals("fr",result.get(2));
+		Assert.assertTrue(result.contains(""));
+		Assert.assertTrue(result.contains("es"));
+		Assert.assertTrue(result.contains("fr"));
 	}
 	
 	public void testGetLocaleAvailablePrefixesWithFilter(){
 		
 		List<String> result = LocaleUtils.getAvailableLocaleSuffixesForBundle("bundleLocale.messages[ui.msg]");
 		Assert.assertEquals(3, result.size());
-		Assert.assertEquals("",result.get(0));
-		Assert.assertEquals("es",result.get(1));
-		Assert.assertEquals("fr",result.get(2));
+		Assert.assertTrue(result.contains(""));
+		Assert.assertTrue(result.contains("es"));
+		Assert.assertTrue(result.contains("fr"));
 	}
 	
 	public void testGetLocaleAvailablePrefixesWithFilterAndNamespace(){
 		
 		List<String> result = LocaleUtils.getAvailableLocaleSuffixesForBundle("bundleLocale.messages(mynamespace)[ui.msg]");
 		Assert.assertEquals(3, result.size());
-		Assert.assertEquals("",result.get(0));
-		Assert.assertEquals("es",result.get(1));
-		Assert.assertEquals("fr",result.get(2));
+		Assert.assertTrue(result.contains(""));
+		Assert.assertTrue(result.contains("es"));
+		Assert.assertTrue(result.contains("fr"));
 	}
 	
 	// TODO test for Grails with servlet context

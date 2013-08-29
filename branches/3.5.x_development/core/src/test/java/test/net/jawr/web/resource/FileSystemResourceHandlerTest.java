@@ -33,7 +33,7 @@ public class FileSystemResourceHandlerTest extends ResourceHandlerBasedTest {
 	public FileSystemResourceHandlerTest(){
    		String temp = null;
 		try {			
-			// bytes for "αινσϊ€" in utf-8. Best way to avoid garbled class from wrongly encoded SVN commits
+			// bytes for "οΏ½οΏ½οΏ½οΏ½οΏ½" in utf-8. Best way to avoid garbled class from wrongly encoded SVN commits
 			byte[] data = {-61,-95,-61,-87,	-61,-83,-61,-77,-61,-70,-30,-126,-84};
 			temp = new String(data,"UTF-8");
 			
@@ -103,7 +103,7 @@ public class FileSystemResourceHandlerTest extends ResourceHandlerBasedTest {
 			
 			// Read its data and check the validity
 			String readData = fullyReadReader(rd);
-			assertEquals("Reader returned wrong or badly encoded text. ","αινσϊ", readData);
+			assertEquals("Reader returned wrong or badly encoded text. ","Γ‘Γ©Γ­Γ³ΓΊ", readData);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,7 +122,7 @@ public class FileSystemResourceHandlerTest extends ResourceHandlerBasedTest {
 			
 			// Read its data and check the validity
 			String readData = fullyReadChannel(chan,charsetUtf.name());
-			assertEquals("Reader returned wrong or badly encoded text. ","αινσϊ", readData);
+			assertEquals("Reader returned wrong or badly encoded text. ","Γ‘Γ©Γ­Γ³ΓΊ", readData);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
