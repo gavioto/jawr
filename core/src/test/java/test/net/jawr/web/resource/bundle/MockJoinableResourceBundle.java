@@ -13,6 +13,7 @@
  */
 package test.net.jawr.web.resource.bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -201,12 +202,12 @@ public class MockJoinableResourceBundle implements JoinableResourceBundle {
 
 	@Override
 	public List<String> getItemDebugPathList() {
-		return null;
+		return new ArrayList<String>();
 	}
 
 	@Override
 	public List<String> getItemDebugPathList(Map<String, String> variants) {
-		return null;
+		return new ArrayList<String>();
 	}
 
 }

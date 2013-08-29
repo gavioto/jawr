@@ -4,7 +4,8 @@
  *
  * Copyright 2011, Jeremy Ashkenas
  * Released under the MIT License
- */ (function (root)
+ */ 
+(function (root)
 {
     var CoffeeScript = function ()
         {
