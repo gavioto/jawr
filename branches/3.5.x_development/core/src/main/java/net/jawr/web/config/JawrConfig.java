@@ -1,5 +1,5 @@
 /**
- * Copyright 2007-2012 Jordi Hernández Sellés, Ibrahim Chaehoi, Matt Ruby
+ * Copyright 2007-2012 Jordi Hernï¿½ndez Sellï¿½s, Ibrahim Chaehoi, Matt Ruby
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -177,12 +177,6 @@ public class JawrConfig implements Serializable {
 	 */
 	private static final String DEBUG_MODE_SYSTEM_FLAG = "net.jawr.debug.on";
 
-	/**
-	 * The property name for the flag indicating if JAWR should override the CSS image url to map the classpath image servlet
-	 * TODO remove this property. It's replaced by jawr.css.classpath.handling.image
-	 */
-	public static final String JAWR_CSS_IMG_USE_CLASSPATH_SERVLET = "jawr.css.image.classpath.use.servlet";
-	
 	/**
 	 * The property name for the flag indicating if the CSS image for the CSS retrieved from classpath must be also retrieved from classpath
 	 */
@@ -482,14 +476,6 @@ public class JawrConfig implements Serializable {
 			setCssLinkFlavor(cssLinkFlavor);
 		}
 
-		if (null != props.getProperty(JAWR_CSS_IMG_USE_CLASSPATH_SERVLET)
-				 && null != props.getProperty(JAWR_CSS_CLASSPATH_HANDLE_IMAGE)) {
-			throw new IllegalStateException("You are using in the same configuration file '"+JAWR_CSS_IMG_USE_CLASSPATH_SERVLET+"' and '"+JAWR_CSS_CLASSPATH_HANDLE_IMAGE+"'. " +
-					"The property '"+JAWR_CSS_IMG_USE_CLASSPATH_SERVLET+"' is deprecated. Please use only the property '"+JAWR_CSS_CLASSPATH_HANDLE_IMAGE+"'");
-		}
-		
-		this.classpathCssHandleImage = getBooleanProperty(JAWR_CSS_IMG_USE_CLASSPATH_SERVLET, false);
-		
 		this.classpathCssHandleImage = getBooleanProperty(JAWR_CSS_CLASSPATH_HANDLE_IMAGE, false);
 		
 		this.imageHashAlgorithm = getProperty(JAWR_IMAGE_HASH_ALGORITHM, "CRC32");
