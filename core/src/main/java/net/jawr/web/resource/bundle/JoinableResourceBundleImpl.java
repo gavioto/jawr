@@ -1,5 +1,5 @@
 /**
- * Copyright 2007-2012 Jordi Hernández Sellés, Ibrahim Chaehoi
+ * Copyright 2007-2012 Jordi Hernï¿½ndez Sellï¿½s, Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -40,7 +40,7 @@ import org.apache.log4j.Logger;
 /**
  * Basic implementation of JoinableResourceBundle.
  * 
- * @author Jordi Hernández Sellés
+ * @author Jordi Hernï¿½ndez Sellï¿½s
  * @author Ibrahim Chaehoi
  * 
  */
@@ -283,10 +283,11 @@ public class JoinableResourceBundleImpl implements JoinableResourceBundle {
 			String resourcePath = joinPaths(dirName,
 					resourceName, isGeneratedPath);
 			
+			boolean resourceIsDir = resourceReaderHandler.isDirectory(resourcePath);
 			if (addSubDirs
-					&& resourceReaderHandler.isDirectory(resourcePath)){
+					&& resourceIsDir){
 				folders.add(resourceName);
-			}else if (resourcePath.endsWith(fileExtension) || generatorRegistry.isPathGenerated(resourcePath)) {
+			}else if (resourcePath.endsWith(fileExtension) || (generatorRegistry.isPathGenerated(resourcePath) && !resourceIsDir)) {
 				addPathMapping(asPath(resourcePath, isGeneratedPath));
 				
 				if (LOGGER.isDebugEnabled())
