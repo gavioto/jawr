@@ -292,7 +292,7 @@ public class CSSURLRewriterPostProcessorTest extends TestCase {
 
 		// Set the properties
 		Properties props = new Properties();
-		props.setProperty(JawrConfig.JAWR_CSS_IMG_USE_CLASSPATH_SERVLET, "true");
+		props.setProperty(JawrConfig.JAWR_CSS_CLASSPATH_HANDLE_IMAGE, "true");
 		config = new JawrConfig("css", props);
 		ServletContext servletContext = new MockServletContext();
 		config.setContext(servletContext);
@@ -337,7 +337,7 @@ public class CSSURLRewriterPostProcessorTest extends TestCase {
 
 		// Set the properties
 		Properties props = new Properties();
-		props.setProperty(JawrConfig.JAWR_CSS_IMG_USE_CLASSPATH_SERVLET, "true");
+		props.setProperty(JawrConfig.JAWR_CSS_CLASSPATH_HANDLE_IMAGE, "true");
 		config = new JawrConfig("css", props);
 		ServletContext servletContext = new MockServletContext();
 		config.setContext(servletContext);
@@ -379,7 +379,7 @@ public class CSSURLRewriterPostProcessorTest extends TestCase {
 
 		// Set the properties
 		Properties props = new Properties();
-		props.setProperty(JawrConfig.JAWR_CSS_IMG_USE_CLASSPATH_SERVLET, "true");
+		props.setProperty(JawrConfig.JAWR_CSS_CLASSPATH_HANDLE_IMAGE, "true");
 		config = new JawrConfig("css", props);
 		ServletContext servletContext = new MockServletContext();
 		config.setContext(servletContext);

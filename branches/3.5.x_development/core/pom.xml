@@ -130,11 +130,6 @@
 			</exclusions>
 		</dependency>
 		
-		<!-- dependency> <groupId>rhino</groupId> <artifactId>js</artifactId> <version>1.6R7</version> 
-			<scope>provided</scope> </dependency> <dependency> <grou <exclusions> <exclusion> 
-			<artifactId>js</artifactId> <groupId>rhino</groupId> </exclusion> </exclusions> 
-			pId>rhino</groupId> <artifactId>js</artifactId> <version>1.7R2</version> 
-			<scope>provided</scope> </dependency -->
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -183,6 +178,7 @@
 			<groupId>com.carrotsearch</groupId>
 			<artifactId>smartsprites</artifactId>
 			<version>0.2.10</version>
+			<!-- TODO : replace by version 0.2.11 containing the feature to track sprite images when available -->
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>

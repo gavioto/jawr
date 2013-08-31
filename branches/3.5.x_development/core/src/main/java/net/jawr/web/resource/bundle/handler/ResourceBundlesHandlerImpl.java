@@ -1,5 +1,5 @@
 /**
- * Copyright 2007-2012 Jordi Hernández Sellés, Ibrahim Chaehoi
+ * Copyright 2007-2012 Jordi Hernï¿½ndez Sellï¿½s, Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -72,7 +72,7 @@ import org.apache.log4j.Logger;
 /**
  * Default implementation of ResourceBundlesHandler
  * 
- * @author Jordi Hernández Sellés
+ * @author Jordi Hernï¿½ndez Sellï¿½s
  * @author Ibrahim Chaehoi
  */
 public class ResourceBundlesHandlerImpl implements ResourceBundlesHandler {
@@ -1040,6 +1040,7 @@ public class ResourceBundlesHandlerImpl implements ResourceBundlesHandler {
 		
 		StringBuffer store;
 		status.setProcessingType(BundleProcessingStatus.BUNDLE_PROCESSING_TYPE);
+		status.setLastPathAdded(bundle.getId());
 		if (null != bundle.getBundlePostProcessor())
 			store = bundle.getBundlePostProcessor().postProcessBundle(
 					status, bundleData);

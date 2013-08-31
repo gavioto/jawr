@@ -101,4 +101,9 @@ public class PathNormalizerTestCase extends TestCase {
 		
 	}
 	
+	public void testConcatWebPath(){
+		
+		assertEquals("/img/logo.png", PathNormalizer.concatWebPath("/css/generator/one.css", "../../img/logo.png"));
+	}
+	
 }
