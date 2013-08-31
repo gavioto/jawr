@@ -117,6 +117,7 @@ public class GrailsServletContextResourceReader extends
 	/* (non-Javadoc)
 	 * @see net.jawr.web.resource.handler.reader.ServletContextResourceReader#getResource(java.lang.String, boolean)
 	 */
+	@SuppressWarnings("resource")
 	public Reader getResource(String resourceName, boolean processingBundle) {
 		
 		Reader rd = null;
@@ -138,6 +139,7 @@ public class GrailsServletContextResourceReader extends
 	/* (non-Javadoc)
 	 * @see net.jawr.web.resource.handler.reader.ServletContextResourceReader#getResource(java.lang.String)
 	 */
+	@SuppressWarnings("resource")
 	public Reader getResource(String resourceName) {
 		Reader rd = null;
 		String realPath = getRealResourcePath(resourceName);
@@ -158,6 +160,7 @@ public class GrailsServletContextResourceReader extends
 	/* (non-Javadoc)
 	 * @see net.jawr.web.resource.handler.reader.ServletContextResourceReader#getResourceAsStream(java.lang.String, boolean)
 	 */
+	@SuppressWarnings("resource")
 	public InputStream getResourceAsStream(String resourceName,
 			boolean processingBundle) {
 		
@@ -179,6 +182,7 @@ public class GrailsServletContextResourceReader extends
 	/* (non-Javadoc)
 	 * @see net.jawr.web.resource.handler.reader.ServletContextResourceReader#getResourceAsStream(java.lang.String)
 	 */
+	@SuppressWarnings("resource")
 	public InputStream getResourceAsStream(String resourceName) {
 		InputStream is = null;
 		String realPath = getRealResourcePath(resourceName);
