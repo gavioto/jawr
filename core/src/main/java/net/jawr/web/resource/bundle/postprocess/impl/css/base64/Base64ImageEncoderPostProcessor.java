@@ -94,7 +94,7 @@ public class Base64ImageEncoderPostProcessor extends
 		}
 		
 		StringBuffer sb = bundleData;
-		if(!(status.getCurrentBundle().isComposite() && status.getProcessingType().equals(BundleProcessingStatus.BUNDLE_PROCESSING_TYPE))){
+		if(status.getProcessingType().equals(BundleProcessingStatus.FILE_PROCESSING_TYPE)){
 			sb = super.doPostProcessBundle(status, bundleData);
 		}
 		

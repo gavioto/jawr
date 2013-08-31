@@ -26,7 +26,6 @@ import net.jawr.web.exception.ResourceNotFoundException;
 import net.jawr.web.resource.FileNameUtils;
 import net.jawr.web.resource.ImageResourcesHandler;
 import net.jawr.web.resource.bundle.IOUtils;
-import net.jawr.web.resource.bundle.factory.util.PathNormalizer;
 import net.jawr.web.resource.bundle.factory.util.RegexUtil;
 import net.jawr.web.resource.bundle.generator.GeneratorRegistry;
 import net.jawr.web.resource.bundle.postprocess.BundleProcessingStatus;
@@ -63,6 +62,9 @@ public class Base64PostProcessorCssImageUrlRewriter extends
 
 	/** The annotation to skip or force the base64 encoding (jawr:base64 or jawr:base64-skip ) */
 	private static final Pattern ANNOTATION_BASE64_PATTERN = Pattern.compile("jawr(?:\\s)*:(?:\\s)*(base64)(-skip)?");
+
+	/** The annotation to skip or force the base64 encoding (jawr:base64 or jawr:base64-skip ) */
+	private static final Pattern ANNOTATION_SPRITE_PATTERN = Pattern.compile("sprite(?:\\s)*:(?:\\s)*?");
 
 	/** The annotation group in the URL pattern */
 	private static final int ANNOTATION_GROUP = 9;
@@ -171,6 +173,11 @@ public class Base64PostProcessorCssImageUrlRewriter extends
 				Matcher annotationMatcher = ANNOTATION_BASE64_PATTERN.matcher(annotation);
 				if(annotationMatcher.find()){
 					skipBase64Encoding = annotationMatcher.group(2) != null;
+				}else{
+					annotationMatcher = ANNOTATION_SPRITE_PATTERN.matcher(annotation);
+					if(annotationMatcher.find()){
+						skipBase64Encoding = !encodeSprite;
+					}	
 				}
 			}else{
 				// If no annotation use the default encoding mode
@@ -183,13 +190,12 @@ public class Base64PostProcessorCssImageUrlRewriter extends
 				
 				String url = urlMatcher.group();
 		
-				
 				// Skip sprite encoding if it is configured so
 				if(!encodeSprite && url.indexOf(GeneratorRegistry.SPRITE_GENERATOR_PREFIX+GeneratorRegistry.PREFIX_SEPARATOR) != -1){
 					skipBase64Encoding = true;
 				}
 				
-				if(LOGGER.isDebugEnabled()){
+				if(LOGGER.isDebugEnabled() && skipBase64Encoding){
 					LOGGER.debug("Skip encoding image resource : "+url);
 				}
 				
@@ -225,13 +231,7 @@ public class Base64PostProcessorCssImageUrlRewriter extends
 		String imgUrl = url;
 		String browser = status.getVariant(JawrConstant.BROWSER_VARIANT_TYPE);
 
-		if(BundleProcessingStatus.FILE_PROCESSING_TYPE.equals(status.getProcessingType())){
-			GeneratorRegistry imgRsGeneratorRegistry = imgRsHandler.getJawrConfig().getGeneratorRegistry();
-			if(!imgRsGeneratorRegistry.isGeneratedImage(url)){
-				imgUrl = PathNormalizer.getRelativeWebPath(PathNormalizer
-						.getParentPath(newCssPath), url);
-			}
-		}else if (skipBase64Encoding) { // Skip base64 encoding if it has ben deactivated
+		if (skipBase64Encoding) { // Skip base64 encoding if it has ben deactivated
 			imgUrl = super.rewriteURL(status, imgUrl, imgServletPath,
 					newCssPath, imgRsHandler);
 		} else {

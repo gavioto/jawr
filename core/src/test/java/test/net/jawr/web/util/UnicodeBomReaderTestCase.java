@@ -41,6 +41,7 @@ public class UnicodeBomReaderTestCase {
 
 		UnicodeBOMReader bomReader = new UnicodeBOMReader(rd, charsetName);
 		Assert.assertFalse(bomReader.hasBOM());
+		bomReader.close();
 
 	}
 
@@ -60,6 +61,7 @@ public class UnicodeBomReaderTestCase {
 		UnicodeBOMReader bomReader = new UnicodeBOMReader(rd, charsetName);
 		Assert.assertTrue(bomReader.hasBOM());
 		Assert.assertEquals(bom, bomReader.getBOM());
+		bomReader.close();
 	}
 
 	private void testCheckSkipBom(BOM bom) throws IOException,
@@ -79,6 +81,7 @@ public class UnicodeBomReaderTestCase {
 		for (int i = 0; i < cbufStart.length; i++) {
 			Assert.assertEquals(expectedCh[i], cbufStart[i]);
 		}
+		bomReader.close();
 	}
 
 	private void testCheckNoSkipBom(BOM bom) throws IOException,
@@ -102,6 +105,7 @@ public class UnicodeBomReaderTestCase {
 		for (int i = 0; i < bomBytes.length; i++) {
 			Assert.assertEquals(bomBytes[i], bStart[i]);
 		}
+		bomReader.close();
 	}
 
 	private Reader getSampleReader(BOM bom, String charsetName)
