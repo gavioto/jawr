@@ -71,7 +71,7 @@ public class MainPageIETest extends AbstractPageTest {
 		assertEquals(1, scripts.size());
 		final HtmlScript script = scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/N171606911.en_US/js/bundle/msg.js",
+				CONTEXT_PATH+"/690372103.en_US/js/bundle/msg.js",
 				script.getSrcAttribute());
 	}
 

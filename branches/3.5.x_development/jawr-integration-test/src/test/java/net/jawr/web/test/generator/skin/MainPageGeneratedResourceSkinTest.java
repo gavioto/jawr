@@ -56,7 +56,7 @@ public class MainPageGeneratedResourceSkinTest extends AbstractPageTest {
 		assertEquals(1, scripts.size());
 		final HtmlScript script = scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/1542603560.en_US/js/bundle/msg.js",
+				CONTEXT_PATH+"/690372103.en_US/js/bundle/msg.js",
 				script.getSrcAttribute());
 	}
 
@@ -76,7 +76,7 @@ public class MainPageGeneratedResourceSkinTest extends AbstractPageTest {
 		assertEquals(1, styleSheets.size());
 		final HtmlLink css = styleSheets.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/882537595.en_US@summer/fwk/core/component.css",
+				CONTEXT_PATH+"/N101424371.en_US@summer/fwk/core/component.css",
 				css.getHrefAttribute());
 
 	}

@@ -50,7 +50,7 @@ public class MainPageGeneratedResourceSkinLocaleFrTest extends MainPageGenerated
 		assertEquals(1, scripts.size());
 		final HtmlScript script = scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/N2093830570.fr/js/bundle/msg.js",
+				CONTEXT_PATH+"/N1694952078.fr/js/bundle/msg.js",
 				script.getSrcAttribute());
 	}
 
@@ -70,7 +70,7 @@ public class MainPageGeneratedResourceSkinLocaleFrTest extends MainPageGenerated
 		assertEquals(1, styleSheets.size());
 		final HtmlLink css = styleSheets.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/1864072266.fr_FR@summer/fwk/core/component.css",
+				CONTEXT_PATH+"/N701235125.fr_FR@summer/fwk/core/component.css",
 				css.getHrefAttribute());
 
 	}

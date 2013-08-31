@@ -69,12 +69,12 @@ public class MainPageGeneratedResourceSkinDebugIECssBundleTest extends AbstractP
 		final List<?> scripts = getJsScriptTags();
 		assertEquals(2, scripts.size());
 		HtmlScript script = (HtmlScript) scripts.get(0);
-		assertEquals(
-				CONTEXT_PATH+"/jawr_generator.js?generationConfigParam=messages%3Amessages%40en_US",
+		Utils.assertGeneratedLinkEquals(
+				CONTEXT_PATH+"/jawr_generator.js?d=11111&generationConfigParam=messages%3Amessages%40en_US",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(1);
-		assertEquals(
-				CONTEXT_PATH+"/jawr_generator.js?generationConfigParam=testJs%3AgeneratedContent.js",
+		Utils.assertGeneratedLinkEquals(
+				CONTEXT_PATH+"/jawr_generator.js?d=11111&generationConfigParam=testJs%3AgeneratedContent.js",
 				script.getSrcAttribute());
 	}
 
@@ -98,7 +98,7 @@ public class MainPageGeneratedResourceSkinDebugIECssBundleTest extends AbstractP
 		assertEquals(1, styleSheets.size());
 		HtmlLink css = (HtmlLink) styleSheets.get(0);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=ieCssGen%3A%2F882537595.en_US%40summer%2Ffwk%2Fcore%2Fcomponent.css",
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=ieCssGen%3A%2FN101424371.en_US%40summer%2Ffwk%2Fcore%2Fcomponent.css",
 				css.getHrefAttribute());
 	}
 

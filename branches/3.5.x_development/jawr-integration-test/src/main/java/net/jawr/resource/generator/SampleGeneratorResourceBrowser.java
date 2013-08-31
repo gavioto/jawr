@@ -12,6 +12,8 @@ import java.util.TreeSet;
 
 import net.jawr.web.resource.bundle.generator.AbstractJavascriptGenerator;
 import net.jawr.web.resource.bundle.generator.GeneratorContext;
+import net.jawr.web.resource.bundle.generator.resolver.PrefixedPathResourceGeneratorResolver;
+import net.jawr.web.resource.bundle.generator.resolver.ResourceGeneratorResolver;
 import net.jawr.web.resource.handler.reader.ResourceBrowser;
 
 /**
@@ -51,17 +53,9 @@ public class SampleGeneratorResourceBrowser extends AbstractJavascriptGenerator 
 	}
 	
 	/* (non-Javadoc)
-	 * @see net.jawr.web.resource.bundle.generator.PrefixedResourceGenerator#getMappingPrefix()
-	 */
-	public String getMappingPrefix() {
-		
-		return "browse";
-	}
-
-	/* (non-Javadoc)
 	 * @see net.jawr.web.resource.handler.reader.ResourceBrowser#getResourceNames(java.lang.String)
 	 */
-	public Set getResourceNames(String path) {
+	public Set<String> getResourceNames(String path) {
 		
 		String dirPath = path;
 		if(!dirPath.endsWith("/")){
@@ -90,6 +84,13 @@ public class SampleGeneratorResourceBrowser extends AbstractJavascriptGenerator 
 		
 		String generatedResource = new String(";alert('GeneratedPath : "+context.getPath()+"');");
 		return new StringReader(generatedResource);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.jawr.web.resource.bundle.generator.BaseResourceGenerator#getResolver()
+	 */
+	public ResourceGeneratorResolver getResolver() {
+		return new PrefixedPathResourceGeneratorResolver("browse");
 	}
 
 }

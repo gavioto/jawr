@@ -56,7 +56,7 @@ public class MainPageIECssBundleTest extends MainPageTest {
 		assertEquals(1, scripts.size());
 		final HtmlScript script = scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/1542603560.en_US/js/bundle/msg.js",
+				CONTEXT_PATH+"/690372103.en_US/js/bundle/msg.js",
 				script.getSrcAttribute());
 	}
 
@@ -76,11 +76,11 @@ public class MainPageIECssBundleTest extends MainPageTest {
 		assertEquals(2, styleSheets.size());
 		HtmlLink css = styleSheets.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/N1435483871/bundles/globalStyleBundle.css",
+				CONTEXT_PATH+"/N541884743/bundles/globalStyleBundle.css",
 				css.getHrefAttribute());
 		css = styleSheets.get(1);
 		assertEquals(
-				CONTEXT_PATH+"/435327146/fwk/core/component.css",
+				CONTEXT_PATH+"/N33754198/fwk/core/component.css",
 				css.getHrefAttribute());
 
 	}
