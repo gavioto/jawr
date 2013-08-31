@@ -53,7 +53,7 @@ public class MainPageJsImgServletMappingTest extends AbstractPageTest {
 		assertEquals(1, scripts.size());
 		final HtmlScript script = (HtmlScript) scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/jsJawr/1542603560.en_US/js/bundle/msg.js",
+				CONTEXT_PATH+"/jsJawr/690372103.en_US/js/bundle/msg.js",
 				script.getSrcAttribute());
 	}
 
@@ -73,7 +73,7 @@ public class MainPageJsImgServletMappingTest extends AbstractPageTest {
 		assertEquals(1, styleSheets.size());
 		final HtmlLink css = (HtmlLink) styleSheets.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/N1515795919/fwk/core/component.css",
+				CONTEXT_PATH+"/N762152484/fwk/core/component.css",
 				css.getHrefAttribute());
 
 	}

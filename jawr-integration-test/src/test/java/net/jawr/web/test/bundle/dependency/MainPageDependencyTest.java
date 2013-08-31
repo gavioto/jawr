@@ -56,7 +56,7 @@ public class MainPageDependencyTest extends AbstractPageTest {
 		assertEquals(1, scripts.size());
 		final HtmlScript script = scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/1542603560.en_US/js/bundle/msg.js",
+				CONTEXT_PATH+"/690372103.en_US/js/bundle/msg.js",
 				script.getSrcAttribute());
 	}
 
@@ -76,23 +76,23 @@ public class MainPageDependencyTest extends AbstractPageTest {
 		assertEquals(5, styleSheets.size());
 		HtmlLink css = styleSheets.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/N1435483871/bundles/globalStyleBundle.css",
+				CONTEXT_PATH+"/N541884743/bundles/globalStyleBundle.css",
 				css.getHrefAttribute());
 		css = styleSheets.get(1);
 		assertEquals(
-				CONTEXT_PATH+"/1825498621/fwk/core/component3.css",
+				CONTEXT_PATH+"/2145416155/fwk/core/component3.css",
 				css.getHrefAttribute());
 		css = styleSheets.get(2);
 		assertEquals(
-				CONTEXT_PATH+"/1825498621/fwk/core/component4.css",
+				CONTEXT_PATH+"/2145416155/fwk/core/component4.css",
 				css.getHrefAttribute());
 		css = styleSheets.get(3);
 		assertEquals(
-				CONTEXT_PATH+"/N87509158/fwk/core/component2.css",
+				CONTEXT_PATH+"/N1951876463/fwk/core/component2.css",
 				css.getHrefAttribute());
 		css = styleSheets.get(4);
 		assertEquals(
-				CONTEXT_PATH+"/348114364/fwk/core/component.css",
+				CONTEXT_PATH+"/1581531432/fwk/core/component.css",
 				css.getHrefAttribute());
 
 	}

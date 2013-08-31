@@ -4,7 +4,7 @@
 <head>    
  <link rel="stylesheet" type="text/css" media="all" href="/jawr-integration-test/1457264041.ie6@/fwk/core/component.css" >
 
- <script type="text/javascript" src="/jawr-integration-test/N171606911.en_US/js/bundle/msg.js" ></script>
+ <script type="text/javascript" src="/jawr-integration-test/690372103.en_US/js/bundle/msg.js" ></script>
 
 </head>
 <body>

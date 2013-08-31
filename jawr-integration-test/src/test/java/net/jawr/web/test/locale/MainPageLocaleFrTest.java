@@ -3,9 +3,8 @@
  */
 package net.jawr.web.test.locale;
 
-import static org.junit.Assert.assertEquals;
-import static net.jawr.web.test.JawrIntegrationServer.SERVER_URL;
 import static net.jawr.web.test.JawrIntegrationServer.CONTEXT_PATH;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +44,7 @@ public class MainPageLocaleFrTest extends MainPageTest {
 	    final List<?> scripts = getJsScriptTags();
 	    assertEquals(1, scripts.size());
 	    final HtmlScript script = (HtmlScript) scripts.get(0);
-	    assertEquals(CONTEXT_PATH+"/N2093830570.fr/js/bundle/msg.js", script.getSrcAttribute());
+	    assertEquals(CONTEXT_PATH+"/N1694952078.fr/js/bundle/msg.js", script.getSrcAttribute());
 	}
 	
 	@Test

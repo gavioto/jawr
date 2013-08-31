@@ -55,19 +55,19 @@ public class MainPageInclusionTest extends AbstractPageTest {
 		assertEquals(5, scripts.size());
 		HtmlScript script = (HtmlScript) scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/N1930202847/bundles/globalBundle.js",
+				CONTEXT_PATH+"/N850584001/bundles/globalBundle.js",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(1);
 		assertEquals(
-				CONTEXT_PATH+"/1160783475/bundles/compositeBundle.js",
+				CONTEXT_PATH+"/N1676582413/bundles/compositeBundle.js",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(2);
 		assertEquals(
-				CONTEXT_PATH+"/2009447790/bundles/stdBundle.js",
+				CONTEXT_PATH+"/885880596/bundles/stdBundle.js",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(3);
 		assertEquals(
-				CONTEXT_PATH+"/175033684/bundles/productionBundle.js",
+				CONTEXT_PATH+"/N653009754/bundles/productionBundle.js",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(4);
 		assertEquals(
@@ -104,15 +104,15 @@ public class MainPageInclusionTest extends AbstractPageTest {
 		assertEquals(4, styleSheets.size());
 		HtmlLink css = (HtmlLink) styleSheets.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/1675022186/bundles/globalStyleBundle.css",
+				CONTEXT_PATH+"/N1822449606/bundles/globalStyleBundle.css",
 				css.getHrefAttribute());
 		css = (HtmlLink) styleSheets.get(1);
 		assertEquals(
-				CONTEXT_PATH+"/243744149/bundles/compositeStyleBundle.css",
+				CONTEXT_PATH+"/N39807316/bundles/compositeStyleBundle.css",
 				css.getHrefAttribute());
 		css = (HtmlLink) styleSheets.get(2);
 		assertEquals(
-				CONTEXT_PATH+"/N1086215717/bundles/productionStyleBundle.css",
+				CONTEXT_PATH+"/N220599642/bundles/productionStyleBundle.css",
 				css.getHrefAttribute());
 		css = (HtmlLink) styleSheets.get(3);
 		assertEquals(

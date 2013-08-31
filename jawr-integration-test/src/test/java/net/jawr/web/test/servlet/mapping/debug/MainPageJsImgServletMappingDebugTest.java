@@ -1,8 +1,7 @@
 package net.jawr.web.test.servlet.mapping.debug;
 
-import static org.junit.Assert.assertEquals;
-import static net.jawr.web.test.JawrIntegrationServer.SERVER_URL;
 import static net.jawr.web.test.JawrIntegrationServer.CONTEXT_PATH;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,12 +42,12 @@ public class MainPageJsImgServletMappingDebugTest extends MainPageJsImgServletMa
 		final List<?> scripts = getJsScriptTags();
 		assertEquals(2, scripts.size());
 		HtmlScript script = (HtmlScript) scripts.get(0);
-		assertEquals(
-				CONTEXT_PATH+"/jsJawr/jawr_generator.js?generationConfigParam=messages%3Amessages%40en_US",
+		Utils.assertGeneratedLinkEquals(
+				CONTEXT_PATH+"/jsJawr/jawr_generator.js?d=11111&generationConfigParam=messages%3Amessages%40en_US",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(1);
-		assertEquals(
-				CONTEXT_PATH+"/jsJawr/jawr_generator.js?generationConfigParam=testJs%3AgeneratedContent.js",
+		Utils.assertGeneratedLinkEquals(
+				CONTEXT_PATH+"/jsJawr/jawr_generator.js?d=11111&generationConfigParam=testJs%3AgeneratedContent.js",
 				script.getSrcAttribute());
 	}
 
@@ -72,7 +71,7 @@ public class MainPageJsImgServletMappingDebugTest extends MainPageJsImgServletMa
 		assertEquals(2, styleSheets.size());
 		HtmlLink css = (HtmlLink) styleSheets.get(0);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=jar%3Afwk%2Fcss%2Ftemp.css",
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=jar%3Afwk%2Fcss%2Ftemp.css",
 				css.getHrefAttribute());
 		
 		css = (HtmlLink) styleSheets.get(1);

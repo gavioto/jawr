@@ -72,7 +72,7 @@ public class MainPageInclusionDebugTest extends AbstractPageTest {
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(4);
 		assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.js?generationConfigParam=testJs%3AgeneratedContent.js",
+				CONTEXT_PATH+"/jawr_generator.js?d=11111&generationConfigParam=testJs%3AgeneratedContent.js",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(5);
 		assertGeneratedLinkEquals(
@@ -146,7 +146,7 @@ public class MainPageInclusionDebugTest extends AbstractPageTest {
 				css.getHrefAttribute());
 		css = (HtmlLink) styleSheets.get(3);
 		assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=testCss%3AgeneratedContent.css",
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=testCss%3AgeneratedContent.css",
 				css.getHrefAttribute());
 		css = (HtmlLink) styleSheets.get(4);
 		assertGeneratedLinkEquals(

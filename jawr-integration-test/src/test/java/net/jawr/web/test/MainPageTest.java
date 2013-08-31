@@ -53,7 +53,7 @@ public class MainPageTest extends AbstractPageTest {
 		assertEquals(1, scripts.size());
 		final HtmlScript script = scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/1542603560.en_US/js/bundle/msg.js",
+				CONTEXT_PATH+"/690372103.en_US/js/bundle/msg.js",
 				script.getSrcAttribute());
 	}
 
@@ -73,7 +73,7 @@ public class MainPageTest extends AbstractPageTest {
 		assertEquals(1, styleSheets.size());
 		final HtmlLink css = styleSheets.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/435327146/fwk/core/component.css",
+				CONTEXT_PATH+"/N33754198/fwk/core/component.css",
 				css.getHrefAttribute());
 
 	}

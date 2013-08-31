@@ -58,7 +58,7 @@ public class MainPageGeneratedResourceBrowserTest extends AbstractPageTest {
 		assertEquals(1, scripts.size());
 		final HtmlScript script = scripts.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/N274714284/js/bundle/tabAndTreeView.js",
+				CONTEXT_PATH+"/N1714569585/js/bundle/tabAndTreeView.js",
 				script.getSrcAttribute());
 	}
 
@@ -78,7 +78,7 @@ public class MainPageGeneratedResourceBrowserTest extends AbstractPageTest {
 		assertEquals(1, styleSheets.size());
 		final HtmlLink css = styleSheets.get(0);
 		assertEquals(
-				CONTEXT_PATH+"/1161062839/fwk/core/component.css",
+				CONTEXT_PATH+"/N21978956/fwk/core/component.css",
 				css.getHrefAttribute());
 
 	}

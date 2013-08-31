@@ -1,8 +1,7 @@
 package net.jawr.web.test.generator.iecssbundle;
 
-import static org.junit.Assert.assertEquals;
-import static net.jawr.web.test.JawrIntegrationServer.SERVER_URL;
 import static net.jawr.web.test.JawrIntegrationServer.CONTEXT_PATH;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
@@ -53,12 +52,12 @@ public class MainPageIECssBundleDebugTest extends MainPageIECssBundleTest {
 		final List<?> scripts = getJsScriptTags();
 		assertEquals(2, scripts.size());
 		HtmlScript script = (HtmlScript) scripts.get(0);
-		assertEquals(
-				CONTEXT_PATH+"/jawr_generator.js?generationConfigParam=messages%3Amessages%40en_US",
+		Utils.assertGeneratedLinkEquals(
+				CONTEXT_PATH+"/jawr_generator.js?d=11111&generationConfigParam=messages%3Amessages%40en_US",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(1);
-		assertEquals(
-				CONTEXT_PATH+"/jawr_generator.js?generationConfigParam=testJs%3AgeneratedContent.js",
+		Utils.assertGeneratedLinkEquals(
+				CONTEXT_PATH+"/jawr_generator.js?d=11111&generationConfigParam=testJs%3AgeneratedContent.js",
 				script.getSrcAttribute());
 	}
 
@@ -82,12 +81,12 @@ public class MainPageIECssBundleDebugTest extends MainPageIECssBundleTest {
 		assertEquals(2, styleSheets.size());
 		HtmlLink css = (HtmlLink) styleSheets.get(0);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=ieCssGen%3A%2FN1435483871%2Fbundles%2FglobalStyleBundle.css",
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=ieCssGen%3A%2FN541884743%2Fbundles%2FglobalStyleBundle.css",
 				css.getHrefAttribute());
 		
 		css = (HtmlLink) styleSheets.get(1);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=ieCssGen%3A%2F435327146%2Ffwk%2Fcore%2Fcomponent.css",
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=ieCssGen%3A%2FN33754198%2Ffwk%2Fcore%2Fcomponent.css",
 				css.getHrefAttribute());
 	}
 

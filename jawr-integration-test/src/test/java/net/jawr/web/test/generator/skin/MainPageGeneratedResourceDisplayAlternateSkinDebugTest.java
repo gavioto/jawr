@@ -38,12 +38,12 @@ public class MainPageGeneratedResourceDisplayAlternateSkinDebugTest extends Main
 		final List<?> scripts = getJsScriptTags();
 		assertEquals(2, scripts.size());
 		HtmlScript script = (HtmlScript) scripts.get(0);
-		assertEquals(
-				CONTEXT_PATH+"/jawr_generator.js?generationConfigParam=messages%3Amessages%40en_US",
+		Utils.assertGeneratedLinkEquals(
+				CONTEXT_PATH+"/jawr_generator.js?d=11111&generationConfigParam=messages%3Amessages%40en_US",
 				script.getSrcAttribute());
 		script = (HtmlScript) scripts.get(1);
-		assertEquals(
-				CONTEXT_PATH+"/jawr_generator.js?generationConfigParam=testJs%3AgeneratedContent.js",
+		Utils.assertGeneratedLinkEquals(
+				CONTEXT_PATH+"/jawr_generator.js?d=11111&generationConfigParam=testJs%3AgeneratedContent.js",
 				script.getSrcAttribute());
 	}
 
@@ -67,7 +67,7 @@ public class MainPageGeneratedResourceDisplayAlternateSkinDebugTest extends Main
 		assertEquals(8, styleSheets.size());
 		HtmlLink css = (HtmlLink) styleSheets.get(0);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=jar%3Afwk%2Fcss%2Ftemp.css",
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=jar%3Afwk%2Fcss%2Ftemp.css",
 				css.getHrefAttribute());
 		
 		css = (HtmlLink) styleSheets.get(1);
@@ -76,16 +76,16 @@ public class MainPageGeneratedResourceDisplayAlternateSkinDebugTest extends Main
 		
 		css = (HtmlLink) styleSheets.get(2);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=skin%3A%2Fcss%2Fgenerator%2Fskin%2Fsummer%2Fen_US%2Ftheme%40en_US%40summer.css",css.getHrefAttribute());
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=skin%3A%2Fcss%2Fgenerator%2Fskin%2Fsummer%2Fen_US%2Ftheme%40en_US%40summer.css",css.getHrefAttribute());
 		
 		css = (HtmlLink) styleSheets.get(3);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=skin%3A%2Fcss%2Fgenerator%2Fskin%2Fsummer%2Fen_US%2Ftheme1%40en_US%40summer.css",css.getHrefAttribute());
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=skin%3A%2Fcss%2Fgenerator%2Fskin%2Fsummer%2Fen_US%2Ftheme1%40en_US%40summer.css",css.getHrefAttribute());
 		
 		
 		css = (HtmlLink) styleSheets.get(4);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=jar%3Afwk%2Fcss%2Ftemp.css",
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=jar%3Afwk%2Fcss%2Ftemp.css",
 				css.getHrefAttribute());
 		
 		css = (HtmlLink) styleSheets.get(5);
@@ -95,12 +95,12 @@ public class MainPageGeneratedResourceDisplayAlternateSkinDebugTest extends Main
 		
 		css = (HtmlLink) styleSheets.get(6);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=skin%3A%2Fcss%2Fgenerator%2Fskin%2Fsummer%2Fen_US%2Ftheme%40en_US%40winter.css",css.getHrefAttribute());
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=skin%3A%2Fcss%2Fgenerator%2Fskin%2Fsummer%2Fen_US%2Ftheme%40en_US%40winter.css",css.getHrefAttribute());
 		checkAlternateStyle(css, "winter");
 		
 		css = (HtmlLink) styleSheets.get(7);
 		Utils.assertGeneratedLinkEquals(
-				CONTEXT_PATH+"/jawr_generator.css?generationConfigParam=skin%3A%2Fcss%2Fgenerator%2Fskin%2Fsummer%2Fen_US%2Ftheme1%40en_US%40winter.css",css.getHrefAttribute());
+				CONTEXT_PATH+"/jawr_generator.css?d=11111&generationConfigParam=skin%3A%2Fcss%2Fgenerator%2Fskin%2Fsummer%2Fen_US%2Ftheme1%40en_US%40winter.css",css.getHrefAttribute());
 		checkAlternateStyle(css, "winter");
 	}
 
