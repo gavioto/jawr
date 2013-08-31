@@ -1,5 +1,5 @@
 /**
- * Copyright 2007-2012 Jordi Hernández Sellés, Ibrahim Chaehoi
+ * Copyright 2007-2012 Jordi Hernï¿½ndez Sellï¿½s, Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -44,7 +44,7 @@ import org.apache.log4j.Logger;
 /**
  * This class defines the abstract class for the resource bundle handler
  * 
- * @author Jordi Hernández Sellés
+ * @author Jordi Hernï¿½ndez Sellï¿½s
  * @author Ibrahim Chaehoi
  */
 public abstract class AbstractResourceBundleHandler implements ResourceBundleHandler {
@@ -438,6 +438,7 @@ public abstract class AbstractResourceBundleHandler implements ResourceBundleHan
 	 * @param gzipFile a fag defining if the file is gzipped or not
 	 * @param rootDir the root directory
 	 */
+	@SuppressWarnings("resource")
 	private void storeBundle(String bundleName, String bundledResources,
 			boolean gzipFile, String rootdir) {
 		if (LOGGER.isDebugEnabled()) {

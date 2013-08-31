@@ -1,5 +1,5 @@
 /**
- * Copyright 2011-2012 Ibrahim Chaehoi
+ * Copyright 2011-2013 Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -55,7 +55,6 @@ import org.apache.log4j.Logger;
 import com.google.common.io.CharStreams;
 import com.google.javascript.jscomp.CommandLineRunner;
 import com.google.javascript.jscomp.Compiler;
-import com.google.javascript.jscomp.JSSourceFile;
 import com.google.javascript.jscomp.SourceFile;
 
 /**
@@ -637,7 +636,7 @@ public class ClosureGlobalPostProcessor extends
 
 			for (String filename : files) {
 				if (filename.equals(JAWR_ROOT_MODULE_JS)) {
-					JSSourceFile newFile = JSSourceFile.fromCode(filename, "");
+					SourceFile newFile = SourceFile.fromCode(filename, "");
 					inputs.add(newFile);
 				} else if (!"-".equals(filename)) {
 					Reader rd = null;
@@ -661,7 +660,7 @@ public class ClosureGlobalPostProcessor extends
 						}
 
 						String jsCode = CharStreams.toString(rd);
-						JSSourceFile newFile = JSSourceFile.fromCode(filename,
+						SourceFile newFile = SourceFile.fromCode(filename,
 								jsCode);
 						inputs.add(newFile);
 					} finally {
