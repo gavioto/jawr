@@ -166,7 +166,7 @@ public class CssSmartSpritesGlobalPreprocessor extends
 
 		SmartSpritesParameters params = new SmartSpritesParameters("/", null,
 				outDir, null, msgLevel, "", PngDepth.valueOf("AUTO"), false,
-				charset.toString(), true);
+				charset.toString());
 		// TODO : use below parameters when Smartsprites will handle keepingSpriteTrack parameter
 //		SmartSpritesParameters params = new SmartSpritesParameters("/", null,
 //				outDir, null, msgLevel, "", PngDepth.valueOf("AUTO"), false,
