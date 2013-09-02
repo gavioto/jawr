@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+<html>
+  <head>
+    <title>Jawr - JAWR & JMX</title>
+    <style type="text/css" media="all">
+      @import url("../css/maven-base.css");
+      @import url("../css/maven-theme.css");
+      @import url("../css/site.css");
+    </style>
+    <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <!-- TODO: move this into JavaScript to patch the skin
+      <div class="xright">  </div>
+    -->
+    <div id="leftColumn">
+      <div id="navcolumn">
+             <dl class=navgroup>
+        <dt>About</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../servlets/ProjectHome">Home</a>
+        </li>
+              
+    <li class="none">
+              <a href="../introduction.html">Introduction</a>
+        </li>
+              
+    <li class="none">
+              <a href="../features.html">Features</a>
+        </li>
+              
+    <li class="none">
+              <a href="../changes.html">Change history</a>
+        </li>
+              
+    <li class="none">
+              <a href="../team.html">The team</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Documentation</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../docs/servlet.html">The Jawr servlet</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/descriptor_syntax.html">Descriptor syntax</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/custom_bundles.html">Bundle definition</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/postprocessors.html">Postprocessors</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/advanced_generators.html">Advanced generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/license_files.html">Licenses in resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/taglibs.html">JSP Tag library</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/plain_html.html">Use in HTML pages</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/modes.html">Debug and production modes</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <strong>JMX Support</strong>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/bundle_preprocessing.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_maven_plugin.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/jawr_ant_task.html">Jawr Ant task</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Integration</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../integration/augmenter.html">Add Jawr to your framework</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/spring.html">Spring MVC</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/facelets.html">Facelets Tag library</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/grails.html">Grails plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/dwr.html">DWR</a>
+        </li>
+              
+    <li class="none">
+              <a href="../integration/validator.html">Commons Validator - Struts</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Tutorials</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/faq_howto.html">FAQ-Howto</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/libraries.html">Using popular libraries</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>API and sources</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../nonav/apidocs/index.html">JavaDocs</a>
+        </li>
+              
+    <li class="none">
+              <a href="../nonav/xref/index.html">Source XREF</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Project tools</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="../servlets/ProjectHome">Project home</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectMemberList">Membership</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectNewsList">Announcements</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectForumView">Discussion forums</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectMailingListList">Mailing lists</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectDocumentList">Documents & files</a>
+        </li>
+              
+    <li class="none">
+              <a href="../source/browse/jawr/">Subversion</a>
+        </li>
+              
+    <li class="none">
+              <a href="../servlets/ProjectIssues">Issue tracker</a>
+        </li>
+          </ul></dd>
+    </dl>
+        </div>
+      <script>
+        // replace the java.net project tools with the navigation bar from Maven.
+        // also get rid of "Get Involved" thingie too, while we are at it
+        var pt = document.getElementById("projecttools");
+        var nv = document.getElementById("navcolumn");
+        
+        while(pt.previousSibling!=null)
+          pt.parentNode.removeChild(pt.previousSibling);
+        
+        pt.parentNode.insertBefore(nv,pt);
+        pt.parentNode.removeChild(pt);
+      </script>
+      <script>
+        // kill "description" h3 bar
+        var ld = document.getElementById("longdescription");
+        if(ld!=null) {
+          for( n=ld.firstChild; n!=null; n=n.nextSibling ) {
+            if(n.nodeType==1 && n.innerHTML=="Description" ) {
+              n.parentNode.removeChild(n);
+              break;
+            }
+          }
+        }
+      </script>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>JMX support in JAWR</h2>
+<p>The Java Management Extensions (JMX) API is standard API introduced in J2SE 5.0 for managing and monitoring applications and services.</p>
+<p>We have added the support to JMX in Jawr to allow user to modify the behaviour of Jawr at runtime.</p>
+<p>For example, the user will be able to pass an entire application from production mode to debug mode and vice versa. The user will also be able to set one session in debug mode, while the rest of the application will still be in production mode.</p>
+<p>This is a really powerfull way to interact with Jawr at runtime. To access to the Jawr MBeans, you will have to use a JMX console, like JConsole, which is provided in the JDK since Java 5.0 The Jawr MBeans are available accessible with the type <b>net.jawr.web.jmx</b>. </p>
+<p><b>Important note :</b> This feature will allow you to modify some Jawr properties at runtime, but you should keep in mind that your changes are not persisted. This means that if you made a modification at runtime, the next time you will restart your application, your latest modifications made at runtime, will not be taken into account.</p>
+<img src="../images/jmx/jawr_JConsole.png" /><p>You will find an overview of JMX at the following links : </p>
+<ul><li><a href="http://java.sun.com/j2se/1.5.0/docs/guide/jmx/overview/JMXoverviewTOC.html" class="externalLink">http://java.sun.com/j2se/1.5.0/docs/guide/jmx/overview/JMXoverviewTOC.html</a></li>
+<li><a href="http://java.sun.com/j2se/1.5.0/docs/guide/management/agent.html" class="externalLink">http://java.sun.com/j2se/1.5.0/docs/guide/management/agent.html</a></li>
+</ul>
+<div class="section"><h3>JMX Setup</h3>
+<p>The JMX is part of Java API since Java 5. </p>
+<p>To enable it, you only have to pass the following argument in the virtual machine of your web application server:</p>
+<div class="source"><pre>        -Dcom.sun.management.jmxremote</pre>
+</div>
+</div>
+<div class="section"><h3>JMX Setup for Java 1.4</h3>
+<p>As JMX is not part of Java 1.4, you will have to import JMX jars in your application. The 2 jars required are JMX-RI and JMX-remote.</p>
+<p>For those who are using maven, include the following dependencies in your pom.</p>
+<div class="source"><pre>
+        &lt;dependency&gt;
+                &lt;groupId&gt;javax.management&lt;/groupId&gt;
+                &lt;artifactId&gt;jmxri&lt;/artifactId&gt;
+                &lt;version&gt;1.2.1&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+                &lt;groupId&gt;javax.management&lt;/groupId&gt;
+                &lt;artifactId&gt;jmxremote&lt;/artifactId&gt;
+                &lt;version&gt;1.0.1_04&lt;/version&gt;
+        &lt;/dependency&gt;
+</pre>
+</div>
+<p>The JMX-RI and JMX-remote have not been deployed on maven, so when searching for dependencies, maven will only retrieve the pom files. You should download the Jars from Sun download center (http://www.sun.com/download/index.jsp). Please follow the next instructions, to retrieve those libraries : </p>
+<ul><li>In the download center, launch a search on JMX</li>
+<li>Select the Java Management Extensions Download Information.</li>
+<li>Download the JMX 1.2.1 Reference Implementation, and the JMX Remote API 1.0.1_04 Reference Implementation.</li>
+<li>After the download, for the JMX 1.2.1 RI, you will have to rename the jars from jmx*.jar to jmx*-1.2.1.jar.</li>
+<li>And for JMX Remote API, you will have to rename the jar file as jmxremote-1.0.1_04.jar.</li>
+<li>Then you can register them with Maven or set it directly in your local repository under /javax/management/jmxri/1.2.1/ . </li>
+</ul>
+<p>For those, who are not using maven just download the jar files as described above, and put them in your application.</p>
+</div>
+<div class="section"><h3>Secure access to JMX MBeans</h3>
+<p>To secure the JMX access to your application, please look for the section &quot;Using Password and Access Files&quot; at the following link.</p>
+<ul><li><a href="http://java.sun.com/j2se/1.5.0/docs/guide/management/agent.html" class="externalLink">http://java.sun.com/j2se/1.5.0/docs/guide/management/agent.html</a></li>
+</ul>
+</div>
+<div class="section"><h3>JAWR MBeans</h3>
+<p>We have defined two types of MBeans in JAWR. One which handles the configuration for a resource type (JS, CSS, Image). And another one, which handles the configuration for an entire application.</p>
+<ul><li>JawrConfigManagerMBean<p>This MBean will handle the configuration for one type of resource. You will be able to configure the following properties :</p>
+<ul><li><b>charsetName</b> the charset name</li>
+<li><b>cssLinkFlavor</b> the CSS link flavor</li>
+<li><b>debugModeOn</b> the flag indicatin if we are in debug mode or not</li>
+<li><b>debugOverrideKey</b> the debug override key</li>
+<li><b>gzipResourcesForIESixOn</b> the flag indicating if we must GZIP resources for IE 6</li>
+<li><b>gzipResourcesModeOn</b> the flag indicating if we must GZIP resources</li>
+<li><b>contextPathOverride</b> the value which should be used to override the context path </li>
+<li><b>contextPathSslOverride</b> the value which should be used to override the context path for SSL request</li>
+<li><b>useContextPathOverrideInDebugMode</b> the flag indicating if we should the the overridden value of the context path in debug mode </li>
+<li><b>dwrMapping</b> the dwr mapping</li>
+<li><b>imageBundleDefinition</b> the image bundle definition</li>
+<li><b>imageHashAlgorithm</b> the image hash algorithm</li>
+<li><b>usingClasspathCssImageServlet</b> the flag indicating if we should use Image Servlet for CSS images of classpath CSS resources. </li>
+<li><b>useBundleMapping</b> the flag indicating if we should use the bundle mapping</li>
+<li><b>jawrWorkingDirectory</b> the JAWR working directory.</li>
+</ul>
+<p>You could modify these values at runtime, but the values will only be taken in account when you will launch the <b>refreshConfig</b> operation from the JMX console : </p>
+<div class="source"><pre>        /**
+         * Refresh the configuration. 
+         */
+        public void refreshConfig();</pre>
+</div>
+</li>
+<li>JawrApplicationConfigManagerMBean<p>This MBean will handle the configuration for an entire application. This means that when modifying the configuration on this MBean, you will modify the configuration of JAWR for all resources (JS, CSS and Images). </p>
+<p>You will be able to configure the following properties :</p>
+<ul><li><b>charsetName</b> the charset name</li>
+<li><b>cssLinkFlavor</b> the CSS link flavor</li>
+<li><b>debugModeOn</b> the flag indicating if we are in debug mode or not</li>
+<li><b>debugOverrideKey</b> the debug override key</li>
+<li><b>gzipResourcesForIESixOn</b> the flag indicating if we must GZIP resources for IE 6</li>
+<li><b>gzipResourcesModeOn</b> the flag indicating if we must GZIP resources</li>
+<li><b>contextPathOverride</b> the value which should be used to override the context path </li>
+<li><b>contextPathSslOverride</b> the value which should be used to override the context path for SSL request</li>
+<li><b>useContextPathOverrideInDebugMode</b> the flag indicating if we should the the overridden value of the context path in debug mode </li>
+<li><b>useBundleMapping</b> the flag indicating if we should use the bundle mapping</li>
+<li><b>jawrWorkingDirectory</b> the JAWR working directory.</li>
+</ul>
+<p>You could modify these values at runtime, but the values will only be taken in account when you will launch the <b>refreshConfig</b> operation from the JMX console :</p>
+<div class="source"><pre>        /**
+         * Refresh the configuration. 
+         */
+        public void refreshConfig();</pre>
+</div>
+<p>There are other methods available in the JawrApplicationConfigManagerMBean.</p>
+<div class="source"><pre>        /**
+         * Add a session ID to the set of debug session ID.
+         * All request make by sessions, whose their IDs are contained in the debug session set,
+         * will be threated as in debug mode.
+         *   
+         * @param sessionId the session ID to add
+         */
+        public void addDebugSessionId(String sessionId);
+        
+        /**
+         * Add a session ID, to the set of debug session ID.
+         * All request make by sessions, whose their IDs are contained in the debug session set,
+         * will be threated as in debug mode.
+         *   
+         * @param sessionId the session ID to add
+         */
+        public void removeDebugSessionId(String sessionId);
+
+        /**
+         * Remove a session ID from the set of debug session ID.
+         *   
+         * @param sessionId the session ID to remove
+         */
+        public void removeAllDebugSessionId();
+        
+        /**
+         * Returns true if the session ID passed in parameter is a debuggable session ID
+         * @param sessionId the session ID
+         * @return true if the session ID passed in parameter is a debuggable session ID
+         */
+        public boolean isDebugSessionId(String sessionId);
+        </pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="section"><h3>Multiple application using Jawr on the web application container</h3>
+<p>When you have multiple applications which are using Jawr, if you are using a servlet API, whose the version greater or equals to 2.5, Jawr will use the contextPath to identify the applications.</p>
+<p>But if you are using a version which is lesser than 2.5, then you will have to use a context parameter named 'contextPath' in your web.xml to define the context path of the application like below.</p>
+<div class="source"><pre>
+        &lt;context-param&gt;
+                &lt;param-name&gt;contextPath&lt;/param-name&gt;
+                &lt;param-value&gt;myApplication&lt;/param-value&gt;
+        &lt;/context-param&gt;
+        </pre>
+</div>
+</div>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2009
+    
+          
+  
+
+  
+  
+  &nbsp;| Last Published: 12/09/2009
+  &nbsp;| Version: 3.2
+</div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
