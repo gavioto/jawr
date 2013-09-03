@@ -1,5 +1,5 @@
 /**
- * Copyright 2008-2012 Jordi Hernández Sellés, Ibrahim Chaehoi
+ * Copyright 2008-2012 Jordi Hernï¿½ndez Sellï¿½s, Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
  * Specialized subclass of the JawrServlet which s automatically mapped to the servlet context 
  * in grails applications.  
  * 
- * @author Jordi Hernández Sellés
+ * @author Jordi Hernï¿½ndez Sellï¿½s
  * @author Ibrahim Chaehoi
  */
 public class JawrGrailsServlet extends JawrServlet {
@@ -45,18 +45,18 @@ public class JawrGrailsServlet extends JawrServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	public void init() throws ServletException {
-		Map<Object, Object> config = null;
+		Map<String, Object> config = null;
 		String type = getServletConfig().getInitParameter("type");
 		
 		ServletContext servletContext = getServletContext();
 		configHash = (Integer)servletContext.getAttribute(JawrConstant.JAWR_GRAILS_CONFIG_HASH);
 		
 		if(JawrConstant.CSS_TYPE.equals(type))
-			config = (Map<Object, Object>) servletContext.getAttribute(JawrConstant.JAWR_GRAILS_CSS_CONFIG);
+			config = (Map<String, Object>) servletContext.getAttribute(JawrConstant.JAWR_GRAILS_CSS_CONFIG);
 		else if(JawrConstant.IMG_TYPE.equals(type))
-			config = (Map<Object, Object>) servletContext.getAttribute(JawrConstant.JAWR_GRAILS_IMG_CONFIG);
+			config = (Map<String, Object>) servletContext.getAttribute(JawrConstant.JAWR_GRAILS_IMG_CONFIG);
 		else
-			config = (Map<Object, Object>) servletContext.getAttribute(JawrConstant.JAWR_GRAILS_JS_CONFIG);
+			config = (Map<String, Object>) servletContext.getAttribute(JawrConstant.JAWR_GRAILS_JS_CONFIG);
 		
 		Properties jawrProps = (Properties)config.get(JawrConstant.JAWR_GRAILS_CONFIG_PROPERTIES_KEY);
 		try {

@@ -1,5 +1,5 @@
 /**
- * Copyright 2008-2012 Jordi Hernández Sellés, Ibrahim Chaehoi 
+ * Copyright 2008-2012 Jordi Hernï¿½ndez Sellï¿½s, Ibrahim Chaehoi 
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -37,7 +37,7 @@ import org.springframework.web.util.UrlPathHelper;
  * A Spring Controller implementation which uses a JawrRequestHandler instance to provide 
  * with Jawr functionality within a Spring DispatcherServlet instance. 
  * 
- * @author Jordi Hernández Sellés
+ * @author Jordi Hernï¿½ndez Sellï¿½s
  * @author Ibrahim Chaehoi
  */
 public class JawrSpringController implements Controller, ServletContextAware, InitializingBean {
@@ -49,7 +49,7 @@ public class JawrSpringController implements Controller, ServletContextAware, In
 	private JawrRequestHandler requestHandler;
 	
 	/** The initialization parameters */
-	private Map<Object, Object> initParams;
+	private Map<String, Object> initParams;
 	
 	// Init params
 	/** The type */
@@ -104,7 +104,7 @@ public class JawrSpringController implements Controller, ServletContextAware, In
 	 * Returns the init parameters
 	 * @return the init parameters
 	 */
-	public Map<Object, Object> getInitParams() {
+	public Map<String, Object> getInitParams() {
 		return initParams;
 	}
 
@@ -172,7 +172,7 @@ public class JawrSpringController implements Controller, ServletContextAware, In
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
 	public void afterPropertiesSet() throws Exception {
-		initParams = new HashMap<Object, Object>(3);
+		initParams = new HashMap<String, Object>(3);
 		initParams.put("type",type);
 		initParams.put("configPropertiesSourceClass",configPropertiesSourceClass);
 		initParams.put("configLocation", configLocation);

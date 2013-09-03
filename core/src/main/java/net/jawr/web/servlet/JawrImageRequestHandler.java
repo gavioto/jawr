@@ -119,7 +119,7 @@ public class JawrImageRequestHandler extends JawrRequestHandler {
 	 *            ServletConfig
 	 * @throws ServletException
 	 */
-	public JawrImageRequestHandler(ServletContext context, Map<Object, Object> initParams,
+	public JawrImageRequestHandler(ServletContext context, Map<String, Object> initParams,
 			Properties configProps) throws ServletException {
 
 		super(context, initParams, configProps);
