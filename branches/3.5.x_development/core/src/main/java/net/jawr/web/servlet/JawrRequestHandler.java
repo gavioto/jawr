@@ -1,5 +1,5 @@
 /**
- * Copyright 2007-2012  Jordi Hernández Sellés, Ibrahim Chaehoi
+ * Copyright 2007-2012  Jordi Hernï¿½ndez Sellï¿½s, Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -73,7 +73,7 @@ import org.apache.log4j.Logger;
 /**
  * Request handling class. Any jawr enabled servlet delegates to this class to handle requests.
  * 
- * @author Jordi Hernández Sellés
+ * @author Jordi Hernï¿½ndez Sellï¿½s
  * @author Ibrahim Chaehoi
  */
 public class JawrRequestHandler implements ConfigChangeListener, Serializable {
@@ -139,7 +139,7 @@ public class JawrRequestHandler implements ConfigChangeListener, Serializable {
 	protected ServletContext servletContext;
 	
 	/** The maps for the init-parameters */
-	protected Map<Object, Object> initParameters;
+	protected Map<String, Object> initParameters;
 	
 	/** The Thread which listen the configuration changes */
 	protected ConfigChangeListenerThread configChangeListenerThread;
@@ -178,7 +178,7 @@ public class JawrRequestHandler implements ConfigChangeListener, Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public JawrRequestHandler(ServletContext context, ServletConfig config) throws ServletException {
-		this.initParameters = new HashMap<Object, Object>();
+		this.initParameters = new HashMap<String, Object>();
 		Enumeration<String> params = config.getInitParameterNames();
 		while (params.hasMoreElements()) {
 			String param = (String) params.nextElement();
@@ -201,7 +201,7 @@ public class JawrRequestHandler implements ConfigChangeListener, Serializable {
 	 * @param servletConfig ServletConfig
 	 * @throws ServletException if an exception occurs
 	 */
-	public JawrRequestHandler(ServletContext context, Map<Object, Object> initParams, Properties configProps) throws ServletException {
+	public JawrRequestHandler(ServletContext context, Map<String, Object> initParams, Properties configProps) throws ServletException {
 
 		this.imgMimeMap = ImageMIMETypesSupport.getSupportedProperties(this);
 		this.initParameters = initParams;
