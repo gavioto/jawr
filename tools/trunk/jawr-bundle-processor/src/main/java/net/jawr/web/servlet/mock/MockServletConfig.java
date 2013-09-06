@@ -31,7 +31,7 @@ public class MockServletConfig implements ServletConfig {
 	private ServletContext context;
 	
 	/** The initialization parameters */
-	private Map initParameters = new HashMap();
+	private Map<String, Object> initParameters = new HashMap<String, Object>();
 	
 	private String servletName;
 	
@@ -46,7 +46,7 @@ public class MockServletConfig implements ServletConfig {
 	/**
 	 * Constructor 
 	 */
-	public MockServletConfig(String servletName, ServletContext context, Map initParameters){
+	public MockServletConfig(String servletName, ServletContext context, Map<String, Object> initParameters){
 		
 		this.servletName = servletName;
 		this.context = context;
@@ -64,7 +64,7 @@ public class MockServletConfig implements ServletConfig {
 	 * Returns the initialization parameters map
 	 * @return the initialization parameters map
 	 */
-	public Map getInitParameters() {
+	public Map<String, Object> getInitParameters() {
 		return this.initParameters;
 	}
 
@@ -72,7 +72,7 @@ public class MockServletConfig implements ServletConfig {
 	 * Sets the initialization parameters map
 	 * @param initParameters the initParameters to set
 	 */
-	public void setInitParameters(Map initParameters) {
+	public void setInitParameters(Map<String, Object> initParameters) {
 		this.initParameters = initParameters;
 	}
 	
@@ -87,7 +87,7 @@ public class MockServletConfig implements ServletConfig {
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletConfig#getInitParameterNames()
 	 */
-	public Enumeration getInitParameterNames() {
+	public Enumeration<String> getInitParameterNames() {
 		
 		return Collections.enumeration(initParameters.keySet());
 	}

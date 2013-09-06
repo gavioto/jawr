@@ -34,11 +34,14 @@ import net.jawr.web.resource.bundle.renderer.AbstractBundleLinkRenderer;
  */
 public class BasicBundleRenderer extends AbstractBundleLinkRenderer {
 
+	/** The serial version UID */
+	private static final long serialVersionUID = 2370837423827332688L;
+
 	/** The resource type */
 	private String resourceType;
 	
 	/** The list of links rendered by the BasicBundleRenderer */
-	private List renderedLinks = new ArrayList();
+	private List<RenderedLink> renderedLinks = new ArrayList<RenderedLink>();
 	
 	/**
 	 * Constructor
@@ -71,7 +74,7 @@ public class BasicBundleRenderer extends AbstractBundleLinkRenderer {
 	 * Returns the list of rendered links
 	 * @return the list of rendered links
 	 */
-	public List getRenderedLinks() {
+	public List<RenderedLink> getRenderedLinks() {
 		return renderedLinks;
 	}
 
@@ -95,7 +98,7 @@ public class BasicBundleRenderer extends AbstractBundleLinkRenderer {
     	JawrConfig config = bundler.getConfig();
 		if( config.isDebugModeOn() && 
     		config.getGeneratorRegistry().isPathGenerated(bundleId)) {
-    		bundleId = PathNormalizer.createGenerationPath(bundleId, config.getGeneratorRegistry());
+    		bundleId = PathNormalizer.createGenerationPath(bundleId, config.getGeneratorRegistry(), null);
     	}
     	String fullPath = PathNormalizer.joinPaths(config.getServletMapping(), bundleId);
     	fullPath = PathNormalizer.joinPaths(contextPath,fullPath);

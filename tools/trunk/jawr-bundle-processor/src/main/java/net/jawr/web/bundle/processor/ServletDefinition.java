@@ -24,13 +24,13 @@ import net.jawr.web.servlet.JawrServlet;
  * 
  * @author Ibrahim Chaehoi
  */
-public class ServletDefinition implements Comparable {
+public class ServletDefinition implements Comparable<ServletDefinition> {
 
 	/** The servlet instance */
 	private HttpServlet servlet;
 
 	/** The servlet class */
-	private Class servletClass;
+	private Class<?> servletClass;
 
 	/** The servlet config */
 	private ServletConfig servletConfig;
@@ -52,7 +52,7 @@ public class ServletDefinition implements Comparable {
 	 * @param servletConfig the servlet config
 	 * @param order the order
 	 */
-	public ServletDefinition(Class servletClass, ServletConfig servletConfig, int order) {
+	public ServletDefinition(Class<?> servletClass, ServletConfig servletConfig, int order) {
 		super();
 		this.servletClass = servletClass;
 		this.servletConfig = servletConfig;
@@ -115,8 +115,8 @@ public class ServletDefinition implements Comparable {
 	 * 
 	 * @see java.lang.Comparable#compareTo(T)
 	 */
-	public int compareTo(Object arg0) {
+	public int compareTo(ServletDefinition arg0) {
 
-		return order - ((ServletDefinition) arg0).order;
+		return order - arg0.order;
 	}
 }

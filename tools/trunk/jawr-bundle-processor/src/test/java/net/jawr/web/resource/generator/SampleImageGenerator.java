@@ -6,6 +6,8 @@ import javax.servlet.ServletContext;
 
 import net.jawr.web.resource.bundle.generator.GeneratorContext;
 import net.jawr.web.resource.bundle.generator.StreamResourceGenerator;
+import net.jawr.web.resource.bundle.generator.resolver.PrefixedPathResourceGeneratorResolver;
+import net.jawr.web.resource.bundle.generator.resolver.ResourceGeneratorResolver;
 
 public class SampleImageGenerator implements StreamResourceGenerator {
 
@@ -19,10 +21,17 @@ public class SampleImageGenerator implements StreamResourceGenerator {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.jawr.web.resource.bundle.generator.PrefixedResourceGenerator#getMappingPrefix()
+	 * @see net.jawr.web.resource.bundle.generator.BaseResourceGenerator#getResolver()
 	 */
-	public String getMappingPrefix() {
-		return "img";
+	public ResourceGeneratorResolver getResolver() {
+		return new PrefixedPathResourceGeneratorResolver("img");
+	}
+
+	/* (non-Javadoc)
+	 * @see net.jawr.web.resource.bundle.generator.BaseResourceGenerator#getDebugModeRequestPath()
+	 */
+	public String getDebugModeRequestPath() {
+		return "jawrImg";
 	}
 
 }

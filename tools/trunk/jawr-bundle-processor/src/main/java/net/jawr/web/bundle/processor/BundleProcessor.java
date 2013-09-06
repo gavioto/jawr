@@ -80,10 +80,17 @@ import org.xml.sax.SAXException;
  */
 public class BundleProcessor {
 
-	private static final String JAR_FILE_EXTENSION = ".jar";
-
 	/** The logger */
 	private static Logger logger = Logger.getLogger(BundleProcessor.class);
+
+	/** The default servlet API version */
+	private static final String DEFAULT_SERVLET_API_VERSION_2_3 = "2.3";
+
+	/** The jawr bundle processor context path */
+	private static final String JAWR_BUNDLE_PROCESSOR_CONTEXT_PATH = "jawr-bundle-processor";
+
+	/** The jar file extension */
+	private static final String JAR_FILE_EXTENSION = ".jar";
 
 	/** The /WEB-INF/lib directory path */
 	private static final String WEB_INF_LIB_DIR_PATH = "/WEB-INF/lib/";
@@ -159,6 +166,7 @@ public class BundleProcessor {
 	/** The root directory which will contains the resource on the CDN */
 	private static final String APP_ROOT_DIR_PATTERN = "<app\\.root\\.dir>";
 
+	/** The default web application URL */
 	private static final String DEFAULT_WEBAPP_URL = "{WEBAPP_URL}";
 
 	/**
@@ -177,9 +185,29 @@ public class BundleProcessor {
 	 */
 	public void process(String baseDirPath, String tmpDirPath,
 			String destDirPath, boolean generateCdnFiles) throws Exception {
+		process(baseDirPath, tmpDirPath,
+				destDirPath, generateCdnFiles, DEFAULT_SERVLET_API_VERSION_2_3);
+	}
+	
+	/**
+	 * Launch the bundle processing
+	 * 
+	 * @param baseDirPath
+	 *            the base directory path
+	 * @param tmpDirPath
+	 *            the temp directory path
+	 * @param destDirPath
+	 *            the destination directory path
+	 * @param generateCdnFiles
+	 *            the flag indicating if we should generate the CDN files or not
+	 * @throws Exception
+	 *             if an exception occurs
+	 */
+	public void process(String baseDirPath, String tmpDirPath,
+			String destDirPath, boolean generateCdnFiles, String servletApiVersion) throws Exception {
 
-		process(baseDirPath, tmpDirPath, destDirPath, null, new ArrayList(),
-				generateCdnFiles, false);
+		process(baseDirPath, tmpDirPath, destDirPath, null, new ArrayList<String>(),
+				generateCdnFiles, false, servletApiVersion);
 	}
 
 	/**
@@ -201,13 +229,15 @@ public class BundleProcessor {
 	 *            the flag indicating if we should generate the CDN files or not
 	 * @param keepUrlMapping
 	 *            the flag indicating if we should keep the URL mapping or not.
+	 * @param servletApiVersion
+	 * 			  the servlet API version (ex: "2.3" or "2.5")
 	 * @throws Exception
 	 *             if an exception occurs
 	 */
 	public void process(String baseDirPath, String tmpDirPath,
 			String destDirPath, String springConfigFiles,
-			List servletsToInitialize, boolean generateCdnFiles,
-			boolean keepUrlMapping) throws Exception {
+			List<String> servletsToInitialize, boolean generateCdnFiles,
+			boolean keepUrlMapping, String servletApiVersion) throws Exception {
 
 		// Creates the web app class loader
 		ClassLoader webAppClassLoader = initClassLoader(baseDirPath);
@@ -216,13 +246,13 @@ public class BundleProcessor {
 		Document doc = getWebXmlDocument(baseDirPath);
 		
 		ServletContext servletContext = initServletContext(doc,
-				baseDirPath, tmpDirPath, springConfigFiles);
+				baseDirPath, tmpDirPath, springConfigFiles, servletApiVersion);
 
-		List servletDefinitions = getWebXmlServletDefinitions(doc,
+		List<ServletDefinition> servletDefinitions = getWebXmlServletDefinitions(doc,
 				servletContext, servletsToInitialize, webAppClassLoader);
 
 		// Initialize the servlets and retrieve the jawr servlet definitions
-		List jawrServletDefinitions = initServlets(servletDefinitions);
+		List<ServletDefinition> jawrServletDefinitions = initServlets(servletDefinitions);
 		if (jawrServletDefinitions.isEmpty()) {
 
 			logger.debug("No Jawr Servlet defined in web.xml");
@@ -321,12 +351,12 @@ public class BundleProcessor {
 	 * @return the servlet context
 	 */
 	protected ServletContext initServletContext(Document webXmlDoc,
-			String baseDirPath, String tmpDirPath, String springConfigFiles) {
+			String baseDirPath, String tmpDirPath, String springConfigFiles, String servletAPIversion) {
 
 		// Parse the context parameters
-		MockServletContext servletContext = new MockServletContext(baseDirPath,
+		MockServletContext servletContext = new MockServletContext(servletAPIversion, baseDirPath,
 				tmpDirPath);
-		Map servletContextInitParams = new HashMap();
+		Map<String, Object> servletContextInitParams = new HashMap<String, Object>();
 		NodeList contextParamsNodes = webXmlDoc
 				.getElementsByTagName(CONTEXT_TAG_NAME);
 		for (int i = 0; i < contextParamsNodes.getLength(); i++) {
@@ -359,25 +389,25 @@ public class BundleProcessor {
 	 * @throws ClassNotFoundException
 	 *             if a class is not found
 	 */
-	protected List getWebXmlServletDefinitions(Document webXmlDoc,
-			ServletContext servletContext, List servletsToInitialize,
+	protected List<ServletDefinition> getWebXmlServletDefinitions(Document webXmlDoc,
+			ServletContext servletContext, List<String> servletsToInitialize,
 			ClassLoader webAppClassLoader) throws ClassNotFoundException {
 
 		// Parse the servlet configuration
 		NodeList servletNodes = webXmlDoc
 				.getElementsByTagName(SERVLET_TAG_NAME);
 
-		List servletDefinitions = new ArrayList();
+		List<ServletDefinition> servletDefinitions = new ArrayList<ServletDefinition>();
 
 		for (int i = 0; i < servletNodes.getLength(); i++) {
 
 			String servletName = null;
-			Class servletClass = null;
+			Class<?> servletClass = null;
 			MockServletConfig config = new MockServletConfig(servletContext);
 			int order = i;
 
 			Node servletNode = servletNodes.item(i);
-			Map initParameters = new HashMap();
+			Map<String, Object> initParameters = new HashMap<String, Object>();
 			NodeList childNodes = servletNode.getChildNodes();
 			for (int j = 0; j < childNodes.getLength(); j++) {
 				Node servletChildNode = childNodes.item(j);
@@ -439,7 +469,7 @@ public class BundleProcessor {
 	 * @throws ServletException
 	 *             if a servlet exception occurs
 	 */
-	protected List initJawrSpringControllers(ServletContext servletContext)
+	protected List<ServletDefinition> initJawrSpringControllers(ServletContext servletContext)
 			throws ServletException {
 
 		SpringControllerBundleProcessor springBundleProcessor = new SpringControllerBundleProcessor();
@@ -454,7 +484,7 @@ public class BundleProcessor {
 	 * @throws Exception
 	 *             if an exception occurs
 	 */
-	protected List initServlets(List servletDefinitions) throws Exception {
+	protected List<ServletDefinition> initServlets(List<ServletDefinition> servletDefinitions) throws Exception {
 
 		// Sort the list taking in account the load-on-startup attribute
 		Collections.sort(servletDefinitions);
@@ -462,8 +492,8 @@ public class BundleProcessor {
 		// Sets the Jawr context at "bundle processing at build time"
 		ThreadLocalJawrContext.setBundleProcessingAtBuildTime(true);
 
-		List jawrServletDefinitions = new ArrayList();
-		for (Iterator iterator = servletDefinitions.iterator(); iterator
+		List<ServletDefinition> jawrServletDefinitions = new ArrayList<ServletDefinition>();
+		for (Iterator<ServletDefinition> iterator = servletDefinitions.iterator(); iterator
 				.hasNext();) {
 			ServletDefinition servletDefinition = (ServletDefinition) iterator
 					.next();
@@ -482,7 +512,7 @@ public class BundleProcessor {
 	 * @param initParameters
 	 *            the map of initialization parameters
 	 */
-	protected void initializeInitParams(Node initParamNode, Map initParameters) {
+	protected void initializeInitParams(Node initParamNode, Map<String, Object> initParameters) {
 
 		String paramName = null;
 		String paramValue = null;
@@ -521,7 +551,7 @@ public class BundleProcessor {
 	 *             if an exception occurs.
 	 */
 	protected void processJawrServlets(String destDirPath,
-			List jawrServletDefinitions, boolean keepUrlMapping)
+			List<ServletDefinition> jawrServletDefinitions, boolean keepUrlMapping)
 			throws Exception {
 
 		String appRootDir = "";
@@ -529,14 +559,14 @@ public class BundleProcessor {
 		String cssServletMapping = "";
 		String imgServletMapping = "";
 
-		for (Iterator iterator = jawrServletDefinitions.iterator(); iterator
+		for (Iterator<ServletDefinition> iterator = jawrServletDefinitions.iterator(); iterator
 				.hasNext();) {
 
 			ServletDefinition servletDef = (ServletDefinition) iterator.next();
 			ServletConfig servletConfig = servletDef.getServletConfig();
 
 			// Force the production mode, and remove config listener parameters
-			Map initParameters = ((MockServletConfig) servletConfig)
+			Map<?, ?> initParameters = ((MockServletConfig) servletConfig)
 					.getInitParameters();
 			initParameters.remove("jawr.config.reload.interval");
 
@@ -704,11 +734,11 @@ public class BundleProcessor {
 			String servletMapping, boolean keepUrlMapping) throws IOException,
 			ServletException {
 
-		List bundles = bundleHandler.getContextBundles();
+		List<JoinableResourceBundle> bundles = bundleHandler.getContextBundles();
 
-		Iterator bundleIterator = bundles.iterator();
+		Iterator<JoinableResourceBundle> bundleIterator = bundles.iterator();
 		MockServletResponse response = new MockServletResponse();
-		MockServletRequest request = new MockServletRequest();
+		MockServletRequest request = new MockServletRequest(JAWR_BUNDLE_PROCESSOR_CONTEXT_PATH);
 		MockServletSession session = new MockServletSession(
 				servlet.getServletContext());
 		request.setSession(session);
@@ -735,27 +765,27 @@ public class BundleProcessor {
 
 			}
 
-			List allVariants = VariantUtils
+			List<Map<String, String>> allVariants = VariantUtils
 					.getAllVariants(bundle.getVariants());
 
 			if (allVariants == null) {
-				allVariants = new ArrayList();
+				allVariants = new ArrayList<Map<String, String>>();
 			}
 
 			if (allVariants.isEmpty()) {
-				allVariants.add(new HashMap());
+				allVariants.add(new HashMap<String, String>());
 			}
 			// Creates the bundle file for each local variant
-			for (Iterator it = allVariants.iterator(); it.hasNext();) {
-				Map variantMap = (Map) it.next();
+			for (Iterator<Map<String, String>> it = allVariants.iterator(); it.hasNext();) {
+				Map<String, String> variantMap = (Map<String, String>) it.next();
 
-				List linksToBundle = createLinkToBundle(bundleHandler,
+				List<RenderedLink> linksToBundle = createLinkToBundle(bundleHandler,
 						bundle.getId(), resourceType, variantMap);
-				for (Iterator iteratorLinks = linksToBundle.iterator(); iteratorLinks
+				for (Iterator<RenderedLink> iteratorLinks = linksToBundle.iterator(); iteratorLinks
 						.hasNext();) {
-					RenderedLink renderedLink = (RenderedLink) iteratorLinks
+					RenderedLink renderedLink =iteratorLinks
 							.next();
-					String path = (String) renderedLink.getLink();
+					String path = renderedLink.getLink();
 
 					// Force the debug mode of the config to match what was used
 					// in the generated link
@@ -797,7 +827,7 @@ public class BundleProcessor {
 	 * @param config
 	 *            the Jawr config
 	 */
-	protected void setRequestUrl(MockServletRequest request, Map variantMap,
+	protected void setRequestUrl(MockServletRequest request, Map<String, String> variantMap,
 			String path, JawrConfig config) {
 
 		String domainURL = JawrConstant.HTTP_URL_PREFIX + DEFAULT_WEBAPP_URL;
@@ -845,7 +875,7 @@ public class BundleProcessor {
 	 * @return the final path
 	 */
 	public String getFinalBundlePath(String path, JawrConfig jawrConfig,
-			Map variantMap) {
+			Map<String, String> variantMap) {
 
 		String finalPath = path;
 		int jawrGenerationParamIdx = finalPath
@@ -965,11 +995,11 @@ public class BundleProcessor {
 			ImageResourcesHandler imgRsHandler, String destDirPath,
 			ServletConfig servletConfig, boolean keepUrlMapping)
 			throws IOException, ServletException {
-		Map bundleImgMap = imgRsHandler.getImageMap();
+		Map<String, String> bundleImgMap = imgRsHandler.getImageMap();
 
-		Iterator bundleIterator = bundleImgMap.values().iterator();
+		Iterator<String> bundleIterator = bundleImgMap.values().iterator();
 		MockServletResponse response = new MockServletResponse();
-		MockServletRequest request = new MockServletRequest();
+		MockServletRequest request = new MockServletRequest(JAWR_BUNDLE_PROCESSOR_CONTEXT_PATH);
 
 		String jawrServletMapping = servletConfig
 				.getInitParameter(JawrConstant.SERVLET_MAPPING_PROPERTY_NAME);
@@ -1074,11 +1104,11 @@ public class BundleProcessor {
 	 * @throws IOException
 	 *             if an IO exception occurs
 	 */
-	protected List createLinkToBundle(ResourceBundlesHandler handler,
-			String path, String resourceType, Map variantMap)
+	protected List<RenderedLink> createLinkToBundle(ResourceBundlesHandler handler,
+			String path, String resourceType, Map<String, String> variantMap)
 			throws IOException {
 
-		List linksToBundle = new ArrayList();
+		ArrayList<RenderedLink> linksToBundle = new ArrayList<RenderedLink>();
 
 		BasicBundleRenderer bundleRenderer = new BasicBundleRenderer(handler,
 				resourceType);
@@ -1104,12 +1134,12 @@ public class BundleProcessor {
 		ctx = new BundleRendererContext("", variantMap, useGzip, isSslRequest);
 		bundleRenderer.renderBundleLinks(path, ctx, sw);
 
-		List renderedLinks = bundleRenderer.getRenderedLinks();
+		List<RenderedLink> renderedLinks = bundleRenderer.getRenderedLinks();
 		// Remove context override path if it's defined.
 		String contextPathOverride = handler.getConfig()
 				.getContextPathOverride();
-		for (Iterator iterator = renderedLinks.iterator(); iterator.hasNext();) {
-			RenderedLink renderedLink = (RenderedLink) iterator.next();
+		for (Iterator<RenderedLink> iterator = renderedLinks.iterator(); iterator.hasNext();) {
+			RenderedLink renderedLink = iterator.next();
 			String renderedLinkPath = renderedLink.getLink();
 			// Remove the context path override
 			if (StringUtils.isNotEmpty(contextPathOverride)

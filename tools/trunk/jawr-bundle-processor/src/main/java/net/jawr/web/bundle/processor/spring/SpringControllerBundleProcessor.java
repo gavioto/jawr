@@ -48,18 +48,19 @@ public class SpringControllerBundleProcessor {
 	 * @return the list of servlet definition for the JawrSpringControllers
 	 * @throws ServletException if a servlet exception occurs
 	 */
-	public List initJawrSpringServlets(ServletContext servletContext) throws ServletException{
+	@SuppressWarnings("rawtypes")
+	public List<ServletDefinition> initJawrSpringServlets(ServletContext servletContext) throws ServletException{
 		
-		List jawrServletDefinitions = new ArrayList();
+		List<ServletDefinition> jawrServletDefinitions = new ArrayList<ServletDefinition>();
 		ContextLoader contextLoader = new ContextLoader();
 		WebApplicationContext applicationCtx = contextLoader.initWebApplicationContext(servletContext);
-		Map jawrControllersMap = applicationCtx.getBeansOfType(JawrSpringController.class);
+		Map<?, ?> jawrControllersMap = applicationCtx.getBeansOfType(JawrSpringController.class);
 		
-		Iterator entrySetIterator = jawrControllersMap.entrySet().iterator();
+		Iterator<?> entrySetIterator = jawrControllersMap.entrySet().iterator();
 		while(entrySetIterator.hasNext()){
 			
 			JawrSpringController jawrController = (JawrSpringController) ((Map.Entry) entrySetIterator.next()).getValue();
-			Map initParams = new HashMap();
+			Map<String, Object> initParams = new HashMap<String, Object>();
 			initParams.putAll(jawrController.getInitParams());
 			ServletConfig servletConfig = new MockServletConfig(SPRING_DISPATCHER_SERVLET,servletContext, initParams);
 			MockJawrSpringServlet servlet = new MockJawrSpringServlet(jawrController, servletConfig);

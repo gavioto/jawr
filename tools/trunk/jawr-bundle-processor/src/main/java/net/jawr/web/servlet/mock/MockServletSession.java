@@ -13,6 +13,7 @@
  */
 package net.jawr.web.servlet.mock;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +21,6 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
-
-import org.apache.commons.collections.iterators.IteratorEnumeration;
 
 /**
  * The mock for Http Session
@@ -31,7 +30,7 @@ import org.apache.commons.collections.iterators.IteratorEnumeration;
 public class MockServletSession implements HttpSession {
 
 	/** The map attributes */
-	private Map attributes = new HashMap();
+	private Map<String, Object> attributes = new HashMap<String, Object>();
 	
 	/** The servlet context */
 	private ServletContext servletContext;
@@ -72,9 +71,9 @@ public class MockServletSession implements HttpSession {
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpSession#getAttributeNames()
 	 */
-	public Enumeration getAttributeNames() {
+	public Enumeration<String> getAttributeNames() {
 		
-		return new IteratorEnumeration(attributes.keySet().iterator());
+		return Collections.enumeration(attributes.keySet());
 	}
 
 	/* (non-Javadoc)
@@ -115,6 +114,7 @@ public class MockServletSession implements HttpSession {
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpSession#getSessionContext()
 	 */
+	@SuppressWarnings("deprecation")
 	public HttpSessionContext getSessionContext() {
 		return null;
 	}

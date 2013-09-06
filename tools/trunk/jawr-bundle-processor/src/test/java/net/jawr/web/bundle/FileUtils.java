@@ -25,11 +25,11 @@ public class FileUtils {
 		if (!dir.exists())
 			dir.mkdir();
 	}
-	
+
 	public static boolean deleteDirectory(String path) {
 		return deleteDirectory(new File(path));
 	}
-	
+
 	public static boolean deleteDirectory(File path) {
 		if (path.exists()) {
 			File[] files = path.listFiles();
@@ -46,14 +46,21 @@ public class FileUtils {
 
 	public static StringBuffer readFile(File toRead) throws Exception {
 		StringWriter sw = new StringWriter();
-		FileInputStream fis = new FileInputStream(toRead);
-		FileChannel inchannel = fis.getChannel();
-		Reader rd = Channels.newReader(inchannel, Charset.forName("UTF-8").newDecoder(), -1);
-		int i;
-		while ((i = rd.read()) != -1)
-			sw.write(i);
-		rd.close();
-		sw.close();
+		FileInputStream fis = null;
+		Reader rd = null;
+		try {
+			fis = new FileInputStream(toRead);
+			FileChannel inchannel = fis.getChannel();
+			rd = Channels.newReader(inchannel, Charset.forName("UTF-8")
+					.newDecoder(), -1);
+			int i;
+			while ((i = rd.read()) != -1)
+				sw.write(i);
+		} finally {
+			rd.close();
+			fis.close();
+			sw.close();
+		}
 
 		return sw.getBuffer();
 	}

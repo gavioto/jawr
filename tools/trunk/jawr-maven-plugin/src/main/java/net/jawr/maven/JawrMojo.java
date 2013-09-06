@@ -1,5 +1,5 @@
 /**
- * Copyright 2009  Andreas Andreou, Ibrahim Chaehoi
+ * Copyright 2009-2013  Andreas Andreou, Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -39,6 +39,9 @@ import org.codehaus.plexus.util.FileUtils;
  * @goal bundle
  */
 public class JawrMojo extends AbstractMojo {
+
+	/** The servlet name separator */
+	private static final String SERVLET_NAME_SEPARATOR = ",";
 
 	/**
 	 * The path to the root of the web application where the resources are loaded from.
@@ -89,7 +92,22 @@ public class JawrMojo extends AbstractMojo {
 	 */
 	private boolean keepUrlMapping;
 	
+	/**
+	 * The servlet API version.
+	 * 
+	 * @parameter default-value="2.3"
+	 */
+	private String servletAPIversion = "2.3";
 	
+	
+	/**
+	 * Sets the servlet API version
+	 * @param servletAPIversion the servlet API version to set (ex : "2.3", "2.5")
+	 */
+	public void setServletAPIversion(String servletAPIversion) {
+		this.servletAPIversion = servletAPIversion;
+	}
+
 	/**
 	 * Sets the list of servlet to initialize
 	 * @param servletsToInitialize the servletsToInitialize to set
@@ -201,17 +219,17 @@ public class JawrMojo extends AbstractMojo {
 			FileUtils.cleanDirectory(destDir);
 		}
 		
-		List servlets = new ArrayList();
+		List<String> servlets = new ArrayList<String>();
 		if(servletsToInitialize != null){
 			
-			String[] servletNames = servletsToInitialize.split(",");
+			String[] servletNames = servletsToInitialize.split(SERVLET_NAME_SEPARATOR);
 			for (int i = 0; i < servletNames.length; i++) {
 				servlets.add(servletNames[i].trim());
 			}
 		}
 		
 		BundleProcessor bundleProcessor = new BundleProcessor();
-		bundleProcessor.process(rootPath, tempDirPath, destDirPath, springConfigFiles, servlets, generateCDNFiles, keepUrlMapping);
+		bundleProcessor.process(rootPath, tempDirPath, destDirPath, springConfigFiles, servlets, generateCDNFiles, keepUrlMapping, servletAPIversion);
 	}
 
 }

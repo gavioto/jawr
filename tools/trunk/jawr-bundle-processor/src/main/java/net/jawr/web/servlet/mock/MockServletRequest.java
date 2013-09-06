@@ -54,6 +54,9 @@ public class MockServletRequest implements HttpServletRequest {
 	/** The servlet path */
 	private String servletPath;
 
+	/** The context path */
+	private String contextPath;
+
 	/** The path info */
 	private String pathInfo;
 
@@ -61,13 +64,13 @@ public class MockServletRequest implements HttpServletRequest {
 	private HttpSession session;
 	
 	/** The request parameters */
-	private Map parameters = new HashMap();
+	private Map<String, String> parameters = new HashMap<String, String>();
 	
 	/**
 	 * Constructor 
 	 */
-	public MockServletRequest() {
-		
+	public MockServletRequest(String contextPath) {
+		this.contextPath = contextPath;
 	}
 
 	/**
@@ -168,7 +171,8 @@ public class MockServletRequest implements HttpServletRequest {
 	 */
 	public String getContextPath() {
 		//return "/";
-		return "";
+		//return "";
+		return contextPath;
 	}
 
 	/* (non-Javadoc)
@@ -220,7 +224,7 @@ public class MockServletRequest implements HttpServletRequest {
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
 	 */
-	public Enumeration getHeaderNames() {
+	public Enumeration<String> getHeaderNames() {
 
 		return null;
 	}
@@ -228,7 +232,7 @@ public class MockServletRequest implements HttpServletRequest {
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpServletRequest#getHeaders(java.lang.String)
 	 */
-	public Enumeration getHeaders(String name) {
+	public Enumeration<String> getHeaders(String name) {
 		return null;
 	}
 
@@ -367,7 +371,7 @@ public class MockServletRequest implements HttpServletRequest {
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletRequest#getAttributeNames()
 	 */
-	public Enumeration getAttributeNames() {
+	public Enumeration<String> getAttributeNames() {
 		
 		return null;
 	}
@@ -415,7 +419,7 @@ public class MockServletRequest implements HttpServletRequest {
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletRequest#getLocales()
 	 */
-	public Enumeration getLocales() {
+	public Enumeration<Locale> getLocales() {
 		
 		return null;
 	}
@@ -431,7 +435,7 @@ public class MockServletRequest implements HttpServletRequest {
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletRequest#getParameterMap()
 	 */
-	public Map getParameterMap() {
+	public Map<String, String> getParameterMap() {
 		
 		return parameters;
 	}
@@ -439,7 +443,7 @@ public class MockServletRequest implements HttpServletRequest {
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletRequest#getParameterNames()
 	 */
-	public Enumeration getParameterNames() {
+	public Enumeration<String> getParameterNames() {
 		
 		return Collections.enumeration(parameters.keySet());
 	}

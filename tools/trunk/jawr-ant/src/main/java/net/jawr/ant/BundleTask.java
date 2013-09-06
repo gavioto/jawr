@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Ibrahim Chaehoi
+ * Copyright 2009-2013 Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -35,6 +35,12 @@ import org.apache.tools.ant.taskdefs.Delete;
  */
 public class BundleTask extends Task {
 
+	/** The default servlet API version */
+	private static final String DEFAULT_SERVLET_API_VERSION = "2.3";
+
+	/** The servlet name separator */
+	private static final String SERVLET_NAME_SEPARATOR = ",";
+
 	/**
 	 * The path to the root of the web application where the resources are loaded from.
 	 */
@@ -69,6 +75,11 @@ public class BundleTask extends Task {
 	 * The flag indicating if we want to keep the jawr URL mapping or if we rewrite it to remove resource hashcode.  
 	 */
 	private boolean keepUrlMapping = false;
+	
+	/**
+	 * The servlet API version. Default value : 2.3.  
+	 */
+	private String servletAPIversion = DEFAULT_SERVLET_API_VERSION;
 	
 	/**
 	 * Sets the root directory path
@@ -127,6 +138,14 @@ public class BundleTask extends Task {
 		this.keepUrlMapping = keepUrlMapping;
 	}
 
+	/**
+	 * Sets the servlet API version
+	 * @param servletAPIversion the servlet API version to set
+	 */
+	public void setServletAPIversion(String servletAPIversion) {
+		this.servletAPIversion = servletAPIversion;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -166,17 +185,17 @@ public class BundleTask extends Task {
 			cleanDirectory(destDir);
 		}
 		
-		List servlets = new ArrayList();
+		List<String> servlets = new ArrayList<String>();
 		if(servletsToInitialize != null){
 			
-			String[] servletNames = servletsToInitialize.split(",");
+			String[] servletNames = servletsToInitialize.split(SERVLET_NAME_SEPARATOR);
 			for (int i = 0; i < servletNames.length; i++) {
 				servlets.add(servletNames[i].trim());
 			}
 		}
 		
 		BundleProcessor bundleProcessor = new BundleProcessor();
-		bundleProcessor.process(rootPath, tempDirPath, destDirPath, springConfigFiles, servlets, generateCDNFiles, keepUrlMapping);
+		bundleProcessor.process(rootPath, tempDirPath, destDirPath, springConfigFiles, servlets, generateCDNFiles, keepUrlMapping, servletAPIversion);
 	}
 
 	/**

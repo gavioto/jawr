@@ -2,11 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.jawr</groupId>
+	<parent>
+		<groupId>net.jawr</groupId>
+		<artifactId>jawr-tools-parent</artifactId>
+		<version>1.5-SNAPSHOT</version>
+	</parent>
 	<artifactId>jawr-ant</artifactId>
 	<packaging>jar</packaging>
 	<name>Java web resources bundling and compression Ant task</name>
-	<version>1.4.2</version>
 	<description>The ant task which launch Javascript/CSS bundling and compressing tool for java web apps.
   	By using jawr resources are automatically bundled together and optionally minified and gzipped. 
   	Jawr provides tag libraries to reference a generated bundle either by id or by using the name of any of its members.</description>
@@ -16,7 +19,7 @@
 			<id>icefox</id>
 			<name>Ibrahim CHAEHOI</name>
 			<roles>
-				<role>Developer</role>
+				<role>Project owner</role>
 			</roles>
 		</developer>
 	</developers>
@@ -27,9 +30,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:https://jawr.dev.java.net/svn/jawr/</connection>
-		<developerConnection>scm:svn:https://jawr.dev.java.net/svn/jawr/</developerConnection>
-		<url>https://jawr.dev.java.net/source/browse/jawr/</url>
+		<connection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</connection>
+		<developerConnection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</developerConnection>
+		<url>https://java.net/projects/jawr/sources</url>
 	</scm>
 	<build>
 		<extensions>
@@ -39,29 +42,6 @@
 				<version>1.8</version>
 			</extension>
 		</extensions>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.4</source>
-					<target>1.4</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
 	</build>
 	<repositories>
 		<repository>
@@ -72,9 +52,9 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>net.jawr</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>jawr-bundle-processor</artifactId>
-			<version>${version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ant</groupId>
@@ -84,39 +64,36 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.3</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.yahoo.platform.yui</groupId>
 			<artifactId>yuicompressor</artifactId>
-			<version>2.2.5</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>1.1_02</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.directwebremoting</groupId>
 			<artifactId>dwr</artifactId>
-			<version>2.0.2</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
-			<version>2.0.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
-			<version>1.2.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-			<version>1.1.2</version>
 		</dependency>
 	</dependencies>
 	<reporting>
@@ -131,7 +108,7 @@
 			<plugin>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<configuration>
-					<targetjdk>1.4</targetjdk>
+					<targetjdk>1.6</targetjdk>
 					<rulesets>
 						<ruleset>/rulesets/basic.xml</ruleset>
 					</rulesets>
@@ -143,10 +120,4 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<distributionManagement>
-		<repository>
-			<id>java.net-m2-repository</id>
-			<url>java-net:/maven2-repository/trunk/repository/</url>
-		</repository>
-	</distributionManagement>
 </project>

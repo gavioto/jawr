@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,7 +32,6 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.apache.log4j.Logger;
 
 /**
@@ -48,22 +48,26 @@ public class MockServletContext implements ServletContext {
 	private String baseDir;
 
 	/** The map attributes */
-	private Map initParameters = new HashMap();
+	private Map<String, Object> initParameters = new HashMap<String, Object> ();
 
 	/** The map attributes */
-	private Map attributes = new HashMap();
+	private Map<String, Object>  attributes = new HashMap<String, Object> ();
 
+	/** The servlet API version */
+	private String servletAPIversion; 
+		
 	/**
 	 * Constructor
 	 */
-	public MockServletContext() {
-	
+	public MockServletContext(String servletAPIversion) {
+		
 	}
 	
 	/**
 	 * Constructor
 	 */
-	public MockServletContext(String baseDir, String tempDir) {
+	public MockServletContext(String servletAPIversion, String baseDir, String tempDir) {
+		this.servletAPIversion = servletAPIversion;
 		this.baseDir = baseDir.replace('/', File.separatorChar);
 		this.baseDir = this.baseDir.replaceAll("%20", " ");
 
@@ -86,8 +90,8 @@ public class MockServletContext implements ServletContext {
 	 * 
 	 * @see javax.servlet.ServletContext#getAttributeNames()
 	 */
-	public Enumeration getAttributeNames() {
-		return new IteratorEnumeration(attributes.keySet().iterator());
+	public Enumeration<String> getAttributeNames() {
+		return Collections.enumeration(attributes.keySet());
 	}
 
 	/*
@@ -112,7 +116,7 @@ public class MockServletContext implements ServletContext {
 	 * Sets the init parameter in the servlet context
 	 * @param initParameters the init parameters to set
 	 */
-	public void setInitParameters(Map initParameters){
+	public void setInitParameters(Map<String, Object> initParameters){
 		this.initParameters = initParameters;
 	}
 	
@@ -130,8 +134,8 @@ public class MockServletContext implements ServletContext {
 	 * 
 	 * @see javax.servlet.ServletContext#getInitParameterNames()
 	 */
-	public Enumeration getInitParameterNames() {
-		return new IteratorEnumeration(initParameters.keySet().iterator());
+	public Enumeration<String> getInitParameterNames() {
+		return Collections.enumeration(initParameters.keySet());
 	}
 
 	/*
@@ -140,7 +144,7 @@ public class MockServletContext implements ServletContext {
 	 * @see javax.servlet.ServletContext#getMajorVersion()
 	 */
 	public int getMajorVersion() {
-		return 2;
+		return Integer.parseInt(servletAPIversion.split("\\.")[0]);
 	}
 
 	/*
@@ -158,7 +162,7 @@ public class MockServletContext implements ServletContext {
 	 * @see javax.servlet.ServletContext#getMinorVersion()
 	 */
 	public int getMinorVersion() {
-		return 5;
+		return Integer.parseInt(servletAPIversion.split("\\.")[1]);
 	}
 
 	/*
@@ -216,7 +220,7 @@ public class MockServletContext implements ServletContext {
 		try {
 			is = new FileInputStream(new File(baseDir, path));
 		} catch (FileNotFoundException e) {
-			logger.info("File for path : '" + path + "' not found");
+			logger.info("File for path : '" + path + "' not found using baseDir '"+baseDir+"'");
 		}
 
 		return is;
@@ -227,9 +231,9 @@ public class MockServletContext implements ServletContext {
 	 * 
 	 * @see javax.servlet.ServletContext#getResourcePaths(java.lang.String)
 	 */
-	public Set getResourcePaths(String path) {
+	public Set<String> getResourcePaths(String path) {
 
-		Set result = new HashSet();
+		Set<String> result = new HashSet<String>();
 		path = path.replace('/', File.separatorChar);
 		File resource = new File(baseDir, path);
 
@@ -292,7 +296,7 @@ public class MockServletContext implements ServletContext {
 	 * 
 	 * @see javax.servlet.ServletContext#getServletNames()
 	 */
-	public Enumeration getServletNames() {
+	public Enumeration<String> getServletNames() {
 		throw new RuntimeException("operation not supported");
 	}
 
@@ -301,7 +305,7 @@ public class MockServletContext implements ServletContext {
 	 * 
 	 * @see javax.servlet.ServletContext#getServlets()
 	 */
-	public Enumeration getServlets() {
+	public Enumeration<Servlet> getServlets() {
 		throw new RuntimeException("operation not supported");
 	}
 
