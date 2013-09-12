@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Ibrahim Chaehoi
+ * Copyright 2009-2013 Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -34,7 +34,9 @@ import net.jawr.web.resource.bundle.factory.util.PathNormalizer;
 import net.jawr.web.util.StringUtils;
 
 /**
- * This class define a mock Http Servlet request.
+ * Mock implementation of the HttpServletRequest interface.
+ * Supports the Servlet 2.5 API level.
+ * 
  * This class is used by the Jawr build time class handler,
  * to fake http servlet request to the Jawr servlet.
  * 
@@ -557,8 +559,45 @@ public class MockServletRequest implements HttpServletRequest {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.ServletRequest#getRemotePort()
+	 */
+	@Override
+	public int getRemotePort() {
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.servlet.ServletRequest#getLocalName()
+	 */
+	@Override
+	public String getLocalName() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.servlet.ServletRequest#getLocalAddr()
+	 */
+	@Override
+	public String getLocalAddr() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.servlet.ServletRequest#getLocalPort()
+	 */
+	@Override
+	public int getLocalPort() {
+		return 0;
+	}
+	
+	/**
+	 * Sets the URL
+	 * @param url the URL
+	 */
 	public void setRequestUrl(String url) {
 		requestURL = url;
 	}
+
 
 }

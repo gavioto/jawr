@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Ibrahim Chaehoi
+ * Copyright 2009-2013 Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -23,10 +23,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
 /**
- * The mock for Http Session
+ * Mock implementation of the HttpSession interface.
+ * Supports the Servlet 2.5 API level.
  * 
  * @author Ibrahim Chaehoi
  */
+@SuppressWarnings("deprecation")
 public class MockServletSession implements HttpSession {
 
 	/** The map attributes */
@@ -114,7 +116,6 @@ public class MockServletSession implements HttpSession {
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpSession#getSessionContext()
 	 */
-	@SuppressWarnings("deprecation")
 	public HttpSessionContext getSessionContext() {
 		return null;
 	}

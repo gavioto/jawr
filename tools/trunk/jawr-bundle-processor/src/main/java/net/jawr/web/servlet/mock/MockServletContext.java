@@ -354,4 +354,12 @@ public class MockServletContext implements ServletContext {
 		attributes.put(name, object);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.ServletContext#getContextPath()
+	 */
+	@Override
+	public String getContextPath() {
+		return null;
+	}
+
 }

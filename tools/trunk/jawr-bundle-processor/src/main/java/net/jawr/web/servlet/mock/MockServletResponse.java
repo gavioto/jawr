@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Ibrahim Chaehoi
+ * Copyright 2009-2013 Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import net.jawr.web.resource.bundle.IOUtils;
 
 /**
+ * Mock implementation of the HttpServletResponse interface.
+ * Supports the Servlet 2.5 API level.
+ *  
  * @author Ibrahim Chaehoi
  */
 public class MockServletResponse implements HttpServletResponse {
@@ -218,6 +221,18 @@ public class MockServletResponse implements HttpServletResponse {
 
 	public void setLocale(Locale loc) {
 
+	}
+
+	@Override
+	public String getContentType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCharacterEncoding(String charset) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
