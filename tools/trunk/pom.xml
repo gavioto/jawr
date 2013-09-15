@@ -6,9 +6,9 @@
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-	<artifactId>jawr-tools-parent</artifactId>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.jawr</groupId>
+	<groupId>net.jawr.tools</groupId>
+	<artifactId>jawr-tools-parent</artifactId>
 	<version>1.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>jawr tools parent</name>
@@ -36,39 +36,26 @@
 				<role>Project owner</role>
 			</roles>
 		</developer>
-		<developer>
-			<id>jordihs</id>
-			<name>Jordi Hernandez Selles</name>
-			<roles>
-				<role>Project owner</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>mruby</id>
-			<name>Matt Ruby</name>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</developer>
 	</developers>
 	<mailingLists>
-        <mailingList>
-            <name>Users mailing list</name>
-            <post>users@jawr.java.net</post>
-            <archive>https://java.net/projects/jawr/lists/users/archive</archive>
-        </mailingList>
-        <mailingList>
-            <name>Dev mailing list</name>
-            <post>dev@jawr.java.net</post>
-            <archive>https://java.net/projects/jawr/lists/dev/archive</archive>
-        </mailingList>
-    </mailingLists>
+		<mailingList>
+			<name>Users mailing list</name>
+			<post>users@jawr.java.net</post>
+			<archive>https://java.net/projects/jawr/lists/users/archive</archive>
+		</mailingList>
+		<mailingList>
+			<name>Dev mailing list</name>
+			<post>dev@jawr.java.net</post>
+			<archive>https://java.net/projects/jawr/lists/dev/archive</archive>
+		</mailingList>
+	</mailingLists>
 	<properties>
 		<jawr.version>3.5-SNAPSHOT</jawr.version>
+		<jawr-spring-2.0.x-extension.version>3.5-SNAPSHOT</jawr-spring-2.0.x-extension.version>
 		<mockito.version>1.9.5</mockito.version>
 		<junit.version>4.11</junit.version>
 		<log4j.version>1.2.9</log4j.version>
-		<servlet-api.version>2.3</servlet-api.version>
+		<servlet-api.version>2.5</servlet-api.version>
 		<jsp-api.version>2.0</jsp-api.version>
 		<rhino.version>1.7R4</rhino.version>
 		<yuicompressor.version>2.4.7</yuicompressor.version>
@@ -102,9 +89,14 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>${project.groupId}</groupId>
+				<groupId>net.jawr</groupId>
 				<artifactId>jawr-core</artifactId>
 				<version>${jawr.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jawr.extensions</groupId>
+				<artifactId>jawr-spring-2.0.x-extension</artifactId>
+				<version>${jawr-spring-2.0.x-extension.version}</version>
 			</dependency>
 			<!-- Test Dependencies -->
 			<dependency>
@@ -225,7 +217,15 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-
+		<!-- Projects common dependencies -->
+		<dependency>
+			<groupId>net.jawr.extensions</groupId>
+			<artifactId>jawr-spring-2.0.x-extension</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.jawr</groupId>
+			<artifactId>jawr-core</artifactId>
+		</dependency>
 		<!-- For test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -235,11 +235,7 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 		</dependency>
-		<!-- Other dependencies -->
-		<dependency>
-			<groupId>net.jawr</groupId>
-			<artifactId>jawr-core</artifactId>
-		</dependency>
+		
 	</dependencies>
 	<build>
 		<pluginManagement>
