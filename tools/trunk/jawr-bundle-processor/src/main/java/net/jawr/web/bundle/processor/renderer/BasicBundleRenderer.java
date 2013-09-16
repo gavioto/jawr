@@ -59,10 +59,10 @@ public class BasicBundleRenderer extends AbstractBundleLinkRenderer {
 	 * @param useRandomParam the flag indicating if we should use teh random parameter
      */
 	public BasicBundleRenderer(ResourceBundlesHandler bundler, String resourceType, Boolean useRandomParam) {
-		super(bundler, useRandomParam);
 		this.resourceType = resourceType;
+		super.init(bundler, useRandomParam);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see net.jawr.web.resource.bundle.renderer.BundleRenderer#getResourceType()
 	 */
