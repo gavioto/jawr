@@ -6,7 +6,7 @@
 		<artifactId>jawr-dwr2.x-parent</artifactId>
 		<version>3.5-SNAPSHOT</version>
 	</parent>
-	<artifactId>jawr-dwr-2.x-webapp-sample</artifactId>
+	<artifactId>jawr-dwr2.x-webapp-sample</artifactId>
 	<packaging>war</packaging>
 	<name>DWR Sample Webapp</name>
 	<properties>
