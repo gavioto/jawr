@@ -6,7 +6,7 @@
 		<artifactId>jawr-dwr2.x-parent</artifactId>
 		<version>3.5-SNAPSHOT</version>
 	</parent>
-	<artifactId>jawr-dwr2.0.x-integration-test</artifactId>
+	<artifactId>jawr-dwr2.x-integration-test</artifactId>
 	<packaging>war</packaging>
 	<name>jawr-dwr2.0.x-integration-test</name>
 	<description>Basic web app for Jawr DWR 2.x integration test</description>
