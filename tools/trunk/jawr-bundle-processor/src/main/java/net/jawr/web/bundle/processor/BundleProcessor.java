@@ -1023,7 +1023,7 @@ public class BundleProcessor {
 				imageFinalPath = path;
 			} else {
 				imageFinalPath = getImageFinalPath(path,
-						imgRsHandler.getJawrConfig());
+						imgRsHandler.getConfig());
 			}
 
 			File destFile = new File(destDirPath, imageFinalPath);
