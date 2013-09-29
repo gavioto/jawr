@@ -18,6 +18,7 @@ import java.io.Writer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.jawr.web.context.ThreadLocalJawrContext;
 import net.jawr.web.resource.bundle.handler.ResourceBundlesHandler;
 import net.jawr.web.resource.bundle.renderer.BundleRenderer;
 import net.jawr.web.resource.bundle.renderer.BundleRendererContext;
@@ -31,6 +32,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.util.value.IValueMap;
+import org.junit.Test;
 
 /**
  * This class defines the abstract class for the Jawr CSS and Stylesheet
@@ -122,6 +124,9 @@ public abstract class AbstractJawrReference extends WebMarkupContainer {
 			renderer.renderBundleLinks(src, ctx, writer);
 		} catch (IOException ex) {
 			LOGGER.error("onRender() error : ", ex);
+		}finally{
+			// Reset the Thread local for the Jawr context
+			ThreadLocalJawrContext.reset();
 		}
 
 		markupStream.skipComponent();

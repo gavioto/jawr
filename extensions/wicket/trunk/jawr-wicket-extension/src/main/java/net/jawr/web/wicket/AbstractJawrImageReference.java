@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.jawr.web.JawrConstant;
+import net.jawr.web.context.ThreadLocalJawrContext;
 import net.jawr.web.resource.ImageResourcesHandler;
 import net.jawr.web.resource.bundle.renderer.RendererFactory;
 import net.jawr.web.resource.bundle.renderer.image.ImgRenderer;
@@ -49,195 +50,213 @@ public abstract class AbstractJawrImageReference extends WebMarkupContainer {
 	private static final long serialVersionUID = 8981244472547751100L;
 
 	/** The logger */
-	private static final Logger LOGGER = Logger.getLogger(AbstractJawrReference.class);
+	private static final Logger LOGGER = Logger
+			.getLogger(AbstractJawrReference.class);
 
 	/** The image renderer */
 	private ImgRenderer renderer;
 
 	/**
 	 * Constructor
-	 * @param id the component ID
+	 * 
+	 * @param id
+	 *            the component ID
 	 */
 	public AbstractJawrImageReference(String id) {
 		super(id);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.apache.wicket.MarkupContainer#onRender()
 	 */
 	protected void onRender() {
-        
-    	MarkupStream markupStream = findMarkupStream();
-    	try {
-        	final ComponentTag openTag = markupStream.getTag();
-            final ComponentTag tag = openTag.mutable();
-            final IValueMap attributes = tag.getAttributes();
 
-            String src = (String) attributes.get("src");
-            boolean base64 = Boolean.valueOf((String) attributes.get("base64")).booleanValue();
-            
-            // src is mandatory
-            if (null == src) {
-                throw new IllegalStateException("The src attribute is mandatory for this Jawr tag. ");
-            }
+		MarkupStream markupStream = findMarkupStream();
+		try {
+			final ComponentTag openTag = markupStream.getTag();
+			final ComponentTag tag = openTag.mutable();
+			final IValueMap attributes = tag.getAttributes();
 
-            // Retrieve the image resource handler
-            ServletWebRequest servletWebRequest = (ServletWebRequest) getRequest();
-            HttpServletRequest request = servletWebRequest.getContainerRequest();
-            ImageResourcesHandler imgRsHandler = (ImageResourcesHandler) WebApplication.get().getServletContext().getAttribute(JawrConstant.IMG_CONTEXT_ATTRIBUTE);
-            
-             if (null == imgRsHandler)
+			String src = (String) attributes.get("src");
+			boolean base64 = Boolean.valueOf((String) attributes.get("base64"))
+					.booleanValue();
+
+			// src is mandatory
+			if (null == src) {
+				throw new IllegalStateException(
+						"The src attribute is mandatory for this Jawr tag. ");
+			}
+
+			// Retrieve the image resource handler
+			ServletWebRequest servletWebRequest = (ServletWebRequest) getRequest();
+			HttpServletRequest request = servletWebRequest
+					.getContainerRequest();
+			ImageResourcesHandler imgRsHandler = (ImageResourcesHandler) WebApplication
+					.get().getServletContext()
+					.getAttribute(JawrConstant.IMG_CONTEXT_ATTRIBUTE);
+
+			if (null == imgRsHandler)
 				throw new IllegalStateException(
 						"You are using a Jawr image tag while the Jawr Image servlet has not been initialized. Initialization of Jawr Image servlet either failed or never occurred.");
-		
-         	
-            final Response response = getResponse();
-            
-    		src = ImageTagUtils.getImageUrl(src, base64, imgRsHandler, request, getHttpServletResponseUrlEncoder(response));
-    		
-    		Writer writer = new RedirectWriter(response);
-              
-    		this.renderer = RendererFactory.getImgRenderer(imgRsHandler.getConfig(), isPlainImage());
-        	this.renderer.renderImage(src, 
-           								attributes, 
-    	   								writer);
-    		
-        } catch (IOException ex) {
-            LOGGER.error("onRender() error : ", ex);
-        }
 
-        markupStream.skipComponent();
-    }
+			final Response response = getResponse();
 
-    /**
-	 * Returns the flag indicating if the image to render is a plain image or not
+			src = ImageTagUtils.getImageUrl(src, base64, imgRsHandler, request,
+					getHttpServletResponseUrlEncoder(response));
+
+			Writer writer = new RedirectWriter(response);
+
+			this.renderer = RendererFactory.getImgRenderer(
+					imgRsHandler.getConfig(), isPlainImage());
+			this.renderer.renderImage(src, attributes, writer);
+
+		} catch (IOException ex) {
+			LOGGER.error("onRender() error : ", ex);
+		} finally {
+
+			// Reset the Thread local for the Jawr context
+			ThreadLocalJawrContext.reset();
+		}
+
+		markupStream.skipComponent();
+	}
+
+	/**
+	 * Returns the flag indicating if the image to render is a plain image or
+	 * not
+	 * 
 	 * @return true if the image to render is a plain image or not
 	 */
 	protected abstract boolean isPlainImage();
-	
-    /**
-     * Returns the HttpServletResponse which will be used to encode the URL
-     * @param response the response
-     * @return the HttpServletResponse which will be used to encode the URL
-     */
-    private HttpServletResponse getHttpServletResponseUrlEncoder(final Response response){
-    	
-    	return new HttpServletResponse() {
-			
+
+	/**
+	 * Returns the HttpServletResponse which will be used to encode the URL
+	 * 
+	 * @param response
+	 *            the response
+	 * @return the HttpServletResponse which will be used to encode the URL
+	 */
+	private HttpServletResponse getHttpServletResponseUrlEncoder(
+			final Response response) {
+
+		return new HttpServletResponse() {
+
 			public void setLocale(Locale loc) {
-				
+
 			}
-			
+
 			public void setContentType(String type) {
-				
+
 			}
-			
+
 			public void setContentLength(int len) {
-				
+
 			}
-			
+
 			public void setBufferSize(int size) {
-				
+
 			}
-			
+
 			public void resetBuffer() {
-				
+
 			}
-			
+
 			public void reset() {
-				
+
 			}
-			
+
 			public boolean isCommitted() {
 				return false;
 			}
-			
+
 			public PrintWriter getWriter() throws IOException {
 				return new PrintWriter(new RedirectWriter(getResponse()));
 			}
-			
+
 			public ServletOutputStream getOutputStream() throws IOException {
 				return null;
 			}
-			
+
 			public Locale getLocale() {
 				return null;
 			}
-			
+
 			public int getBufferSize() {
 				return 0;
 			}
-			
+
 			public void flushBuffer() throws IOException {
-				
+
 			}
-			
+
 			public void setStatus(int sc, String sm) {
-				
+
 			}
-			
+
 			public void setStatus(int sc) {
-				
+
 			}
-			
+
 			public void setIntHeader(String name, int value) {
-				
+
 			}
-			
+
 			public void setHeader(String name, String value) {
-				
+
 			}
-			
+
 			public void setDateHeader(String name, long date) {
-				
+
 			}
-			
+
 			public void sendRedirect(String location) throws IOException {
-				
+
 			}
-			
+
 			public void sendError(int sc, String msg) throws IOException {
-				
+
 			}
-			
+
 			public void sendError(int sc) throws IOException {
-				
+
 			}
-			
+
 			public String encodeUrl(String url) {
 				return response.encodeURL(url).toString();
 			}
-			
+
 			public String encodeURL(String url) {
 				return response.encodeURL(url).toString();
 			}
-			
+
 			public String encodeRedirectUrl(String url) {
 				return null;
 			}
-			
+
 			public String encodeRedirectURL(String url) {
 				return null;
 			}
-			
+
 			public boolean containsHeader(String name) {
 				return false;
 			}
-			
+
 			public void addIntHeader(String name, int value) {
-				
+
 			}
-			
+
 			public void addHeader(String name, String value) {
-				
+
 			}
-			
+
 			public void addDateHeader(String name, long date) {
-				
+
 			}
-			
+
 			public void addCookie(Cookie cookie) {
-				
+
 			}
 
 			public String getContentType() {
@@ -245,7 +264,7 @@ public abstract class AbstractJawrImageReference extends WebMarkupContainer {
 			}
 
 			public void setCharacterEncoding(String charset) {
-				
+
 			}
 
 			@Override
@@ -253,5 +272,5 @@ public abstract class AbstractJawrImageReference extends WebMarkupContainer {
 				return "UTF-8";
 			}
 		};
-    }
+	}
 }
