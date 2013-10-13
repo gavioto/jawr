@@ -1,5 +1,5 @@
 /**
- * Copyright 2009-2012 Ibrahim Chaehoi
+ * Copyright 2009-2013 Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -63,7 +63,8 @@ public class JawrJavascriptReference extends AbstractJawrReference {
 			Boolean useRandomParam, ComponentTag tag) {
 		
 		final IValueMap attributes = tag.getAttributes();
+		boolean async = attributes.getBoolean(JawrConstant.ASYNC_ATTR);
 		boolean defer = attributes.getBoolean(JawrConstant.DEFER_ATTR);
-        return RendererFactory.getJsBundleRenderer(rsHandler, useRandomParam, defer);
+        return RendererFactory.getJsBundleRenderer(rsHandler, useRandomParam, async, defer);
 	}
 }

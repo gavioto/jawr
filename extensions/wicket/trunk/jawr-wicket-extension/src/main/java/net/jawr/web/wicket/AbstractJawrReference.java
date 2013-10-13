@@ -25,14 +25,14 @@ import net.jawr.web.resource.bundle.renderer.BundleRendererContext;
 import net.jawr.web.servlet.RendererRequestUtils;
 import net.jawr.web.util.StringUtils;
 
-import org.apache.log4j.Logger;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.util.value.IValueMap;
-import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class defines the abstract class for the Jawr CSS and Stylesheet
@@ -47,7 +47,7 @@ public abstract class AbstractJawrReference extends WebMarkupContainer {
 	private static final long serialVersionUID = 6483803210055728200L;
 
 	/** The logger */
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractJawrReference.class);
 
 	/** The bundle renderer */
@@ -68,7 +68,7 @@ public abstract class AbstractJawrReference extends WebMarkupContainer {
 
 	@Override
 	protected void onRender() {
-		
+
 		MarkupStream markupStream = findMarkupStream();
 		try {
 			final ComponentTag openTag = markupStream.getTag();
@@ -124,7 +124,7 @@ public abstract class AbstractJawrReference extends WebMarkupContainer {
 			renderer.renderBundleLinks(src, ctx, writer);
 		} catch (IOException ex) {
 			LOGGER.error("onRender() error : ", ex);
-		}finally{
+		} finally {
 			// Reset the Thread local for the Jawr context
 			ThreadLocalJawrContext.reset();
 		}

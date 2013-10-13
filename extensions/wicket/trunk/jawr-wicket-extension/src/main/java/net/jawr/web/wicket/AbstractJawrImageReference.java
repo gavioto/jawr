@@ -30,7 +30,6 @@ import net.jawr.web.resource.bundle.renderer.RendererFactory;
 import net.jawr.web.resource.bundle.renderer.image.ImgRenderer;
 import net.jawr.web.taglib.ImageTagUtils;
 
-import org.apache.log4j.Logger;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -38,6 +37,8 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.util.value.IValueMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class defines the abstract class for Jawr image reference for wicket
@@ -50,7 +51,7 @@ public abstract class AbstractJawrImageReference extends WebMarkupContainer {
 	private static final long serialVersionUID = 8981244472547751100L;
 
 	/** The logger */
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractJawrReference.class);
 
 	/** The image renderer */
