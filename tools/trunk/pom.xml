@@ -50,10 +50,12 @@
 		</mailingList>
 	</mailingLists>
 	<properties>
+		<java.version>1.6</java.version>
 		<jawr.version>3.5-SNAPSHOT</jawr.version>
 		<jawr-spring-2.0.x-extension.version>3.5-SNAPSHOT</jawr-spring-2.0.x-extension.version>
 		<mockito.version>1.9.5</mockito.version>
 		<junit.version>4.11</junit.version>
+		<sl4j-api.version>1.7.5</sl4j-api.version>
 		<log4j.version>1.2.9</log4j.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<jsp-api.version>2.0</jsp-api.version>
@@ -62,7 +64,7 @@
 		<jsf-api.version>1.1_02</jsf-api.version>
 		<commons-validator.version>1.2.0</commons-validator.version>
 		<taglibs-standard.version>1.1.2</taglibs-standard.version>
-		<ehcache.version>2.4.6</ehcache.version>
+		<ehcache.version>2.7.4</ehcache.version>
 		<smartsprites.version>0.2.10</smartsprites.version>
 		<google-closure.version>v20130823</google-closure.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -119,6 +121,17 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${sl4j-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${sl4j-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>${log4j.version}</version>
@@ -156,12 +169,6 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.directwebremoting</groupId>
-				<artifactId>dwr</artifactId>
-				<version>2.0.2</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring</artifactId>
 				<version>2.0.8</version>
@@ -180,14 +187,8 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.wicket</groupId>
-				<artifactId>wicket</artifactId>
-				<version>1.4.3</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>net.sf.ehcache</groupId>
-				<artifactId>ehcache-core</artifactId>
+				<artifactId>ehcache</artifactId>
 				<version>${ehcache.version}</version>
 				<scope>provided</scope>
 			</dependency>
@@ -217,7 +218,19 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-		<!-- Projects common dependencies -->
+		<!-- Common dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>net.jawr.extensions</groupId>
 			<artifactId>jawr-spring-2.0.x-extension</artifactId>
@@ -258,8 +271,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>

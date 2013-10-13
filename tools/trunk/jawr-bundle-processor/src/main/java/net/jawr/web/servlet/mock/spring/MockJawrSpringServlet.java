@@ -1,5 +1,5 @@
 /**
- * Copyright 2010  Ibrahim Chaehoi
+ * Copyright 2010-2013  Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -21,15 +21,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.jawr.web.servlet.JawrSpringController;
 
 /**
- * The servlet which will handle the requests and pass them to the JawrSpringController.
+ * The servlet which will handle the requests and pass them to the
+ * JawrSpringController.
  * 
  * @author Ibrahim Chaehoi
- *
+ * 
  */
 public class MockJawrSpringServlet extends HttpServlet {
 
@@ -37,7 +39,8 @@ public class MockJawrSpringServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/** The logger */
-	private static Logger logger = Logger.getLogger(MockJawrSpringServlet.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(MockJawrSpringServlet.class);
 
 	/** The Jawr spring controller */
 	private final JawrSpringController jawrController;
@@ -47,9 +50,11 @@ public class MockJawrSpringServlet extends HttpServlet {
 	 * 
 	 * @param jawrController
 	 *            the jawr controller
-	 * @throws ServletException if a servlet exception occurs
+	 * @throws ServletException
+	 *             if a servlet exception occurs
 	 */
-	public MockJawrSpringServlet(JawrSpringController jawrController, ServletConfig servletConfig) throws ServletException {
+	public MockJawrSpringServlet(JawrSpringController jawrController,
+			ServletConfig servletConfig) throws ServletException {
 
 		this.jawrController = jawrController;
 		init(servletConfig);
@@ -68,8 +73,8 @@ public class MockJawrSpringServlet extends HttpServlet {
 		try {
 			jawrController.handleRequest(request, response);
 		} catch (Exception e) {
-			if(logger.isDebugEnabled()){
-				logger.debug(e);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Error in JawrSpringController", e);
 			}
 			throw new ServletException(e);
 		}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2009 Ibrahim Chaehoi
+ * Copyright 2009-2013 Ibrahim Chaehoi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -32,7 +32,8 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class defines a mock servlet container.
@@ -42,31 +43,33 @@ import org.apache.log4j.Logger;
 public class MockServletContext implements ServletContext {
 
 	/** The logger */
-	private static Logger logger = Logger.getLogger(MockServletContext.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(MockServletContext.class);
 
 	/** The base directory */
 	private String baseDir;
 
 	/** The map attributes */
-	private Map<String, Object> initParameters = new HashMap<String, Object> ();
+	private Map<String, Object> initParameters = new HashMap<String, Object>();
 
 	/** The map attributes */
-	private Map<String, Object>  attributes = new HashMap<String, Object> ();
+	private Map<String, Object> attributes = new HashMap<String, Object>();
 
 	/** The servlet API version */
-	private String servletAPIversion; 
-		
+	private String servletAPIversion;
+
 	/**
 	 * Constructor
 	 */
 	public MockServletContext(String servletAPIversion) {
-		
+
 	}
-	
+
 	/**
 	 * Constructor
 	 */
-	public MockServletContext(String servletAPIversion, String baseDir, String tempDir) {
+	public MockServletContext(String servletAPIversion, String baseDir,
+			String tempDir) {
 		this.servletAPIversion = servletAPIversion;
 		this.baseDir = baseDir.replace('/', File.separatorChar);
 		this.baseDir = this.baseDir.replaceAll("%20", " ");
@@ -105,21 +108,26 @@ public class MockServletContext implements ServletContext {
 
 	/**
 	 * Puts an init parameter in the servlet context
-	 * @param name the name of init parameter to set
-	 * @param value the name of init parameter to set
+	 * 
+	 * @param name
+	 *            the name of init parameter to set
+	 * @param value
+	 *            the name of init parameter to set
 	 */
-	public void putInitParameter(String name, String value){
+	public void putInitParameter(String name, String value) {
 		this.initParameters.put(name, value);
 	}
-	
+
 	/**
 	 * Sets the init parameter in the servlet context
-	 * @param initParameters the init parameters to set
+	 * 
+	 * @param initParameters
+	 *            the init parameters to set
 	 */
-	public void setInitParameters(Map<String, Object> initParameters){
+	public void setInitParameters(Map<String, Object> initParameters) {
 		this.initParameters = initParameters;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -199,11 +207,11 @@ public class MockServletContext implements ServletContext {
 	 * @see javax.servlet.ServletContext#getResource(java.lang.String)
 	 */
 	public URL getResource(String path) throws MalformedURLException {
-		
+
 		URL url = null;
-		File file = new File(baseDir + path); 
-		if(file.exists()){
-			url =file.toURI().toURL();
+		File file = new File(baseDir + path);
+		if (file.exists()) {
+			url = file.toURI().toURL();
 		}
 		return url;
 	}
@@ -220,7 +228,8 @@ public class MockServletContext implements ServletContext {
 		try {
 			is = new FileInputStream(new File(baseDir, path));
 		} catch (FileNotFoundException e) {
-			logger.info("File for path : '" + path + "' not found using baseDir '"+baseDir+"'");
+			logger.info("File for path : '" + path
+					+ "' not found using baseDir '" + baseDir + "'");
 		}
 
 		return is;
@@ -242,7 +251,8 @@ public class MockServletContext implements ServletContext {
 		if (null == resArray)
 			return result;
 
-		// Make the returned dirs end with '/', to match a servletcontext behavior.
+		// Make the returned dirs end with '/', to match a servletcontext
+		// behavior.
 		for (int i = 0; i < resArray.length; i++) {
 
 			resArray[i] = path + resArray[i];
@@ -257,7 +267,9 @@ public class MockServletContext implements ServletContext {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.jawr.web.resource.bundle.ResourceHandler#isDirectory(java.lang.String)
+	 * @see
+	 * net.jawr.web.resource.bundle.ResourceHandler#isDirectory(java.lang.String
+	 * )
 	 */
 	public boolean isDirectory(String path) {
 		path = path.replace('/', File.separatorChar);
@@ -321,7 +333,8 @@ public class MockServletContext implements ServletContext {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
+	 * @see javax.servlet.ServletContext#log(java.lang.Exception,
+	 * java.lang.String)
 	 */
 	public void log(Exception exception, String msg) {
 		logger.info(msg, exception);
@@ -330,7 +343,8 @@ public class MockServletContext implements ServletContext {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.servlet.ServletContext#log(java.lang.String, java.lang.Throwable)
+	 * @see javax.servlet.ServletContext#log(java.lang.String,
+	 * java.lang.Throwable)
 	 */
 	public void log(String message, Throwable throwable) {
 		logger.info(message, throwable);
@@ -348,13 +362,16 @@ public class MockServletContext implements ServletContext {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.servlet.ServletContext#setAttribute(java.lang.String, java.lang.Object)
+	 * @see javax.servlet.ServletContext#setAttribute(java.lang.String,
+	 * java.lang.Object)
 	 */
 	public void setAttribute(String name, Object object) {
 		attributes.put(name, object);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.servlet.ServletContext#getContextPath()
 	 */
 	@Override
