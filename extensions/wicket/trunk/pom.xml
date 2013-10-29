@@ -217,7 +217,7 @@
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
 		</dependency>
-		
+
 		<!-- For test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -334,9 +334,26 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<modules>
-		<module>jawr-wicket-extension</module>
-		<module>jawr-wicket-integration-test</module>
-		<module>jawr-wicket-webapp-sample</module>
-	</modules>
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>jawr-wicket-extension</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>all</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>jawr-wicket-extension</module>
+				<module>jawr-wicket-integration-test</module>
+				<module>jawr-wicket-webapp-sample</module>
+			</modules>
+		</profile>
+	</profiles>
 </project>
