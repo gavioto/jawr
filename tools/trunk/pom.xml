@@ -66,7 +66,7 @@
 		<taglibs-standard.version>1.1.2</taglibs-standard.version>
 		<ehcache.version>2.7.4</ehcache.version>
 		<smartsprites.version>0.2.10</smartsprites.version>
-		<google-closure.version>v20130823</google-closure.version>
+		<google-closure.version>v20131014</google-closure.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compile.encoding>UTF-8</maven.compile.encoding>
