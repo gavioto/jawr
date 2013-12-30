@@ -37,7 +37,6 @@ import net.jawr.web.resource.bundle.IOUtils;
 import net.jawr.web.resource.bundle.factory.util.ClassLoaderResourceUtils;
 import net.jawr.web.resource.bundle.generator.AbstractJavascriptGenerator;
 import net.jawr.web.resource.bundle.generator.GeneratorContext;
-import net.jawr.web.resource.bundle.generator.GeneratorRegistry;
 import net.jawr.web.resource.bundle.generator.resolver.ResourceGeneratorResolver;
 import net.jawr.web.resource.bundle.generator.resolver.ResourceGeneratorResolverFactory;
 import net.jawr.web.resource.bundle.renderer.DWRParamWriter;
@@ -60,6 +59,9 @@ import org.directwebremoting.impl.DefaultCreatorManager;
  */
 public class DWRBeanGenerator extends AbstractJavascriptGenerator {
 	private static final Logger LOGGER = Logger.getLogger(DWRBeanGenerator.class.getName());
+
+	/** The message bundle prefix */
+	public static final String DWR_BUNDLE_PREFIX = "dwr";
 
 	// Mapping keys
 	private static final String ALL_INTERFACES_KEY = "_**";
@@ -109,7 +111,7 @@ public class DWRBeanGenerator extends AbstractJavascriptGenerator {
 	private ResourceGeneratorResolver resolver;
 	
 	public DWRBeanGenerator() {
-		resolver = ResourceGeneratorResolverFactory.createPrefixResolver(GeneratorRegistry.DWR_BUNDLE_PREFIX);
+		resolver = ResourceGeneratorResolverFactory.createPrefixResolver(DWR_BUNDLE_PREFIX);
 	}
 
 	/* (non-Javadoc)
