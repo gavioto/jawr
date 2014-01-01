@@ -92,6 +92,7 @@
 					<dependency>
 						<groupId>com.carrot2</groupId>
 						<artifactId>smartsprites</artifactId>
+						<version>${smartsprites.version}</version>
 					</dependency>
 				</dependencies>
 				<executions>
