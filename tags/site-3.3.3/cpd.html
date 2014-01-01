@@ -1,0 +1,542 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+<html>
+  <head>
+    <title>Jawr - CPD Results</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/site.css");
+    </style>
+    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      </head>
+  <body class="composite">
+    <!-- TODO: move this into JavaScript to patch the skin
+      <div class="xright">  </div>
+    -->
+    <div id="leftColumn">
+      <div id="navcolumn">
+             <dl class=navgroup>
+        <dt>About</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="servlets/ProjectHome">Home</a>
+        </li>
+              
+    <li class="none">
+              <a href="introduction.html">Introduction</a>
+        </li>
+              
+    <li class="none">
+              <a href="features.html">Features</a>
+        </li>
+              
+    <li class="none">
+              <a href="changes.html">Change history</a>
+        </li>
+              
+    <li class="none">
+              <a href="team.html">The team</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Documentation</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="docs/servlet.html">The Jawr servlet</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/descriptor_syntax.html">Descriptor syntax</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/custom_bundles.html">Bundle definition</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/global_preprocessors.html">Global preprocessors</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/postprocessors.html">Postprocessors</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/generators.html">Generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/advanced_generators.html">Advanced generators</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/license_files.html">Licenses in resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/taglibs.html">JSP Tag library</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/plain_html.html">Use in HTML pages</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/modes.html">Debug and production modes</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/jmx_support.html">JMX Support</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/bundle_preprocessing.html">Bundle preprocessing</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/jawr_maven_plugin.html">Jawr Maven plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="docs/jawr_ant_task.html">Jawr Ant task</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Integration</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="integration/augmenter.html">Add Jawr to your framework</a>
+        </li>
+              
+    <li class="none">
+              <a href="integration/spring.html">Spring MVC</a>
+        </li>
+              
+    <li class="none">
+              <a href="integration/facelets.html">Facelets Tag library</a>
+        </li>
+              
+    <li class="none">
+              <a href="integration/wicket.html">Wicket</a>
+        </li>
+              
+    <li class="none">
+              <a href="integration/grails.html">Grails plugin</a>
+        </li>
+              
+    <li class="none">
+              <a href="integration/dwr.html">DWR</a>
+        </li>
+              
+    <li class="none">
+              <a href="integration/validator.html">Commons Validator - Struts</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Tutorials</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="tutorials/quickstart.html">Quick start</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/howToUseJawrToServeImage.html">How to use Jawr to serve image resources</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/faq_howto.html">FAQ-Howto</a>
+        </li>
+              
+    <li class="none">
+              <a href="tutorials/libraries.html">Using popular libraries</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>API and sources</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="nonav/apidocs/index.html">JavaDocs</a>
+        </li>
+              
+    <li class="none">
+              <a href="nonav/xref/index.html">Source XREF</a>
+        </li>
+          </ul></dd>
+    </dl>
+      <dl class=navgroup>
+        <dt>Project tools</dt>
+        <dd><ul>
+              
+    <li class="none">
+              <a href="servlets/ProjectHome">Project home</a>
+        </li>
+              
+    <li class="none">
+              <a href="servlets/ProjectMemberList">Membership</a>
+        </li>
+              
+    <li class="none">
+              <a href="servlets/ProjectNewsList">Announcements</a>
+        </li>
+              
+    <li class="none">
+              <a href="servlets/ProjectForumView">Discussion forums</a>
+        </li>
+              
+    <li class="none">
+              <a href="servlets/ProjectMailingListList">Mailing lists</a>
+        </li>
+              
+    <li class="none">
+              <a href="servlets/ProjectDocumentList">Documents & files</a>
+        </li>
+              
+    <li class="none">
+              <a href="source/browse/jawr/">Subversion</a>
+        </li>
+              
+    <li class="none">
+              <a href="servlets/ProjectIssues">Issue tracker</a>
+        </li>
+          </ul></dd>
+    </dl>
+        </div>
+      <script>
+        // replace the java.net project tools with the navigation bar from Maven.
+        // also get rid of "Get Involved" thingie too, while we are at it
+        var pt = document.getElementById("projecttools");
+        var nv = document.getElementById("navcolumn");
+        
+        while(pt.previousSibling!=null)
+          pt.parentNode.removeChild(pt.previousSibling);
+        
+        pt.parentNode.insertBefore(nv,pt);
+        pt.parentNode.removeChild(pt);
+      </script>
+      <script>
+        // kill "description" h3 bar
+        var ld = document.getElementById("longdescription");
+        if(ld!=null) {
+          for( n=ld.firstChild; n!=null; n=n.nextSibling ) {
+            if(n.nodeType==1 && n.innerHTML=="Description" ) {
+              n.parentNode.removeChild(n);
+              break;
+            }
+          }
+        }
+      </script>
+    </div>
+    <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>CPD Results</h2>
+<p>The following document contains the results of PMD's  <a class="externalLink" href="http://pmd.sourceforge.net/cpd.html">CPD</a> 4.2.2.</p>
+</div>
+<div class="section"><h2>Duplications</h2>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#749">749</a></td>
+</tr>
+<tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1164">1164</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>            setOndblclick(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onkeydown&quot;, getOnkeydownExpr(), this,
+                    pageContext)) != null) {
+            setOnkeydown(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onkeypress&quot;, getOnkeypressExpr(), this,
+                    pageContext)) != null) {
+            setOnkeypress(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onkeyup&quot;, getOnkeyupExpr(), this,
+                    pageContext)) != null) {
+            setOnkeyup(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmousedown&quot;, getOnmousedownExpr(),
+                    this, pageContext)) != null) {
+            setOnmousedown(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmousemove&quot;, getOnmousemoveExpr(),
+                    this, pageContext)) != null) {
+            setOnmousemove(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmouseout&quot;, getOnmouseoutExpr(), this,
+                    pageContext)) != null) {
+            setOnmouseout(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmouseover&quot;, getOnmouseoverExpr(),
+                    this, pageContext)) != null) {
+            setOnmouseover(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;onmouseup&quot;, getOnmouseupExpr(), this,
+                    pageContext)) != null) {
+            setOnmouseup(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;src&quot;, getSrcExpr(), this, pageContext)) != null) {
+            setSrc(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;style&quot;, getStyleExpr(), this, pageContext)) != null) {
+            setStyle(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;styleClass&quot;, getStyleClassExpr(), this,
+                    pageContext)) != null) {
+            setStyleClass(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;styleId&quot;, getStyleIdExpr(), this,
+                    pageContext)) != null) {
+            setStyleId(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;title&quot;, getTitleExpr(), this, pageContext)) != null) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#655">655</a></td>
+</tr>
+<tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#1069">1069</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>        setWidthExpr(null);
+    }
+
+    /**
+     * Process the start tag.
+     *
+     * @throws JspException if a JSP exception has occurred
+     */
+    public int doStartTag() throws JspException {
+        evaluateExpressions();
+
+        return (super.doStartTag());
+    }
+
+    /**
+     * Processes all attribute values which use the JSTL expression evaluation
+     * engine to determine their values.
+     *
+     * @throws JspException if a JSP exception has occurred
+     */
+    private void evaluateExpressions()
+        throws JspException {
+        String string = null;
+        Boolean bool = null;
+		if ((bool =
+	            EvalHelper.evalBoolean(&quot;base64&quot;, getBase64Expr(), this,
+	                pageContext)) != null) {
+	        setBase64(bool.booleanValue());
+	    }
+		
+        if ((string =
+                EvalHelper.evalString(&quot;align&quot;, getAlignExpr(), this, pageContext)) != null) {
+            setAlign(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;alt&quot;, getAltExpr(), this, pageContext)) != null) {
+            setAlt(string);
+        }
+
+        if ((string =
+                EvalHelper.evalString(&quot;border&quot;, getBorderExpr(), this,
+                    pageContext)) != null) {
+            setBorder(string);
+        }
+
+        if ((string =
+        		EvalHelper.evalString(&quot;dir&quot;, getDirExpr(), this,
+        			pageContext)) != null) {
+        	setDir(string);
+        }
+        
+        if ((string =</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+<p><table class="bodyTable"><tr class="a"><th>File</th>
+<th>Line</th>
+</tr>
+<tr class="b"><td>net\jawr\web\taglib\el\ELImageInputTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImageInputTag.html#502">502</a></td>
+</tr>
+<tr class="a"><td>net\jawr\web\taglib\el\ELImgHtmlTag.java</td>
+<td><a href="./xref/net/jawr/web/taglib/el/ELImgHtmlTag.html#802">802</a></td>
+</tr>
+<tr class="b"><td colspan='2'><div class="source"><pre>    }
+
+    /**
+     * Setter method for &quot;onkeydown&quot; tag attribute. (Mapping set in associated
+     * BeanInfo class.)
+     */
+    public void setOnkeydownExpr(String onkeydownExpr) {
+        this.onkeydownExpr = onkeydownExpr;
+    }
+
+    /**
+     * Setter method for &quot;onkeypress&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnkeypressExpr(String onkeypressExpr) {
+        this.onkeypressExpr = onkeypressExpr;
+    }
+
+    /**
+     * Setter method for &quot;onkeyup&quot; tag attribute. (Mapping set in associated
+     * BeanInfo class.)
+     */
+    public void setOnkeyupExpr(String onkeyupExpr) {
+        this.onkeyupExpr = onkeyupExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmousedown&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnmousedownExpr(String onmousedownExpr) {
+        this.onmousedownExpr = onmousedownExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmousemove&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnmousemoveExpr(String onmousemoveExpr) {
+        this.onmousemoveExpr = onmousemoveExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmouseout&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnmouseoutExpr(String onmouseoutExpr) {
+        this.onmouseoutExpr = onmouseoutExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmouseover&quot; tag attribute. (Mapping set in
+     * associated BeanInfo class.)
+     */
+    public void setOnmouseoverExpr(String onmouseoverExpr) {
+        this.onmouseoverExpr = onmouseoverExpr;
+    }
+
+    /**
+     * Setter method for &quot;onmouseup&quot; tag attribute. (Mapping set in associated
+     * BeanInfo class.)
+     */
+    public void setOnmouseupExpr(String onmouseupExpr) {
+        this.onmouseupExpr = onmouseupExpr;
+    }
+
+    /**
+     * Setter method for &quot;paramId&quot; tag attribute. (Mapping set in associated
+     * BeanInfo class.)
+     */
+    public void setParamIdExpr(String paramIdExpr) {</pre>
+</div>
+</td></tr>
+<table class="bodyTable"></p>
+</div>
+
+      </div>
+    </div>
+    <div class="clear">
+      <hr/>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2010
+    
+          
+  
+
+  
+  
+  &nbsp;| Last Published: 08/15/2010
+  &nbsp;| Version: 3.3.3
+</div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
