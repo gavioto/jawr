@@ -1,4 +1,4 @@
-/** sprite: mysprite; sprite-image: url('../img/mysprite.png'); sprite-layout: vertical */ 
+/** sprite: mysprite; sprite-image: url('sprite:/img/mysprite.png'); sprite-layout: vertical */ 
 
 .header {
 	background-image: url("../img/logo.png"); /** sprite-ref: mysprite; */

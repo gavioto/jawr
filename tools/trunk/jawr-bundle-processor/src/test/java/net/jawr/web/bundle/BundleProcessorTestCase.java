@@ -3,8 +3,6 @@ package net.jawr.web.bundle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -20,35 +18,17 @@ import net.jawr.web.servlet.mock.MockServletContext;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Bundle processor test case
  * 
  * @author Ibrahim Chaehoi
  */
-@RunWith(Parameterized.class)
 public class BundleProcessorTestCase extends TestCase {
 
-	private static String SERVLET_API_VERSION_2_3 = "2.3";
-
-	private static String SERVLET_API_VERSION_2_5 = "2.5";
-
-	private String servletAPIVersion;
+	private String servletAPIVersion = "2.5";
 
 	private BundleProcessor bundleProcessor = new BundleProcessor();
-
-	public BundleProcessorTestCase(String servletAPIVersion) {
-		this.servletAPIVersion = servletAPIVersion;
-	}
-
-	@Parameters
-	public static Collection<Object[]> data() {
-		Object[][] data = new Object[][] { { SERVLET_API_VERSION_2_3 }, { SERVLET_API_VERSION_2_5 } };
-		return Arrays.asList(data);
-	}
 
 	@Test
 	public void testFinalGenerationJSBundlePath() throws IOException {
@@ -297,25 +277,6 @@ public class BundleProcessorTestCase extends TestCase {
 		checkContentCreated(destDirPath + "/CDN/js/index/index.js");
 	}
 
-	public void testBundleProcessingWithNoFileRemapping_2_3() throws Exception {
-
-		String baseDirPath = FileUtils.getClasspathRootDir()
-				+ "/bundleProcessor/wrkDir";
-		String tmpDirPath = FileUtils.getClasspathRootDir()
-				+ "/bundleProcessor/tmpDir";
-		String destDirPath = FileUtils.getClasspathRootDir()
-				+ "/bundleProcessor/destDir";
-
-		FileUtils.clearDirectory(tmpDirPath);
-		FileUtils.clearDirectory(destDirPath);
-
-		bundleProcessor.process(baseDirPath, tmpDirPath, destDirPath, null,
-				new ArrayList<String>(), true, true,
-				SERVLET_API_VERSION_2_3);
-		checkGeneratedContentWithNoFileRemapping(destDirPath);
-
-	}
-
 	@Test
 	public void testBundleProcessingWithNoFileRemapping() throws Exception {
 
@@ -452,10 +413,10 @@ public class BundleProcessorTestCase extends TestCase {
 
 		checkContentCreated(destDirPath + "/CDN/780537719/bundle/js/global.js");
 		checkContentCreated(destDirPath
-				+ "/CDN/cssJawrPath/1981141074/bundle/css/component.css");
+				+ "/CDN/cssJawrPath/N488113936/bundle/css/component.css");
 		checkContentCreated(destDirPath + "/CDN/cssJawrPath/css/one.css");
 		checkContentCreated(destDirPath
-				+ "/CDN/cb1b43d6c4267824d03225a192305c6601/img/mysprite.png");
+				+ "/CDN/sprite_cb75b5346ffc8f85281cb643aeac356405/img/mysprite.png");
 		checkContentCreated(destDirPath
 				+ "/CDN/cbfc517da02d6a64a68e5fea9a5de472f1/img/appIcons/application.png");
 		checkContentCreated(destDirPath
