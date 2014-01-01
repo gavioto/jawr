@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -72,6 +72,10 @@
         </li>
               
     <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
+        </li>
+              
+    <li class="none">
               <strong>Global preprocessors</strong>
         </li>
               
@@ -105,6 +109,14 @@
               
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
         </li>
               
     <li class="none">
@@ -170,7 +182,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -260,47 +280,47 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Jawr Global Preprocessors</h2>
+        <div class="section">
+<h2>Jawr Global Preprocessors<a name="Jawr_Global_Preprocessors"></a></h2>
 <p>Global Preprocessors are filters that Jawr applies to resources during startup before the bundling process. In some cases, it is convenient to preprocess all the JS or CSS files before making the bundle process, because you need to gather information from all the files before making your bundling process.</p>
 <p>Jawr provides one built-in global preprocessor, which handles the image sprite generation with smartsprites. Jawr uses a global preprocessor for the image sprite generation when using smartsprites, because this process requires to retrieve information from all the files before being able to generate the sprites. </p>
 <p>You can create and use your own global preprocessor, so here is how to configure the filter chain for global preprocessing. </p>
 <p>A global preprocessor will be only invoked once during application startup before the bundling and the post process phases. The point is to be able to make a treatment which need to be done on all the JS or CSS resources, before the bundling process. </p>
 <p>For configuration purposes, every global preprocessor has a unique name key, which you use in a comma-separated property in the descriptor, for instance: </p>
-<div class="source"><pre>        jawr.css.bundle.factory.global.preprocessors=smartsprites,myGlobalPreprocessor
-                </pre>
-</div>
+<div class="source">
+<pre>        jawr.css.bundle.factory.global.preprocessors=smartsprites,myGlobalPreprocessor
+                
+</pre></div>
 <p>In this example, the global preprocessors set for <b>css</b> resources are <i>smartsprites</i> and <i>myGlobalPreprocessor</i>, meaning that the <b>smartsprites</b> and th <b>myGlobalPreprocessor</b> global preprocessors will be processed for all css resources. The <i>smartsprites</i> global preprocessor will be executed before <i>myGlobalPreprocessor</i>. </p>
-<div class="section"><h3>Custom global preprocessor</h3>
+<div class="section">
+<h3>Custom global preprocessor<a name="Custom_global_preprocessor"></a></h3>
 <p>You can also implement your own global preprocessor components (for js, css, or both) to perform any functionality not offered by the included one. To do that, you must create a class with a no-params constructor that implements the interface <i>net.jawr.web.resource.bundle.global.preprocessor.GlobalPreprocessor</i>. This interface defines a single method: </p>
-<div class="source"><pre>        /**
+<div class="source">
+<pre>        /**
          * Process the bundles for a type of resources.
          *  
          * @param ctx the processing context
          * @param bundles the list of bundles to process.
          */
-        public void processBundles(GlobalPreprocessingContext ctx, List bundles);</pre>
-</div>
+        public void processBundles(GlobalPreprocessingContext ctx, List bundles);
+</pre></div>
 <p>The first parameter is an object which defines the global preprocessing context and also gives you acces to Jawr configuration plus other data which may be useful under certain circumstances. </p>
 <p>The second parameter is the list of bundles defined in your configuration. </p>
 <p>To use this global preprocessor in our application, we need to declare it in the properties configuration, by giving it a name and declaring the class so that Jawr may create an instance when starting up. The name you give to your global preprocessor can then be used to define the gobal factory properties, thus allowing you to create a chain that combines your global preprocessor with those of Jawr. </p>
 <p>The name and class are defined by declaring a property in the form jawr.custom.global.preprocessor.[name].class=[class]. For example, the following configuration would add one custom global preprocessor named <i>myGlobalPreprocessor</i> and map to the css resources preprocessing chains: </p>
-<div class="source"><pre>jawr.custom.global.preprocessor.myGlobalPreprocessor.class=net.jawr.test.MyGlobalPreprocessor
+<div class="source">
+<pre>jawr.custom.global.preprocessor.myGlobalPreprocessor.class=net.jawr.test.MyGlobalPreprocessor
 
-jawr.css.bundle.factory.global.preprocessors=myGlobalPreprocessor</pre>
-</div>
-<hr />
-<p>Grails users will unfortunately need to pack their classes in a jar and add it to the lib folder of their application. The reason for this is a known flaw in the Grails classloading strategy that keeps plugins from accessing application classes.</p>
-<hr />
-</div>
-<div class="section"><h3>Jawr included global preprocessors reference</h3>
-</div>
-</div>
-<div class="section"><h2><b>Smartsprites Css image preprocessor</b></h2>
-<ul><li><b>Properties Key</b>: smartsprites</li>
-</ul>
-<p>The smartsprites global preprocessor will generate the CSS sprites from the smartsprites annotation from the CSS files. Check the <a href="../tutorials/jawrSpriteImage.html">tutorial on jawr image sprites</a> for more info. </p>
-</div>
-
+jawr.css.bundle.factory.global.preprocessors=myGlobalPreprocessor
+</pre></div><hr />
+<p>Grails users will unfortunately need to pack their classes in a jar and add it to the lib folder of their application. The reason for this is a known flaw in the Grails classloading strategy that keeps plugins from accessing application classes.</p><hr /></div>
+<div class="section">
+<h3>Jawr included global preprocessors reference<a name="Jawr_included_global_preprocessors_reference"></a></h3></div></div>
+<div class="section">
+<h2><b>Smartsprites Css image preprocessor</b><a name="Smartsprites_Css_image_preprocessor"></a></h2>
+<ul>
+<li><b>Properties Key</b>: smartsprites</li></ul>
+<p>The smartsprites global preprocessor will generate the CSS sprites from the smartsprites annotation from the CSS files. Check the <a href="../tutorials/jawrSpriteImage.html">tutorial on jawr image sprites</a> for more info. </p></div>
       </div>
     </div>
     <div class="clear">
@@ -308,15 +328,15 @@ jawr.css.bundle.factory.global.preprocessors=myGlobalPreprocessor</pre>
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>

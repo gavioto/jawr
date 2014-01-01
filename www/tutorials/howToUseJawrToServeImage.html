@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -72,6 +72,10 @@
         </li>
               
     <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/global_preprocessors.html">Global preprocessors</a>
         </li>
               
@@ -105,6 +109,14 @@
               
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
         </li>
               
     <li class="none">
@@ -170,7 +182,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -260,15 +280,18 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>How to set up Jawr to serve images</h2>
-<p>The goal of this tutorial is to explain how to set up Jawr to serve images. Since the version 3.0, Jawr is also able to handle images. The images can be reference from the CSS stylesheets or directly in the JSP using specific tags. Look for the image tags at the <a href="http://jawr.java.net/docs/taglibs.html" class="externalLink">tag library doc</a> for extra info. Jawr will set a long expiration date for the image, and will create a unique URL for the image, which is dependent of the file content.</p>
-<div class="section"><h3>Set up Jawr in your project</h3>
-<p>Please check the &quot;quickstart&quot; tutorial for the instruction about Jawr installation in your project.</p>
-</div>
-<div class="section"><h3>Configure instances of the Jawr Servlet</h3>
+        <div class="section">
+<h2>How to set up Jawr to serve images<a name="How_to_set_up_Jawr_to_serve_images"></a></h2>
+<p>The goal of this tutorial is to explain how to set up Jawr to serve images. Since the version 3.0, Jawr is also able to handle images. The images can be reference from the CSS stylesheets or directly in the JSP using specific tags. Look for the image tags at the <a class="externalLink" href="https://jawr.java.net/docs/taglibs.html">tag library doc</a> for extra info. Jawr will set a long expiration date for the image, and will create a unique URL for the image, which is dependent of the file content.</p>
+<div class="section">
+<h3>Set up Jawr in your project<a name="Set_up_Jawr_in_your_project"></a></h3>
+<p>Please check the &quot;quickstart&quot; tutorial for the instruction about Jawr installation in your project.</p></div>
+<div class="section">
+<h3>Configure instances of the Jawr Servlet<a name="Configure_instances_of_the_Jawr_Servlet"></a></h3>
 <p>As for CSS and Javascript resources, Jawr use a specific Servlet to serve the images. So you will need to add <b>net.jawr.web.servlet.JawrServlet</b> to your web.xml descriptor. <b>Important note :</b> If you are using Jawr for CSS, the JawrServlet for image resources must be initialized before the CSS one. Otherwise the bundling process will not work.</p>
 <p>For instance: </p>
-<div class="source"><pre>        &lt;servlet&gt;
+<div class="source">
+<pre>        &lt;servlet&gt;
                 &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
                 &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
                 
@@ -334,39 +357,39 @@
                 &lt;servlet-name&gt;ImageServlet&lt;/servlet-name&gt;
                 &lt;url-pattern&gt;*.gif&lt;/url-pattern&gt;
         &lt;/servlet-mapping&gt; 
-        </pre>
-</div>
-<p>This is all the configuration required to get the Jawr servlet up and running. You will note that we have set the property <b>load-on-startup</b> for the servlets, to make sure that the image servlet will start before the CSS one.</p>
-</div>
-<div class="section"><h3>Jawr configuration file</h3>
+        
+</pre></div>
+<p>This is all the configuration required to get the Jawr servlet up and running. You will note that we have set the property <b>load-on-startup</b> for the servlets, to make sure that the image servlet will start before the CSS one.</p></div>
+<div class="section">
+<h3>Jawr configuration file<a name="Jawr_configuration_file"></a></h3>
 <p>There are 3 properties which are related to image handling in Jawr.</p>
-<table class="bodyTable"><tbody><tr class="a"><td align="left"><b>Property name</b></td>
+<table border="1" class="bodyTable">
+<tr class="a">
+<td align="left"><b>Property name</b></td>
 <td align="left"><b>Type</b></td>
 <td align="left"><b>Purpose</b></td>
-<td align="left"><b>Default value</b></td>
-</tr>
-<tr class="b"><td align="left">jawr.css.classpath.handle.image</td>
+<td align="left"><b>Default value</b></td></tr>
+<tr class="b">
+<td align="left">jawr.css.classpath.handle.image</td>
 <td align="left">Boolean</td>
 <td align="left">The flag indicating if the CSS images should be retrieved from the classpath, for the CSS defined in the classpath.</td>
-<td align="left">None</td>
-</tr>
-<tr class="a"><td align="left">jawr.image.resources</td>
+<td align="left">None</td></tr>
+<tr class="a">
+<td align="left">jawr.image.resources</td>
 <td align="left">String</td>
 <td align="left">The comma separated list of images, whose the hashcode will be calculated at Jawr image servlet startup. If an image is not defined here, the hashcode will be calculated at runtime and put in cache.</td>
-<td align="left">None</td>
-</tr>
-<tr class="b"><td align="left">jawr.image.hash.algorithm</td>
+<td align="left">None</td></tr>
+<tr class="b">
+<td align="left">jawr.image.hash.algorithm</td>
 <td align="left">String</td>
 <td align="left">The hash algorithm to use for the images. Two values are possible : CRC32 and MD5</td>
-<td align="left">CRC32</td>
-</tr>
-</tbody>
-</table>
-<p>The declaration of your images in the <b>jawr.image.resources</b> property is not mandatory. This property is used to calculate the hashcode of the images at the image servlet startup. If an image is not defined in this property, the hashcode of the image will be calculated at runtime.</p>
-</div>
-<div class="section"><h3>Test the image resource serving</h3>
+<td align="left">CRC32</td></tr></table>
+<p>The declaration of your images in the <b>jawr.image.resources</b> property is not mandatory. This property is used to calculate the hashcode of the images at the image servlet startup. If an image is not defined in this property, the hashcode of the image will be calculated at runtime.</p></div>
+<div class="section">
+<h3>Test the image resource serving<a name="Test_the_image_resource_serving"></a></h3>
 <p>Create an <b>/img</b> directory at the root of your web application and copy an <b>png</b> image in it and rename it as <b>logo.png</b> . Write a test JSP page and add the following content: </p>
-<div class="source"><pre>&lt;%@ taglib uri=&quot;http://jawr.net/tags&quot; prefix=&quot;jwr&quot; %&gt;
+<div class="source">
+<pre>&lt;%@ taglib uri=&quot;http://jawr.net/tags&quot; prefix=&quot;jwr&quot; %&gt;
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; %&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -376,12 +399,9 @@
         &lt;jwr:img src=&quot;/img/logo.png&quot;/&gt;  
 &lt;/body&gt;
 &lt;/html&gt;
-</pre>
-</div>
-<p>Deploy your application to a server and open the JSP you created. The page should contain a link to cb1341564321/logo.png. </p>
-</div>
-</div>
 
+</pre></div>
+<p>Deploy your application to a server and open the JSP you created. The page should contain a link to cb1341564321/logo.png. </p></div></div>
       </div>
     </div>
     <div class="clear">
@@ -389,15 +409,15 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>
