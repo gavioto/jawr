@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -72,6 +72,10 @@
         </li>
               
     <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/global_preprocessors.html">Global preprocessors</a>
         </li>
               
@@ -105,6 +109,14 @@
               
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
         </li>
               
     <li class="none">
@@ -170,7 +182,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -260,12 +280,14 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>The Jawr servlet</h2>
+        <div class="section">
+<h2>The Jawr servlet<a name="The_Jawr_servlet"></a></h2>
 <p>For each type of supported resource (CSS, image, Javascript), you need an instance of net.jawr.web.servlet.JawrServlet running. Of course, you may choose to use Jawr for only one of these types of resources. &#160;</p>
 <p>By default, all bundles are created and postprocessed when this servlet starts up and stored at the application server's temporary directory. This way there is no processing overhead on requests, but you must remember to use the load-on-startup tag to force the Jawr servlet to initialize with your application server. &#160;</p>
 <p>For every request, the servlet will make an attempt at forcing the client to keep a resource in cache for as long as possible using response headers. Also, if a request containt the If-Modified-Since header, the response status is set to 304(not modified) and no content is sent since such header means that the resource is already cached by the client. &#160;</p>
 <p>Here is an example configuration of the servlet in a web.xml file: </p>
-<div class="source"><pre>        &lt;servlet&gt;
+<div class="source">
+<pre>        &lt;servlet&gt;
                 &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
                 &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
                 &lt;init-param&gt;
@@ -274,21 +296,26 @@
                 &lt;/init-param&gt;
                 &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
         &lt;/servlet&gt;
-        </pre>
-</div>
+        
+</pre></div>
 <p>We would use this servlet to manage javascript bundles. The init params for a Jawr servlet are the following: </p>
-<ul><li><b>configLocation</b>: This is a mandatory parameter. Its value points to a classpath resource that Jawr will use to configure itself. See the <a href="./descriptor_syntax.html">config file syntax page</a> for more information. You can use the same properties file for both instances of the servlet. Optionally, you can point to an external file instead of using the classpath. To do that, prefix the file path with <b>file:</b>. For example: file:C:\config\jawr.properties. </li>
+<ul>
+<li><b>configLocation</b>: This is a mandatory parameter. Its value points to a classpath resource that Jawr will use to configure itself. See the <a href="./descriptor_syntax.html">config file syntax page</a> for more information. You can use the same properties file for both instances of the servlet. Optionally, you can point to an external file instead of using the classpath. To do that, prefix the file path with <b>file:</b>. For example: file:C:\config\jawr.properties. </li>
 <li><b>type</b>: Refers to the type of resource the servlet will manage. It can receive three possible values: <i>js</i> , <i>css</i> or <i>img</i>. You can omit this parameter for the javascript servlet, since <i>js</i> is the default value. &#160;</li>
 <li><b>configPropertiesSourceClass</b>: This optional parameter holds the qualified class name of you custom implementation of ConfigPropertiesSource, in case you want to customize the way configuration is loaded when Jawr starts up. More on this below. </li>
-<li><b>mapping</b>: In normal situations, you will have the Jawr servlet attend all requests for a certain type of resource, using a servlet-mapping like this: <div class="source"><pre>        
+<li><b>configPropertyResolverClass</b>: This optional parameter holds the qualified class name of your custom implementation of ConfigPropertyResolver, in case you want to customize the way configuration properties are resolved. More on this below. </li>
+<li><b>mapping</b>: In normal situations, you will have the Jawr servlet attend all requests for a certain type of resource, using a servlet-mapping like this: 
+<div class="source">
+<pre>        
         &lt;servlet-mapping&gt;
                 &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
                 &lt;url-pattern&gt;*.js&lt;/url-pattern&gt;
         &lt;/servlet-mapping&gt; 
-        </pre>
-</div>
+        
+</pre></div>
 <p>However, you might be forced to serve some of your scripts in the traditional way. For instance, you might be using a tag library that imports scripts on its own, or simply you want to update an existing application to use Jawr in some cases, but you don't want to change each and every page. You can then use a mapping in the form of /jsJawrPath/*, so that all URLs created by the tag library start with this path mapping. You will then need to specify the <b>mapping</b> init param to let Jawr know about this so that URLs are properly formed. So if you map the servlet to /jsJawrPath/*, the mapping init param should have a value of /jsJawrPath/. The resulting configuration would end up like this: </p>
-<div class="source"><pre>
+<div class="source">
+<pre>
         ...
         &lt;servlet&gt;
                 &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
@@ -309,14 +336,14 @@
                 &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
                 &lt;url-pattern&gt;/jsJawrPath/*&lt;/url-pattern&gt;
         &lt;/servlet-mapping&gt; 
-        </pre>
-</div>
-</li>
-</ul>
-<div class="section"><h3>Jawr image handling</h3>
+        
+</pre></div></li></ul>
+<div class="section">
+<h3>Jawr image handling<a name="Jawr_image_handling"></a></h3>
 <p>Jawr supports images. To enable this feature, you will have to define the Jawr image servlet in your web.xml file. When the Jawr image servlet is defined in you application, all CSS images will be handled by this servlet.</p>
 <p>In order for Jawr to properly handle the CSS images, the Jawr image servlet must start before the Jawr CSS servlet. This means that you will have to set properly the <b>load.on.startup</b> property in your web.xml like below :</p>
-<div class="source"><pre>        ...
+<div class="source">
+<pre>        ...
         &lt;servlet&gt;
                 &lt;servlet-name&gt;JawrImgServlet&lt;/servlet-name&gt;
                 &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
@@ -360,63 +387,25 @@
                 &lt;url-pattern&gt;*.css&lt;/url-pattern&gt;
         &lt;/servlet-mapping&gt; 
         
-        </pre>
-</div>
-<p>Note : The declaration of your images in the <b>jawr.image.resources</b> property is not mandatory. This property is used to calculate the hashcode of the images at the image servlet startup. If an image is not defined in this property, the hashcode of the image will be calculated at runtime. Look for <i>jawr.image.resources</i> at the <a href="./descriptor_syntax.html">descriptor syntax doc</a> for more information. </p>
-</div>
-<div class="section"><h3>Examples web.xml configuration</h3>
-<ul><li>Jawr with JS and CSS handling </li>
-</ul>
-<div class="source"><pre>        &lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt; 
-
-        &lt;!DOCTYPE web-app
-           PUBLIC &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;
-           &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot;&gt;
         
-        &lt;web-app&gt;
-
-        &lt;display-name&gt;Jawr enabled application&lt;/display-name&gt;
-        
-        &lt;description&gt;
-                
-        &lt;/description&gt;
-        &lt;servlet&gt;
-                &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
-                &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
-                &lt;init-param&gt;
-                        &lt;param-name&gt;configLocation&lt;/param-name&gt;
-                        &lt;param-value&gt;/jawr.properties&lt;/param-value&gt;
-                &lt;/init-param&gt;
-                &lt;load-on-startup&gt;0&lt;/load-on-startup&gt;
-        &lt;/servlet&gt;
-        &lt;servlet&gt;
-                &lt;servlet-name&gt;CssServlet&lt;/servlet-name&gt;
-                &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
-                &lt;init-param&gt;
-                        &lt;param-name&gt;configLocation&lt;/param-name&gt;
-                        &lt;param-value&gt;/jawr.properties&lt;/param-value&gt;
-                &lt;/init-param&gt;
-                &lt;init-param&gt;
-                        &lt;param-name&gt;type&lt;/param-name&gt;
-                        &lt;param-value&gt;css&lt;/param-value&gt;
-                &lt;/init-param&gt;
-                &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
-        &lt;/servlet&gt;
-        
-        &lt;servlet-mapping&gt;
-                &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
-                &lt;url-pattern&gt;*.js&lt;/url-pattern&gt;
-        &lt;/servlet-mapping&gt;
-        &lt;servlet-mapping&gt;
-                &lt;servlet-name&gt;CssServlet&lt;/servlet-name&gt;
-                &lt;url-pattern&gt;*.css&lt;/url-pattern&gt;
-        &lt;/servlet-mapping&gt;      
-        
-&lt;/web-app&gt;</pre>
-</div>
-<ul><li>Jawr with JS, CSS and image handling </li>
-</ul>
-<div class="source"><pre>        &lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt; 
+</pre></div>
+<p>Note : The declaration of your images in the <b>jawr.image.resources</b> property is not mandatory. This property is used to calculate the hashcode of the images at the image servlet startup. If an image is not defined in this property, the hashcode of the image will be calculated at runtime. Look for <i>jawr.image.resources</i> at the <a href="./descriptor_syntax.html">descriptor syntax doc</a> for more information. </p></div>
+<div class="section">
+<h3>Examples web.xml configuration<a name="Examples_web.xml_configuration"></a></h3>
+<ul>
+<li>Jawr with JS and CSS handling </li></ul>
+<p><i>!DOCTYPE web-app PUBLIC &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot; &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot;</i></p>
+<p><i>web-app</i></p>
+<p><i>display-name</i>Jawr enabled application<i>/display-name</i></p>
+<p><i>description</i></p>
+<p><i>/description</i> <i>servlet</i> <i>servlet-name</i>JavascriptServlet<i>/servlet-name</i> <i>servlet-class</i>net.jawr.web.servlet.JawrServlet<i>/servlet-class</i> <i>init-param</i> <i>param-name</i>configLocation<i>/param-name</i> <i>param-value</i>/jawr.properties<i>/param-value</i> <i>/init-param</i> <i>load-on-startup</i>0<i>/load-on-startup</i> <i>/servlet</i> <i>servlet</i> <i>servlet-name</i>CssServlet<i>/servlet-name</i> <i>servlet-class</i>net.jawr.web.servlet.JawrServlet<i>/servlet-class</i> <i>init-param</i> <i>param-name</i>configLocation<i>/param-name</i> <i>param-value</i>/jawr.properties<i>/param-value</i> <i>/init-param</i> <i>init-param</i> <i>param-name</i>type<i>/param-name</i> <i>param-value</i>css<i>/param-value</i> <i>/init-param</i> <i>load-on-startup</i>1<i>/load-on-startup</i> <i>/servlet</i></p>
+<p><i>servlet-mapping</i> <i>servlet-name</i>JavascriptServlet<i>/servlet-name</i> <i>url-pattern</i>*.js<i>/url-pattern</i> <i>/servlet-mapping</i> <i>servlet-mapping</i> <i>servlet-name</i>CssServlet<i>/servlet-name</i> <i>url-pattern</i>*.css<i>/url-pattern</i> <i>/servlet-mapping</i> </p></div></div>
+<div class="section">
+<h2><i>/web-app</i> +------------------------------------------+<a name="aweb-app_------------------------------------------"></a></h2>
+<ul>
+<li>Jawr with JS, CSS and image handling </li></ul>
+<div class="source">
+<pre>        &lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt; 
 
         &lt;!DOCTYPE web-app
            PUBLIC &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;
@@ -483,12 +472,13 @@
                 &lt;url-pattern&gt;*.gif&lt;/url-pattern&gt;
         &lt;/servlet-mapping&gt; 
         
-&lt;/web-app&gt;</pre>
-</div>
-</div>
-<div class="section"><h3>Defining a custom properties source</h3>
+&lt;/web-app&gt;
+</pre></div>
+<div class="section">
+<h3>Defining a custom properties source<a name="Defining_a_custom_properties_source"></a></h3>
 <p>You can customize the way properties are loaded into Jawr, be it by reading data from a source other than a .properties file (like, say, a database), or simply by manually overriding some of the values from the properties file. To do that you must create an implementation of the interface <i>net.jawr.web.resource.bundle.factory.util.ConfigPropertiesSource</i> and then you must declare it when defining the Jawr servlet, by setting the <b>configPropertiesSourceClass</b> init param: </p>
-<div class="source"><pre>        &lt;servlet&gt;
+<div class="source">
+<pre>        &lt;servlet&gt;
                 &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
                 &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
                 &lt;init-param&gt;
@@ -497,10 +487,11 @@
                 &lt;/init-param&gt;
                 &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
         &lt;/servlet&gt;
-        </pre>
-</div>
+        
+</pre></div>
 <p>The ConfigPropertiesSource interface declares two methods: </p>
-<div class="source"><pre>        /**
+<div class="source">
+<pre>        /**
          * Read/modify configuration from a source (such as a .properties file) and return it. 
          * @return
          */
@@ -511,13 +502,48 @@
          * without having to restart the server. 
          * @return
          */
-        public abstract boolean configChanged();</pre>
-</div>
+        public abstract boolean configChanged();
+</pre></div>
 <p>The configChanged method will be called only if you set the jawr.config.reload.interval parameter in the properties file to any valid value. This would have Jawr check every n seconds wether configuration has changed since the last time it was loaded. Therefore, if configChanged returns true, Jawr will redeploy itself. </p>
-<p>If you only intend to override some values of the properties file for some reason (like mapping the debug mode to some global property from your own application), the best way to go is to subclass <i>net.jawr.web.resource.bundle.factory.util.PropsFilePropertiesSource</i>. Check the javadoc for details. </p>
-</div>
-</div>
-
+<p>If you only intend to override some values of the properties file for some reason (like mapping the debug mode to some global property from your own application), the best way to go is to subclass <i>net.jawr.web.resource.bundle.factory.util.PropsFilePropertiesSource</i>. Check the javadoc for details. </p></div>
+<div class="section">
+<h3>Defining a custom property resolver<a name="Defining_a_custom_property_resolver"></a></h3>
+<p>By default no ConfigPropertyResolver is used in Jawr, but you can customize the way properties are resolved in Jawr.<br />The property resolver is used to resolve values from placeholder, which are like &quot;$<a name="myValueToReplace">myValueToReplace</a>&quot;. To do that you must create an implementation of the interface <i>net.jawr.web.config.ConfigPropertyResolver</i> and then you must declare it when defining the Jawr servlet, by setting the <b>configPropertyResolverClass</b> init param: </p>
+<div class="source">
+<pre>        &lt;servlet&gt;
+                &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
+                &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
+                &lt;init-param&gt;
+                        &lt;param-name&gt;configPropertyResolverClass&lt;/param-name&gt;
+                        &lt;param-value&gt;com.mycompany.mypackage.MyConfigPropertyResolverImplementation&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+        &lt;/servlet&gt;
+        
+</pre></div>
+<p>The ConfigPropertyResolver interface declares one method: </p>
+<div class="source">
+<pre>        /**
+         * Resolve the property. If the property has not been resolved &lt;b&gt;null&lt;/b&gt; should be return
+         * @param property the property to resolve
+         * @return the property value or null if not resolved
+         */
+        public String resolve(String property);
+        
+</pre></div>
+<p>Jawr provides a built-in System property resolver which will find the value of the properties in the System Property.<br />To use this property resolver, you need to configure your servlet as below :</p>
+<div class="source">
+<pre>        &lt;servlet&gt;
+                &lt;servlet-name&gt;JavascriptServlet&lt;/servlet-name&gt;
+                &lt;servlet-class&gt;net.jawr.web.servlet.JawrServlet&lt;/servlet-class&gt;
+                &lt;init-param&gt;
+                        &lt;param-name&gt;configPropertyResolverClass&lt;/param-name&gt;
+                        &lt;param-value&gt;net.jawr.web.config.ConfigSystemPropertyResolver&lt;/param-value&gt;
+                &lt;/init-param&gt;
+                &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+        &lt;/servlet&gt;
+        
+</pre></div></div></div>
       </div>
     </div>
     <div class="clear">
@@ -525,15 +551,15 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>

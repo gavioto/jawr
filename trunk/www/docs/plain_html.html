@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -72,6 +72,10 @@
         </li>
               
     <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/global_preprocessors.html">Global preprocessors</a>
         </li>
               
@@ -105,6 +109,14 @@
               
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
         </li>
               
     <li class="none">
@@ -170,7 +182,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -260,41 +280,44 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Using Jawr with plain HTML pages</h2>
+        <div class="section">
+<h2>Using Jawr with plain HTML pages<a name="Using_Jawr_with_plain_HTML_pages"></a></h2>
 <p>Many applications have a mix of plain HTML and dynamic pages (be it JSP, Facelets, etc.) While in dynamic pages you use a tag library to import your bundles, that is not feasible with plain HTML pages for obvious reasons. While you could link to the resources with regular links, this would be bad for two reasons: first, you lose all the compression and bundling abilities of Jawr, and second, you will load scripts that are probably part of a bundle, so when a user goes visits a dynamic page he will not have any script in cache, losing efficiency. </p>
-<div class="section"><h3>The solution: using the script loader </h3>
+<div class="section">
+<h3>The solution: using the script loader <a name="The_solution:_using_the_script_loader"></a></h3>
 <p>To solve this problem Jawr provides a way to still use all of its features in plain HTML pages. The mechanism is very simple: you add a link to a special script named <b>/jawr_loader.js</b> and use it to add bundles just like you would with the tag library. This script contains the mappings of all the bundles and also several methods you invoke to add links to the page. </p>
 <p>For example, imagine you have a JSP with the following tags: </p>
-<div class="source"><pre>         &lt;jwr:style src=&quot;/bundles/all.css&quot; /&gt;
-         &lt;jwr:script src=&quot;/bundles/global.js&quot;/&gt; </pre>
-</div>
+<div class="source">
+<pre>         &lt;jwr:style src=&quot;/bundles/all.css&quot; /&gt;
+         &lt;jwr:script src=&quot;/bundles/global.js&quot;/&gt; 
+</pre></div>
 <p>To add the same bundles to a plain HTML page, you would include the following code in the document HEAD section: </p>
-<div class="source"><pre>        &lt;script type=&quot;text/javascript&quot; src=&quot;./jawr_loader.js&quot; &gt;&lt;/script&gt;
+<div class="source">
+<pre>        &lt;script type=&quot;text/javascript&quot; src=&quot;./jawr_loader.js&quot; &gt;&lt;/script&gt;
         &lt;script&gt;
                 JAWR.loader.style('/bundles/all.css');
                 JAWR.loader.script('/bundles/global.js');
-        &lt;/script&gt;</pre>
-</div>
+        &lt;/script&gt;
+</pre></div>
 <p>As you can see, first we include the link to the jawr_loader.js script. Note that the link needs to change according to the relative location of the page within the application. Also, if the Jawr servlet is mapped to something like '/jawr/*' instead of directly attending all .js requests, you will have to modify the URL accordingly (i.e. './jawr/jawr_loader.js' for instance). </p>
 <p>After including the script, there is an inline script where the actual bundles are included using to methods provided by Jawr. These act exactly like the JSP tag libraries. This means that the links they will generate are consistent to the ones a user will find in your JSP pages, so the browser cache will come into play as it should. </p>
-<p>If you only plan to use global bundles in a page, you can skip the inline script and just go with the link to jawr_loader .js, since said script will already add all the global bundles. </p>
-</div>
-<div class="section"><h3>Loader script syntax</h3>
+<p>If you only plan to use global bundles in a page, you can skip the inline script and just go with the link to jawr_loader .js, since said script will already add all the global bundles. </p></div>
+<div class="section">
+<h3>Loader script syntax<a name="Loader_script_syntax"></a></h3>
 <p><b>JAWR.loader.script</b> receives a single parameter, which is either the name of a bundle or the name of a script belonging to a bundle. In either case, the resulting link will be the same. </p>
-<div class="source"><pre>                JAWR.loader.script('/bundles/global.js');
-                JAWR.loader.script('/js/aMemberOfSomeBundle.js');</pre>
-</div>
+<div class="source">
+<pre>                JAWR.loader.script('/bundles/global.js');
+                JAWR.loader.script('/js/aMemberOfSomeBundle.js');
+</pre></div>
 <p><b>JAWR.loader.style</b> has a first parameter with the same effect as in the script function, plus an optional 'media' parameter which will set the media attribute in the style link. If not provided, the media attribute is set to <i>screen</i>. </p>
-<div class="source"><pre>        JAWR.loader.style('/bundles/all.css');
-        JAWR.loader.style('/bundles/all_print.css' 'print');</pre>
-</div>
-<p>Note that these functions are meant to be invoked while the page is loading (document.write is used). In the future an on-demand includer version will be available, but for now dont' try to invoke these functions after the page has loaded. </p>
-</div>
-<div class="section"><h3>The tradeoff</h3>
-<p>There is a penalty in using this technique: an additional script is included in every page. The loader script is itself small in size (although this will vary according to the number of scripts in your app). A worst case scenario yielded a 14Kb size, with 4-6Kb being a more normal size. Of course the script is minified and gzipped according to configuration, so the final size the client receives will be notably smaller (3-5Kb at worst). Even so, this should still reduce the total number of imported scripts and its size. Also, all the imported resources remain in cache so when the user visits a JSP that uses the same ones, the page will load really fast. </p>
-</div>
-</div>
-
+<div class="source">
+<pre>        JAWR.loader.style('/bundles/all.css');
+        JAWR.loader.style('/bundles/all_print.css' 'print');
+</pre></div>
+<p>Note that these functions are meant to be invoked while the page is loading (document.write is used). In the future an on-demand includer version will be available, but for now dont' try to invoke these functions after the page has loaded. </p></div>
+<div class="section">
+<h3>The tradeoff<a name="The_tradeoff"></a></h3>
+<p>There is a penalty in using this technique: an additional script is included in every page. The loader script is itself small in size (although this will vary according to the number of scripts in your app). A worst case scenario yielded a 14Kb size, with 4-6Kb being a more normal size. Of course the script is minified and gzipped according to configuration, so the final size the client receives will be notably smaller (3-5Kb at worst). Even so, this should still reduce the total number of imported scripts and its size. Also, all the imported resources remain in cache so when the user visits a JSP that uses the same ones, the page will load really fast. </p></div></div>
       </div>
     </div>
     <div class="clear">
@@ -302,15 +325,15 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>

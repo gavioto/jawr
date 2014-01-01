@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -69,6 +69,10 @@
               
     <li class="none">
               <a href="../docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
         </li>
               
     <li class="none">
@@ -276,75 +280,81 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Bundle preprocessing</h2>
+        <div class="section">
+<h2>Bundle preprocessing<a name="Bundle_preprocessing"></a></h2>
 <p>One of the key features of Jawr is its ability to bundle resources. The process of bundling involves the following steps:</p>
-<ul><li>Resolve the bundle mapping definition</li>
+<ul>
+<li>Resolve the bundle mapping definition</li>
 <li>Aggregate resources</li>
 <li>Minify them</li>
 <li>Apply custom post processors</li>
-<li>Generate GZIP and non GZIP version</li>
-</ul>
+<li>Generate GZIP and non GZIP version</li></ul>
 <p>By default, this process is done at server startup. This bundling process could take some times, when the application contains a large number of bundles.</p>
 <p>Since Jawr 3.0, we have added a feature to preprocess the Jawr bundles. The bundle preprocessing is almost the same as the standard processing, except that it could be done during a build.</p>
 <p>We have added 2 properties:</p>
-<ul><li><b>jawr.use.bundle.mapping</b> : This flag indicates if during the server startup we should use the data of the preprocessed bundles instead of performing the bundling process. The preprocessed bundles will be found in the Jawr working directory. (See below) </li>
-<li><b>jawr.working.directory</b> : This property defines where the jawr working directory is. By default, it's jawrTmp in the web application working directory. </li>
-</ul>
-<div class="section"><h3>Use bundle mapping property</h3>
+<ul>
+<li><b>jawr.use.bundle.mapping</b> : This flag indicates if during the server startup we should use the data of the preprocessed bundles instead of performing the bundling process. The preprocessed bundles will be found in the Jawr working directory. (See below) </li>
+<li><b>jawr.working.directory</b> : This property defines where the jawr working directory is. By default, it's jawrTmp in the web application working directory. </li></ul>
+<div class="section">
+<h3>Use bundle mapping property<a name="Use_bundle_mapping_property"></a></h3>
 <p>When the property <b>jawr.use.bundle.mapping</b> is set to true, Jawr will try to use specific files, which are containing all the data about the bundles (Full mapping paths, bundle hash code ...). These files are searched in the working directory (jawrWrkDir/jawr-(js/css/img)-mapping.properties ). If these files are not found, Jawr will create them in the working directory.</p>
 <p>So if you have this property set to true, and you start a fresh application with an empty working directory, the first time, Jawr will process the bundle normally and it will create the mapping files. Then the next time, when you restart your application, Jawr will use the mappings files and skip the bundling process, this will make the startup time of the web application faster.</p>
-<p>Note: The full image mapping file located at jawrWrkDir/jawr-img-mapping.properties, will be generated from the image resources defined with the <i>jawr.image.resources</i> property and the CSS images used in the CSS bundles. So for an image which is referenced by an image tag, and which is not part of the image mapping, the hashcode will be generated at runtime, and put in cache.</p>
-</div>
-<div class="section"><h3>Jawr working directory</h3>
+<p>Note: The full image mapping file located at jawrWrkDir/jawr-img-mapping.properties, will be generated from the image resources defined with the <i>jawr.image.resources</i> property and the CSS images used in the CSS bundles. So for an image which is referenced by an image tag, and which is not part of the image mapping, the hashcode will be generated at runtime, and put in cache.</p></div>
+<div class="section">
+<h3>Jawr working directory<a name="Jawr_working_directory"></a></h3>
 <p>We have added the option to define explicitly the location the working directory. By default the working directory is set in <b>webAppWrkDir</b>/jawrTmp/</p>
 <p>The user could define the working directory location somewhere else on the file system using a value, which is prefixed by <b>file://</b>. For example: </p>
-<div class="source"><pre>        jawr.working.directory=file://D:/temp/jawr/</pre>
-</div>
+<div class="source">
+<pre>        jawr.working.directory=file://D:/temp/jawr/
+</pre></div>
 <p>The user could also define the working directory inside the web application itself. In that case, the value should be a relative path from the web application root directory. For example: </p>
-<div class="source"><pre>        jawr.working.directory=/jawrContent/</pre>
-</div>
-<p>But in that case, Jawr will not be able to create the temporary files in the web application. So this means that the user will have to create the temporary files, and put them in the web application.</p>
-</div>
-<div class="section"><h3>Bundle Processor</h3>
+<div class="source">
+<pre>        jawr.working.directory=/jawrContent/
+</pre></div>
+<p>But in that case, Jawr will not be able to create the temporary files in the web application. So this means that the user will have to create the temporary files, and put them in the web application.</p></div>
+<div class="section">
+<h3>Bundle Processor<a name="Bundle_Processor"></a></h3>
 <p>This class is responsible of preprocessing the bundles, creating the Jawr working directory and the CDN directory.</p>
 <p>In the working directory, you will have the content of Jawr working directory generated by Jawr.</p>
 <p>In the CDN directory, you will have all the data for the CDN. </p>
 <p>An Ant task and a maven plugin have been created to make it easy the integration in the build process. For more information about the usage, please check the documentation for <a href="./jawr_maven_plugin.html"> the maven plugin</a> and <a href="./jawr_ant_task.html"> the Ant task</a>. </p>
 <p>To implement this feature, we have decided to simulate the server startup.</p>
 <p>This means that we are faking the application server startup:</p>
-<ul><li>We read the web.xml file</li>
+<ul>
+<li>We read the web.xml file</li>
 <li>We initialize the servlets</li>
-<li>Then we launch the bundling process. </li>
-</ul>
+<li>Then we launch the bundling process. </li></ul>
 <p>The main method of the bundle processor is the <b>process</b> method. This method takes 5 parameters:</p>
-<ul><li><b>baseDirPath</b> the web application base directory path</li>
+<ul>
+<li><b>baseDirPath</b> the web application base directory path</li>
 <li><b>tmpDirPath</b> the temporary directory path</li>
 <li><b>destDirPath</b> the destination directory path, where the result will be stored</li>
 <li><b>springConfigFiles</b> the comma separated list of spring configuration files, which will be used to initialize the Jawr spring controller. This property accepts any spring resource location definition like classpath:..., file:..., etc</li>
 <li><b>servletsToInitialize</b> the list of comma separated names of servlets to initialize</li>
 <li><b>generateCdnFiles</b> the flag indicating if we should generate the CDN files or not</li>
-<li><b>keepUrlMapping</b> The flag indicating if we want to keep the jawr URL mapping or if we rewrite it to remove resource hashcode.</li>
-</ul>
-<div class="section"><h4>Limitations</h4>
+<li><b>keepUrlMapping</b> The flag indicating if we want to keep the jawr URL mapping or if we rewrite it to remove resource hashcode.</li></ul>
+<div class="section">
+<h4>Limitations<a name="Limitations"></a></h4>
 <p>As we have seen, the bundle preprocessing has almost the same behaviour as the standard bundle processing. To implement this feature, we have decided to simulate the server startup. By default we will only initialize the Jawr servlets. You could add in the <b>servletsToInitialize</b> the list of servlets to initialize.</p>
-<p>As said above, we only fake a server startup, which means that we don't initialize the entire web application context (filters, servlets ...). This could be a problem if you are initializing things, in the standard server startup, which you are used later in Jawr. These elements could be missing. This is why we have added the parameter <b>servletsToInitialize</b> to be able to initialize other servlets, which you could initialize data used later by Jawr.</p>
-</div>
-</div>
-<div class="section"><h3>Spring MVC support</h3>
+<p>As said above, we only fake a server startup, which means that we don't initialize the entire web application context (filters, servlets ...). This could be a problem if you are initializing things, in the standard server startup, which you are used later in Jawr. These elements could be missing. This is why we have added the parameter <b>servletsToInitialize</b> to be able to initialize other servlets, which you could initialize data used later by Jawr.</p></div></div>
+<div class="section">
+<h3>Spring MVC support<a name="Spring_MVC_support"></a></h3>
 <p>As the bundle processor simulate the server startup, the idea is to only initialize the Jawr component. So with the <b>springConfigFiles</b> parameter, we can choose exactly which beans must be instanciated, in order to initialize the Jawr component.</p>
 <p>For Spring MCV, Jawr provides the JawrSpringController which generates the bundles and handles the request. By default, if you don't provide the spring configuration files to the bundle processor, it will search for the configuration file associated to your spring dispatcher servlet. For example:</p>
-<div class="source"><pre>        &lt;servlet&gt;
+<div class="source">
+<pre>        &lt;servlet&gt;
               &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;
               &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
               &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
         &lt;/servlet&gt;
-        </pre>
-</div>
+        
+</pre></div>
 <p>With the below configuration, the bundle processor will search for a configuration file named <b>dispatcher</b>-servlet.xml. Here <b>dispatcher</b> is the name of the servlet.</p>
 <p>If in your spring MVC configuration file, you don't have only the JawrSpringController defined (which is generally the case), we advise you to create a separate file containing only the JawrSpringController declaration, and use the import tag to include it in your spring configuration. So in that case, you must pass as argument to the bundle processor the spring configuration file containing the JawrSpringController declaration.</p>
 <p>If your controller use dynamic properties, you can define these dynamic properties in another file, and pass to the bundle processor, the files defining the properties and the JawrSpringController.</p>
 <p>For example, if you have the following JawrSpringController declaration :</p>
-<div class="source"><pre>        
+<div class="source">
+<pre>        
         &lt;!-- Base Jawr config --&gt;
         &lt;bean id=&quot;jawrJsController&quot;  class=&quot;net.jawr.web.servlet.JawrSpringController&quot; &gt;
                 &lt;!-- This must match the servlet-mapping to which the spring servlet is bound --&gt;
@@ -360,30 +370,29 @@
                 &lt;/property&gt;
                 &lt;property name=&quot;configLocation&quot; value=&quot;/jawr-springMVC.properties&quot; /&gt;
         &lt;/bean&gt;
-</pre>
-</div>
-<p>In the configuration above, you will notice that the &quot;jawr.gzip.on&quot; property is set with the value of &quot;<a name="gzip.resource">gzip.resource</a>&quot;. If you have a such configuration, you will probably have the declaration of your property in another file. And in that case you will pass the file defining the <b>gzip.resource</b> property to the bundle processor, so the Jawr component initialization can be initialized properly.</p>
-</div>
-<div class="section"><h3>CDN support</h3>
+
+</pre></div>
+<p>In the configuration above, you will notice that the &quot;jawr.gzip.on&quot; property is set with the value of &quot;<a name="gzip.resource">gzip.resource</a>&quot;. If you have a such configuration, you will probably have the declaration of your property in another file. And in that case you will pass the file defining the <b>gzip.resource</b> property to the bundle processor, so the Jawr component initialization can be initialized properly.</p></div>
+<div class="section">
+<h3>CDN support<a name="CDN_support"></a></h3>
 <p>One of the goals of this feature is to provide a better support for CDN. In the CDN directory, generated by the BundleProcessor, you will find all the bundles which are accessible in production and in debug modes.</p>
 <p>To define the URL which will contain the Jawr bundles on the CDN, you must specify the context path, which should be used like below:</p>
-<div class="source"><pre>        jawr.url.contextpath.override=http://myCDN.com/myApplication
-        jawr.url.contextpath.ssl.override=https://myCDN.com/myApplication</pre>
-</div>
+<div class="source">
+<pre>        jawr.url.contextpath.override=http://myCDN.com/myApplication
+        jawr.url.contextpath.ssl.override=https://myCDN.com/myApplication
+</pre></div>
 <p>It is also possible to use the resources files from the CDN even in debug mode using:</p>
-<div class="source"><pre>        jawr.url.contextpath.override.used.in.debug.mode=true</pre>
-</div>
-<div class="section"><h4>Apache support</h4>
-<p>The bundle processor generates also a configuration file, containing the rewrite settings for the httpd.conf file of apache. This file named <b>jawr-apache-httpd.conf</b> is generated in the <b>CDN</b> folder.</p>
-</div>
-</div>
-<div class="section"><h3>Limitations</h3>
+<div class="source">
+<pre>        jawr.url.contextpath.override.used.in.debug.mode=true
+</pre></div>
+<div class="section">
+<h4>Apache support<a name="Apache_support"></a></h4>
+<p>The bundle processor generates also a configuration file, containing the rewrite settings for the httpd.conf file of apache. This file named <b>jawr-apache-httpd.conf</b> is generated in the <b>CDN</b> folder.</p></div></div>
+<div class="section">
+<h3>Limitations<a name="Limitations"></a></h3>
 <p>As explained above, the bundle preprocessing use the predefined mapping described in the full mapping files. This means that in debug mode, if you update a resource file, which is already part of a bundle, the change will be taken in account.</p>
 <p><b>BUT</b> if you add a new resource file to a bundle mapping, this resource file will never been taken in account, unless you clean your working directory and start again your application.</p>
-<p>Note also that, you could switch from debug mode to production mode, without launching the bundling process, but you have to keep in mind that the production bundles are the one which have been processed during the bundling phase. This means that if you have modified a resource file, since the latest bundling process, you will have to launch again the bundling process to have this updated resource file in your production bundle. </p>
-</div>
-</div>
-
+<p>Note also that, you could switch from debug mode to production mode, without launching the bundling process, but you have to keep in mind that the production bundles are the one which have been processed during the bundling phase. This means that if you have modified a resource file, since the latest bundling process, you will have to launch again the bundling process to have this updated resource file in your production bundle. </p></div></div>
       </div>
     </div>
     <div class="clear">
@@ -391,15 +400,15 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2010
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 08/15/2010
-  &nbsp;| Version: 3.3.3
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>
