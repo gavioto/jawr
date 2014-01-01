@@ -88,6 +88,7 @@
 					<dependency>
 						<groupId>org.directwebremoting</groupId>
 						<artifactId>dwr</artifactId>
+						<version>${dwr.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>javax.servlet</groupId>
@@ -100,7 +101,6 @@
 						<version>${project.version}</version>
 					</dependency>
 				</dependencies>
-				<configuration>
 					<generateCDNFiles>false</generateCDNFiles>
 				</configuration>
 			</plugin>
@@ -112,6 +112,7 @@
 					<dependency>
 						<groupId>com.carrot2</groupId>
 						<artifactId>smartsprites</artifactId>
+						<version>${smartsprites.version}</version>
 					</dependency>
 				</dependencies>
 				<executions>
