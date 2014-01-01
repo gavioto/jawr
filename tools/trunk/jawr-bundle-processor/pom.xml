@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.jawr.tools</groupId>
 		<artifactId>jawr-tools-parent</artifactId>
-		<version>1.5-SNAPSHOT</version>
+		<version>1.5</version>
 	</parent>
 	<artifactId>jawr-bundle-processor</artifactId>
 	<packaging>jar</packaging>
@@ -29,9 +28,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</connection>
-		<developerConnection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</developerConnection>
-		<url>https://java.net/projects/jawr/sources</url>
+		<connection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/tags/jawr-tools-parent-1.5/trunk</connection>
+		<developerConnection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/tags/jawr-tools-parent-1.5/trunk</developerConnection>
+		<url>scm:svn:https://svn.java.net/svn/jawr~svn/tools/tags/jawr-tools-parent-1.5/sources</url>
 	</scm>
 	<build>
 		<extensions>
