@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -69,6 +69,10 @@
               
     <li class="none">
               <a href="../docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
         </li>
               
     <li class="none">
@@ -276,34 +280,31 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Introduction</h2>
+        <div class="section">
+<h2>Introduction<a name="Introduction"></a></h2>
 <p>To increase performance, Jawr generates IDs (hashcode) for each bundles, which is integrated in the resource URL, so the browser will be able to cache a bundle if it didn't change.</p>
-<p>By default, Jawr uses the String <b>hashcode</b> method to define the ID of the bundle.<br />
-Since the version 3.3, Jawr allows users to define their own hashcode bundle generator.</p>
-<div class="section"><h3>Hashcode bundle generator</h3>
-<p>A new interface <b>net.jawr.web.resource.bundle.hashcode.BundleHashcodeGenerator</b> has been created to allow the user to define their own hashcode bundle generator.</p>
-<img src="../images/bundleHashcodeGenerator/bundleHashcodeGenerator.jpg" alt="Hashcode bundle generator class diagram" /><ul><li>BundleHashcodeGnerator : This interface defines the method which is used to determine the hashcode of a bundle.</li>
+<p>By default, Jawr uses the String <b>hashcode</b> method to define the ID of the bundle.<br />Since the version 3.3, Jawr allows users to define their own hashcode bundle generator.</p>
+<div class="section">
+<h3>Hashcode bundle generator<a name="Hashcode_bundle_generator"></a></h3>
+<p>A new interface <b>net.jawr.web.resource.bundle.hashcode.BundleHashcodeGenerator</b> has been created to allow the user to define their own hashcode bundle generator.</p><img src="../images/bundleHashcodeGenerator/bundleHashcodeGenerator.jpg" alt="Hashcode bundle generator class diagram" />
+<ul>
+<li>BundleHashcodeGenerator : This interface defines the method which is used to determine the hashcode of a bundle.</li>
 <li>BundleStringHashcodeGnerator : This class defines the hashcode generator which uses the String hashcode method as the hashcode of a bundle.</li>
-<li>MD5BundleHashcodeGnerator : This class defines the hashcode generator which uses the MD5 hashcode of the bundle content as the hashcode of a bundle.</li>
-</ul>
-</div>
-<div class="section"><h3>Hashcode bundle generator setting</h3>
+<li>MD5BundleHashcodeGnerator : This class defines the hashcode generator which uses the MD5 hashcode of the bundle content as the hashcode of a bundle.</li></ul></div>
+<div class="section">
+<h3>Hashcode bundle generator setting<a name="Hashcode_bundle_generator_setting"></a></h3>
 <p>To set the bundle Hashcode generator which you want to use, you should use the folowing jawrconfigration property.</p>
-<table class="bodyTable"><tbody><tr class="a"><td align="left"><b>Property name</b></td>
+<table border="1" class="bodyTable">
+<tr class="a">
+<td align="left"><b>Property name</b></td>
 <td align="left"><b>Type</b></td>
 <td align="left"><b>Purpose</b></td>
-<td align="left"><b>Default value</b></td>
-</tr>
-<tr class="b"><td align="left">jawr.bundle.hashcode.generator</td>
+<td align="left"><b>Default value</b></td></tr>
+<tr class="b">
+<td align="left">jawr.bundle.hashcode.generator</td>
 <td align="left">String</td>
 <td align="left">The class name of the hashcode bundle generator or MD5 if you want to use the MD5 algorithm for the hashcode.</td>
-<td align="left">none</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
+<td align="left">none</td></tr></table></div></div>
       </div>
     </div>
     <div class="clear">
@@ -311,15 +312,15 @@ Since the version 3.3, Jawr allows users to define their own hashcode bundle gen
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2010
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 06/30/2010
-  &nbsp;| Version: 3.3.1
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>

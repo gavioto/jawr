@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -69,6 +69,10 @@
               
     <li class="none">
               <a href="../docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
         </li>
               
     <li class="none">
@@ -276,32 +280,32 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>How to set up Jawr to generate base64 encoded images</h2>
-<ul><li>Overview<p>The goal of this tutorial is to explain how to set up Jawr to generate base64 encoded images in the CSS bundles.<br />
-As you know, one of the main rules to increase performance in your web application is to reduce the number of HTTP requests.<br />
-One of the way to achieve this is to create image sprites, which combines multiple images in a single image. Jawr already provides a way to handle this case. Please take a look at the <a href="http://jawr.java.net/tutorials/jawrSpriteImage.html" class="externalLink"> Jawr sprite documentation</a>.<br />
-So, with sprite all the reference of the images defined in your CSS will point to one or a few sprites, which will reduce the number of HTTP requests.<br />
-There is another way to reduce the number of HTTP requests by encoding the content of the images in base64.<br />
-It means that in you generated bundle, the URL references to the image will be replaced by the content of your images.<br />
-So your images will be embedded in your CSS. This will increase the size of your CSS files, but will reduce drastically the number of HTTP requests, as there will be no HTTP request required for your images.</p>
+        <div class="section">
+<h2>How to set up Jawr to generate base64 encoded images<a name="How_to_set_up_Jawr_to_generate_base64_encoded_images"></a></h2>
+<div class="section">
+<h3>Overview<a name="Overview"></a></h3>
+<p>The goal of this tutorial is to explain how to set up Jawr to generate base64 encoded images in the CSS bundles.<br />As you know, one of the main rules to increase performance in your web application is to reduce the number of HTTP requests.<br />One of the way to achieve this is to create image sprites, which combines multiple images in a single image. Jawr already provides a way to handle this case. Please take a look at the <a class="externalLink" href="https://jawr.java.net/tutorials/jawrSpriteImage.html"> Jawr sprite documentation</a>.<br />So, with sprite all the reference of the images defined in your CSS will point to one or a few sprites, which will reduce the number of HTTP requests.<br />There is another way to reduce the number of HTTP requests by encoding the content of the images in base64.<br />It means that in you generated bundle, the URL references to the image will be replaced by the content of your images.<br />So your images will be embedded in your CSS. This will increase the size of your CSS files, but will reduce drastically the number of HTTP requests, as there will be no HTTP request required for your images.</p>
 <p>Here is an example of the base64 encoding of a CSS image reference:</p>
-<div class="source"><pre>        background-image:url(&quot;../../images/logo.png&quot;);</pre>
-</div>
+<div class="source">
+<pre>        background-image:url(&quot;../../images/logo.png&quot;);
+</pre></div>
 <p>Will be transformed like this : </p>
-<div class="source"><pre>        background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...AAElFTkSuQmCC&quot;);</pre>
-</div>
-<p>So here, the content of the image is set directly in the CSS file.<br />
-If we take a look at the generated content, we have:</p>
-<ul><li>data - the name of the scheme</li>
+<div class="source">
+<pre>        background-image:url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA...AAElFTkSuQmCC&quot;);
+</pre></div>
+<p>So here, the content of the image is set directly in the CSS file.<br />If we take a look at the generated content, we have:</p>
+<ul>
+<li>data - the name of the scheme</li>
 <li>image/png - the content type</li>
 <li>base64 - the type of encoding used to encode the data</li>
-<li>iVBORw0KGgo.....lFTkSuQmCC - the encoded image content </li>
-</ul>
-</li>
-<li>MHTML to the rescue for IE6 and IE7<p>The base64 encoded resources is handled by all major browser except for IE6 and IE7, but fortunately there is a workaround for this, which is the use of MHTML references.</p>
+<li>iVBORw0KGgo....lFTkSuQmCC - the encoded image content </li></ul></div>
+<div class="section">
+<h3>MHTML to the rescue for IE6 and IE7<a name="MHTML_to_the_rescue_for_IE6_and_IE7"></a></h3>
+<p>The base64 encoded resources is handled by all major browser except for IE6 and IE7, but fortunately there is a workaround for this, which is the use of MHTML references.</p>
 <p>MHTML stands for MIME HTML. It's a file format which allows you to combine multiple contents like images in one file.</p>
 <p>So for these browsers, instead of using the data URI, we will use MHTML references. Here is an example of MHTML use in a CSS file :</p>
-<div class="source"><pre>
+<div class="source">
+<pre>
 /*
 Content-Type: multipart/related; boundary=&quot;_ANY_SEPARATOR&quot;
 
@@ -316,120 +320,132 @@ iVBORw0KGgoAAAANSUhEUgAAA...AAElFTkSuQmCC
 #logo {
   background-image: url(mhtml:http://www.mycomp.com/css/home.css!logo);
 }
-</pre>
-</div>
-<p>Here we can see that the MHTML part is set at the top of the file in a commented section.<br />
-In the first line, we define the boundary used to separate the declaration of each resource.<br />
-Then for each resource, we have some information: * Content-Type - the content type * Content-Transfer-Encoding - the encoding used for this resource. * Content-Location - the property which will allow us to reference this particular resource in the CSS file</p>
+
+</pre></div>
+<p>Here we can see that the MHTML part is set at the top of the file in a commented section.<br />In the first line, we define the boundary used to separate the declaration of each resource.<br />Then for each resource, we have some information: * Content-Type - the content type * Content-Transfer-Encoding - the encoding used for this resource. * Content-Location - the property which will allow us to reference this particular resource in the CSS file</p>
 <p>If we take a look at the image URL, we have:</p>
-<ul><li>mhtml - the name of the scheme</li>
+<ul>
+<li>mhtml - the name of the scheme</li>
 <li>http://www.mycomp.com/css/home.css - the <b>absolute</b> URL of the current CSS</li>
 <li>! - a separator</li>
-<li>logo - the identifier of our resource in the MHTML part.</li>
-</ul>
+<li>logo - the identifier of our resource in the MHTML part.</li></ul>
 <p>As we are using absolute URL, Jawr will generate a bundle version for HTTP requests and another one for HTTPS ones. Otherwise IE will raise an warning saying that you have SSL and non SSL content in your page. </p>
-</li>
-<li>How Jawr handles the absolute URL for MHTML references<p>As we've seen, we must use absolute URL to reference the current CSS which contains the MHTML content. As you know, Jawr generates the bundle at server startup or at build time. <br />
-At this stage, Jawr doesn't know the application absolute URL. So Jawr will use a placeholder named <b><a name="JAWR_BUNDLE_PATH">JAWR_BUNDLE_PATH</a></b> in the generated bundle.</p>
-<ul><li>For bundles generated at server startup<p>The resolution of the absolute path will be done at <b>runtime</b> for the first request, then it will be put in cache.</p>
-</li>
-<li>For bundles generated at build time<p>When you generate the Jawr bundles at build time, if you have defined absolute paths for the following properties :</p>
-<ul><li><b>jawr.url.contextpath.override</b> : The context path of the application for HTTP</li>
-<li><b>jawr.url.contextpath.ssl.override</b> : The context path of the application for HTTPS</li>
-</ul>
-<p>The values of these properties will be used to reference the absolute path of the CSS bundles.\</p>
+<ul>
+<li>How Jawr handles the absolute URL for MHTML references
+<p>As we've seen, we must use absolute URL to reference the current CSS which contains the MHTML content. As you know, Jawr generates the bundle at server startup or at build time. <br />At this stage, Jawr doesn't know the application absolute URL. So Jawr will use a placeholder named <b><a name="JAWR_BUNDLE_PATH">JAWR_BUNDLE_PATH</a></b> in the generated bundle.</p>
+<ul>
+<li>For bundles generated at server startup
+<p>The resolution of the absolute path will be done at <b>runtime</b> for the first request, then it will be put in cache.</p></li>
+<li>For bundles generated at build time
+<p>When you generate the Jawr bundles at build time, if you have defined absolute paths for the following properties :</p>
+<ul>
+<li><b>jawr.url.contextpath.override</b> : The context path of the application for HTTP</li>
+<li><b>jawr.url.contextpath.ssl.override</b> : The context path of the application for HTTPS</li></ul>
+<p>The values of these properties will be used to reference the absolute path of the CSS bundles.</p>
 <p>Otherwise Jawr will set the reference to the CSS bundles and will let a place holder for the web application URL.</p>
-<div class="source"><pre>#logo {
+<div class="source">
+<pre>#logo {
   background-image: url(mhtml:http://{WEBAPP_URL}/gzip_a08d115cf05a5ef92f289b0a7510057f.ie6@/css/home.css!logo);
-}</pre>
-</div>
-<p>You will have to process the content of these bundles to replace <b><a name="WEBAPP_URL">WEBAPP_URL</a></b> by the right web application URL.</p>
-</li>
-</ul>
-</li>
-</ul>
-<div class="section"><h3>Set up Jawr in your project</h3>
-<p>Please check the &quot;quickstart&quot; tutorial for the instruction about Jawr installation in your project.</p>
-</div>
-<div class="section"><h3>Jawr configuration file</h3>
+}
+</pre></div>
+<p>You will have to process the content of these bundles to replace <b><a name="WEBAPP_URL">WEBAPP_URL</a></b> by the right web application URL.</p></li></ul></li></ul></div>
+<div class="section">
+<h3>Set up Jawr in your project<a name="Set_up_Jawr_in_your_project"></a></h3>
+<p>Please check the &quot;quickstart&quot; tutorial for the instruction about Jawr installation in your project.</p></div>
+<div class="section">
+<h3>Jawr configuration file<a name="Jawr_configuration_file"></a></h3>
 <p>Since version 3.3, Jawr is able to generate variant bundles from postprocessors. This means that by just setting the correct postprocessor in your bundle, Jawr will generate the content of the CSS for the different browsers.</p>
-<p>The id of the postprocessor to use is <b>base64ImageEncoder</b>. <br />
-There are 3 properties related to the base64 encoding available in the Jawr configuration :</p>
-<table class="bodyTable"><tbody><tr class="a"><td align="left"><b>Property name</b></td>
+<p>The id of the postprocessor to use is <b>base64ImageEncoder</b>. <br />There are 3 properties related to the base64 encoding available in the Jawr configuration :</p>
+<table border="1" class="bodyTable">
+<tr class="a">
+<td align="left"><b>Property name</b></td>
 <td align="left"><b>Type</b></td>
 <td align="left"><b>Purpose</b></td>
-<td align="left"><b>Default value</b></td>
-</tr>
-<tr class="b"><td align="left">jawr.css.postprocessor.base64ImageEncoder.encode.by.default</td>
-<td align="left">Boolean</td>
+<td align="left"><b>Default value</b></td></tr>
+<tr class="b">
+<td align="center">jawr.css.postprocessor.base64ImageEncoder.encode.by.default</td>
+<td align="center">Boolean</td>
 <td align="left">Enable/disable the base64 image encoding by default</td>
-<td align="left">true</td>
-</tr>
-<tr class="a"><td align="left">jawr.css.postprocessor.base64ImageEncoder.maxFileLength</td>
+<td align="left">true</td></tr>
+<tr class="a">
+<td align="left">jawr.css.postprocessor.base64ImageEncoder.maxFileLength</td>
 <td align="left">Integer</td>
 <td align="left">The maximum size of the image to encode in base64 in bytes.</td>
-<td align="left">30000</td>
-</tr>
-<tr class="b"><td align="left">jawr.css.postprocessor.base64ImageEncoder.encode.sprite</td>
-<td align="left">Boolean</td>
+<td align="left">30000</td></tr>
+<tr class="b">
+<td align="center">jawr.css.postprocessor.base64ImageEncoder.encode.sprite</td>
+<td align="center">Boolean</td>
 <td align="left">Enable/disable the base64 image encode on generated sprite image.</td>
-<td align="left">False</td>
-</tr>
-</tbody>
-</table>
-<ul><li>The property <b>jawr.css.postprocessor.base64ImageEncoder.encode.by.default</b> will define if the postprocessor should encode the CSS image in base64 by default or not. If the <b>jawr.css.postprocessor.base64ImageEncoder.encode.by.default</b> is set to <b>true</b>, by default all the CSS images will be encoded, except if the are followed by the annotation : <b>jawr:base64-skip</b><div class="source"><pre>        .style1 {
+<td align="left">False</td></tr></table>
+<ul>
+<li>The property <b>jawr.css.postprocessor.base64ImageEncoder.encode.by.default</b> will define if the postprocessor should encode the CSS image in base64 by default or not. If the <b>jawr.css.postprocessor.base64ImageEncoder.encode.by.default</b> is set to <b>true</b>, by default all the CSS images will be encoded, except if the are followed by the annotation : <b>jawr:base64-skip</b>
+<div class="source">
+<pre>        .style1 {
                 background: url('../img/img1.png') ; 
                 height : 20px;
         }
         .style2 {
                 background: url('../img/img2.png') ; /** jawr:base64-skip */
                 height : 20px;
-        }</pre>
-</div>
+        }
+</pre></div>
 <p>In this example, if <b>jawr.css.postprocessor.base64ImageEncoder.encode.by.default</b> is set to <b>true</b>, only the first image URL will be encoded, the second one will be skipped.</p>
 <p>If the <b>jawr.css.postprocessor.base64ImageEncoder.encode.by.default</b> is set to <b>false</b>, by default all the CSS images will be encoded, except if the are followed by the annotation : <b>jawr:base64</b></p>
-<div class="source"><pre>        .style1 {
+<div class="source">
+<pre>        .style1 {
                 background: url('../img/img1.png') ; 
                 height : 20px;
         }
         .style2 {
                 background: url('../img/img2.png') ; /** jawr:base64 */
                 height : 20px;
-        }</pre>
-</div>
-<p>In this example, if <b>jawr.css.postprocessor.base64ImageEncoder.encode.by.default</b> is set to <b>false</b>, only the second image URL will be encoded, the first one will be skipped.</p>
-</li>
-<li>The property <b>jawr.css.postprocessor.base64ImageEncoder.maxFileLength</b> will define the maximum image file size allowed to encode the image. If an image has a size greater than the <i>maxFileLength</i>&gt; property, the post processor will not encode this image. <br />
-You should be aware that there is a limitation in IE8, which is not able to handle base64 encoded image which are greater than 32Kb.</li>
-<li>The property <b>jawr.css.postprocessor.base64ImageEncoder.encode.sprite</b> defines if the post processor must encode sprite images generated by Jawr using Smartsprites or not.</li>
-</ul>
+        }
+</pre></div>
+<p>In this example, if <b>jawr.css.postprocessor.base64ImageEncoder.encode.by.default</b> is set to <b>false</b>, only the second image URL will be encoded, the first one will be skipped.</p></li>
+<li>The property <b>jawr.css.postprocessor.base64ImageEncoder.maxFileLength</b> will define the maximum image file size allowed to encode the image. If an image has a size greater than the <i>maxFileLength</i>&gt; property, the post processor will not encode this image. <br />You should be aware that there is a limitation in IE8, which is not able to handle base64 encoded image which are greater than 32Kb.</li>
+<li>The property <b>jawr.css.postprocessor.base64ImageEncoder.encode.sprite</b> defines if the post processor must encode sprite images generated by Jawr using Smartsprites or not.</li></ul>
 <p>In our example, we will define our bundle like this :</p>
-<div class="source"><pre>        jawr.css.bundle.base64Bundle.id=/css/base64Bundle.css
-        jawr.css.bundle.skinnedBundle.mappings=/css/one.css
+<div class="source">
+<pre>        jawr.css.bundle.base64Bundle.id=/css/base64Bundle.css
+        jawr.css.bundle.base64Bundle.mappings=/css/one.css
         jawr.css.bundle.base64Bundle.bundlepostprocessors=cssminify,base64ImageEncoder
-        jawr.css.bundle.base64Bundle.filepostprocessors=base64ImageEncoder</pre>
-</div>
-<p><b>Warning:</b><br />
-You should noticed that we have set the <b>CSS minifier</b> before our <b>base64ImageEncoder</b>. We use this configuration because the CSS minifier would have removed the MHTML part which in comment.</p>
-<p>It is also important to set the base64ImageEncoder as a <b>bundle post processor</b> AND as a <b>file post processor</b>, because this post processor needs to prepend the MHTML part to the bundle and also to rewrite the URLs in each file. <br />
-So <b>never</b> use this post processor only as a bundle post processor or only as a file post processor.</p>
-</div>
-<div class="section"><h3>Test the base64 image encoding</h3>
+        jawr.css.bundle.base64Bundle.filepostprocessors=base64ImageEncoder
+</pre></div>
+<p><b>Warning:</b><br />You should noticed that we have set the <b>CSS minifier</b> before our <b>base64ImageEncoder</b>. We use this configuration because the CSS minifier would have removed the MHTML part which in comment.</p>
+<p>It is also important to set the base64ImageEncoder not only as a <b>bundle post processor</b> but as a <b>file post processor</b> AND a <b>bundle post processor</b>, because this post processor needs to prepend the MHTML part to the bundle and also to rewrite the URL for each file. <br />So <b>never</b> use this post processor only as a bundle post processor or only as a file post processor.</p>
+<p>To use the base64ImageEncoder with composite bundle, you need to define the base64ImageEncoder as file postprocessor for the child bundles, and as bundle postprocessor for the composite bundle.</p>
+<div class="source">
+<pre>jawr.css.bundle.base64CompositeBundle.id=/css/compositeBundle.css
+jawr.css.bundle.base64CompositeBundle.composite=true
+jawr.css.bundle.base64CompositeBundle.child.names=childOne,childTwo
+jawr.css.bundle.base64CompositeBundle.filepostprocessors=none
+jawr.css.bundle.base64CompositeBundle.bundlepostprocessors=cssminify,base64ImageEncoder
+ 
+jawr.css.bundle.childOne.mappings=/css/one.css
+jawr.css.bundle.childOne.filepostprocessors=base64ImageEncoder
+jawr.css.bundle.childOne.bundlepostprocessors=none
+jawr.css.bundle.childTwo.mappings=/css/dir/two.css
+jawr.css.bundle.childTwo.filepostprocessors=base64ImageEncoder
+jawr.css.bundle.childTwo.bundlepostprocessors=none
+</pre></div></div>
+<div class="section">
+<h3>Test the base64 image encoding<a name="Test_the_base64_image_encoding"></a></h3>
 <p>Create an <b>/img</b> directory at the root of your web application and copy 2 <b>png</b> images in it and rename them to <b>img1.png</b> and <b>img2.png</b> . </p>
 <p>Write a test CSS file named <b>/css/one.css</b> and add the following content:</p>
-<div class="source"><pre>.style1 {
+<div class="source">
+<pre>.style1 {
         background: url('../img/img1.png') ;
         height : 20px;
 }
 .style2 {
         background: url('../img/img2.png') ; /** jawr:base64-skip */
         height : 20px;
-}</pre>
-</div>
-<p>Here you should noticed that we have added an annotation to image reference of <b>/img/img2.png</b> : <b>/** jawr:base64-skip */</b>.<br />
-This annotation tells to the <b>base64ImageEncoder</b> to not encode this image in the process but rewrites the URL so it goes through the Jawr image servlet.</p>
+}
+</pre></div>
+<p>Here you should noticed that we have added an annotation to image reference of <b>/img/img2.png</b> : <b>/** jawr:base64-skip */</b>.<br />This annotation tells to the <b>base64ImageEncoder</b> to not encode this image in the process but rewrites the URL so it goes through the Jawr image servlet.</p>
 <p>Write a test JSP page and add the following content: </p>
-<div class="source"><pre>&lt;%@ taglib uri=&quot;http://jawr.net/tags&quot; prefix=&quot;jawr&quot; %&gt;
+<div class="source">
+<pre>&lt;%@ taglib uri=&quot;http://jawr.net/tags&quot; prefix=&quot;jawr&quot; %&gt;
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; %&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -440,13 +456,10 @@ This annotation tells to the <b>base64ImageEncoder</b> to not encode this image 
         &lt;div class=&quot;style2&quot;&gt;&lt;/div&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</pre>
-</div>
-<p>Deploy your application to a server. Open the JSP you created with a firefox browser. If you take a look to the content of the CSS bundle, you should find the data URI reference of your image. You can also check with Firebug that there is no extra HTTP rquest made for your image.</p>
-<p>Then open the JSP you created with an IE6 or IE7 browser. If you take a look to the content of the CSS bundle, you should find the MHTML part at the top of your bundle.</p>
-</div>
-</div>
 
+</pre></div>
+<p>Deploy your application to a server. Open the JSP you created with a firefox browser. If you take a look to the content of the CSS bundle, you should find the data URI reference of your image. You can also check with Firebug that there is no extra HTTP rquest made for your image.</p>
+<p>Then open the JSP you created with an IE6 or IE7 browser. If you take a look to the content of the CSS bundle, you should find the MHTML part at the top of your bundle.</p></div></div>
       </div>
     </div>
     <div class="clear">
@@ -454,15 +467,15 @@ This annotation tells to the <b>base64ImageEncoder</b> to not encode this image 
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2010
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 06/30/2010
-  &nbsp;| Version: 3.3.1
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>

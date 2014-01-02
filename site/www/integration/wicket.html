@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -72,6 +72,10 @@
         </li>
               
     <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
+        </li>
+              
+    <li class="none">
               <a href="../docs/global_preprocessors.html">Global preprocessors</a>
         </li>
               
@@ -105,6 +109,14 @@
               
     <li class="none">
               <a href="../docs/messages_gen.html">i18n message generator</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/variant_bundle.html">Variant bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/illegalBundleRequestHander.html">Jawr strict mode - Illegal bundle request handler</a>
         </li>
               
     <li class="none">
@@ -170,7 +182,15 @@
         </li>
               
     <li class="none">
+              <a href="../tutorials/howToUseJawrCssSkin.html">How to use Jawr to generate CSS skin</a>
+        </li>
+              
+    <li class="none">
               <a href="../tutorials/jawrSpriteImage.html">How to generate Image sprites with Jawr</a>
+        </li>
+              
+    <li class="none">
+              <a href="../tutorials/howToUseJawrToGenerateBase64Image.html">How to generate base64 images in CSS with Jawr</a>
         </li>
               
     <li class="none">
@@ -260,16 +280,28 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Jawr with wicket</h2>
+        <div class="section">
+<h2>Jawr with wicket<a name="Jawr_with_wicket"></a></h2>
 <p>If you are developing a Wicket application, Jawr provides Components for Javascript, CSS and images. It works the same way as the JSP taglib, although there is a few extra configuration steps to take in order to use it. &#160;</p>
-<div class="section"><h3>Setup Jawr in a Wicket application</h3>
-<p>There is a very small difference in the way you will use Jawr in your Wicket application, compared to using JSPs. Everything is setup the same way except that you need to reference the bundles in your pages in a different way. </p>
-<div class="section"><h4>1. Configure the Jawr servlet</h4>
-<p>The first step is to declare the Jawr servlet in the web.xml descriptor. This works exactly the same as in a regular web application, so the <a href="../docs/servlet.html">Jawr Servlet Documentation page</a> has all the info you need to do it. You can create the properties file normally, since the only difference in using Wicket with Jawr has to do with the reference of your web resources in your HTML page or in your Page class. </p>
-</div>
-<div class="section"><h4>2. Setup your wicket application</h4>
+<div class="section">
+<h3>Setup Jawr in a Wicket application<a name="Setup_Jawr_in_a_Wicket_application"></a></h3>
+<p>There is a very small difference in the way you will use Jawr in your Wicket application, compared to using JSPs. Everything is setup the same way except that you need to reference the bundles in your pages in a different way. You need to add the jawr-wicket-extension module in your classpath. For maven users, you'll need to add the following dependency in your pom file :</p>
+<div class="source">
+<pre>    &lt;dependency&gt;
+      &lt;groupId&gt;net.jawr.extensions&lt;/groupId&gt;
+      &lt;artifactId&gt;jawr-wicket-extension&lt;/artifactId&gt;
+      &lt;version&gt;3.5&lt;/version&gt;
+    &lt;/dependency&gt;
+</pre></div>
+<p>Note that this module supports the version 6.x of wicket</p>
+<div class="section">
+<h4>1. Configure the Jawr servlet<a name="a1._Configure_the_Jawr_servlet"></a></h4>
+<p>The first step is to declare the Jawr servlet in the web.xml descriptor. This works exactly the same as in a regular web application, so the <a href="../docs/servlet.html">Jawr Servlet Documentation page</a> has all the info you need to do it. You can create the properties file normally, since the only difference in using Wicket with Jawr has to do with the reference of your web resources in your HTML page or in your Page class. </p></div>
+<div class="section">
+<h4>2. Setup your wicket application<a name="a2._Setup_your_wicket_application"></a></h4>
 <p>In order to use the Jawr in your Wicket application, you must initialize your application. Jawr provides an utility class, which initialize your wicket application and register the Jawr link resolver and the Jawr tag handler: </p>
-<div class="source"><pre>         
+<div class="source">
+<pre>         
         /* (non-Javadoc)
          * @see org.apache.wicket.protocol.http.WebApplication#init()
          */
@@ -277,13 +309,16 @@
                 
                 JawrWicketApplicationInitializer.initApplication(this);
         }
-        </pre>
-</div>
-</div>
-<div class="section"><h4>3. Reference the Jawr bundles</h4>
+        
+</pre></div></div>
+<div class="section">
+<h4>3. Reference the Jawr bundles<a name="a3._Reference_the_Jawr_bundles"></a></h4>
 <p>To reference your bundles in your page, there is 2 options:</p>
-<ul><li><b>wicket:jawr</b> tag<p>With the <b>wicket:jawr</b> tag, you only need to wrap your bundle references with a <b> &lt;wicket:jawr&gt; </b> tag like this: </p>
-<div class="source"><pre>         
+<ul>
+<li><b>wicket:jawr</b> tag
+<p>With the <b>wicket:jawr</b> tag, you only need to wrap your bundle references with a <b> &lt;wicket:jawr&gt; </b> tag like this: </p>
+<div class="source">
+<pre>         
 &lt;html xmlns:wicket=&quot;http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd&quot; &gt;
     &lt;head&gt;  
         &lt;title&gt;Wicket Quickstart Archetype Homepage&lt;/title&gt;
@@ -304,16 +339,14 @@
 ...
 
 &lt;/html&gt;
-        </pre>
-</div>
-</li>
-<li>Use directly the Jawr wicket components<p>Jawr provides 4 components for Wicket:</p>
-<p><b>net.jawr.web.wicket.JawrStylesheetReference</b> for the CSS bundles <br />
-<b>net.jawr.web.wicket.JawrJavascriptReference</b> for the javascript bundles <br />
-<b>net.jawr.web.wicket.JawrHtmlImageReference</b> for the HTML image reference <br />
-<b>net.jawr.web.wicket.JawrImageReference</b> for the input image reference </p>
+        
+</pre></div></li>
+<li>Use directly the Jawr wicket components
+<p>Jawr provides 4 components for Wicket:</p>
+<p><b>net.jawr.web.wicket.JawrStylesheetReference</b> for the CSS bundles <br /><b>net.jawr.web.wicket.JawrJavascriptReference</b> for the javascript bundles <br /><b>net.jawr.web.wicket.JawrHtmlImageReference</b> for the HTML image reference <br /><b>net.jawr.web.wicket.JawrImageReference</b> for the input image reference </p>
 <p>You can also attach a Jawr component to a web resources in your page like this:</p>
-<div class="source"><pre>         
+<div class="source">
+<pre>         
 &lt;html xmlns:wicket=&quot;http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd&quot; &gt;
     &lt;head&gt;  
         &lt;title&gt;Wicket Quickstart Archetype Homepage&lt;/title&gt;
@@ -329,10 +362,11 @@
 ...
 
 &lt;/html&gt;
-        </pre>
-</div>
+        
+</pre></div>
 <p>And in your page, you must reference your component like this:</p>
-<div class="source"><pre>        /**
+<div class="source">
+<pre>        /**
          * Constructor that is invoked when page is invoked without a session.
          * 
          * @param parameters
@@ -348,15 +382,9 @@
         add(new JawrHtmlImageReference(&quot;imgLogo&quot;));
         // Add Jawr input image component 
         add(new JawrImageReference(&quot;imgAdd&quot;));
-    }</pre>
-</div>
-<p>That's it. As you can see in the example, the integration of Jawr is pretty simple. You only need to configure Jawr normally, initialize your application properly and then reference your bundles using the <b> &lt;wicket:jawr&gt; </b> tag in your HTML page or directly by defining the components used in your Wicket page class. </p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-
+    }
+</pre></div>
+<p>That's it. As you can see in the example, the integration of Jawr is pretty simple. You only need to configure Jawr normally, initialize your application properly and then reference your bundles using the <b> &lt;wicket:jawr&gt; </b> tag in your HTML page or directly by defining the components used in your Wicket page class. </p></li></ul></div></div></div>
       </div>
     </div>
     <div class="clear">
@@ -364,15 +392,15 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2009
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 12/09/2009
-  &nbsp;| Version: 3.2
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>

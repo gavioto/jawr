@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -69,6 +69,10 @@
               
     <li class="none">
               <a href="../docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
         </li>
               
     <li class="none">
@@ -276,60 +280,49 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Introduction</h2>
-<p>The goal of this tutorial is to explain how to set up Jawr to generate sprites for CSS images using smartsprites. <br />
-This feature is available since the version 3.2 of Jawr. <br />
-Smartsprites allows the user to create sprites for CSS images from annotations in the CSS files.</p>
-<p>The reference documentation for <b>smartsprites</b>, containing the different annotations can be found on the <a href="http://csssprites.org/" class="externalLink">smartsprites</a> project site.&#160;</p>
-<p>It is important to note that the sprite generation feature works only in production mode. <br />
-Jawr will not generate the reference the image sprites in the CSS files if you are in debug mode.</p>
-<div class="section"><h3>Requirements</h3>
-<p>Smartsprites requires at least the use of <b>JRE 5</b>. If you want to use the sprite generation feature in Jawr, you must have a project which use at least JRE 5.0.</p>
-<p>Jawr requires at least the version <b>0.2.5</b> of smartsprites for this feature.</p>
-</div>
-<div class="section"><h3>How it works ?</h3>
-<p>Smartsprites is a tool, which helps the developper to generate sprites from special annotations in the CSS files. When the user enable the sprite generation feature, Jawr will first let smartsprites process all the CSS files available in the CSS bundles to generate the CSS sprites, and then it will process the CSS files to generate the bundles.</p>
-</div>
-<div class="section"><h3>Set up Jawr in your project</h3>
-<p>Please check the <a href="./quickstart.html">quickstart</a> tutorial for the instruction about Jawr installation in your project. <br />
-Then add the dependency to smartsprites in your project.</p>
-<ul><li>For non maven project<p>If you don't use maven, you can find <b>smartsprites</b> jar and the libraries associated in the package file available in the <a href="http://download.csssprites.org/" class="externalLink">download section</a> of smartsprites site.<br />
-From there, download the version 0.2.5 or greater. In the zip file, you will find in the <i>lib</i> folder the <b>smartsprites</b> jar and the jars used by smartsprites. </p>
-</li>
-<li>For maven project<p>If you're using maven, you must add the smartsprites repository in your maven user or project settings.</p>
-<div class="source"><pre>    &lt;!-- Smartsprites maven repository --&gt;
-    &lt;repository&gt;
-      &lt;id&gt;maven2-repository.smartsprites&lt;/id&gt;
-      &lt;name&gt;Smartsprites Maven Repository&lt;/name&gt;
-      &lt;url&gt;http://download.csssprites.org/maven2/&lt;/url&gt;
-    &lt;/repository&gt; </pre>
-</div>
-<p>And you must also add in your dependencies, the following section : </p>
-<div class="source"><pre>
+        <div class="section">
+<h2>Introduction<a name="Introduction"></a></h2>
+<p>The goal of this tutorial is to explain how to set up Jawr to generate sprites for CSS images using smartsprites. <br />This feature is available since the version 3.2 of Jawr. <br />Smartsprites allows the user to create sprites for CSS images from annotations in the CSS files.</p>
+<p>The reference documentation for <b>smartsprites</b>, containing the different annotations can be found on the <a class="externalLink" href="http://csssprites.org/">smartsprites</a> project site.&#160;</p>
+<p>It is important to note that the sprite generation feature works only in production mode. <br />Jawr will not generate the reference the image sprites in the CSS files if you are in debug mode.</p>
+<div class="section">
+<h3>Requirements<a name="Requirements"></a></h3>
+<p>Jawr requires at least the version <b>0.2.5</b> of smartsprites for the sprite generation feature.</p></div>
+<div class="section">
+<h3>How it works ?<a name="How_it_works_"></a></h3>
+<p>Smartsprites is a tool, which helps the developper to generate sprites from special annotations in the CSS files. When the user enable the sprite generation feature, Jawr will first let smartsprites process all the CSS files available in the CSS bundles to generate the CSS sprites, and then it will process the CSS files to generate the bundles.</p></div>
+<div class="section">
+<h3>Set up Jawr in your project<a name="Set_up_Jawr_in_your_project"></a></h3>
+<p>Please check the <a href="./quickstart.html">quickstart</a> tutorial for the instruction about Jawr installation in your project. <br />Then add the dependency to smartsprites in your project.</p>
+<ul>
+<li>For non maven project
+<p>If you don't use maven, you can find <b>smartsprites</b> jar and the libraries associated in the package file available in the <a class="externalLink" href="http://download.csssprites.org/">download section</a> of smartsprites site.<br />From there, download the version 0.2.5 or greater. In the zip file, you will find in the <i>lib</i> folder the <b>smartsprites</b> jar and the jars used by smartsprites. </p></li>
+<li>For maven project
+<p>If you're using maven, you must add in your dependencies, the following section : </p>
+<div class="source">
+<pre>
         &lt;dependency&gt;
-                &lt;groupId&gt;org.carrot2&lt;/groupId&gt;
+                &lt;groupId&gt;com.carrotsearch&lt;/groupId&gt;
                 &lt;artifactId&gt;smartsprites&lt;/artifactId&gt;
-                &lt;version&gt;0.2.5&lt;/version&gt;
-        &lt;/dependency&gt; </pre>
-</div>
-</li>
-</ul>
-</div>
-<div class="section"><h3>Configure instances of the Jawr Servlet</h3>
-<p>You must configure Jawr to use the CSS and the image servlets. <br />
-Please check the <a href="./howToUseJawrToServeImage.html">tutorial</a> on how set up jawr to serve image. </p>
-</div>
-<div class="section"><h3>Jawr configuration file</h3>
+                &lt;version&gt;0.2.10&lt;/version&gt;
+        &lt;/dependency&gt;
+</pre></div></li></ul></div>
+<div class="section">
+<h3>Configure instances of the Jawr Servlet<a name="Configure_instances_of_the_Jawr_Servlet"></a></h3>
+<p>You must configure Jawr to use the CSS and the image servlets. <br />Please check the <a href="./howToUseJawrToServeImage.html">tutorial</a> on how set up jawr to serve image. </p></div>
+<div class="section">
+<h3>Jawr configuration file<a name="Jawr_configuration_file"></a></h3>
 <p>Jawr uses a global preprocessor to generate the CSS sprites. To enable the sprite generation feature, you need to add the following property in your configuration file:</p>
-<div class="source"><pre>
-        jawr.css.bundle.factory.global.preprocessors=smartsprites</pre>
-</div>
-<p>With this property set, when you will start your application in production mode, jawr will generate the image sprite, and these image sprites will be referenced in the bundles. </p>
-</div>
-<div class="section"><h3>Test the image sprite generation</h3>
-<p>Create an <b>/img</b> directory at the root of your web application and copy 2 <b>png</b> images in it, and rename them as <b>img1.png</b> and <b>img2.png</b>. <br />
-Create an <b>/css</b> directory at the root of your web application and write a test CSS file named <b>test.css</b> and add the following content:</p>
-<div class="source"><pre>/** sprite: mysprite; sprite-image: url('../img/mysprite.png'); sprite-layout: vertical */ 
+<div class="source">
+<pre>
+        jawr.css.bundle.factory.global.preprocessors=smartsprites
+</pre></div>
+<p>With this property set, when you will start your application in production mode, jawr will generate the image sprite, and these image sprites will be referenced in the bundles. </p></div>
+<div class="section">
+<h3>Test the image sprite generation<a name="Test_the_image_sprite_generation"></a></h3>
+<p>Create an <b>/img</b> directory at the root of your web application and copy 2 <b>png</b> images in it, and rename them as <b>img1.png</b> and <b>img2.png</b>. <br />Create an <b>/css</b> directory at the root of your web application and write a test CSS file named <b>test.css</b> and add the following content:</p>
+<div class="source">
+<pre>/** sprite: mysprite; sprite-image: url('../img/mysprite.png'); sprite-layout: vertical */ 
 
 .style1 {
         background-image: url(&quot;../img/img1.png&quot;); /** sprite-ref: mysprite; */
@@ -339,22 +332,25 @@ Create an <b>/css</b> directory at the root of your web application and write a 
 .style2 {
         background-repeat: no-repeat;
         background-image: url(&quot;../img/img2.png&quot;); /** sprite-ref: mysprite; */ 
-}</pre>
-</div>
-<ul><li>Here is a brief explanation of the <b>smartsprites</b> directives used in that file:<p>Sprite declaration: </p>
-<div class="source"><pre>        /** sprite: mysprite; sprite-image: url('../img/mysprite.png'); sprite-layout: vertical */</pre>
-</div>
+}
+</pre></div>
+<ul>
+<li>Here is a brief explanation of the <b>smartsprites</b> directives used in that file:
+<p>Sprite declaration: </p>
+<div class="source">
+<pre>        /** sprite: mysprite; sprite-image: url('../img/mysprite.png'); sprite-layout: vertical */
+</pre></div>
 <p>This first line defines a new <b>sprite</b> named <b>mysprite</b>, whose the URL will be <b>/img/mysprite.png</b>. &#160; you must note that in this example the sprite URL is given relatively to the CSS sprite in which it's declared. </p>
 <p>The argument <b>sprite-layout: vertical</b> defines that we use a sprite with a vertical layout. So all the image will be appended vertically. </p>
 <p>Sprite reference:</p>
-<div class="source"><pre>        background-image: url(&quot;../img/img1.png&quot;); /** sprite-ref: mysprite; */</pre>
-</div>
+<div class="source">
+<pre>        background-image: url(&quot;../img/img1.png&quot;); /** sprite-ref: mysprite; */
+</pre></div>
 <p>Here we define that the image <b>/img/img1.png</b> belongs to the sprite <b>mysprite</b>.</p>
-<p>Please check the <a href="http://csssprites.org/" class="externalLink">smartsprites documentation</a> for more information about the available directives</p>
-</li>
-</ul>
+<p>Please check the <a class="externalLink" href="http://csssprites.org/">smartsprites documentation</a> for more information about the available directives</p></li></ul>
 <p>Write a test JSP page, which has a reference to a bundle containing <b>test.css</b> and add the following content: </p>
-<div class="source"><pre>&lt;%@ taglib uri=&quot;http://jawr.net/tags&quot; prefix=&quot;jwr&quot; %&gt;
+<div class="source">
+<pre>&lt;%@ taglib uri=&quot;http://jawr.net/tags&quot; prefix=&quot;jwr&quot; %&gt;
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; %&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -367,24 +363,21 @@ Create an <b>/css</b> directory at the root of your web application and write a 
         &lt;div class=&quot;style2&quot;&gt;div content&lt;/div&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</pre>
-</div>
-<p>Deploy your application to a server and open the JSP you created. Check the content of the CSS bundle which contains <b>test.css</b>, you must find references to a new &quot;../img/mysprite.png&quot;, where you had before references to <b>img1.png</b> and <b>img2.png</b>. </p>
-</div>
-<div class="section"><h3>Sprites for CSS created by generators</h3>
+
+</pre></div>
+<p>Deploy your application to a server and open the JSP you created. Check the content of the CSS bundle which contains <b>test.css</b>, you must find references to a new &quot;../img/mysprite.png&quot;, where you had before references to <b>img1.png</b> and <b>img2.png</b>. </p></div>
+<div class="section">
+<h3>Sprites for CSS created by generators<a name="Sprites_for_CSS_created_by_generators"></a></h3>
 <p>You can define sprites in a CSS created by a generator. But there is one constraint, which is that you need to define the sprite URL with a <b>sprite</b> prefix, and the URL must be absolute. Don't use relative path like 'sprite:../../mysprite.png'.</p>
 <p>For generated CSS, the smartsprites directive must looks like </p>
-<div class="source"><pre>/** sprite: mysprite; sprite-image: url('sprite:/img/mysprite.png'); sprite-layout: vertical */ 
+<div class="source">
+<pre>/** sprite: mysprite; sprite-image: url('sprite:/img/mysprite.png'); sprite-layout: vertical */ 
 ...
-...</pre>
-</div>
-</div>
-<div class="section"><h3>Page design issue after image sprite generation</h3>
-<p>It's possible that the design of your page may be altered after the use of sprite generation. <br />
-This is an issue which can happen while using smartsprites. Please check the <a href="http://csssprites.org/#faq" class="externalLink">FAQ section</a> of smartsprites for more information.</p>
-</div>
-</div>
-
+...
+</pre></div></div>
+<div class="section">
+<h3>Page design issue after image sprite generation<a name="Page_design_issue_after_image_sprite_generation"></a></h3>
+<p>It's possible that the design of your page may be altered after the use of sprite generation. <br />This is an issue which can happen while using smartsprites. Please check the <a class="externalLink" href="http://csssprites.org/#faq">FAQ section</a> of smartsprites for more information.</p></div></div>
       </div>
     </div>
     <div class="clear">
@@ -392,15 +385,15 @@ This is an issue which can happen while using smartsprites. Please check the <a 
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2010
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 06/30/2010
-  &nbsp;| Version: 3.3.1
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>

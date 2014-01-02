@@ -18,7 +18,7 @@
       @import url("../css/site.css");
     </style>
     <link rel="stylesheet" href="../css/print.css" type="text/css" media="print" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
   <body class="composite">
     <!-- TODO: move this into JavaScript to patch the skin
@@ -69,6 +69,10 @@
               
     <li class="none">
               <a href="../docs/source_ordering.html">Source order in bundles</a>
+        </li>
+              
+    <li class="none">
+              <a href="../docs/cacheManager.html">Cache manager</a>
         </li>
               
     <li class="none">
@@ -276,21 +280,26 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <div class="section"><h2>Jawr maven plugin</h2>
+        <div class="section">
+<h2>Jawr maven plugin<a name="Jawr_maven_plugin"></a></h2>
 <p>The goal of the Jawr maven plugin is to simplify the use of the bundle preprocessing in the maven build life cycle. If you have not read the documentation of the bundle preprocessing, please take a look at it before continuing.</p>
-<div class="section"><h3>Prerequisites</h3>
-<p>The Jawr maven plugin requires at least maven 2.0.1 </p>
-</div>
-<div class="section"><h3>Usage</h3>
+<div class="section">
+<h3>Prerequisites<a name="Prerequisites"></a></h3>
+<p>The Jawr maven plugin requires at least maven 2.0.1 </p></div>
+<div class="section">
+<h3>Usage<a name="Usage"></a></h3>
 <p>The Jawr maven plugin use the following properties: </p>
-<ul><li><b>rootPath</b> The path to the root of the web application. Default value: $<a name="project.build.directory">project.build.directory</a>/$<a name="project.build.finalName">project.build.finalName</a></li>
+<ul>
+<li><b>rootPath</b> The path to the root of the web application. Default value: $<a name="project.build.directory">project.build.directory</a>/$<a name="project.build.finalName">project.build.finalName</a></li>
 <li><b>tempDirPath</b> The path to the temporary directory for JAWR. Default value: $<a name="project.build.directory">project.build.directory</a>/jawr/temp</li>
 <li><b>destDirPath</b> The path to the destination directory. Default value: $<a name="project.build.directory">project.build.directory</a>/jawr/bundles</li>
 <li><b>servletsToInitialize</b> The comma separated list of servlets name to initialize Default value: &quot;&quot;</li>
 <li><b>springConfigFiles</b> the comma separated list of spring configuration files, which will be used to initialize the Jawr spring controller. This property accepts any spring resource location definition like classpath:..., file:..., etc</li>
-<li><b>generateCDNFiles</b> The flag indicating if we should generate the CDN files or not Default value: true </li>
-</ul>
-<ul><li><b>keepUrlMapping</b> The flag indicating if we want to keep the jawr URL mapping or if we rewrite it to remove resource hashcode. Default value: false <div class="source"><pre>        &lt;plugin&gt;
+<li><b>generateCDNFiles</b> The flag indicating if we should generate the CDN files or not Default value: true </li></ul>
+<ul>
+<li><b>keepUrlMapping</b> The flag indicating if we want to keep the jawr URL mapping or if we rewrite it to remove resource hashcode. Default value: false 
+<div class="source">
+<pre>        &lt;plugin&gt;
                 &lt;groupId&gt;net.jawr&lt;/groupId&gt;
                 &lt;artifactId&gt;maven-jawr-plugin&lt;/artifactId&gt;
                 &lt;version&gt;1.0&lt;/version&gt;
@@ -306,10 +315,11 @@
                 &lt;configuration&gt;
                     &lt;generateCDNFiles&gt;true&lt;/generateCDNFiles&gt;
                 &lt;/configuration&gt;
-          &lt;/plugin&gt;</pre>
-</div>
+          &lt;/plugin&gt;
+</pre></div>
 <p>For the spring MVC projects, you can use: </p>
-<div class="source"><pre>        &lt;plugin&gt;
+<div class="source">
+<pre>        &lt;plugin&gt;
                 &lt;groupId&gt;net.jawr&lt;/groupId&gt;
                 &lt;artifactId&gt;maven-jawr-plugin&lt;/artifactId&gt;
                 &lt;version&gt;1.0&lt;/version&gt;
@@ -326,18 +336,18 @@
                     &lt;generateCDNFiles&gt;true&lt;/generateCDNFiles&gt;
                     &lt;springConfigFiles&gt;classpath:/spring-JawrConfig.xml,/WEB-INF/jawr-controllers.xml&lt;/springConfigFiles&gt;
                 &lt;/configuration&gt;
-          &lt;/plugin&gt;</pre>
-</div>
+          &lt;/plugin&gt;
+</pre></div>
 <p>You could launch the bundling process directly using the maven command:</p>
-<div class="source"><pre>        mvn jawr:bundle</pre>
-</div>
-</li>
-</ul>
-</div>
-<div class="section"><h3>Classpath issue</h3>
+<div class="source">
+<pre>        mvn jawr:bundle
+</pre></div></li></ul></div>
+<div class="section">
+<h3>Classpath issue<a name="Classpath_issue"></a></h3>
 <p>As you know, the bundle processor fakes the server startup. In the current implementation, the bundle processor will add the WEB-INF/lib directory in the classpath. But you could face some issue, if you are using some jar files, which are define in the application server itself.</p>
 <p>To resolve this issue, you can use the classpath property in the plugin definition like below:</p>
-<div class="source"><pre>        &lt;plugin&gt;
+<div class="source">
+<pre>        &lt;plugin&gt;
                 &lt;groupId&gt;net.jawr&lt;/groupId&gt;
                 &lt;artifactId&gt;maven-jawr-plugin&lt;/artifactId&gt;
                 &lt;version&gt;1.0&lt;/version&gt;
@@ -366,11 +376,8 @@
                 &lt;configuration&gt;
                     &lt;generateCDNFiles&gt;true&lt;/generateCDNFiles&gt;
                 &lt;/configuration&gt;
-          &lt;/plugin&gt;</pre>
-</div>
-</div>
-</div>
-
+          &lt;/plugin&gt;
+</pre></div></div></div>
       </div>
     </div>
     <div class="clear">
@@ -378,15 +385,15 @@
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2010
+          2014
     
           
   
 
   
   
-  &nbsp;| Last Published: 08/15/2010
-  &nbsp;| Version: 3.3.3
+  &nbsp;| Last Published: 2014-01-01
+  &nbsp;| Version: 3.5
 </div>
       <div class="clear">
         <hr/>
