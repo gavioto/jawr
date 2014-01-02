@@ -65,16 +65,8 @@ under a single navigation item.
               <a href="http://jawr.java.net/docs/source_ordering.html"><span class="bullet">»</span> Source order in bundles</a>
         </li>
               
-        <li class="none">
-              <a href="http://jawr.java.net/docs/cacheManager.html"><span class="bullet">»</span> Cache Manager</a>
-        </li>
-              
     <li class="none">
               <a href="http://jawr.java.net/docs/global_preprocessors.html"><span class="bullet">»</span> Global preprocessors</a>
-        </li>
-              
-    <li class="none">
-              <a href="http://jawr.java.net/docs/global_postprocessors.html"><span class="bullet">»</span> Global postprocessors</a>
         </li>
               
     <li class="none">
@@ -188,10 +180,6 @@ under a single navigation item.
               
     <li class="none">
               <a href="http://jawr.java.net/tutorials/howToUseJawrToGenerateBase64Image.html"><span class="bullet">»</span> How to generate base64 images in CSS with Jawr</a>
-        </li>
-              
-    <li class="none">
-              <a href="http://jawr.java.net/tutorials/howToUseGoogleClosureCompiler.html"><span class="bullet">»</span> How to Google Closure Compiler with Jawr</a>
         </li>
               
     <li class="none">
