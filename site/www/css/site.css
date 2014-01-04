@@ -31,12 +31,12 @@ h4 {
 	line-height : 25px;
 }
 a.externalLink[href^=https]{ 
-	padding-right: 1px;
-	background-image : none;
+    padding-right: 1px;
+    background-image: none;
 }
-a.externalLink[href^=http]{ 
-	padding-right: 1px;
-	background-image : none;
+a.externalLink[href^="http"] {
+    padding-right: 1px;
+    background-image: none;
 }
 
 #loginBar a {
@@ -49,6 +49,13 @@ a.externalLink[href^=http]{
 
 #loginBar a.last {
 	border-right-style : none;
+}
+
+#bannerLeft {
+	background-image: url("../images/index/logo-small.png");
+	background-repeat : no-repeat;
+	height: 70px;
+    padding-left: 145px;
 }
 
 /*
