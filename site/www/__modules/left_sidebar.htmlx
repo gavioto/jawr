@@ -70,6 +70,10 @@ under a single navigation item.
         </li>
               
     <li class="none">
+              <a href="http://jawr.java.net/docs/global_postprocessors.html"><span class="bullet">»</span> Global postrocessors</a>
+        </li>
+              
+    <li class="none">
               <a href="http://jawr.java.net/docs/postprocessors.html"><span class="bullet">»</span> Postprocessors</a>
         </li>
               
@@ -181,7 +185,11 @@ under a single navigation item.
     <li class="none">
               <a href="http://jawr.java.net/tutorials/howToUseJawrToGenerateBase64Image.html"><span class="bullet">»</span> How to generate base64 images in CSS with Jawr</a>
         </li>
-              
+    
+	<li class="none">
+              <a href="http://jawr.java.net/tutorials/howToUseGoogleClosureCompiler.html"><span class="bullet">»</span> How to use Google Closure Compiler with Jawr</a>
+        </li>
+    
     <li class="none">
               <a href="http://jawr.java.net/tutorials/faq_howto.html"><span class="bullet">»</span> FAQ-Howto</a>
         </li>
