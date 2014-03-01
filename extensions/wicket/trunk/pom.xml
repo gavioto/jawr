@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -8,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.jawr.extensions</groupId>
 	<artifactId>jawr-wicket-parent</artifactId>
-	<version>3.6-SNAPSHOT</version>
+	<version>3.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>jawr wicket parent pom</name>
 	<url>http://jawr.java.net/</url>
@@ -78,7 +79,7 @@
 			<dependency>
 				<groupId>net.jawr</groupId>
 				<artifactId>jawr-core</artifactId>
-				<version>3.5</version>
+				<version>${jawr-core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
