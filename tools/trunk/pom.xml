@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.jawr.tools</groupId>
 	<artifactId>jawr-tools-parent</artifactId>
-	<version>1.6-SNAPSHOT</version>
+	<version>1.5.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>jawr tools parent</name>
 	<url>http://jawr.java.net/</url>
@@ -50,8 +50,8 @@
 	</mailingLists>
 	<properties>
 		<java.version>1.6</java.version>
-		<jawr.version>3.5-SNAPSHOT</jawr.version>
-		<jawr-spring-2.0.x-extension.version>3.5-SNAPSHOT</jawr-spring-2.0.x-extension.version>
+		<jawr.version>3.5.1-SNAPSHOT</jawr.version>
+		<jawr-spring-2.0.x-extension.version>3.5.1-SNAPSHOT</jawr-spring-2.0.x-extension.version>
 		<mockito.version>1.9.5</mockito.version>
 		<junit.version>4.11</junit.version>
 		<sl4j-api.version>1.7.5</sl4j-api.version>
