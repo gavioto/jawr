@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -8,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.jawr.extensions</groupId>
 	<artifactId>jawr-dwr2.x-parent</artifactId>
-	<version>3.6-SNAPSHOT</version>
+	<version>3.5.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>jawr DWR2.x parent pom</name>
 	<url>http://jawr.java.net/</url>
@@ -49,7 +50,7 @@
 		</mailingList>
 	</mailingLists>
 	<properties>
-		<jawr-core.version>3.5-SNAPSHOT</jawr-core.version>
+		<jawr-core.version>3.5.1-SNAPSHOT</jawr-core.version>
 		<dwr.version>2.0.2</dwr.version>
 		<mockito.version>1.9.5</mockito.version>
 		<junit.version>4.11</junit.version>
@@ -78,7 +79,7 @@
 			<dependency>
 				<groupId>net.jawr</groupId>
 				<artifactId>jawr-core</artifactId>
-				<version>3.5</version>
+				<version>${jawr-core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>${project.groupId}</groupId>
@@ -340,14 +341,26 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<!-- profiles> <profile> <id>default</id> <activation> <activeByDefault>true</activeByDefault> 
-		</activation> <modules> <module>jawr-dwr2.x-extension</module> </modules> 
-		</profile> <profile> <id>all</id> <activation> <activeByDefault>false</activeByDefault> 
-		</activation> <modules> <module>jawr-dwr2.x-extension</module> <module>jawr-dwr2.x-integration-test</module> 
-		<module>jawr-dwr2.x-webapp-sample</module> </modules> </profile> </profiles -->
-	<modules>
-		<module>jawr-dwr2.x-extension</module>
-		<module>jawr-dwr2.x-integration-test</module>
-		<module>jawr-dwr2.x-webapp-sample</module>
-	</modules>
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>jawr-dwr2.x-extension</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>all</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>jawr-dwr2.x-extension</module>
+				<module>jawr-dwr2.x-integration-test</module>
+				<module>jawr-dwr2.x-webapp-sample</module>
+			</modules>
+		</profile>
+	</profiles>
 </project>
