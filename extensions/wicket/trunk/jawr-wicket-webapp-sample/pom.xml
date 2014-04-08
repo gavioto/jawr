@@ -1,15 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.jawr.extensions</groupId>
 		<artifactId>jawr-wicket-parent</artifactId>
-		<version>3.6-SNAPSHOT</version>
+		<version>3.5.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>jawr-wicket-webapp-sample</artifactId>
 	<packaging>war</packaging>
 	<name>Jawr-Wicket Sample Webapp</name>
 	<properties>
-		<jawr-maven-plugin.version>1.5-SNAPSHOT</jawr-maven-plugin.version>
+		<jawr-maven-plugin.version>1.5.1-SNAPSHOT</jawr-maven-plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -55,7 +56,7 @@
 			<plugin>
 				<groupId>net.jawr.tools</groupId>
 				<artifactId>maven-jawr-plugin</artifactId>
-				<version>1.5</version>
+				<version>${jawr-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<!-- Use this phase so that maven war includes our bundles -->
@@ -64,7 +65,7 @@
 				</executions>
 				<dependencies>
 					<dependency>
-						<groupId>com.carrot2</groupId>
+						<groupId>com.carrotsearch</groupId>
 						<artifactId>smartsprites</artifactId>
 						<version>${smartsprites.version}</version>
 					</dependency>
@@ -86,10 +87,10 @@
 			<plugin>
 				<groupId>net.jawr.tools</groupId>
 				<artifactId>maven-jawr-plugin</artifactId>
-				<version>1.5</version>
+				<version>${jawr-maven-plugin.version}</version>
 				<dependencies>
 					<dependency>
-						<groupId>com.carrot2</groupId>
+						<groupId>com.carrotsearch</groupId>
 						<artifactId>smartsprites</artifactId>
 						<version>${smartsprites.version}</version>
 					</dependency>
