@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>net.jawr.tools</groupId>
 		<artifactId>jawr-tools-parent</artifactId>
-		<version>1.5.1</version>
+		<version>1.6-SNAPSHOT</version>
 	</parent>
 	<artifactId>jawr-bundle-processor</artifactId>
 	<packaging>jar</packaging>
@@ -28,9 +28,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/tags/jawr-tools-parent-1.5.1/trunk</connection>
-		<developerConnection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/tags/jawr-tools-parent-1.5.1/trunk</developerConnection>
-		<url>scm:svn:https://svn.java.net/svn/jawr~svn/tools/tags/jawr-tools-parent-1.5.1/sources</url>
+		<connection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</connection>
+		<developerConnection>scm:svn:https://svn.java.net/svn/jawr~svn/tools/trunk</developerConnection>
+		<url>https://java.net/projects/jawr/sources</url>
 	</scm>
 	<build>
 		<extensions>
