@@ -43,7 +43,7 @@
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  	<em class="jxr_comment">// Captures CSS strings</em>
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  	<em class="jxr_comment">// private static final String QUOTED_CONTENT_REGEX =</em>
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  	<em class="jxr_comment">// "('(&#92;&#92;&#92;&#92;'|[^'])*?')|(\&quot;(&#92;&#92;&#92;&#92;\&quot;|[^\&quot;])*?\&quot;)";</em>
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String QUOTED_CONTENT_REGEX = <span class="jxr_string">"(([\&quot;'])(?!data:|(&#92;&#92;s*&#92;&#92;)))(?:&#92;&#92;&#92;&#92;?+.)*?&#92;&#92;2)"</span>;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String QUOTED_CONTENT_REGEX = <span class="jxr_string">"([\&quot;']).*?&#92;&#92;1"</span>; 
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  	<em class="jxr_comment">// A placeholder string to replace and restore CSS strings</em>
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String STRING_PLACEHOLDER = <span class="jxr_string">"______'JAWR_STRING'______"</span>;

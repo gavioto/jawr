@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../../../apidocs/net/jawr/web/resource/bundle/iterator/DebugModePathsIteratorImpl.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright 2008-2012 Jordi Hernández Sellés, Ibrahim Chaehoi</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright 2008-2014 Jordi Hernández Sellés, Ibrahim Chaehoi</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * except in compliance with the License. You may obtain a copy of the License at</em>
@@ -41,7 +41,7 @@
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  	<strong class="jxr_keyword">private</strong> Iterator&lt;JoinableResourceBundle&gt; bundlesIterator;
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  	
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  	<em class="jxr_javadoccomment">/** The path iterator */</em>
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  	<strong class="jxr_keyword">private</strong> Iterator&lt;String&gt; pathsIterator;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  	<strong class="jxr_keyword">private</strong> Iterator&lt;BundlePath&gt; pathsIterator;
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  	
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  	<em class="jxr_javadoccomment">/** The current bundle */</em>
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  	<strong class="jxr_keyword">private</strong> <a href="../../../../../../net/jawr/web/resource/bundle/JoinableResourceBundle.html">JoinableResourceBundle</a> currentBundle;
@@ -62,9 +62,9 @@
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  	<em class="jxr_comment">/* (non-Javadoc)</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_comment">	 * @see net.jawr.web.resource.bundle.iterator.ResourceBundlePathsIterator#nextPath()</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_comment">	 */</em>
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  	<strong class="jxr_keyword">public</strong> String nextPath() {
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../../../net/jawr/web/resource/bundle/iterator/BundlePath.html">BundlePath</a> nextPath() {
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  		
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		String path = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		BundlePath path = <strong class="jxr_keyword">null</strong>;
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  		<strong class="jxr_keyword">if</strong>(<strong class="jxr_keyword">null</strong> == pathsIterator || !pathsIterator.hasNext()) {
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  			currentBundle = (JoinableResourceBundle) bundlesIterator.next();
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  			
@@ -76,7 +76,7 @@
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  		
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  		
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  		<strong class="jxr_keyword">if</strong>(pathsIterator != <strong class="jxr_keyword">null</strong> &amp;&amp; pathsIterator.hasNext()){
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  			path = pathsIterator.next().toString();
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  			path = pathsIterator.next();
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  		}
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  		
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  		<strong class="jxr_keyword">return</strong> path;

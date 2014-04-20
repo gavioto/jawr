@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../../../../../apidocs/net/jawr/web/resource/bundle/factory/util/PropertiesConfigHelper.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright 2007-2011 Jordi Hernández Sellés, Ibrahim Chaehoi</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright 2007-2014 Jordi Hernández Sellés, Ibrahim Chaehoi</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * use this file except in compliance with the License. You may obtain a copy of</em>
@@ -325,7 +325,18 @@
 <a class="jxr_linenumber" name="L317" href="#L317">317</a> 		<strong class="jxr_keyword">return</strong> props.getProperty(prefix + key);
 <a class="jxr_linenumber" name="L318" href="#L318">318</a> 	}
 <a class="jxr_linenumber" name="L319" href="#L319">319</a> 
-<a class="jxr_linenumber" name="L320" href="#L320">320</a> }
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> <em class="jxr_javadoccomment">	 * Returns the boolean value of a property</em>
+<a class="jxr_linenumber" name="L322" href="#L322">322</a> <em class="jxr_javadoccomment">	 * @param prop the properties</em>
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> <em class="jxr_javadoccomment">	 * @param name the name of the property</em>
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> <em class="jxr_javadoccomment">	 * @param defaultValue the default value</em>
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> <em class="jxr_javadoccomment">	 * @return false;</em>
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L327" href="#L327">327</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">boolean</strong> getBooleanValue(Properties prop, String name, <strong class="jxr_keyword">boolean</strong> defaultValue){
+<a class="jxr_linenumber" name="L328" href="#L328">328</a> 		String strProp = prop.getProperty(name, Boolean.toString(defaultValue));
+<a class="jxr_linenumber" name="L329" href="#L329">329</a> 		<strong class="jxr_keyword">return</strong> Boolean.valueOf(strProp);
+<a class="jxr_linenumber" name="L330" href="#L330">330</a> 	}
+<a class="jxr_linenumber" name="L331" href="#L331">331</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2014. All rights reserved.</div>

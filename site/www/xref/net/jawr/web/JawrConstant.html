@@ -7,7 +7,7 @@
 <body>
 <div id="overview"><a href="../../../../apidocs/net/jawr/web/JawrConstant.html">View Javadoc</a></div><pre>
 <a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright 2007-2013 Jordi Hernández Sellés, Ibrahim Chaehoi</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> * Copyright 2007-2014 Jordi Hernández Sellés, Ibrahim Chaehoi</em>
 <a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> * </em>
 <a class="jxr_linenumber" name="L4" href="#L4">4</a>   <em class="jxr_javadoccomment"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file</em>
 <a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment"> * except in compliance with the License. You may obtain a copy of the License at</em>
@@ -259,28 +259,34 @@
 <a class="jxr_linenumber" name="L251" href="#L251">251</a> 	<em class="jxr_javadoccomment">/** The Jawr config property to set if the locale generator should fallback to the systemn locale or not */</em>
 <a class="jxr_linenumber" name="L252" href="#L252">252</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String JAWR_LOCALE_GENERATOR_FALLBACK_TO_SYSTEM_LOCALE = <span class="jxr_string">"jawr.locale.generator.fallbackToSystemLocale"</span>;
 <a class="jxr_linenumber" name="L253" href="#L253">253</a> 	
-<a class="jxr_linenumber" name="L254" href="#L254">254</a> 	<em class="jxr_javadoccomment">/** The default resource extensions */</em>
-<a class="jxr_linenumber" name="L255" href="#L255">255</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;String&gt; DEFAULT_RESOURCE_EXTENSIONS = Arrays.asList(<span class="jxr_string">"sorting"</span>,<span class="jxr_string">"license"</span>,<span class="jxr_string">"eot"</span>,<span class="jxr_string">"svg"</span>,<span class="jxr_string">"ttf"</span>,<span class="jxr_string">"woff"</span>);
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> 	<em class="jxr_javadoccomment">/** The Jawr config property to set if the locale generator should add quote to the message key or noy */</em>
+<a class="jxr_linenumber" name="L255" href="#L255">255</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String JAWR_LOCALE_GENERATOR_ADD_QUOTE_TO_MSG_KEY = <span class="jxr_string">"jawr.locale.generator.quoteMsgKey"</span>;
 <a class="jxr_linenumber" name="L256" href="#L256">256</a> 
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> 	<em class="jxr_javadoccomment">/** The Jawr property name for MBean prefix */</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String JAWR_JMX_MBEAN_PREFIX = <span class="jxr_string">"jawr.jmx.mbean.prefix"</span>;
-<a class="jxr_linenumber" name="L259" href="#L259">259</a> 
-<a class="jxr_linenumber" name="L260" href="#L260">260</a> 	<em class="jxr_javadoccomment">/** The default JS client side handler generator */</em>
-<a class="jxr_linenumber" name="L261" href="#L261">261</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_JS_CLIENTSIDE_HANDLER_CLASS = ClientSideHandlerGeneratorImpl.<strong class="jxr_keyword">class</strong>.getName();
-<a class="jxr_linenumber" name="L262" href="#L262">262</a> 	
-<a class="jxr_linenumber" name="L263" href="#L263">263</a> 	<em class="jxr_javadoccomment">/** The default JS bundle link renderer class */</em>
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_JS_BUNDLE_LINK_RENDERER_CLASS = JavascriptHTMLBundleLinkRenderer.<strong class="jxr_keyword">class</strong>.getName();
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> 	<em class="jxr_javadoccomment">/** The ResourceBundle charset. The default one is "ISO-8859-1" */</em>
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String JAWR_LOCALE_GENERATOR_RESOURCE_BUNDLE_CHARSET = <span class="jxr_string">"jawr.locale.generator.resourceBundle.charset"</span>;
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> 	
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> 	<em class="jxr_javadoccomment">/** The default resource extensions */</em>
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> List&lt;String&gt; DEFAULT_RESOURCE_EXTENSIONS = Arrays.asList(<span class="jxr_string">"sorting"</span>,<span class="jxr_string">"license"</span>,<span class="jxr_string">"eot"</span>,<span class="jxr_string">"svg"</span>,<span class="jxr_string">"ttf"</span>,<span class="jxr_string">"woff"</span>);
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> 	<em class="jxr_javadoccomment">/** The Jawr property name for MBean prefix */</em>
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String JAWR_JMX_MBEAN_PREFIX = <span class="jxr_string">"jawr.jmx.mbean.prefix"</span>;
 <a class="jxr_linenumber" name="L265" href="#L265">265</a> 
-<a class="jxr_linenumber" name="L266" href="#L266">266</a> 	<em class="jxr_javadoccomment">/** The default CSS bundle link renderer class */</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_CSS_BUNDLE_LINK_RENDERER_CLASS = CSSHTMLBundleLinkRenderer.<strong class="jxr_keyword">class</strong>.getName();
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> 
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> 	<em class="jxr_javadoccomment">/** The default Image renderer class */</em>
-<a class="jxr_linenumber" name="L270" href="#L270">270</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_IMG_RENDERER_CLASS = ImgHTMLRenderer.<strong class="jxr_keyword">class</strong>.getName();
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> 	<em class="jxr_javadoccomment">/** The default JS client side handler generator */</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_JS_CLIENTSIDE_HANDLER_CLASS = ClientSideHandlerGeneratorImpl.<strong class="jxr_keyword">class</strong>.getName();
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 	
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> 	<em class="jxr_javadoccomment">/** The default JS bundle link renderer class */</em>
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_JS_BUNDLE_LINK_RENDERER_CLASS = JavascriptHTMLBundleLinkRenderer.<strong class="jxr_keyword">class</strong>.getName();
 <a class="jxr_linenumber" name="L271" href="#L271">271</a> 
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> 	<em class="jxr_javadoccomment">/** The default servlet context resource reader class */</em>
-<a class="jxr_linenumber" name="L273" href="#L273">273</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_SERVLET_CTX_RESOURCE_READER_CLASS = BaseServletContextResourceReader.<strong class="jxr_keyword">class</strong>.getName();
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 	<em class="jxr_javadoccomment">/** The default CSS bundle link renderer class */</em>
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_CSS_BUNDLE_LINK_RENDERER_CLASS = CSSHTMLBundleLinkRenderer.<strong class="jxr_keyword">class</strong>.getName();
 <a class="jxr_linenumber" name="L274" href="#L274">274</a> 
-<a class="jxr_linenumber" name="L275" href="#L275">275</a> }
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 	<em class="jxr_javadoccomment">/** The default Image renderer class */</em>
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_IMG_RENDERER_CLASS = ImgHTMLRenderer.<strong class="jxr_keyword">class</strong>.getName();
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 	<em class="jxr_javadoccomment">/** The default servlet context resource reader class */</em>
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String DEFAULT_SERVLET_CTX_RESOURCE_READER_CLASS = BaseServletContextResourceReader.<strong class="jxr_keyword">class</strong>.getName();
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2014. All rights reserved.</div>
