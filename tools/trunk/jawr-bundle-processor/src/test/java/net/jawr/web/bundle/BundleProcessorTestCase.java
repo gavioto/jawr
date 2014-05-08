@@ -413,7 +413,7 @@ public class BundleProcessorTestCase extends TestCase {
 
 		checkContentCreated(destDirPath + "/CDN/780537719/bundle/js/global.js");
 		checkContentCreated(destDirPath
-				+ "/CDN/cssJawrPath/N488113936/bundle/css/component.css");
+				+ "/CDN/cssJawrPath/629518941/bundle/css/component.css");
 		checkContentCreated(destDirPath + "/CDN/cssJawrPath/css/one.css");
 		checkContentCreated(destDirPath
 				+ "/CDN/sprite_cb75b5346ffc8f85281cb643aeac356405/img/mysprite.png");
