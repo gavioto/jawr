@@ -92,12 +92,12 @@
 			<dependency>
 				<groupId>net.jawr</groupId>
 				<artifactId>jawr-core</artifactId>
-				<version>3.5</version>
+				<version>${jawr.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.jawr.extensions</groupId>
 				<artifactId>jawr-spring-2.0.x-extension</artifactId>
-				<version>3.5</version>
+				<version>${jawr-spring-2.0.x-extension.version}</version>
 			</dependency>
 			<!-- Test Dependencies -->
 			<dependency>
